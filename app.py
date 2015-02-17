@@ -9,7 +9,7 @@ OAUTH_TOKEN_SECRET = ''
 auth = twitter.oauth.OAuth(OAUTH_TOKEN, OAUTH_TOKEN_SECRET,
                            CONSUMER_KEY, CONSUMER_SECRET)
 
-twitter_api = twitter.Twitter(auth=auth)
+t = twitter.Twitter(auth=auth)
 
 
 if __name__=='__main__':
@@ -32,5 +32,5 @@ if __name__=='__main__':
         elif line.startswith('Token Secret'):
             OAUTH_TOKEN_SECRET = val
     
-
-            
+def geo_location_call(): 
+    print(t.geo.search(query="Berkeley"))
