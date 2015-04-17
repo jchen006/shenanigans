@@ -17,6 +17,7 @@ blah.txt
 *.exe
 *.o
 *.so
+*.pyc
  
 # Packages #
 ############
