@@ -26,7 +26,7 @@ class FoodNetwork:
 		else: 
 			self.pages = self.subset
 
-		print self.pages
+		print "Total pages: " + self.pages
 
 		print "Scraping"
 		for i in range(1, self.pages):
@@ -145,6 +145,9 @@ if __name__=="__main__":
 	#TODO
 	# queries = ['beef', 'chicken', 'broccoli'] 
 	#queries = "beef"
+
+	#TODO
+	#if you want to set a value of pages to scrape change the subset value
 
 	if type(queries) is str:
 		fn = FoodNetwork(queries, subset=5)
