@@ -13,8 +13,10 @@ class Recipe_Generator:
 		text_file = open(file_name, "w")
 		text_file.write(name + "\n")
 		text_file.write(recipe_url + "\n")
+		text_file.write("Ingredients \n")
 		for i in recipe_ingred: 
 			text_file.write(i + "\n")
+		text_file.write("Instructions \n")
 		for i in recipe_instruct: 
 			text_file.write(i + "\n")
 		text_file.close()
