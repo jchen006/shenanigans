@@ -124,9 +124,6 @@ class BBCRecipes:
 		self.title = titles[0].text.encode('utf8').rstrip('\n').strip()
 
 def main(): 
-	# r = BBCRecipes("http://www.bbc.co.uk/food/recipes/spiced_cauliflower_with_77223")
-	# r.do_all()
-
 	months = ["january", "february", "march", "april", "may", "june", "july", "august", 
 		"september", "october", "november", "december"]
 
