@@ -67,9 +67,15 @@ class BBCSeason:
 
 
 	def scrape_links(self): 
-		pass
+		r  = requests.get(self.url)
+		data = r.text
+		soup = BeautifulSoup(data)
 
-
+		links = soup.findAll("a", href=True)
+		for l in links:
+			matchObj = re.search(r'\/food\/recipes\/\S+[0-9]{5}', l['href'])
+			if matchObj: 
+				recipe = matchObj.group()
 
 class BBCRecipes: 
 
@@ -114,12 +120,15 @@ def main():
 	# r = BBCRecipes("http://www.bbc.co.uk/food/recipes/spiced_cauliflower_with_77223")
 	# r.do_all()
 
-	months = ["january", "february", "march", "april", "may", "june", "july", "august", 
-		"september", "october", "november", "december"]
+	# months = ["january", "february", "march", "april", "may", "june", "july", "august", 
+	# 	"september", "october", "november", "december"]
 
-	for m in months: 
-		b = BBCSeason(m)
-		b.scrape_ingredients() 
+	# for m in months: 
+	# 	b = BBCSeason(m)
+	# 	b.scrape_ingredients() 
+
+	b = BBCSeason("january")
+	b.scrape_links()
 
 
 if __name__=="__main__": 
