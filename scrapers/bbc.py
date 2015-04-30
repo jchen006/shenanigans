@@ -5,6 +5,7 @@ from recipeGenerator import Recipe_Generator
 class BBCSeason: 
 
 	base_address = "http://www.bbc.co.uk/food/seasons/"
+	base_recipe = "http://www.bbc.co.uk"
 
 	def __init__(self, month): 
 		self.month = month
@@ -76,6 +77,8 @@ class BBCSeason:
 			matchObj = re.search(r'\/food\/recipes\/\S+[0-9]{5}', l['href'])
 			if matchObj: 
 				recipe = matchObj.group()
+				r = BBCRecipes(self.base_recipe + recipe)
+				r.do_all()
 
 class BBCRecipes: 
 
@@ -86,6 +89,7 @@ class BBCRecipes:
 		self.rg = Recipe_Generator()
 
 	def do_all(self):
+		print self.url
 		r  = requests.get(self.url)
 		data = r.text
 		soup = BeautifulSoup(data)
@@ -110,7 +114,10 @@ class BBCRecipes:
 
 	def scrape_chef(self, soup): 
 		chef = soup.findAll("span", attrs={"class":"author"})
-		self.chef = str(chef[0].text)
+		if len(chef) > 0:
+			self.chef = str(chef[0].text)
+		else: 
+			self.chef = "None listed"
 
 	def scrape_title(self, soup): 
 		titles = soup.findAll("div", attrs={"class":"article-title"})
@@ -120,16 +127,16 @@ def main():
 	# r = BBCRecipes("http://www.bbc.co.uk/food/recipes/spiced_cauliflower_with_77223")
 	# r.do_all()
 
-	# months = ["january", "february", "march", "april", "may", "june", "july", "august", 
-	# 	"september", "october", "november", "december"]
+	months = ["january", "february", "march", "april", "may", "june", "july", "august", 
+		"september", "october", "november", "december"]
 
-	# for m in months: 
-	# 	b = BBCSeason(m)
-	# 	b.scrape_ingredients() 
-
-	b = BBCSeason("january")
-	b.scrape_links()
-
+	start = time.time()
+	for m in months: 
+		print "Running for " + m
+		b = BBCSeason(m)
+		b.scrape_links()
+	end = time.time()
+	print "Total time: " + str(end-start)
 
 if __name__=="__main__": 
 	main()

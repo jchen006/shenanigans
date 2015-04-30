@@ -9,7 +9,7 @@ class Recipe_Generator:
 		return self.generate_path() + self.file_name
 
 	def write_to_text(self, name, recipe_url, recipe_ingred, recipe_instruct, chef=None): 
-		print "Writing to a text file"
+		print "Writing to a text file for '" + name + "'"
 		file_name = self.generate_file_name(name)
 		text_file = open(file_name, "w")
 		text_file.write(name + "\n")
