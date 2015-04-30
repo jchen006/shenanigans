@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup 
 import csv, requests, re, urllib2, os, time
-from recipe_to_text import Recipe_Generator
+from recipeGenerator import Recipe_Generator
 
 class FoodNetwork: 
 	
@@ -25,7 +25,6 @@ class FoodNetwork:
 			self.pages = int(pages[0].text)
 		else: 
 			self.pages = self.subset
-
 		print "Total pages: " + self.pages
 
 		print "Scraping"
