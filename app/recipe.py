@@ -6,6 +6,11 @@ class recipe:
 		self.ingredients = ingredients 
 		self.cuisine = cuisine
 
-
 	def __str__(self): 
+		pass
+
+	def __repr__(self): 
+		pass 
+
+	def __doc__(self): 
 		pass
