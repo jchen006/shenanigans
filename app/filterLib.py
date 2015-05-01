@@ -1,10 +1,4 @@
 import re
-	#line split 
-	#remove any element that has a number in it 
-	#remove element that has measurements in it 
-	#join back all elements 
-	#remove all commas and anything after the comma
-	#return that string 
 
 def remove_measurements(tokens): 
 	for m in measurements: 
