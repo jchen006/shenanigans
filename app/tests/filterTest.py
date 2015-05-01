@@ -10,7 +10,7 @@ def generate_path():
 sys.path.append(generate_path())
 from filterLib import *
 
-class filterTest: 
+class filterTest(unittest.TestCase): 
 
 	def test_basic(self):
 		self.assertEqual(filter_ingred("1/2 cups jam, cleaned"), 'jam')

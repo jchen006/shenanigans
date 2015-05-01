@@ -14,10 +14,7 @@ def remove_comma_after(line):
 		return line
 
 def join(tokens): 
-	new_string = ""
-	for t in tokens: 
-		new_string = new_string + t + " "
-	return new_string
+	return " ".join(tokens)
 
 def remove_numbers(tokens): 
 	def hasNumbers(inputString):
