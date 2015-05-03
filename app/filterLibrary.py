@@ -1,10 +1,5 @@
-import re
-	#line split 
-	#remove any element that has a number in it 
-	#remove element that has measurements in it 
-	#join back all elements 
-	#remove all commas and anything after the comma
-	#return that string 
+# coding: utf-8
+import re, unicodedata, sys
 
 def remove_measurements(tokens): 
 	for m in measurements: 
@@ -20,10 +15,7 @@ def remove_comma_after(line):
 		return line
 
 def join(tokens): 
-	new_string = ""
-	for t in tokens: 
-		new_string = new_string + t + " "
-	return new_string
+	return " ".join(tokens)
 
 def remove_numbers(tokens): 
 	def hasNumbers(inputString):
@@ -31,17 +23,21 @@ def remove_numbers(tokens):
 	filtered = [elem for elem in tokens if not hasNumbers(elem)] 
 	return filtered
 
+def strip_accents(s):
+  return ''.join((c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn'))
+
 def filter_ingred(line): 
 	line = remove_comma_after(line)
 	token = line.split()
 	updated_token = remove_numbers(token)
 	updated_token = remove_measurements(updated_token)
 	updated_line = join(updated_token)
+	print updated_line
 	return updated_line
 
 measurements = ['cups', 'oz', 'tsp', 'tablespoons', 
-	'teaspoons', 'tabelspoon', 'teaspoon', 'tbsp', 'cup', 'fl', 'g', 'bunch', 'handful' ]
+	'teaspoons', 'tabelspoon', 'teaspoon', 'tbsp', 'cup', 'fl', 'g', 'bunch', 'handful', 'pinch']
 
 if __name__=="__main__": 
-	filter_ingred("1/2 cups jam, cleaned")
+	print strip_accents(u"1Â¼")
 
