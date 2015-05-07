@@ -32,12 +32,15 @@ def filter_ingred(line):
 	updated_token = remove_numbers(token)
 	updated_token = remove_measurements(updated_token)
 	updated_line = join(updated_token)
-	print updated_line
 	return updated_line
+
+def pluralize_cases(token): 
+	pass
 
 measurements = ['cups', 'oz', 'tsp', 'tablespoons', 
 	'teaspoons', 'tabelspoon', 'teaspoon', 'tbsp', 'cup', 'fl', 'g', 'bunch', 'handful', 'pinch']
 
 if __name__=="__main__": 
-	print strip_accents(u"1Â¼")
+	# print strip_accents(u"1Â¼")
+	print filter_ingred("200g/7oz sugar, plus extra for dusting")
 

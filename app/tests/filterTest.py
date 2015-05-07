@@ -34,7 +34,10 @@ class filterTest(unittest.TestCase):
 		self.assertEqual(filter_ingred("35ml/1Â¼fl oz whisky"), 'whisky')
 
 	def test_8(self):
-		self.assertEqual(strip_accents(u"35ml/1Â¼fl"), 'whisky')
+		self.assertEqual(filter_ingred("2 blood oranges"), 'blood oranges')
+
+	def test_9(self):
+		self.assertEqual(strip_accents(u"35ml/1Â¼fl"), '')
 
 if __name__ == '__main__':
     unittest.main()

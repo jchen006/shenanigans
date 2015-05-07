@@ -1,6 +1,8 @@
-import os
+import os, logging
 
 class Recipe_Generator: 
+
+	logging.basicConfig(filename='recipe.log', level=logging.INFO)
 
 	def generate_file_name(self, name): 
 		title = name.replace(" ", "_")
@@ -27,6 +29,7 @@ class Recipe_Generator:
 			text_file.write(i + "\n")
 
 		text_file.close()
+		logging.info('Finished writing ' + filename)
 
 	def generate_path(self):
 		def get_parent_dir(directory):
