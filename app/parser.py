@@ -48,7 +48,6 @@ class parser:
 		with open(self.generate_path("data") + 'recipes.pickle', 'w') as handle:
  			pickle.dump(self.recipes, handle)
 
-
 def main(): 
 	p = parser()
 	p.pickling()
