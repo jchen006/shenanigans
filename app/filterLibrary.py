@@ -1,5 +1,6 @@
 # coding: utf-8
 import re, unicodedata, sys
+import en
 
 def remove_measurements(tokens): 
 	for m in measurements: 
@@ -34,13 +35,15 @@ def filter_ingred(line):
 	updated_line = join(updated_token)
 	return updated_line
 
-def pluralize_cases(token): 
-	pass
-
+def remve_plural(token):
+	#Check if token contains a "s" at the end 
+	#Convert it to singular by default 
+	
 measurements = ['cups', 'oz', 'tsp', 'tablespoons', 
 	'teaspoons', 'tabelspoon', 'teaspoon', 'tbsp', 'cup', 'fl', 'g', 'bunch', 'handful', 'pinch']
 
 if __name__=="__main__": 
 	# print strip_accents(u"1Â¼")
-	print filter_ingred("200g/7oz sugar, plus extra for dusting")
+	# print filter_ingred("200g/7oz sugar, plus extra for dusting")
+	print en.noun.plural("chairs")
 
