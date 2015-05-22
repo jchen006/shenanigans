@@ -1,33 +1,53 @@
 # coding: utf-8
+#Python built in 
 import re, unicodedata, sys
-import en
+#External Libraries
+import en, enchant
+from constants import *
 
-def remove_measurements(tokens): 
+d = enchant.Dict("en_US")
+
+def remove_measurements(tokens):
+	"""Removes the measurements in the front of an ingredients"""
 	for m in measurements: 
 		if m in tokens: 
 			tokens.remove(m)
 	return tokens
 
-def remove_comma_after(line): 
+def remove_comma_after(line):
+	"""Removes everything after the comma"""
 	matchObj = re.search(r'(.+)\,', line)
 	if matchObj: 
 		return matchObj.group(1)
 	else: 
 		return line
 
-def join(tokens): 
+def join(tokens):
+	"""Joins the entire string back together"""
 	return " ".join(tokens)
 
-def remove_numbers(tokens): 
+def change_to_singular(token): 
+	"""Changes any plural form of a word to singular form"""
+	updated_token = token
+	updated_token = en.noun.singular(token)
+	if d.check(updated_token): 
+		return updated_token
+	else: 
+		return token
+
+def remove_numbers(tokens):
+	"""Removes any numbers"""
 	def hasNumbers(inputString):
    		return bool(re.search(r'\d', inputString))
 	filtered = [elem for elem in tokens if not hasNumbers(elem)] 
 	return filtered
 
-def strip_accents(s):
-  return ''.join((c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn'))
+def strip_accents(s): 
+	"""A bad attempt at trying to handle accents on certain words"""
+	return ''.join((c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn'))
 
 def filter_ingred(line): 
+	"""Filters all the ingredients by using all the above methods"""
 	line = remove_comma_after(line)
 	token = line.split()
 	updated_token = remove_numbers(token)
@@ -35,15 +55,26 @@ def filter_ingred(line):
 	updated_line = join(updated_token)
 	return updated_line
 
-def remve_plural(token):
-	#Check if token contains a "s" at the end 
-	#Convert it to singular by default 
-	
-measurements = ['cups', 'oz', 'tsp', 'tablespoons', 
-	'teaspoons', 'tabelspoon', 'teaspoon', 'tbsp', 'cup', 'fl', 'g', 'bunch', 'handful', 'pinch']
+def filter_conjunctions(phrase):
+	"""Removes all conjunctions""" 
+	tokens = phrase.split()
+	for t in tokens: 
+		if t in conjunctions: 
+			tokens.remove(t)
+	return join(tokens)
+
+def map_adj(phrase): 
+	"""Generates a tuple that maps ingredient to type for example green apple (green, apple)"""
+	return tuple(phrase.split())
 
 if __name__=="__main__": 
 	# print strip_accents(u"1Â¼")
 	# print filter_ingred("200g/7oz sugar, plus extra for dusting")
-	print en.noun.plural("chairs")
+	print filter_ingred("kalonji (black onion) seeds or nigella seeds")
+	print filter_conjunctions("kalonji (black onion) seeds or nigella seeds")
+	print map_adj("blood orange")
+	# print en.noun.plural("chairs")
+	# print change_to_singular("chairs")
+	# print change_to_singular("chair")
+	# print en.noun.singular("octopi")
 
