@@ -8,7 +8,7 @@ def generate_path():
 	return file_path
 
 sys.path.append(generate_path())
-from filterLib import *
+from filterLibrary import filter_ingred, strip_accents, change_to_singular
 
 class filterTest(unittest.TestCase): 
 
@@ -38,6 +38,25 @@ class filterTest(unittest.TestCase):
 
 	def test_9(self):
 		self.assertEqual(strip_accents(u"35ml/1Â¼fl"), '')
+
+	def test_10(self): 
+		self.assertEqual(change_to_singular("oranges"), "orange")
+
+	def test_11(self): 
+		self.assertEqual(change_to_singular("apples"), "apple")
+
+	def test_12(self): 
+		self.assertEqual(change_to_singular("octopi"), "octopus")
+
+	def test_13(self): 
+		self.assertEqual(change_to_singular("blueberries"), "blueberry")
+
+	def test_14(self): 
+		self.assertEqual(change_to_singular("tomatoes"), "tomato")
+
+	def test_15(self): 
+		self.assertEqual(change_to_singular("kalonji (black onion) seeds or nigella seeds"), "kalonji (black onion) seeds nigella seeds")
+	
 
 if __name__ == '__main__':
     unittest.main()
