@@ -3,9 +3,12 @@
 import re, unicodedata, sys
 #External Libraries
 import en, enchant
+#French 
 from constants import *
 
-d = enchant.Dict("en_US")
+d_us = enchant.Dict("en_US")
+d_fr = enchant.Dict("fr_FR")
+
 
 def remove_measurements(tokens):
 	"""Removes the measurements in the front of an ingredients"""
@@ -30,7 +33,7 @@ def change_to_singular(token):
 	"""Changes any plural form of a word to singular form"""
 	updated_token = token
 	updated_token = en.noun.singular(token)
-	if d.check(updated_token): 
+	if d_us.check(updated_token): 
 		return updated_token
 	else: 
 		return token
@@ -63,16 +66,36 @@ def filter_conjunctions(phrase):
 			tokens.remove(t)
 	return join(tokens)
 
-def map_adj(phrase): 
-	"""Generates a tuple that maps ingredient to type for example green apple (green, apple)"""
-	return tuple(phrase.split())
+def map_adj(key_ingred, phrase): 
+	token = phrase.split()
+	if key_ingred in token: 
+		token.remove(key_ingred)
+	if len(token) == 1:
+		descriptor = token[0]
+	else: 
+		descriptor = " ".join(token)
+	return descriptor, key_ingred
+
+#Fix encoding issue and then write script to handle french terms
+def check_french(phrase): 
+	print phrase.encode("ascii", "ignore")
+	return d_fr.check(phrase)
+
+#Need to also consider spanish cases 
 
 if __name__=="__main__": 
 	# print strip_accents(u"1Â¼")
 	# print filter_ingred("200g/7oz sugar, plus extra for dusting")
-	print filter_ingred("kalonji (black onion) seeds or nigella seeds")
-	print filter_conjunctions("kalonji (black onion) seeds or nigella seeds")
-	print map_adj("blood orange")
+	# print filter_ingred("kalonji (black onion) seeds or nigella seeds")
+	# print filter_conjunctions("kalonji (black onion) seeds or nigella seeds")
+	# print map_adj("orange", "blood orange")
+	# print map_adj("apple", "green apple")
+	# print map_adj("apple", "Bramley apple")
+	# print map_adj("cabbage", "red cabbage")
+	# print map_adj("fish", "fresh water fish")
+
+	# print check_french("Crème")
+	print check_french("brûlée")
 	# print en.noun.plural("chairs")
 	# print change_to_singular("chairs")
 	# print change_to_singular("chair")
