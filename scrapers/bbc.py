@@ -1,6 +1,15 @@
 from bs4 import BeautifulSoup 
-import csv, requests, re, urllib2, os, time
+import csv, requests, re, urllib2, os, time, logging
 from recipeGenerator import Recipe_Generator
+
+
+def generate_path():
+	def get_parent_dir(directory):
+		return os.path.dirname(directory)
+	file_path = get_parent_dir(os.getcwd()) + "/log/"
+	return file_path
+
+logging.basicConfig(filename=generate_path() + 'general.log',level=logging.DEBUG)
 
 class BBCSeason: 
 
@@ -66,7 +75,6 @@ class BBCSeason:
 		file_path = get_parent_dir(os.getcwd()) + "/seasons/"
 		return file_path
 
-
 	def scrape_links(self): 
 		r  = requests.get(self.url)
 		data = r.text
@@ -90,6 +98,7 @@ class BBCRecipes:
 
 	def do_all(self):
 		print self.url
+		logging.info("scraping site:" + self.url)
 		r  = requests.get(self.url)
 		data = r.text
 		soup = BeautifulSoup(data)
@@ -99,20 +108,24 @@ class BBCRecipes:
 		self.scrape_chef(soup)
 		self.scrape_title(soup)
 
+		logging.info("writing site info to text file")
 		self.rg.write_to_text(self.title, self.url, self.ingredients, self.instructions, chef=self.chef)
 
 	def scrape_ingredients(self, soup): 
+		logging.info("scraping [" + self.url + "] ingredients")
 		section = soup.findAll("p", attrs={"class":"ingredient"})
 		for s in section:
 			"""Need to handle fractions issue for unicode conversion"""
 			self.ingredients.append(s.text.encode('utf8'))
 
 	def scrape_instructions(self, soup): 
+		logging.info("scraping [" + self.url + "] instructions")
 		instructions = soup.findAll("li", attrs={"class":"instruction"})
 		for i in instructions: 
 			self.instructions.append(i.text.encode('utf8').rstrip('\n').strip())
 
 	def scrape_chef(self, soup): 
+		logging.info("scraping [" + self.url + "] chef")
 		chef = soup.findAll("span", attrs={"class":"author"})
 		if len(chef) > 0:
 			self.chef = str(chef[0].text)
@@ -135,6 +148,9 @@ def main():
 	end = time.time()
 	print "Total time: " + str(end-start)
 
+
 if __name__=="__main__": 
-	main()
+	b = BBCRecipes("http://www.bbc.co.uk/food/recipes/cremedevanilledebour_91183")
+	b.do_all()
+	# main()
 
