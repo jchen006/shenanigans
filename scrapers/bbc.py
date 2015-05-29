@@ -27,7 +27,7 @@ class BBCSeason:
 	def scrape_ingredients(self): 
 		r  = requests.get(self.url)
 		data = r.text
-		soup = BeautifulSoup(data)
+		soup = BeautifulSoup(data, from_encoding='utf8')
 
 		both = soup.findAll("div", attrs={"class":"related-ingredients-container double-column container flows"})
 		if len(both) == 2:
@@ -103,7 +103,7 @@ class BBCRecipes:
 		logging.info("scraping site:" + self.url)
 		r  = requests.get(self.url)
 		data = r.text
-		soup = BeautifulSoup(data)
+		soup = BeautifulSoup(data, from_encoding='utf8')
 
 		self.scrape_ingredients(soup)
 		self.scrape_instructions(soup)
