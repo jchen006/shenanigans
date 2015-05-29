@@ -5,8 +5,7 @@ import os
 class Recipe_Generator: 
 
 	def generate_file_name(self, name): 
-		print "Generating " +  name
-		print name.encode('utf-8', 'ignore')
+		print name
 		title = name.replace(" ", "_")
 		title = title.replace("-", "_")
 		self.file_name = title + ".txt"

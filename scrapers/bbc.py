@@ -115,31 +115,30 @@ class BBCRecipes:
 
 	def scrape_ingredients(self, soup): 
 		logging.info("scraping [" + self.url + "] ingredients")
+
 		section = soup.findAll("p", attrs={"class":"ingredient"})
 		for s in section:
-			"""Need to handle fractions issue for unicode conversion"""
-			print s.text
-			self.ingredients.append(s.text)
+			self.ingredients.append(s.text.encode("latin1").decode('utf8'))
 
 	def scrape_instructions(self, soup): 
 		logging.info("scraping [" + self.url + "] instructions")
+
 		instructions = soup.findAll("li", attrs={"class":"instruction"})
 		for i in instructions: 
-			self.instructions.append(i.text.rstrip('\n').strip())
+			self.instructions.append(i.text.encode("latin1").decode('utf8').rstrip('\n').strip())
 
 	def scrape_chef(self, soup): 
 		logging.info("scraping [" + self.url + "] chef")
+
 		chef = soup.findAll("span", attrs={"class":"author"})
 		if len(chef) > 0:
-			self.chef = str(chef[0].text)
+			self.chef = str(chef[0].text.encode("latin1").decode('utf8'))
 		else: 
 			self.chef = "None listed"
 
 	def scrape_title(self, soup): 
 		titles = soup.findAll("div", attrs={"class":"article-title"})
-		print titles[0].text
-		print type(titles[0].text)
-		self.title = titles[0].text.rstrip('\n').strip()
+		self.title = titles[0].text.encode("latin1").decode('utf8').rstrip('\n').strip()
 
 def main(): 
 	months = ["january", "february", "march", "april", "may", "june", "july", "august", 
