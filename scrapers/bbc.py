@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- 
 from bs4 import BeautifulSoup 
 import csv, requests, re, urllib2, os, time, logging
 from recipeGenerator import Recipe_Generator
@@ -116,13 +118,14 @@ class BBCRecipes:
 		section = soup.findAll("p", attrs={"class":"ingredient"})
 		for s in section:
 			"""Need to handle fractions issue for unicode conversion"""
-			self.ingredients.append(s.text.encode('utf8'))
+			print s.text
+			self.ingredients.append(s.text)
 
 	def scrape_instructions(self, soup): 
 		logging.info("scraping [" + self.url + "] instructions")
 		instructions = soup.findAll("li", attrs={"class":"instruction"})
 		for i in instructions: 
-			self.instructions.append(i.text.encode('utf8').rstrip('\n').strip())
+			self.instructions.append(i.text.rstrip('\n').strip())
 
 	def scrape_chef(self, soup): 
 		logging.info("scraping [" + self.url + "] chef")
@@ -134,7 +137,9 @@ class BBCRecipes:
 
 	def scrape_title(self, soup): 
 		titles = soup.findAll("div", attrs={"class":"article-title"})
-		self.title = titles[0].text.encode('utf8').rstrip('\n').strip()
+		print titles[0].text
+		print type(titles[0].text)
+		self.title = titles[0].text.rstrip('\n').strip()
 
 def main(): 
 	months = ["january", "february", "march", "april", "may", "june", "july", "august", 
@@ -152,5 +157,6 @@ def main():
 if __name__=="__main__": 
 	b = BBCRecipes("http://www.bbc.co.uk/food/recipes/cremedevanilledebour_91183")
 	b.do_all()
+	# print "400ml/14½fl oz double cream"
 	# main()
 

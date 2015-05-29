@@ -1,8 +1,12 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- 
 import os
 
 class Recipe_Generator: 
 
 	def generate_file_name(self, name): 
+		print "Generating " +  name
+		print name.encode('utf-8', 'ignore')
 		title = name.replace(" ", "_")
 		title = title.replace("-", "_")
 		self.file_name = title + ".txt"
