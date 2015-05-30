@@ -13,6 +13,8 @@ Still in debugging for specific pages.
 
 Dependecies 
 - Flask 
+- pyenchant 
+- 
 
 
 

@@ -5,13 +5,34 @@ from unicodedata import normalize
 
 class Recipe_Generator: 
 
+	remove = ["and", "with", "of", "in", "a", "de", "how", "to", "make"]
+
 	def generate_file_name(self, name): 
 		name = normalize('NFKD', name).encode('ASCII', 'ignore')
-		title = name.replace(" ", "_")
+		title = self.remove_excess(name)
+		title = title.replace(" ", "_")
 		title = title.replace("-", "_")
+		title = title.replace(",", "")
+		title = title.replace("'", "")
+		title = title.replace("(", "")
+		title = title.replace(")", "")
 		self.file_name = title + ".txt"
 		return self.generate_path() + self.file_name
 
+	def remove_excess(self, name): 
+		tokens = name.split()
+		updated = []
+		def uncapitalize(s):
+  			if len(s) > 0:
+				s = s[0].lower() + s[1:]
+  			return s
+		for t in tokens: 
+			updated.append(uncapitalize(t))
+		for r in self.remove: 
+			if r in updated:
+				updated.remove(r)
+		return " ".join(updated)
+		
 	def write_to_text(self, name, recipe_url, recipe_ingred, recipe_instruct, chef=None): 
 		print "Writing to a text file for '" + name + "'"
 		file_name = self.generate_file_name(name)

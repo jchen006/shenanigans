@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
 from bs4 import BeautifulSoup 
-import csv, requests, re, urllib2, os, time, logging
+import csv, requests, re, urllib2, os, time, logging, datetime
 from recipeGenerator import Recipe_Generator
-
 
 def generate_path():
 	def get_parent_dir(directory):
@@ -99,8 +98,10 @@ class BBCRecipes:
 		self.rg = Recipe_Generator()
 
 	def do_all(self):
-		print self.url
+		now = datetime.datetime.now()
+		logging.info("time: " + now.strftime("%Y-%m-%d %H:%M"))
 		logging.info("scraping site:" + self.url)
+
 		r  = requests.get(self.url)
 		data = r.text
 		soup = BeautifulSoup(data, from_encoding='utf8')
@@ -146,16 +147,22 @@ def main():
 
 	start = time.time()
 	for m in months: 
-		print "Running for " + m
+		logging.info("working on " + m)
 		b = BBCSeason(m)
 		b.scrape_links()
 	end = time.time()
-	print "Total time: " + str(end-start)
+	total_time = end-start
+	logging.info("Total time: " + str(total_time))
+	print "Total time: " + str(total_time)
+
+def test(): 
+	b = BBCRecipes("http://www.bbc.co.uk/food/recipes/how_to_make_marmalade_20072")
+	b.do_all()
 
 
 if __name__=="__main__": 
-	b = BBCRecipes("http://www.bbc.co.uk/food/recipes/cremedevanilledebour_91183")
-	b.do_all()
-	# print "400ml/14½fl oz double cream"
-	# main()
+	main()
+
+
+
 
