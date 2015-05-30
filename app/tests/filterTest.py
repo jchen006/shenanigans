@@ -55,8 +55,16 @@ class filterTest(unittest.TestCase):
 		self.assertEqual(change_to_singular("tomatoes"), "tomato")
 
 	def test_15(self): 
-		self.assertEqual(change_to_singular("kalonji (black onion) seeds or nigella seeds"), "kalonji (black onion) seeds nigella seeds")
-	
+		self.assertEqual(map_adj("apple", "green apple")[0], "green")
+
+	def test_16(self): 
+		self.assertEqual(map_adj("apple", "Bramley apple")[0], "Bramley")
+
+	def test_17(self): 
+		self.assertEqual(map_adj("cabbage", "red cabbage")[0], "red")
+
+	def test_18(self): 
+		self.assertEqual(map_adj("fish", "fresh water fish")[0], "fresh water")
 
 if __name__ == '__main__':
     unittest.main()

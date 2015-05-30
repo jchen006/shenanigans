@@ -94,9 +94,9 @@ if __name__=="__main__":
 	print map_adj("fish", "fresh water fish")
 
 	# print check_french("Crème")
-	print check_french("brûlée")
+	# print check_french("brûlée")
 	# print en.noun.plural("chairs")
-	# print change_to_singular("chairs")
+	print change_to_singular("chairs")
 	# print change_to_singular("chair")
 	# print en.noun.singular("octopi")
 
