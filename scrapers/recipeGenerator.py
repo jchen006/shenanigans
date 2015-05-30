@@ -53,11 +53,8 @@ class Recipe_Generator:
 				text_file.write(normalize('NFKD', i).encode('ASCII', 'ignore') + "\n")
 		print "Finished writing"
 
-<<<<<<< HEAD
-=======
 		text_file.close()
 		logging.info('Finished writing ' + filename)
->>>>>>> more_filters
 
 	def generate_path(self):
 		def get_parent_dir(directory):
