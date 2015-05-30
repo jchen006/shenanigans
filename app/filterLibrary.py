@@ -91,7 +91,7 @@ if __name__=="__main__":
 	# print map_adj("apple", "green apple")
 	# print map_adj("apple", "Bramley apple")
 	# print map_adj("cabbage", "red cabbage")
-	# print map_adj("fish", "fresh water fish")
+	print map_adj("fish", "fresh water fish")
 
 	# print check_french("Crème")
 	print check_french("brûlée")
