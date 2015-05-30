@@ -65,7 +65,7 @@ def filter_conjunctions(phrase):
 			tokens.remove(t)
 	return join(tokens)
 
-def map_adj(key_ingred, phrase): 
+def map_descriptor(key_ingred, phrase): 
 	token = phrase.split()
 	if key_ingred in token: 
 		token.remove(key_ingred)

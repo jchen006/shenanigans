@@ -8,7 +8,7 @@ def generate_path():
 	return file_path
 
 sys.path.append(generate_path())
-from filterLibrary import filter_ingred, strip_accents, change_to_singular
+from filterLibrary import filter_ingred, strip_accents, change_to_singular, map_descriptor
 
 class filterTest(unittest.TestCase): 
 
@@ -55,16 +55,16 @@ class filterTest(unittest.TestCase):
 		self.assertEqual(change_to_singular("tomatoes"), "tomato")
 
 	def test_15(self): 
-		self.assertEqual(map_adj("apple", "green apple")[0], "green")
+		self.assertEqual(map_descriptor("apple", "green apple")[0], "green")
 
 	def test_16(self): 
-		self.assertEqual(map_adj("apple", "Bramley apple")[0], "Bramley")
+		self.assertEqual(map_descriptor("apple", "Bramley apple")[0], "Bramley")
 
 	def test_17(self): 
-		self.assertEqual(map_adj("cabbage", "red cabbage")[0], "red")
+		self.assertEqual(map_descriptor("cabbage", "red cabbage")[0], "red")
 
 	def test_18(self): 
-		self.assertEqual(map_adj("fish", "fresh water fish")[0], "fresh water")
+		self.assertEqual(map_descriptor("fish", "fresh water fish")[0], "fresh water")
 
 if __name__ == '__main__':
     unittest.main()
