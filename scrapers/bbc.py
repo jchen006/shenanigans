@@ -1,7 +1,8 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- 
 from bs4 import BeautifulSoup 
-import csv, requests, re, urllib2, os, time, logging
+import csv, requests, re, urllib2, os, time, logging, datetime
 from recipeGenerator import Recipe_Generator
-
 
 def generate_path():
 	def get_parent_dir(directory):
@@ -25,7 +26,7 @@ class BBCSeason:
 	def scrape_ingredients(self): 
 		r  = requests.get(self.url)
 		data = r.text
-		soup = BeautifulSoup(data)
+		soup = BeautifulSoup(data, from_encoding='utf8')
 
 		both = soup.findAll("div", attrs={"class":"related-ingredients-container double-column container flows"})
 		if len(both) == 2:
@@ -97,11 +98,13 @@ class BBCRecipes:
 		self.rg = Recipe_Generator()
 
 	def do_all(self):
-		print self.url
+		now = datetime.datetime.now()
+		logging.info("time: " + now.strftime("%Y-%m-%d %H:%M"))
 		logging.info("scraping site:" + self.url)
+
 		r  = requests.get(self.url)
 		data = r.text
-		soup = BeautifulSoup(data)
+		soup = BeautifulSoup(data, from_encoding='utf8')
 
 		self.scrape_ingredients(soup)
 		self.scrape_instructions(soup)
@@ -113,28 +116,30 @@ class BBCRecipes:
 
 	def scrape_ingredients(self, soup): 
 		logging.info("scraping [" + self.url + "] ingredients")
+
 		section = soup.findAll("p", attrs={"class":"ingredient"})
 		for s in section:
-			"""Need to handle fractions issue for unicode conversion"""
-			self.ingredients.append(s.text.encode('utf8'))
+			self.ingredients.append(s.text.encode("latin1").decode('utf8'))
 
 	def scrape_instructions(self, soup): 
 		logging.info("scraping [" + self.url + "] instructions")
+
 		instructions = soup.findAll("li", attrs={"class":"instruction"})
 		for i in instructions: 
-			self.instructions.append(i.text.encode('utf8').rstrip('\n').strip())
+			self.instructions.append(i.text.encode("latin1").decode('utf8').rstrip('\n').strip())
 
 	def scrape_chef(self, soup): 
 		logging.info("scraping [" + self.url + "] chef")
+
 		chef = soup.findAll("span", attrs={"class":"author"})
 		if len(chef) > 0:
-			self.chef = str(chef[0].text)
+			self.chef = str(chef[0].text.encode("latin1").decode('utf8'))
 		else: 
 			self.chef = "None listed"
 
 	def scrape_title(self, soup): 
 		titles = soup.findAll("div", attrs={"class":"article-title"})
-		self.title = titles[0].text.encode('utf8').rstrip('\n').strip()
+		self.title = titles[0].text.encode("latin1").decode('utf8').rstrip('\n').strip()
 
 def main(): 
 	months = ["january", "february", "march", "april", "may", "june", "july", "august", 
@@ -142,15 +147,22 @@ def main():
 
 	start = time.time()
 	for m in months: 
-		print "Running for " + m
+		logging.info("working on " + m)
 		b = BBCSeason(m)
 		b.scrape_links()
 	end = time.time()
-	print "Total time: " + str(end-start)
+	total_time = end-start
+	logging.info("Total time: " + str(total_time))
+	print "Total time: " + str(total_time)
+
+def test(): 
+	b = BBCRecipes("http://www.bbc.co.uk/food/recipes/how_to_make_marmalade_20072")
+	b.do_all()
 
 
 if __name__=="__main__": 
-	b = BBCRecipes("http://www.bbc.co.uk/food/recipes/cremedevanilledebour_91183")
-	b.do_all()
-	# main()
+	main()
+
+
+
 
