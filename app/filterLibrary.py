@@ -9,7 +9,6 @@ from constants import *
 d_us = enchant.Dict("en_US")
 d_fr = enchant.Dict("fr_FR")
 
-
 def remove_measurements(tokens):
 	"""Removes the measurements in the front of an ingredients"""
 	for m in measurements: 
