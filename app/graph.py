@@ -1,26 +1,25 @@
 import collections as c
 import pickle, os
 
-Data = c.namedtuple("Data", "name url chef ingredients")
+Data = c.namedtuple("Data", "url chef ingredients")
 
 class Graph: 
     def __init__(self): 
         self.graph = {}
 
-    def add_node(self, data_obj):
+    def add_node(self, data_obj, recipe_name):
         for i in data_obj.ingredients:
-            if self.graph[i] is None:
-                self.graph[i] = []
+            if i not in self.graph:
+                self.graph[i] = set()
             else:
-                self.graph[i].append(data_obj.name)
+                self.graph[i].add(recipe_name)
         return
 
     def make_graph_from_pickle(self, filename):
         with open(filename, 'r') as f:
             recipes = pickle.load(f)
-        for d in [recipes[k] for k in recipes.keys()]:
-            import pdb; pdb.set_trace()
-            self.add_node(d)
+        for data_obj in [recipes[recipe_name] for recipe_name in recipes.keys()]:
+            self.add_node(data_obj, recipe_name)
         return 
 
 
