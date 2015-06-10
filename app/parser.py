@@ -49,12 +49,16 @@ class parser:
  			pickle.dump(self.recipes, handle)
 
  	def unpickle(self): 
+ 		print "unpickle"
  		self.recipes = pickle.load(open(self.generate_path("data") + 'recipes.pickle', "r" ))
 
 def main(): 
 	p = parser()
-	p.pickle()
-	# p.unpickle()
+	# p.pickle()
+	p.unpickle()
+	print p.recipes['Lemony pork with French beans'].url
+	print p.recipes['Lemony pork with French beans'].chef
+	print p.recipes['Lemony pork with French beans'].ingredients
 
 if __name__=="__main__": 
 	main()
