@@ -4,10 +4,8 @@ import pickle, os
 Data = c.namedtuple("Data", "name url chef ingredients")
 
 class Graph: 
-
-	def __init__(self): 
-		self.graph = {}
-        self.num_nodes = 0
+    def __init__(self): 
+        self.graph = {}
 
     def add_node(self, data_obj):
         for i in data_obj.ingredients:
@@ -15,14 +13,21 @@ class Graph:
                 self.graph[i] = []
             else:
                 self.graph[i].append(data_obj.name)
-        pass
+        return
 
-	def make_graph_from_pickle(self, filename):
+    def make_graph_from_pickle(self, filename):
         with open(filename, 'r') as f:
             recipes = pickle.load(f)
         for d in [recipes[k] for k in recipes.keys()]:
-            add_node(d)
+            import pdb; pdb.set_trace()
+            self.add_node(d)
         return 
 
 
+def main_test():
+    g = Graph()
+    g.make_graph_from_pickle("../data/recipes.pickle")
+    print "Graph dictionary: ", g.graph
 
+if __name__=='__main__':
+    main_test()
