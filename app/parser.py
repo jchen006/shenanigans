@@ -37,7 +37,7 @@ class parser:
 		file_path = get_parent_dir(os.getcwd()) + "/" + directory + "/"
 		return file_path
 
-	def pickling(self): 
+	def pickle(self): 
 		print "Picking and pickling"
 		path = self.generate_path("recipes")
 		for i in os.listdir(path):
@@ -48,9 +48,13 @@ class parser:
 		with open(self.generate_path("data") + 'recipes.pickle', 'w') as handle:
  			pickle.dump(self.recipes, handle)
 
+ 	def unpickle(self): 
+ 		self.recipes = pickle.load(open(self.generate_path("data") + 'recipes.pickle', "r" ))
+
 def main(): 
 	p = parser()
-	p.pickling()
+	p.pickle()
+	# p.unpickle()
 
 if __name__=="__main__": 
 	main()
