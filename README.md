@@ -15,6 +15,8 @@ Dependecies
 - Flask 
 - pyenchant 
 
+To Deploy, make sure everything is up date in master and pushed 
+$ git push heroku master 
 
 
 
