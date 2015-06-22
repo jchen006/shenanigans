@@ -12,4 +12,5 @@ size = ['small', 'medium', 'large']
 #IF there is no other NN in front of salt like "sea salt" then remove
 general = ['water', 'salt and black pepper']
 
-states = ['ground', 'clarified', 'grated']
+#Double check if recognized as verbs
+states = ['ground', 'clarified', 'grated', 'peeled', 'cored', 'quartered'] 
