@@ -16,15 +16,15 @@ Still in debugging for specific pages.
 - pyenchant 
 
 ##Local Deployment 
-...
+'''
 $python app/run.py
-...
+'''
 
 ##Heroku Deployment
 Make sure everything is up to date on Git
-...
+'''
 $ git push heroku master 
-...
+'''
 
 
 
