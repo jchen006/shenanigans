@@ -3,7 +3,9 @@ Food Stuffz
 
 ## Scrapers
 ### Food Network 
+```
 $python scrapers/foodnetwork.py 
+```
 
 If you want to change queries, go to "TODO" and change to your own personalized query. 
 Still in debugging for specific pages.
