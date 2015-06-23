@@ -1,5 +1,6 @@
 import collections as c
 import pickle, os
+from environment import *
 
 Data = c.namedtuple("Data", "url chef ingredients")
 
@@ -30,14 +31,9 @@ class Graph:
 def main_test():
     g = Graph()
     g.make_graph_from_pickle("../data/recipes.pickle")
-    ing1, ing2, ing3 = g.ingredients()[1], g.ingredients()[2], g.ingredients()[3]
-    ing4, ing5, ing6 = g.ingredients()[4], g.ingredients()[5], g.ingredients()[6]
-    print "Key: ",ing1,"Value: ",g.graph[ing1]
-    print "Key: ",ing2,"Value: ",g.graph[ing2]
-    print "Key: ",ing3,"Value: ",g.graph[ing3]
-    print "Key: ",ing4,"Value: ",g.graph[ing4]
-    print "Key: ",ing5,"Value: ",g.graph[ing5]
-    print "Key: ",ing6,"Value: ",g.graph[ing6]
+    for i in range(0, NODE_PRINT): 
+        ing = g.ingredients()[i]
+        print "Key " + str(i) + ":" ,ing,"Value: ",g.graph[ing]
 
 if __name__=='__main__':
     main_test()
