@@ -3,14 +3,20 @@ measurements = ['cups', 'oz', 'tsp', 'tablespoons',
 	'teaspoons', 'tablespoon', 'teaspoon', 'tbsp', 'cup', 'fl', 
 	'g', 'bunch', 'handful', 'pinch', "piece of", 'bunches', 'handful', 
 	'sprig', 'heads', 'dash', 'fillets', 'block', 'mixture', 'pieces', 'piece', 'clove'
-	'flakes', 'strip']
+	'flakes', 'strip', 'slice', 'slices', 'knob', 'rashers']
 
 conjunctions = ['and','but','or','yet','for','nor','so']
 
-size = ['small', 'medium', 'large']
+size = ['micro', 'baby', 'small', 'medium', 'large']
 
 #IF there is no other NN in front of salt like "sea salt" then remove
-general = ['water', 'salt and black pepper']
+"""Salt, water, and black pepper will not be considered as actual ingredients unless mentioned as 
+Himalayan salt, black peppercorns, etc"""
+general = ['water', 'salt', 'black pepper']
 
 #Double check if recognized as verbs
-states = ['ground', 'clarified', 'grated', 'peeled', 'cored', 'quartered'] 
+states = ['ground', 'clarified', 'grated', 'peeled', 'cored', 'quartered', 'unpasteurised', 'young', 
+	'slender', 'cooked', 'minced', 'chopped', 'squeezed', 'ripe', 'cooking', 'leaves'] 
+
+misc = ['good-quality', 'ready_made', 'freshly', 'strong', 'smoked']
+

@@ -34,11 +34,12 @@ def main_test():
     # ing4, ing5, ing6 = g.ingredients()[4], g.ingredients()[5], g.ingredients()[6]
     # ing7, ing8, ing9 = g.ingredients()[7], g.ingredients()[8], g.ingredients()[9]
 
-    SET_SIZE = 20
+    SET_SIZE = 75
+    DEFAULT = len(g.ingredients())
 
-    for i in range(SET_SIZE): 
+    for i in range(DEFAULT): 
         ing = g.ingredients()[i]
-        print "Key: ",ing,"Value: ",g.graph[ing]
+        print "Key " + str(i) + ": ",ing
     # print "Key: ",ing2,"Value: ",g.graph[ing2]
     # print "Key: ",ing3,"Value: ",g.graph[ing3]
     # print "Key: ",ing4,"Value: ",g.graph[ing4]
