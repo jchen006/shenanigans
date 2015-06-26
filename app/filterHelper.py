@@ -5,18 +5,30 @@ import re, unicodedata, sys
 import en, enchant, nltk
 #French 
 from constants import *
+from string import digits
 
 d_us = enchant.Dict("en_US")
 d_fr = enchant.Dict("fr_FR")
 
 """NEED TO STREAMLINE HOW TOKENS RETURNED"""
 
-def remove_measurements(tokens):
+#look at splitting first by the line and remove all measurements and numbers 
+def remove_measurements(line):
 	"""Removes the measurements in the front of an ingredients"""
+	updated_line = line
 	for m in measurements: 
-		if m in tokens: 
-			tokens.remove(m)
-	return tokens
+		if m in line: 
+			updated_line = updated_line.replace(m, "")
+	return updated_line
+
+def remove_first_token(line): 
+	tokens = line.split(" ")
+	first = tokens[0]
+	updated_first = remove_numbers(first)
+	updated_first = remove_measurements(updated_first)
+	if not updated_first.isalpha(): 
+		return " ".join(tokens[1:])
+	return updated_first + " " + " ".join(tokens[1:])
 
 def remove_optional(tokens): 
 	if "(optional)" in tokens: 
@@ -24,7 +36,6 @@ def remove_optional(tokens):
 	return tokens
 
 def remove_comma_after(line):
-	print line.count(",")
 	if line.count(",") == 1:
 		"""Removes everything after the comma"""
 		matchObj = re.search(r'(.+)\,', line)
@@ -35,19 +46,38 @@ def remove_comma_after(line):
 	else: 
 		return line
 
-def remove_numbers(tokens):
+def remove_numbers(line):
 	#Need to handle case "x" is considered a number
 	"""Removes any numbers"""
-	def hasNumbers(inputString):
-   		return bool(re.search(r'\d', inputString))
-	filtered = [elem for elem in tokens if not hasNumbers(elem)] 
-	return filtered
+	updated_line = line.translate(None, digits)
+	return updated_line
 
-def remove_misc(tokens): 
+def remove_x(line): 
+	updated_line = line
+	if "x" is line[0]: 
+		updated_line = line[1:]
+	return updated_line
+
+def remove_misc(line): 
+	tokens = line.split()
 	for m in misc: 
 		if m in tokens: 
 			tokens.remove(m)
-	return tokens
+	return join(tokens)
+
+def remove_size(line): 
+	updated_line = line
+	for s in size: 
+		if s in line: 
+			updated_line = line.replace(s, "")
+	return updated_line
+
+def remove_state(line): 
+	updated_line = line 
+	for s in states: 
+		if s in line:
+			updated_line = line.replace(s, "")
+	return updated_line
 
 def en_remove_verb(tokens): 
 	"""Removes all verbs in the tokens"""
@@ -73,7 +103,7 @@ def remove_conjunctions(phrase):
 
 def join(tokens):
 	"""Joins the entire string back together"""
-	return "".join(tokens)
+	return " ".join(tokens)
 
 def change_to_singular(token): 
 	"""Changes any plural form of a word to singular form"""

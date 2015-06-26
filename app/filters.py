@@ -25,15 +25,24 @@ def filter_key_ingred(line):
 	"""Filters for the key ingredient"""
 	print "Filtering ", line
 	print "0) ", line
-	updated_line = remove_optional(line)
+	updated_line = remove_x(line)
+	print "1) ", updated_line
+	updated_line = remove_optional(updated_line)
+	print "2) ", updated_line
 	updated_line = remove_comma_after(updated_line)
-	updated_tokens = remove_numbers(tokens)
-	updated_tokens = remove_measurements(updated_tokens)
-	print updated_tokens
-	# 	print "3) ", updated_tokens
-	# 	updated_line = join(updated_tokens)
-	# else:
-	# 	print "4) ", updated_line
+	print "3) ", updated_line
+	updated_line = remove_first_token(updated_line)
+	print "4) ", updated_line
+	updated_line = remove_size(updated_line)
+	print "5) ", updated_line
+	updated_line = remove_conjunctions(updated_line)
+	print "6) ", updated_line
+	updated_line = remove_misc(updated_line)
+	print "7) ", updated_line
+	updated_line = remove_state(updated_line)
+	print "8) ", updated_line
+	#find some way to cycle through one more time
+	print "_____________________"
 	return updated_line
 
 def map_descriptor(key_ingred, phrase): 
@@ -55,9 +64,12 @@ if __name__=="__main__":
 	# print filter_key_ingred("white peaches, halved")
 	# print filter_key_ingred("good-quality dark chocolate")
  # 	print filter_key_ingred("whole wheat, soaked for hours in several changes of water (or alternatively use canned cooked wheat, also called pastiera di grano")
-	print filter_key_ingred("orange liqueur (optional)")
+	# print filter_key_ingred("orange liqueur (optional)")
 	# print filter_key_ingred("rum, bourbon or a mixture of the two")
 	# print alternate_names("rum or bourbon")
+	# print filter_key_ingred("1 tbsp clear rice vinegar or cider vinegar")
+	# print filter_key_ingred("2 large eggs, separated")
+	print remove_first_token("400g/14oz fresh blueberries")
 
 
 
