@@ -23,7 +23,8 @@ pink peppercorn -> (pink, peppercorn)
 
 def filter_key_ingred(line): 
 	"""Filters for the key ingredient"""
-	print "Filtering ", line
+	print "Filtering primary", line
+	#Check if ccontains "and" and "or"
 	print "0) ", line
 	updated_line = remove_x(line)
 	print "1) ", updated_line
@@ -41,6 +42,9 @@ def filter_key_ingred(line):
 	print "7) ", updated_line
 	updated_line = remove_state(updated_line)
 	print "8) ", updated_line
+	updated_line = remove_second_token(updated_line)
+	print "9) ", updated_line
+	
 	#find some way to cycle through one more time
 	print "_____________________"
 	return updated_line

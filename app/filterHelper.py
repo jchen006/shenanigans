@@ -30,6 +30,19 @@ def remove_first_token(line):
 		return " ".join(tokens[1:])
 	return updated_first + " " + " ".join(tokens[1:])
 
+def remove_second_token(line): 
+	tokens = line.split(" ")
+	first = tokens[0]
+	for m in measurements: 
+		if m == first: 
+			print first 
+			print m
+			tokens.remove(first)
+	return " ".join(tokens)
+
+def remove_parantheses(line): 
+	pass
+
 def remove_optional(tokens): 
 	if "(optional)" in tokens: 
 		tokens = tokens.replace("(optional)","")
