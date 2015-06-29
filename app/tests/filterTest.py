@@ -8,7 +8,7 @@ def generate_path():
 	return file_path
 
 sys.path.append(generate_path())
-from filterLibrary import filter_ingred, strip_accents, change_to_singular, map_descriptor
+from filters import *
 
 class filterTest(unittest.TestCase): 
 
@@ -36,9 +36,6 @@ class filterTest(unittest.TestCase):
 	def test_8(self):
 		self.assertEqual(filter_ingred("2 blood oranges"), 'blood oranges')
 
-	def test_9(self):
-		self.assertEqual(strip_accents(u"35ml/1Â¼fl"), '')
-
 	def test_10(self): 
 		self.assertEqual(change_to_singular("oranges"), "orange")
 
@@ -65,6 +62,18 @@ class filterTest(unittest.TestCase):
 
 	def test_18(self): 
 		self.assertEqual(map_descriptor("fish", "fresh water fish")[0], "fresh water")
+
+	def test_19(self): 
+		self.assertEqual(filter_key_ingred("walnut pieces"), "walnut")
+
+	def test_20(self): 
+		self.assertEqual(filter_key_ingred("garlic clove"), "garlic")
+
+	def test_21(self): 
+		self.assertEqual(filter_key_ingred("ready-made lemon curd"), "lemon curd")
+
+	def test_22(self): 
+		self.assertEqual(filter_key_ingred("medium parsnip, peeled"), "parsnip")
 
 if __name__ == '__main__':
     unittest.main()

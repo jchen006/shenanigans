@@ -1,6 +1,7 @@
-from filterLibrary import * 
+from filters import * 
 import collections as c
-import pickle, os
+import pickle, os, random
+from settings import *
 
 
 Data = c.namedtuple("Data", "url chef ingredients")
@@ -23,7 +24,8 @@ class recipeParse:
 		self.url = temp.pop(0)
 		self.chef = temp.pop(0)	
 		for i in temp: 
-			self.ingredients.append(filter_ingred(i))
+			#Where filters happen
+			self.ingredients.append(filter_key_ingred(i))
 		self.data = Data(self.url, self.chef, self.ingredients)	
 
 class parser: 
@@ -40,11 +42,21 @@ class parser:
 	def pickle(self): 
 		print "Picking and pickling"
 		path = self.generate_path("recipes")
-		for i in os.listdir(path):
-			if i.endswith(".txt"): 
-				r = recipeParse(path + i)
+		if DATA_SET is "TEST": 
+			print "Using a test set with size of " + str(DATA_SIZE)
+			for i in range(0, DATA_SIZE): 
+				file_name = random.choice(os.listdir(path)) 
+				print path
+				r = recipeParse(path + file_name)
 				r.parse_ingredients()
 				self.recipes[r.name] = r.data
+		else: 
+			for i in os.listdir(path):
+				if i.endswith(".txt"): 
+					r = recipeParse(path + i)
+					r.parse_ingredients()
+					self.recipes[r.name] = r.data
+
 		with open(self.generate_path("data") + 'recipes.pickle', 'w') as handle:
  			pickle.dump(self.recipes, handle)
 
@@ -54,11 +66,11 @@ class parser:
 
 def main(): 
 	p = parser()
-	# p.pickle()
-	p.unpickle()
-	print p.recipes['Lemony pork with French beans'].url
-	print p.recipes['Lemony pork with French beans'].chef
-	print p.recipes['Lemony pork with French beans'].ingredients
+	p.pickle()
+	# p.unpickle()
+	# print p.recipes['Lemony pork with French beans'].url
+	# print p.recipes['Lemony pork with French beans'].chef
+	# print p.recipes['Lemony pork with French beans'].ingredients
 
 if __name__=="__main__": 
 	main()
