@@ -1,0 +1,3 @@
+#TEST or FULL
+DATA_SET = "TEST"
+DATA_SIZE = 10

@@ -5,6 +5,7 @@ import re, unicodedata, sys
 import en, enchant, nltk
 #French 
 from constants import *
+from settings import *
 from filterHelper import *
 
 """Will have two separate methods 
@@ -23,31 +24,43 @@ pink peppercorn -> (pink, peppercorn)
 
 def filter_key_ingred(line): 
 	"""Filters for the key ingredient"""
-	print "Filtering primary", line
-	#Check if ccontains "and" and "or"
-	print "0) ", line
-	updated_line = remove_x(line)
-	print "1) ", updated_line
-	updated_line = remove_optional(updated_line)
-	print "2) ", updated_line
-	updated_line = remove_comma_after(updated_line)
-	print "3) ", updated_line
-	updated_line = remove_first_token(updated_line)
-	print "4) ", updated_line
-	updated_line = remove_size(updated_line)
-	print "5) ", updated_line
-	updated_line = remove_conjunctions(updated_line)
-	print "6) ", updated_line
-	updated_line = remove_misc(updated_line)
-	print "7) ", updated_line
-	updated_line = remove_state(updated_line)
-	print "8) ", updated_line
-	updated_line = remove_second_token(updated_line)
-	print "9) ", updated_line
-	
-	#find some way to cycle through one more time
 	print "_____________________"
-	return updated_line
+	print "Filtering primary", line
+	size = len(line.split())
+	if len(line.split()) == 0: 
+		return 
+	elif size < 4: 
+		print line.split()
+		updated_line = remove_optional(line)
+		updated_line = remove_comma_after(updated_line)
+		updated_line = remove_first_token(updated_line)
+		updated_line = remove_size(updated_line)
+		updated_line = remove_first_token(updated_line)
+		updated_line = updated_line.replace("of ", "")
+		updated_line = change_to_singular(updated_line)
+		print updated_line
+	elif size < 6: 
+		print line.split()
+		print "medium"
+	else:
+		#Check if ccontains "and" and "or"
+		if " or " in line: 
+			print line
+		updated_line = remove_x(line)
+		updated_line = remove_optional(updated_line)
+		updated_line = remove_comma_after(updated_line)
+		updated_line = remove_first_token(updated_line)
+		updated_line = remove_size(updated_line)
+		updated_line = remove_conjunctions(updated_line)
+		updated_line = remove_misc(updated_line)
+		updated_line = remove_state(updated_line)
+		updated_line = remove_second_token(updated_line)
+		
+		print updated_line
+		return updated_line
+		#find some way to cycle through one more time
+	
+		
 
 def map_descriptor(key_ingred, phrase): 
 	token = phrase.split()
@@ -73,7 +86,9 @@ if __name__=="__main__":
 	# print alternate_names("rum or bourbon")
 	# print filter_key_ingred("1 tbsp clear rice vinegar or cider vinegar")
 	# print filter_key_ingred("2 large eggs, separated")
-	print remove_first_token("400g/14oz fresh blueberries")
+	# p
+	# print filter_key_ingred("570ml/1 pint milk")
+	print change_to_singular("pine nuts")
 
 
 
