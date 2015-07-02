@@ -1,5 +1,6 @@
 import collections as c
 import pickle, os
+from parser import *
 
 Data = c.namedtuple("Data", "url chef ingredients")
 
@@ -21,35 +22,32 @@ class Graph:
             recipes = pickle.load(f)
         for recipe_name in recipes.keys():
             self.add_node(recipes[recipe_name], recipe_name)
-        return 
+
+    def make_graph_from_tuple(self): 
+        p = parser()
+        p.picking()
+        recipes = p.recipes
+        for recipe_name in recipes.keys(): 
+            self.add_node(recipes[recipe_name], recipe_name)
     
     def ingredients(self):
         return self.graph.keys()
 
-
 def main_test():
     g = Graph()
-    g.make_graph_from_pickle("../data/recipes.pickle")
-    # ing1, ing2, ing3 = g.ingredients()[1], g.ingredients()[2], g.ingredients()[3]
-    # ing4, ing5, ing6 = g.ingredients()[4], g.ingredients()[5], g.ingredients()[6]
-    # ing7, ing8, ing9 = g.ingredients()[7], g.ingredients()[8], g.ingredients()[9]
+    # g.make_graph_from_pickle("../data/recipes.pickle")
+    g.make_graph_from_tuple()
+    ingredients = []
 
     SET_SIZE = 75
     DEFAULT = len(g.ingredients())
 
     for i in range(DEFAULT): 
         ing = g.ingredients()[i]
+        ingredients.append(ing)
         print "Key " + str(i) + ": ",ing
-    # print "Key: ",ing2,"Value: ",g.graph[ing2]
-    # print "Key: ",ing3,"Value: ",g.graph[ing3]
-    # print "Key: ",ing4,"Value: ",g.graph[ing4]
-    # print "Key: ",ing5,"Value: ",g.graph[ing5]
-    # print "Key: ",ing6,"Value: ",g.graph[ing6]
-    # print "Key: ",ing7,"Value: ",g.graph[ing7]
-    # print "Key: ",ing8,"Value: ",g.graph[ing8]
-    # print "Key: ",ing9,"Value: ",g.graph[ing9]
-
-
+        #print "Value ", g.graph[ing#]
+    return ingredients
 
 if __name__=='__main__':
     main_test()

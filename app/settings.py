@@ -1,3 +1,3 @@
 #TEST or FULL
-DATA_SET = "TEST"
+DATA_SET = True
 DATA_SIZE = 10

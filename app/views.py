@@ -2,6 +2,7 @@ from app import app
 import numpy as np
 from flask import render_template
 import json
+from graph import *
 
 @app.route('/')
 def home():
@@ -11,9 +12,18 @@ def home():
 def about():
   return render_template('about.html')
 
+
+@app.route('/ingredients')
+def ingredients(): 
+    ing = main_test()
+    print ing
+    return render_template('ingredients.html', ingredients=ing)
+
+
 @app.route('/d3')
 def d3(): 
 	return render_template('d3.html')
+
 
 @app.route("/data")
 @app.route("/data/<int:ndata>")

@@ -1,75 +1,73 @@
 # coding: utf-8
 #Python built in 
 import re, unicodedata, sys
-#External Libraries
-import en, enchant, nltk
-#French 
-from constants import *
 from string import digits
-
-d_us = enchant.Dict("en_US")
-d_fr = enchant.Dict("fr_FR")
+#Internal Libraries
+from constants import *
 
 """NEED TO STREAMLINE HOW TOKENS RETURNED"""
 
 #look at splitting first by the line and remove all measurements and numbers 
-def remove_measurements(line):
-	"""Removes the measurements in the front of an ingredients"""
-	updated_line = line
-	for m in measurements: 
-		if m in line: 
-			updated_line = updated_line.replace(m, "")
-	return updated_line
-
-def remove_first_token(line): 
+def remove_digits(line):
 	tokens = line.split(" ")
-	first = tokens[0]
-	updated_first = remove_numbers(first)
-	updated_first = remove_measurements(updated_first)
-	if not updated_first.isalpha(): 
-		return " ".join(tokens[1:])
-	return updated_first + " " + " ".join(tokens[1:])
-
-def remove_second_token(line): 
-	tokens = line.split(" ")
-	first = tokens[0]
-	for m in measurements: 
-		if m == first: 
-			print first 
-			print m
-			tokens.remove(first)
+	for t in tokens: 
+		if contains_digits(t):
+			tokens.remove(t)
 	return " ".join(tokens)
 
+def remove_measurements_and_numbers(line): 
+	tokens = line.split(" ")
+	index = []
+	updated = []
+	for t in tokens: 
+		for m in measurements: 
+			if m in t or contains_digits(t): 
+				index.append(tokens.index(t))
+
+	for i in range(len(tokens)): 
+		if i not in index: 
+			updated.append(tokens[i])
+
+	return " ".join(updated)
+
+_digits = re.compile('\d')
+def contains_digits(d):
+    return bool(_digits.search(d))
+
 def remove_parantheses(line): 
-	pass
+	matchObj = re.search(r'(.+)\(', line)
+	if matchObj: 
+		return matchObj.group(1)
+	else: 
+		return line
 
 def remove_optional(tokens): 
 	if "(optional)" in tokens: 
 		tokens = tokens.replace("(optional)","")
 	return tokens
 
-def remove_comma_after(line):
-	if line.count(",") == 1:
-		"""Removes everything after the comma"""
-		matchObj = re.search(r'(.+)\,', line)
-		if matchObj: 
-			return matchObj.group(1)
-		else: 
-			return join(line)
+def remove_first_comma(line): 
+	index = line.find(",")
+	if index != -1:
+		return line[:index]
 	else: 
 		return line
 
-def remove_numbers(line):
-	#Need to handle case "x" is considered a number
-	"""Removes any numbers"""
-	updated_line = line.translate(None, digits)
-	return updated_line
+def x_of_something(line): 
+	"""Looks for '... of ...' cases"""
+	matchObj = re.search(r'.+\sof\s(.+)', line)
+	if matchObj: 
+		return matchObj.group(1)
+	else: 
+		return line
 
-def remove_x(line): 
-	updated_line = line
-	if "x" is line[0]: 
-		updated_line = line[1:]
-	return updated_line
+def remove_comma_after(line):
+	"""Removes everything after the comma"""
+	matchObj = re.search(r'(.+)\,\w', line)
+	if matchObj: 
+		return matchObj.group(1)
+	else: 
+		return line
 
 def remove_misc(line): 
 	tokens = line.split()
@@ -92,20 +90,6 @@ def remove_state(line):
 			updated_line = line.replace(s, "")
 	return updated_line
 
-def en_remove_verb(tokens): 
-	"""Removes all verbs in the tokens"""
-	for t in tokens: 
-		if en.is_verb(t): 
-			tokens.remove(t)
-	return tokens
-
-def en_remove_adverb(tokens): 
-	"""Removes all adjectives in the tokens"""
-	for t in tokens: 
-		if en.is_adverb(t): 
-			tokens.remove(t)
-	return tokens
-
 def remove_conjunctions(phrase):
 	"""Removes all conjunctions""" 
 	tokens = phrase.split()
@@ -118,27 +102,4 @@ def join(tokens):
 	"""Joins the entire string back together"""
 	return " ".join(tokens)
 
-def change_to_singular(token): 
-	"""Changes any plural form of a word to singular form"""
-	updated_token = token
-	updated_token = en.noun.singular(token)
-	if d_us.check(updated_token): 
-		return updated_token
-	else: 
-		return token
-
-def word_type_tokenize(phrase): 
-	text = nltk.word_tokenize(phrase)
-	pos = nltk.pos_tag(text)
-	return pos
-
-def key_filter(token_positions):
-	keys = [] 
-	descriptor = []
-	for t in token_positions: 
-		if t[1] == "NN" or t[1] == "NNS": 
-			keys.append(t[0])
-		if t[1] == "JJ": 
-			descriptor.append(t[0])
-	return keys, descriptor
 

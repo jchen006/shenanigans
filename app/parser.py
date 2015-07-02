@@ -5,6 +5,10 @@ from settings import *
 
 
 Data = c.namedtuple("Data", "url chef ingredients")
+"""	Call to the URL will look like... p.recipes['Lemony pork with French beans'].url
+	Call to the chef will look like... p.recipes['Lemony pork with French beans'].chef
+	Call to the ingredients will look like... p.recipes['Lemony pork with French beans'].ingredients
+	"""
 
 class recipeParse: 
 
@@ -39,10 +43,10 @@ class parser:
 		file_path = get_parent_dir(os.getcwd()) + "/" + directory + "/"
 		return file_path
 
-	def pickle(self): 
-		print "Picking and pickling"
+	def picking(self): 
+		print "Picking"
 		path = self.generate_path("recipes")
-		if DATA_SET is "TEST": 
+		if DATA_SET: 
 			print "Using a test set with size of " + str(DATA_SIZE)
 			for i in range(0, DATA_SIZE): 
 				file_name = random.choice(os.listdir(path)) 
@@ -57,6 +61,9 @@ class parser:
 					r.parse_ingredients()
 					self.recipes[r.name] = r.data
 
+	def pickle(self):
+		self.picking()
+		print "pickling"
 		with open(self.generate_path("data") + 'recipes.pickle', 'w') as handle:
  			pickle.dump(self.recipes, handle)
 
@@ -64,13 +71,12 @@ class parser:
  		print "unpickle"
  		self.recipes = pickle.load(open(self.generate_path("data") + 'recipes.pickle', "r" ))
 
-def main(): 
+def main():
+
 	p = parser()
 	p.pickle()
+
 	# p.unpickle()
-	# print p.recipes['Lemony pork with French beans'].url
-	# print p.recipes['Lemony pork with French beans'].chef
-	# print p.recipes['Lemony pork with French beans'].ingredients
 
 if __name__=="__main__": 
 	main()

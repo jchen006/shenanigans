@@ -1,10 +1,11 @@
 
 measurements = ['cups', 'oz', 'tsp', 'tablespoons', 
 	'teaspoons', 'tablespoon', 'teaspoon', 'tbsp', 'cup', 'fl ', 
-	'g ', ' g', ' g ', 'bunch', 'pinch', "piece of", 'bunches', 'handful', 
+	'g ', 'bunch', 'pinch', "piece of", 'bunches', 'handful', 
 	'sprig', 'heads', 'dash', 'fillets', 'block', 'mixture', 'pieces', 'piece', 'clove'
 	'flakes', 'strip', 'slice', 'slices', 'knob', 'rashers', 'head', 'sheets', 'lump', 
-	'handfuls', 'glug', 'pint']
+	'handfuls', 'glug', 'pint', ' spears', 'ml', 'drizzle', 'bottle', 'wedges', 'pts', 
+	'seeds']
 
 conjunctions = ['and','but','or','yet','for','nor','so', 'of']
 
@@ -18,8 +19,9 @@ general = ['water', 'salt', 'black pepper']
 #Double check if recognized as verbs
 states = ['ground', 'clarified', 'grated', 'peeled', 'cored', 'quartered', 'unpasteurised', 'young', 
 	'slender', 'cooked', 'minced', 'chopped', 'squeezed', 'ripe', 'cooking', 'leaves', 'mince', 
-	'blanched', 'puree', 'free-range', 'clear', 'mixed', 'finely', 'can', 'easy-cook', 'cold-pressed'] 
+	'blanched', 'puree', 'free-range', 'clear', 'mixed', 'finely', 'can', 'easy-cook', 'cold-pressed',
+	'freeze-dried', 'essence'] 
 
 misc = ['good-quality', 'ready_made', 'freshly', 'strong', 'smoked', 'soft', 'hard', 'warm', 'fresh',
-	'few', 'raw', 'good', 'wild', 'dried']
+	'few', 'raw', 'good', 'wild', 'dried', 'generous']
 
