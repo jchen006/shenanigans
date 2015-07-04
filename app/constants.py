@@ -5,7 +5,7 @@ measurements = ['cups', 'oz', 'tsp', 'tablespoons',
 	'sprig', 'heads', 'dash', 'fillets', 'block', 'mixture', 'pieces', 'piece', 'clove'
 	'flakes', 'strip', 'slice', 'slices', 'knob', 'rashers', 'head', 'sheets', 'lump', 
 	'handfuls', 'glug', 'pint', ' spears', 'ml', 'drizzle', 'bottle', 'wedges', 'pts', 
-	'seeds']
+	'seeds', 'packet', 'bag', 'loaf', 'tub']
 
 conjunctions = ['and','but','or','yet','for','nor','so', 'of']
 
@@ -20,8 +20,8 @@ general = ['water', 'salt', 'black pepper']
 states = ['ground', 'clarified', 'grated', 'peeled', 'cored', 'quartered', 'unpasteurised', 'young', 
 	'slender', 'cooked', 'minced', 'chopped', 'squeezed', 'ripe', 'cooking', 'leaves', 'mince', 
 	'blanched', 'puree', 'free-range', 'clear', 'mixed', 'finely', 'can', 'easy-cook', 'cold-pressed',
-	'freeze-dried', 'essence'] 
+	'freeze-dried', 'essence', 'minced', 'melted', 'natural', 'pickled'] 
 
-misc = ['good-quality', 'ready_made', 'freshly', 'strong', 'smoked', 'soft', 'hard', 'warm', 'fresh',
-	'few', 'raw', 'good', 'wild', 'dried', 'generous']
+misc = ['good-quality', 'ready_made', 'ready-to-eat' 'freshly', 'strong', 'smoked', 'soft', 'hard', 'warm', 'fresh',
+	'few', 'raw', 'good', 'wild', 'dried', 'generous', 'very', 'whole', 'half-fat', 'a little', 'quality']
 

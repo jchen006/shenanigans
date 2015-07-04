@@ -35,8 +35,8 @@ class Graph:
 
 def main_test():
     g = Graph()
-    # g.make_graph_from_pickle("../data/recipes.pickle")
-    g.make_graph_from_tuple()
+    g.make_graph_from_pickle("../data/recipes.pickle")
+    # g.make_graph_from_tuple()
     ingredients = []
 
     SET_SIZE = 75
