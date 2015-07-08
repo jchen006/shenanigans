@@ -10,7 +10,7 @@ def generate_path():
 	file_path = get_parent_dir(os.getcwd()) + "/log/"
 	return file_path
 
-logging.basicConfig(filename=generate_path() + 'general.log',level=logging.DEBUG)
+logging.basicConfig(filename=generate_path() + 'general.log', level=logging.DEBUG)
 
 class BBCSeason: 
 

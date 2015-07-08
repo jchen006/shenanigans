@@ -56,7 +56,23 @@ class filterTest(unittest.TestCase):
 		self.assertEqual(filter_key_ingred("4 tbsp pickled carrot and mooli (see recipe above)"), ('carrot', 'mooli'))
 	
 	def test_15(self): 
-		self.assertEqual(filter_key_ingred("1 tbsp pomace oil or good quality olive oil"), "('pomace oil', 'olive oil')")
+		self.assertEqual(filter_key_ingred("1 tbsp pomace oil or good quality olive oil"), ('pomace oil', 'olive oil'))
+
+	def test_16(self): 
+		self.assertEqual(filter_key_ingred("about a third of a medium cucumber"), "cucumber")
+
+	def test_17(self): 
+		self.assertEqual(filter_key_ingred("white fish (such as haddock)"), "haddock")
+
+	def test_18(self): 
+		self.assertEqual(filter_key_ingred("2 heaped tbsp chopped dill"), "dill")
+
+	def test_19(self): 
+		self.assertEqual(filter_key_ingred("1 x 400g/7oz tin peach slices in syrup, drained"), "peach")
+
+	def test_20(self): 
+		self.assertEqual(filter_key_ingred("8 canned anchovy fillets in oil, drained"), "anchovy")
+
 	# 4 tbsp chopped, fresh mint or coriander
 
 	 # 1 tbsp strattu or 2 tbsp tomato puree

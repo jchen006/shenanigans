@@ -1,6 +1,6 @@
 from filters import * 
 import collections as c
-import pickle, os, random
+import pickle, os, random, logging
 from settings import *
 
 
@@ -9,6 +9,8 @@ Data = c.namedtuple("Data", "url chef ingredients")
 	Call to the chef will look like... p.recipes['Lemony pork with French beans'].chef
 	Call to the ingredients will look like... p.recipes['Lemony pork with French beans'].ingredients
 	"""
+
+logging.basicConfig(filename='../log/general.log', level=logging.DEBUG)
 
 class recipeParse: 
 
@@ -37,39 +39,38 @@ class parser:
 	def __init__(self): 
 		self.recipes = {}
 
-	def generate_path(self, directory):
-		def get_parent_dir(directory):
-			return os.path.dirname(directory)
-		file_path = get_parent_dir(os.getcwd()) + "/" + directory + "/"
-		return file_path
-
 	def picking(self): 
 		print "Picking"
-		path = self.generate_path("recipes")
+		recipe_path = "../recipes/"
+		data_path = "../data/"
+		
+		num_files = len([f for f in os.listdir(recipe_path)if os.path.isfile(os.path.join(recipe_path, f))])
+		logging.info("Total number of recipes: " + str(num_files))
+
 		if DATA_SET: 
-			print "Using a test set with size of " + str(DATA_SIZE)
+			logging.info("Using dataset of " + str(DATA_SET) + " to convert to graph")
 			for i in range(0, DATA_SIZE): 
-				file_name = random.choice(os.listdir(path)) 
-				print path
+				file_name = random.choice(os.listdir(recipe_path)) 
 				r = recipeParse(path + file_name)
 				r.parse_ingredients()
 				self.recipes[r.name] = r.data
 		else: 
-			for i in os.listdir(path):
+			logging.info("Using dataset of " + str(num_files) + " to convert to graph")
+			for i in os.listdir(recipe_path):
 				if i.endswith(".txt"): 
-					r = recipeParse(path + i)
+					r = recipeParse(recipe_path + i)
 					r.parse_ingredients()
 					self.recipes[r.name] = r.data
 
 	def pickle(self):
 		self.picking()
 		print "pickling"
-		with open(self.generate_path("data") + 'recipes.pickle', 'w') as handle:
+		with open(data_path + 'recipes.pickle', 'w') as handle:
  			pickle.dump(self.recipes, handle)
 
  	def unpickle(self): 
  		print "unpickle"
- 		self.recipes = pickle.load(open(self.generate_path("data") + 'recipes.pickle', "r" ))
+ 		self.recipes = pickle.load(open(datapth + 'recipes.pickle', "r" ))
 
 def main():
 

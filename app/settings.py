@@ -1,3 +1,5 @@
 
 DATA_SET = True
 DATA_SIZE = 20
+
+PRINT_STEPS = True

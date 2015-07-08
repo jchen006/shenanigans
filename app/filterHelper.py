@@ -4,16 +4,10 @@ import re, unicodedata, sys
 from string import digits
 #Internal Libraries
 from constants import *
+from settings import *
 
-"""NEED TO STREAMLINE HOW TOKENS RETURNED"""
 
-#look at splitting first by the line and remove all measurements and numbers 
-def remove_digits(line):
-	tokens = line.split(" ")
-	for t in tokens: 
-		if contains_digits(t):
-			tokens.remove(t)
-	return " ".join(tokens)
+
 
 def remove_measurements_and_numbers(line): 
 	tokens = line.split(" ")
@@ -23,12 +17,13 @@ def remove_measurements_and_numbers(line):
 		for m in measurements: 
 			if m == t or contains_digits(t):
 				index.append(tokens.index(t))
-
 	for i in range(len(tokens)): 
 		if i not in index: 
 			updated.append(tokens[i])
-
-	return " ".join(updated)
+	result = " ".join(updated)
+	if PRINT_STEPS: 
+		print "Measurements and numbers result: ", result
+	return result
 
 _digits = re.compile('\d')
 def contains_digits(d):
@@ -75,6 +70,10 @@ def for_something(line):
 	else: 
 		return line
 
+def from_the_something(line): 
+	"""Looks for "x from something"""
+	pass
+
 def remove_comma_after(line):
 	"""Removes everything after the comma"""
 	matchObj = re.search(r'(.+)\,\w', line)
@@ -92,9 +91,19 @@ def or_cases(line):
 		base = case_1.group(3)
 		opt_1 = case_1.group(1).strip()
 		opt_2 = case_1.group(2).strip()
+		if base in opt_1: 
+			return opt_1, opt_2 + " " + base
 		return opt_1 + " " + base, opt_2 + " " + base
 	elif case_2: 
 		return case_2.group(1).strip(), case_2.group(2).strip()
+	else: 
+		return line
+
+def such_as_cases(line): 
+	"""Handles the (such as cases)"""
+	case = re.search(r'(.+\(such\sas\s(.+)\))', line)
+	if case: 
+		return case.group(2)
 	else: 
 		return line
 
@@ -103,6 +112,14 @@ def and_cases(line):
 	case = re.search(r'(.+)\sand\s(.+)', line)
 	if case: 
 		return case.group(1).strip(), case.group(2).strip()
+	else: 
+		return line
+
+def in_cases(line): 
+	"""Handles 'something in something'"""
+	case = re.search(r'((.+)\sin\s.+)', line)
+	if case: 
+		return case.group(2)
 	else: 
 		return line
 
@@ -127,6 +144,14 @@ def remove_state(line):
 			updated_line = updated_line.replace(s, "")
 	return updated_line
 
+def last_cleanups(line): 
+	tokens = line.split()
+	if len(tokens) == 0: 
+		return line
+	if tokens[0] == "a": 
+		tokens.remove(tokens[0])
+	return join(tokens).strip()
+
 def remove_conjunctions(phrase):
 	"""Removes all conjunctions""" 
 	tokens = phrase.split()
@@ -134,6 +159,10 @@ def remove_conjunctions(phrase):
 		if t in conjunctions: 
 			tokens.remove(t)
 	return join(tokens)
+
+def convert_singular(line): 
+	"""Converts the phrase to singular form"""
+	pass
 
 def join(tokens):
 	"""Joins the entire string back together"""
