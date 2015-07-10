@@ -6,9 +6,6 @@ from string import digits
 from constants import *
 from settings import *
 
-
-
-
 def remove_measurements_and_numbers(line): 
 	tokens = line.split(" ")
 	index = []
@@ -31,15 +28,16 @@ def contains_digits(d):
 
 def remove_parantheses(line): 
 	matchObj = re.search(r'.+(\(.+\)).*', line)
+	result = ""
 	if matchObj: 
-		return line.replace(matchObj.group(1), "")
+		result = line.replace(matchObj.group(1), "")
+		if PRINT_STEPS: 
+			print "Parantheses: ", result
+		return result
 	else: 
+		if PRINT_STEPS: 
+			print "Parantheses: ", line
 		return line
-
-def remove_optional(tokens): 
-	if "(optional)" in tokens: 
-		tokens = tokens.replace("(optional)","")
-	return tokens
 
 def remove_first_comma(line): 
 	index = line.find(",")
@@ -47,6 +45,10 @@ def remove_first_comma(line):
 		return line[:index]
 	else: 
 		return line
+
+def check_commas(line): 
+	"""Split on commas, filter accordingly, check if contains anything left"""
+	return line.split(",")
 
 def remove_x(line):
 	if line[:2] == "x ": 
@@ -58,16 +60,26 @@ def x_of_something(line):
 	"""Looks for '... of ...' cases"""
 	matchObj = re.search(r'.+\sof\s(.+)', line)
 	if matchObj: 
-		return matchObj.group(1)
+		result = matchObj.group(1)
+		if PRINT_STEPS: 
+			print "something of that: ", result
+		return result
 	else: 
+		if PRINT_STEPS: 
+			print "something of that:", line
 		return line
 
 def for_something(line): 
 	"""Looks for "... for ..."""
 	matchObj = re.search(r'(.+)\sfor\s.+', line)
 	if matchObj: 
-		return matchObj.group(1)
+		result = matchObj.group(1)
+		if PRINT_STEPS: 
+			print "for cases: ", result
+		return result
 	else: 
+		if PRINT_STEPS: 
+			print "for cases:", line
 		return line
 
 def from_the_something(line): 
@@ -78,8 +90,13 @@ def remove_comma_after(line):
 	"""Removes everything after the comma"""
 	matchObj = re.search(r'(.+)\,\w', line)
 	if matchObj: 
-		return matchObj.group(1)
+		result = matchObj.group(1)
+		if PRINT_STEPS:
+			print "Comma after:", result
+		return result
 	else: 
+		if PRINT_STEPS: 
+			print "Comma after:", line
 		return line
 
 def or_cases(line): 
@@ -92,10 +109,19 @@ def or_cases(line):
 		opt_1 = case_1.group(1).strip()
 		opt_2 = case_1.group(2).strip()
 		if base in opt_1: 
-			return opt_1, opt_2 + " " + base
-		return opt_1 + " " + base, opt_2 + " " + base
+			result = opt_1, opt_2 + " " + base
+			if PRINT_STEPS: 
+				print "or cases:", result
+			return result
+		result = opt_1 + " " + base, opt_2 + " " + base
+		if PRINT_STEPS: 
+			print "or cases:", result
+		return result
 	elif case_2: 
-		return case_2.group(1).strip(), case_2.group(2).strip()
+		result = case_2.group(1).strip(), case_2.group(2).strip()
+		if PRINT_STEPS: 
+			print "or cases:", result
+		return result
 	else: 
 		return line
 
@@ -103,24 +129,38 @@ def such_as_cases(line):
 	"""Handles the (such as cases)"""
 	case = re.search(r'(.+\(such\sas\s(.+)\))', line)
 	if case: 
-		return case.group(2)
+		result = case.group(2)
+		if PRINT_STEPS: 
+			print "such as cases: ", result
 	else: 
+		if PRINT_STEPS: 
+			print "such as cases: ", line
 		return line
 
 def and_cases(line): 
 	"""Handles x and y which splits into x, y"""
 	case = re.search(r'(.+)\sand\s(.+)', line)
 	if case: 
-		return case.group(1).strip(), case.group(2).strip()
+		result = case.group(1).strip(), case.group(2).strip()
+		if PRINT_STEPS: 
+			print "And cases:", result
+		return result
 	else: 
+		if PRINT_STEPS: 
+			print "And cases:", line
 		return line
 
 def in_cases(line): 
 	"""Handles 'something in something'"""
 	case = re.search(r'((.+)\sin\s.+)', line)
 	if case: 
-		return case.group(2)
+		result = case.group(2)
+		if PRINT_STEPS: 
+			print "in cases: ", result
+		return result
 	else: 
+		if PRINT_STEPS: 
+			print "in cases: ", line
 		return line
 
 def remove_misc(line): 
@@ -128,13 +168,18 @@ def remove_misc(line):
 	for m in misc: 
 		if m in tokens: 
 			tokens.remove(m)
-	return join(tokens)
+	result = join(tokens)
+	if PRINT_STEPS: 
+		print "Remove misc:", result
+	return result
 
 def remove_size(line): 
 	updated_line = line
 	for s in size: 
 		if s in line: 
 			updated_line = line.replace(s, "")
+	if PRINT_STEPS: 
+		print "Removing size:", updated_line
 	return updated_line
 
 def remove_state(line): 
@@ -142,6 +187,8 @@ def remove_state(line):
 	for s in states: 
 		if s in line:
 			updated_line = updated_line.replace(s, "")
+	if PRINT_STEPS: 
+		print "Removing states:", updated_line
 	return updated_line
 
 def last_cleanups(line): 
@@ -150,7 +197,10 @@ def last_cleanups(line):
 		return line
 	if tokens[0] == "a": 
 		tokens.remove(tokens[0])
-	return join(tokens).strip()
+	result = join(tokens).strip()
+	if PRINT_STEPS: 
+		print "Final cleanup: ", result
+	return result
 
 def remove_conjunctions(phrase):
 	"""Removes all conjunctions""" 
@@ -158,7 +208,10 @@ def remove_conjunctions(phrase):
 	for t in tokens: 
 		if t in conjunctions: 
 			tokens.remove(t)
-	return join(tokens)
+	result = join(tokens)
+	if PRINT_STEPS:
+		print "Remove conjunctions:", result
+	return result
 
 def convert_singular(line): 
 	"""Converts the phrase to singular form"""

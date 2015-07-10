@@ -1,14 +1,6 @@
 # coding: utf-8
 import unittest, sys, os
-
-
-def generate_path():
-	def get_parent_dir(directory):
-		return os.path.dirname(directory)
-	file_path = get_parent_dir(os.getcwd())
-	return file_path
-
-sys.path.append(generate_path())
+sys.path.append("../")
 from filters import *
 
 class filterTest(unittest.TestCase): 

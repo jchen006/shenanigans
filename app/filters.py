@@ -21,11 +21,19 @@ pink peppercorn -> (pink, peppercorn)
 
 def filter_key_ingred(line): 
 	"""Filters for the key ingredient"""
-	print "_____________________"
+	print "_____________________\n"
 	print "Filtering primary", line
 	size = len(line.split())
 	if len(line.split()) == 0: 
 		return 
+	elif "," in line: 
+		#split on commas and run filter key ingredient on it 
+		splits = check_commas(line)
+		print splits
+		updated_line = ""
+		for s in splits:
+			updated_line = updated_line + filter_key_ingred(s.strip())
+		return updated_line
 	else: 
 		updated_line = such_as_cases(line)
 		updated_line = x_of_something(updated_line)
@@ -61,11 +69,10 @@ if __name__=="__main__":
 	# filter_key_ingred("350g/1214oz cold, cooked leftover turkey meat, sliced into strips")
 	# filter_key_ingred("1 tbsp strattu or 2 tbsp tomato puree")
 	# filter_key_ingred("knob of unsalted butter")
-	print filter_key_ingred("8 canned anchovy fillets in oil, drained")
-	print filter_key_ingred("can of soup")
+	print "final", filter_key_ingred("4 tbsp chopped, fresh mint or coriander")
 	
 	# Failed Cases:  4 tbsp chopped, fresh mint or coriander
-	#1 tbsp pomace oil or good quality olive oil
+	#1 tbsp pomace oil or good quality olive oi
 	 # 1 tbsp strattu or 2 tbsp tomato puree
 	# 350g/1214oz cold, cooked leftover turkey meat, sliced into strips
 	#small handful red or natural (uncoloured) glace cherries

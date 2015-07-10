@@ -6,7 +6,7 @@ measurements = ['cups', 'oz', 'tsp', 'tablespoons',
 	'flakes', 'strip', 'slice', 'slices', 'knob', 'rashers', 'head', 'sheets', 'lump', 
 	'handfuls', 'glug', 'pint', ' spears', 'ml', 'drizzle', 'bottle', 'wedges', 'pts', 
 	'seeds', 'packet', 'bag', 'loaf', 'tub', 'cubes', 'sticks', 'stick', 'pints', 'cloves', 
-	'tin', 'dashes', 'drops', 'can ', 'bottles', 'pinches']
+	'tin', 'dashes', 'drops', 'can ', 'bottles', 'pinches', 'strips']
 
 conjunctions = ['and','but','or','yet','for','nor','so', 'of']
 
@@ -22,7 +22,8 @@ states = ['ground ', 'clarified', 'grated', 'peeled', 'cored', 'quartered', 'unp
 	'slender', 'cooked', 'minced', 'chopped', 'squeezed', 'ripe', 'cooking', 'leaves', 'mince', 
 	'blanched', 'puree', 'free-range', 'clear', 'mixed', 'finely', 'canned', 'easy-cook', 'cold-pressed',
 	'freeze-dried', 'essence', 'minced', 'melted', 'natural', 'pickled', 'streaky', 'light', 'shavings', 'skinless',
-	'boneless', 'nibbed', 'paste', 'cutlets', 'chilled', 'stalk', 'stalks', 'flakes', 'crystallised'] 
+	'boneless', 'nibbed', 'paste', 'cutlets', 'chilled', 'stalk', 'stalks', 'flakes', 'crystallised', 'leftover', 
+	'sliced'] 
 
 misc = ['good-quality', 'ready_made', 'ready-to-eat' 'freshly', 'strong', 'smoked', 'soft', 'hard', 'warm', 'fresh',
 	'few', 'raw', 'good', 'wild', 'dried', 'generous', 'very', 'whole', 'half-fat', 'a little', 'quality', 'level', 

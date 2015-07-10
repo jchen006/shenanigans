@@ -38,39 +38,43 @@ class parser:
 
 	def __init__(self): 
 		self.recipes = {}
+		self.recipe_path = "../recipes/"
+		self.data_path = "../data/"
 
 	def picking(self): 
 		print "Picking"
-		recipe_path = "../recipes/"
-		data_path = "../data/"
 		
-		num_files = len([f for f in os.listdir(recipe_path)if os.path.isfile(os.path.join(recipe_path, f))])
+		num_files = len([f for f in os.listdir(self.recipe_path)if os.path.isfile(os.path.join(self.recipe_path, f))])
 		logging.info("Total number of recipes: " + str(num_files))
 
 		if DATA_SET: 
+
 			logging.info("Using dataset of " + str(DATA_SET) + " to convert to graph")
+
 			for i in range(0, DATA_SIZE): 
-				file_name = random.choice(os.listdir(recipe_path)) 
-				r = recipeParse(path + file_name)
+				file_name = random.choice(os.listdir(self.recipe_path)) 
+				r = recipeParse(self.recipe_path + file_name)
 				r.parse_ingredients()
 				self.recipes[r.name] = r.data
 		else: 
+			
 			logging.info("Using dataset of " + str(num_files) + " to convert to graph")
-			for i in os.listdir(recipe_path):
+
+			for i in os.listdir(self.recipe_path):
 				if i.endswith(".txt"): 
-					r = recipeParse(recipe_path + i)
+					r = recipeParse(self.recipe_path + i)
 					r.parse_ingredients()
 					self.recipes[r.name] = r.data
 
 	def pickle(self):
 		self.picking()
 		print "pickling"
-		with open(data_path + 'recipes.pickle', 'w') as handle:
+		with open(self.data_path + 'recipes.pickle', 'w') as handle:
  			pickle.dump(self.recipes, handle)
 
  	def unpickle(self): 
  		print "unpickle"
- 		self.recipes = pickle.load(open(datapth + 'recipes.pickle', "r" ))
+ 		self.recipes = pickle.load(open(self.datapth + 'recipes.pickle', "r" ))
 
 def main():
 

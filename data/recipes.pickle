@@ -1,5 +1,5 @@
 (dp0
-S'Venison with blueberries'
+S'Spiced rhubarb and orange syrup'
 p1
 ccopy_reg
 _reconstructor
@@ -10,769 +10,785 @@ p3
 c__builtin__
 tuple
 p4
-(S'http://www.bbc.co.uk/food/recipes/venisonwithblueberri_86030'
+(S'http://www.bbc.co.uk/food/recipes/spiced_rhubarb_and_52795'
 p5
-S'Brenda Blethyn'
+S'Sandra'
 p6
 (lp7
-S'blueberries'
+S'oranges'
 p8
-aS'white wine or sherry'
+aS''
 p9
-aS'sugar'
+aS'rhubarb'
 p10
-aS'balsamic vinegar'
+aS'caster sugar'
 p11
-aS'orange juice'
+aS'cinnamon'
 p12
-a(S'salt'
+aS'cinnamon'
 p13
-S'freshly black pepper'
-p14
+atp14
 tp15
-aS'butter'
-p16
-aS'butter'
+Rp16
+sS'Apple crumble'
 p17
-aS'olive oil'
+g2
+(g3
+g4
+(S'http://www.bbc.co.uk/food/recipes/apple_crumble_95357'
 p18
-aS'venison steaks'
+S'Lorraine Pascale'
 p19
-atp20
-tp21
-Rp22
-sS'Raspberry marshmallows'
+(lp20
+S'unsalted butter'
+p21
+aS'brown sugar'
+p22
+aS'and eating varieties)'
 p23
-g2
-(g3
-g4
-(S'http://www.bbc.co.uk/food/recipes/raspberrymarshmallow_86118'
+aS'flour'
 p24
-S'James Martin'
+aS'cold butter'
 p25
-(lp26
-S'granulated sugar'
+aS'cinnamon'
+p26
+aS'demerara sugar'
 p27
-aS'liquid glucose'
+aS'porridge oats'
 p28
-aS'water'
-p29
-aS'egg whites'
-p30
-aS'gelatine'
-p31
-aS'vanilla extract'
+atp29
+tp30
+Rp31
+sS'Sangria'
 p32
-aS'icing sugar'
-p33
-aS'cornflour'
-p34
-aS'raspberries'
-p35
-aS'white chocolate'
-p36
-atp37
-tp38
-Rp39
-sS'Chow mein'
-p40
 g2
 (g3
 g4
-(S'http://www.bbc.co.uk/food/recipes/chowmein_74002'
+(S'http://www.bbc.co.uk/food/recipes/sangria_93847'
+p33
+S'Jill Dupleix'
+p34
+(lp35
+S'parts red wine'
+p36
+a(S'part juice'
+p37
+S'ange juice'
+p38
+tp39
+aS'parts lemonade'
+p40
+aS'ice'
 p41
-S'Ken Hom'
+aS'mint'
 p42
-(lp43
-S'egg noodles'
+a(S'sliced fruit such as lemons'
+p43
+S'anges and lemons'
 p44
-aS'sesame oil'
-p45
-aS'chicken breast'
-p46
-aS'garlic'
-p47
-aS'mangetout'
-p48
-a(S'Parma ham'
+tp45
+atp46
+tp47
+Rp48
+sS'Clams with beer, black beans and ginger'
 p49
-S'ham'
+g2
+(g3
+g4
+(S'http://www.bbc.co.uk/food/recipes/clamswithbeerblackbe_91775'
 p50
-tp51
-aS'soy sauce'
-p52
-aS'dark soy sauce'
+S'Rick Stein'
+p51
+(lp52
+S'carpetshell clams'
 p53
-aS'Shaoxing rice wine or dry sherry'
+aS'fermented salted Chinese black beans'
 p54
-aS'salt'
-p55
-aS'freshly white pepper'
-p56
 aS'sugar'
+p55
+aS'sesame oil'
+p56
+aS'vegetable oil'
 p57
-aS'spring onions'
+aS'garlic'
 p58
-aS'sesame oil'
+aS'root ginger'
 p59
-aS'soy sauce'
+aS'red chilli'
 p60
-aS'Shaoxing rice wine or dry sherry'
+aS'lager-style beer'
 p61
-aS'sesame oil'
+aS'lime'
 p62
-aS'salt'
+aS'spring onions'
 p63
-aS'freshly white pepper'
+aS'coriander'
 p64
 atp65
 tp66
 Rp67
-sS'Wheat tart (Pastiera di grano)'
+sS'Game pie'
 p68
 g2
 (g3
 g4
-(S'http://www.bbc.co.uk/food/recipes/wheattartpastieradig_91172'
+(S'http://www.bbc.co.uk/food/recipes/gamepie_93146'
 p69
-S'Antonio Carluccio'
+S'The Hairy Bikers'
 p70
 (lp71
-S'water (or alternatively use wheat'
-p72
-aS'milk'
-p73
-aS'lemon'
-p74
-aS'cinnamon'
-p75
-aS'sugar'
-p76
-aS'orange'
-p77
-aS'ricotta cheese'
-p78
-aS'eggs'
-p79
-aS'orange flower water'
-p80
-aS'candied peel'
-p81
-aS'caster sugar'
-p82
-aS'butter'
-p83
-aS'icing sugar'
-p84
-aS'caster sugar'
-p85
-a(S'butter'
-p86
-S'lard'
-p87
-tp88
-aS'egg yolks'
-p89
-aS'flour'
-p90
-atp91
-tp92
-Rp93
-sS'Goats cheese and white peach salad with truffled mascarpone cream'
-p94
-g2
-(g3
-g4
-(S'http://www.bbc.co.uk/food/recipes/goats_cheese_and_white_91501'
-p95
-S'Ed Baines'
-p96
-(lp97
-S'cobnuts'
-p98
-aS'breadcrumbs'
-p99
-aS'Crottin de Chavignol goats cheese'
-p100
-aS'white peaches'
-p101
-aS'honey'
-p102
-aS'black truffle'
-p103
-aS'mascarpone'
-p104
-aS'frisee'
-p105
-aS'red chard'
-p106
-aS'alfalfa sprouts'
-p107
-atp108
-tp109
-Rp110
-sS'Victorian sugar plums'
-p111
-g2
-(g3
-g4
-(S'http://www.bbc.co.uk/food/recipes/victoriansugarplums_92623'
-p112
-S'None listed'
-p113
-(lp114
-S'sugar'
-p115
-aS'jar plums'
-p116
-atp117
-tp118
-Rp119
-sS'Artichoke with smoked bacon mayonnaise'
-p120
-g2
-(g3
-g4
-(S'http://www.bbc.co.uk/food/recipes/artichoke_with_smoked_62303'
-p121
-S'James Martin'
-p122
-(lp123
-S'globe artichokes'
-p124
-aS'lemons'
-p125
-aS'salt'
-p126
-aS'flour'
-p127
-aS'bacon'
-p128
-aS'egg yolks'
-p129
-aS'Dijon mustard'
-p130
-aS'rapeseed oil'
-p131
-a(S'salt'
-p132
-S'freshly black pepper'
-p133
-tp134
-atp135
-tp136
-Rp137
-sS'Game pie'
-p138
-g2
-(g3
-g4
-(S'http://www.bbc.co.uk/food/recipes/gamepie_93146'
-p139
-S'The Hairy Bikers'
-p140
-(lp141
 S'flour'
-p142
+p72
 aS'baking powder'
-p143
+p73
 aS'unsalted butter'
-p144
+p74
 aS'lard'
-p145
+p75
 aS'egg yolk'
-p146
+p76
 aS'salt'
-p147
+p77
 aS'water'
-p148
+p78
 aS'vegetable oil'
-p149
+p79
 aS'game meat (venison'
-p150
+p80
 aS'venison steak'
-p151
+p81
 aS'bacon'
-p152
+p82
 aS'onions'
-p153
+p83
 aS'celery'
-p154
+p84
 aS'chestnut mushrooms'
-p155
+p85
 aS'flour'
-p156
+p86
 aS'bay'
-p157
+p87
 aS'redcurrant jelly'
-p158
+p88
 aS'beef stock'
-p159
+p89
 aS'red wine'
-p160
+p90
 aS'thyme'
-p161
+p91
 a(S'sea salt'
-p162
+p92
 S'freshly black pepper'
-p163
-tp164
+p93
+tp94
 aS'ready-rolled puff pastry'
-p165
+p95
 aS'egg'
-p166
-atp167
-tp168
-Rp169
-sS'Blueberry butter'
-p170
+p96
+atp97
+tp98
+Rp99
+sS'Pasta con le sarde (pasta with sardines)'
+p100
 g2
 (g3
 g4
-(S'http://www.bbc.co.uk/food/recipes/blueberry_butter_07052'
-p171
-S'Jo Wesley and Avril Rogers'
-p172
-(lp173
-S'apples'
-p174
-aS'blueberries'
-p175
-aS'apple juice'
-p176
-aS'orange'
-p177
-aS'sugar'
-p178
-atp179
-tp180
-Rp181
-sS'Mincemeat hot cakes with brandy butter'
-p182
-g2
-(g3
-g4
-(S'http://www.bbc.co.uk/food/recipes/mincemeat_hot_cakes_with_55190'
-p183
-S'Nigel Slater'
-p184
-(lp185
-S'eggs'
-p186
-aS'ready-made meat'
-p187
-aS'flour'
-p188
-aS'a clementine'
-p189
-aS'butter'
-p190
-aS'brandy butter'
-p191
-atp192
-tp193
-Rp194
-sS'Elderflower cordial'
-p195
-g2
-(g3
-g4
-(S'http://www.bbc.co.uk/food/recipes/elderflower_cordial_21346'
-p196
-S'Mary Berry'
-p197
-(lp198
-S'caster sugar'
-p199
-aS'lemons'
-p200
-aS'elderflowers'
-p201
-aS'citric acid'
-p202
-aS'Campden tablets'
-p203
-atp204
-tp205
-Rp206
-sS'Slow roast shoulder of pork with roasties and apple sauce with hispi cabbage'
-p207
-g2
-(g3
-g4
-(S'http://www.bbc.co.uk/food/recipes/slow_roast_shoulder_of_13963'
-p208
-S'James Martin'
-p209
-(lp210
-S'pork'
-p211
+(S'http://www.bbc.co.uk/food/recipes/pasta_con_le_sarde_pasta_79438'
+p101
+S'Matthew Fort'
+p102
+(lp103
+g9
 aS'olive oil'
-p212
-aS'sea salt'
-p213
-aS'sprigs thyme'
-p214
-aS'duck'
-p215
-aS'King Edward potatoes'
-p216
-aS'Bramley apples'
-p217
+p104
+aS'brown onion'
+p105
+aS'anchovy'
+p106
+aS'sardines'
+p107
+a(S'strattu tomato'
+p108
+S'tbsp tomato'
+p109
+tp110
+aS'currants'
+p111
+aS'pine nuts'
+p112
+aS'saffron thread'
+p113
+aS'bucatini pasta'
+p114
+aS'breadcrumbs'
+p115
+a(S'salt'
+p116
+S'freshly black pepper'
+p117
+tp118
+atp119
+tp120
+Rp121
+sS'Stargazey pie'
+p122
+g2
+(g3
+g4
+(S'http://www.bbc.co.uk/food/recipes/stargazeypie_93663'
+p123
+S'Tristan Welch'
+p124
+(lp125
+S'white chicken stock'
+p126
+aS'creme fraiche'
+p127
+aS'English mustard'
+p128
+aS'salt'
+p129
+aS'mustard powder'
+p130
+aS'squeeze lemon juice'
+p131
+aS'bacon'
+p132
+aS'onions'
+p133
+aS'all-butter puff pastry'
+p134
+aS'egg yolk'
+p135
+aS'Cornish sardines'
+p136
+aS'rapeseed oil'
+p137
 aS'butter'
+p138
+aS'white wine vinegar'
+p139
+aS"quails' eggs"
+p140
+atp141
+tp142
+Rp143
+sS'Irish fish chowder with soda bread'
+p144
+g2
+(g3
+g4
+(S'http://www.bbc.co.uk/food/recipes/irish_fish_chowder_with_08587'
+p145
+S'John Torode'
+p146
+(lp147
+S'wholemeal flour'
+p148
+aS'white flour'
+p149
+aS'soda'
+p150
+aS'salt'
+p151
+aS'buttermilk'
+p152
+aS'egg'
+p153
+aS'honey'
+p154
+aS'potato'
+p155
+aS'un-dyed haddock'
+p156
+aS'bay leaf'
+p157
+aS'shallot'
+p158
+aS'full- milk'
+p159
+aS'unsalted butter'
+p160
+aS'onion'
+p161
+aS'clove garlic'
+p162
+aS'sweetcorn kernels (thawed'
+p163
+aS'runner beans'
+p164
+aS'scallops'
+p165
+aS'steamed clams'
+p166
+aS'pollock fillet'
+p167
+aS'king prawns'
+p168
+aS'flat-leaf parsley'
+p169
+aS'freshly black pepper'
+p170
+atp171
+tp172
+Rp173
+sS'Colcannon'
+p174
+g2
+(g3
+g4
+(S'http://www.bbc.co.uk/food/recipes/colcannon_13802'
+p175
+S'Hugh Fearnley-Whittingstall'
+p176
+(lp177
+S'floury potatoes'
+p178
+aS'cabbage'
+p179
+aS'cream'
+p180
+a(S'salt'
+p181
+S'black pepper'
+p182
+tp183
+aS'or small onions'
+p184
+aS'bacon fat'
+p185
+atp186
+tp187
+Rp188
+sS'Venison with sweet and sour parsnips, pear and curly kale'
+p189
+g2
+(g3
+g4
+(S'http://www.bbc.co.uk/food/recipes/roastloinofvenisonwi_93125'
+p190
+S'Glynn Purnell'
+p191
+(lp192
+S'venison loins'
+p193
+aS'freshly black pepper'
+p194
+aS'juniper berries'
+p195
+aS'butter'
+p196
+aS'caster sugar'
+p197
+aS'malt vinegar'
+p198
+aS'parsnip'
+p199
+aS'chicken stock'
+p200
+aS'kale'
+p201
+aS'Conference pear'
+p202
+aS'extra virgin olive oil'
+p203
+aS'salt'
+p204
+aS'red wine gravy'
+p205
+atp206
+tp207
+Rp208
+sS"Mincemeat and marzipan couronne ('crown')"
+p209
+g2
+(g3
+g4
+(S'http://www.bbc.co.uk/food/recipes/pauls_mincemeat_and_33176'
+p210
+S'Paul Hollywood'
+p211
+(lp212
+S'white bread flour'
+p213
+aS'salt'
+p214
+aS'instant yeast'
+p215
+aS'unsalted butter'
+p216
+aS'milk'
+p217
+aS'egg'
 p218
 aS'caster sugar'
 p219
-aS'hispi cabbage'
+aS'icing sugar'
 p220
-a(S'salt'
+aS'almonds'
 p221
-S'freshly black pepper'
+aS'orange'
 p222
-tp223
-atp224
-tp225
-Rp226
-sS'Rhubarb and custard tart'
-p227
-g2
-(g3
-g4
-(S'http://www.bbc.co.uk/food/recipes/rhubarb_and_custard_tart_01442'
-p228
-S'The Hairy Bikers'
-p229
-(lp230
-S'flour'
-p231
-aS'cold butter'
-p232
 aS'egg'
+p223
+aS'ready-made meat'
+p224
+aS'apricot jam'
+p225
+aS'icing sugar'
+p226
+aS'pistachios'
+p227
+aS'glace cherries'
+p228
+atp229
+tp230
+Rp231
+sS'Spring minestrone soup with pesto'
+p232
+g2
+(g3
+g4
+(S'http://www.bbc.co.uk/food/recipes/springminestronesoup_74617'
 p233
-aS'eggs'
+S'Mary Berry'
 p234
-aS'egg yolks'
-p235
-aS'caster sugar'
+(lp235
+S'olive oil'
 p236
-aS'milk'
+aS'butter'
 p237
-aS'double cream'
+aS'onions'
 p238
-aS'vanilla pod'
+aS'leek'
 p239
-aS'caster sugar'
+aS'potatoes'
 p240
-aS'rhubarb'
+aS'celery'
 p241
-atp242
-tp243
-Rp244
-sS'Apple croustade with Armagnac custard'
-p245
-g2
-(g3
-g4
-(S'http://www.bbc.co.uk/food/recipes/apple_croustade_with_56799'
+aS'savoy cabbage'
+p242
+a(S'beef stock'
+p243
+S'vegetable stock'
+p244
+tp245
+aS'can Italian tomatoes'
 p246
-S'Nick Nairn'
+a(S'salt'
 p247
-(lp248
-S'caster sugar'
-p249
-aS'butter'
+S'freshly black pepper'
+p248
+tp249
+aS'green basil pesto'
 p250
-aS'water'
-p251
-aS'cranberries'
-p252
-aS'sultanas'
-p253
-aS'raisins'
+atp251
+tp252
+Rp253
+sS'Waffles with strawberry compote and ice cream'
 p254
-aS'dessert apples'
+g2
+(g3
+g4
+(S'http://www.bbc.co.uk/food/recipes/waffles_with_strawberry_51757'
 p255
-aS'filo pastry'
+S'James Martin'
 p256
-aS'cinnamon'
-p257
-aS'clementine'
+(lp257
+S'flour'
 p258
-aS'lemon'
+aS'baking powder'
 p259
-aS'butter'
+aS'salt'
 p260
-aS'egg yolks'
-p261
 aS'caster sugar'
+p261
+aS'eggs'
 p262
-aS'milk'
+aS'full- milk'
 p263
-aS'double cream'
+aS'butter'
 p264
-aS'Armagnac'
+aS'caster sugar'
 p265
-atp266
-tp267
-Rp268
-sS'Kale and quinoa saute with orange tahini dressing'
+aS'butter'
+p266
+aS'strawberries'
+p267
+aS'lemon'
+p268
+aS'vanilla ice cream'
 p269
-g2
-(g3
-g4
-(S'http://www.bbc.co.uk/food/recipes/kale_and_quinoa_saut_64469'
+aS'maple syrup'
 p270
-S'Hemsley + Hemsley'
-p271
-(lp272
-S'quinoa'
-p273
-aS'extra virgin olive oil'
+atp271
+tp272
+Rp273
+sS'Cockle cream with bacon, tomatoes and potatoes'
 p274
-aS'coconut oil'
+g2
+(g3
+g4
+(S'http://www.bbc.co.uk/food/recipes/cocklecreamwithbacon_11640'
 p275
-aS'kale'
+S'Rick Stein'
 p276
-aS'garlic clove'
-p277
-a(S'coriander parsley'
+(lp277
+S'cleaned cockles'
 p278
-S'flatleaf parsley'
+aS'water'
 p279
-tp280
-aS'unwaxed orange'
+aS'butter'
+p280
+aS'lean bacon'
 p281
-aS'sea salt'
+aS'leek'
 p282
-aS'tahini'
+aS'celery'
 p283
-aS'extra virgin olive oil'
-p284
-aS'garlic clove'
-p285
-aS'water'
-p286
-aS'orange juice'
-p287
-a(S'salt'
-p288
-S'freshly black pepper'
-p289
-tp290
-atp291
-tp292
-Rp293
-sS'The bramble'
-p294
-g2
-(g3
-g4
-(S'http://www.bbc.co.uk/food/recipes/the_bramble_39344'
-p295
-S'Wayne Collins'
-p296
-(lp297
-S'gin'
-p298
-aS'lemon juice'
-p299
-aS'sugar syrup'
-p300
-aS'blackberry liqueur'
-p301
-a(S'lemon'
-p302
-S'a blackberry'
-p303
-tp304
-atp305
-tp306
-Rp307
-sS'Slow roast leg of lamb with chardonnay, rosemary, sage and bay'
-p308
-g2
-(g3
-g4
-(S'http://www.bbc.co.uk/food/recipes/slow_roast_leg_of_lamb_85170'
-p309
-S'Lorraine Pascale'
-p310
-(lp311
-S'lamb (the thick fillet end) with bone in'
-p312
-a(S'salt'
-p313
-S'pepper'
-p314
-tp315
-aS'red onions'
-p316
-aS'garlic'
-p317
-aS'rosemary sprigs'
-p318
-aS'sage'
-p319
-aS'bay'
-p320
-aS'white wine'
-p321
-aS'honey'
-p322
-aS'potatoes'
-p323
-aS'olive oil'
-p324
-aS'frozen peas'
-p325
-atp326
-tp327
-Rp328
-sS'Chicken with forty cloves of garlic'
-p329
-g2
-(g3
-g4
-(S'http://www.bbc.co.uk/food/recipes/chicken_with_40_cloves_22211'
-p330
-S'The Hairy Bikers'
-p331
-(lp332
-S'shallots'
-p333
-aS'oven-ready chicken'
-p334
-aS'lemon'
-p335
-aS'bay leaf'
-p336
-aS'thyme'
-p337
-aS'butter'
-p338
-aS'sunflower oil'
-p339
-aS'garlic'
-p340
-aS'vermouth'
-p341
-aS'chicken stock'
-p342
-aS'tarragon'
-p343
-a(S'double cream fraiche'
-p344
-S'creme fraiche'
-p345
-tp346
-a(S'flaked sea salt'
-p347
-S'freshly black pepper'
-p348
-tp349
-aS'baguette'
-p350
-aS'floury potatoes'
-p351
-aS'butter'
-p352
-aS'rindless bacon'
-p353
-aS'kale'
-p354
-aS'spring onions'
-p355
-aS'double cream'
-p356
-a(S'flaked sea salt'
-p357
-S'freshly black pepper'
-p358
-tp359
-atp360
-tp361
-Rp362
-sS'Winter roots and lemon roast'
-p363
-g2
-(g3
-g4
-(S'http://www.bbc.co.uk/food/recipes/winter_roots_and_lemon_06059'
-p364
-S'Nigel Slater'
-p365
-(lp366
-S'Jerusalem artichokes'
-p367
-aS'potatoes'
-p368
-aS'olive oil'
-p369
-aS'lemons'
-p370
-a(S'salt'
-p371
-S'black pepper'
-p372
-tp373
-aS'flatleaf parsley'
-p374
-aS'parmesan'
-p375
-atp376
-tp377
-Rp378
-sS'Globe artichoke salad'
-p379
-g2
-(g3
-g4
-(S'http://www.bbc.co.uk/food/recipes/globeartichokesalad_90217'
-p380
-S'Paul Merrett'
-p381
-(lp382
-S'globe artichoke per person'
-p383
-aS'olive oil'
-p384
-aS'shallots'
-p385
-aS'garlic'
-p386
-aS'sprigs thyme'
-p387
 aS'plum tomatoes'
-p388
-aS'dry white wine'
-p389
-aS'water'
-p390
-aS'mushrooms'
-p391
-aS'olive oil'
-p392
-aS'garlic'
-p393
+p284
+aS'potatoes'
+p285
 aS'lemon'
-p394
-aS'sherry vinegar'
-p395
-aS'extra virgin olive oil'
-p396
-aS'parmesan'
-p397
-aS'cracked black pepper'
-p398
-aS'rock salt'
-p399
+p286
+aS'eggs'
+p287
+aS'parsley'
+p288
+a(S'salt'
+p289
+S'freshly black pepper'
+p290
+tp291
+atp292
+tp293
+Rp294
+sS'Warm ginger cake with rhubarb'
+p295
+g2
+(g3
+g4
+(S'http://www.bbc.co.uk/food/recipes/warm_ginger_cake_with_38189'
+p296
+S'John Calton'
+p297
+(lp298
+S'gelatine leaf'
+p299
+aS'rhubarb'
+p300
+aS'caster sugar'
+p301
+aS'liquid glucose'
+p302
+aS'water'
+p303
+aS'lemon'
+p304
+aS'red food colouring'
+p305
+aS'granulated sugar'
+p306
+aS'water'
+p307
+aS'lemon'
+p308
+aS'vanilla pod'
+p309
+aS's pink rhubarb'
+p310
+aS'unsalted butter'
+p311
+aS'caster sugar'
+p312
+aS'eggs'
+p313
+aS'flour'
+p314
+aS'almonds'
+p315
+aS'ginger'
+p316
+aS'stem ginger'
+p317
+aS'yoghurt'
+p318
+aS'vanilla pod'
+p319
+aS'lime'
+p320
+atp321
+tp322
+Rp323
+sS'Cranberry and Cumberland sauce'
+p324
+g2
+(g3
+g4
+(S'http://www.bbc.co.uk/food/recipes/cranberryandcumberla_70984'
+p325
+S'Antony Worrall Thompson'
+p326
+(lp327
+S'cranberries'
+p328
+aS'ruby port'
+p329
+aS'caster sugar'
+p330
+aS'orange juice'
+p331
+aS'corn flour'
+p332
+aS'English mustard powder'
+p333
+aS'lemon juice'
+p334
+aS'ground'
+p335
+aS'sultanas'
+p336
+aS'flaked almonds'
+p337
+aS'orange rind'
+p338
+aS'lemon rind'
+p339
+aS'salt'
+p340
+atp341
+tp342
+Rp343
+sS'Little Bramley apple pies'
+p344
+g2
+(g3
+g4
+(S'http://www.bbc.co.uk/food/recipes/little_bramley_apple_47170'
+p345
+S'Lorraine Pascale'
+p346
+(lp347
+S'Bramley apples'
+p348
+aS'brown sugar'
+p349
+aS'cinnamon'
+p350
+aS'ginger'
+p351
+aS'lemon'
+p352
+aS'butter'
+p353
+aS'flour'
+p354
+aS'puff pastry'
+p355
+aS'egg'
+p356
+aS'icing sugar'
+p357
+aS'softly whipped cream'
+p358
+atp359
+tp360
+Rp361
+sS'Drowned tomatoes'
+p362
+g2
+(g3
+g4
+(S'http://www.bbc.co.uk/food/recipes/drowned_tomatoes_24791'
+p363
+S'Alex Lomax and Ed Bond'
+p364
+(lp365
+S'olive oil'
+p366
 aS'garlic'
+p367
+aS'savoury herbs'
+p368
+aS'tomatoes'
+p369
+a(S'salt'
+p370
+S'pepper'
+p371
+tp372
+atp373
+tp374
+Rp375
+sS'Fragrant pork and aubergines'
+p376
+g2
+(g3
+g4
+(S'http://www.bbc.co.uk/food/recipes/fragrantpork_89290'
+p377
+S'Ching-He Huang'
+p378
+(lp379
+S'groundnut oil'
+p380
+aS'aubergine'
+p381
+aS'garlic'
+p382
+aS'root ginger'
+p383
+aS'red chilli'
+p384
+aS'pork'
+p385
+aS'Shaoxing rice wine or dry sherry'
+p386
+aS'chilli bean sauce'
+p387
+aS'hot chicken stock'
+p388
+aS'pak choi or Chinese cabbage'
+p389
+aS'rice vinegar or cider vinegar'
+p390
+aS'toasted sesame oil'
+p391
+aS'spring onions'
+p392
+aS'cornflour'
+p393
+aS'groundnut oil'
+p394
+aS'aubergine'
+p395
+aS'garlic'
+p396
+aS'root ginger'
+p397
+aS'red chilli'
+p398
+aS'pork'
+p399
+aS'Shaoxing rice wine or dry sherry'
 p400
-aS'cherry tomatoes'
+aS'chilli bean sauce'
 p401
-aS'lettuce such as Little Gem'
+aS'hot chicken stock'
 p402
-atp403
-tp404
-Rp405
+aS'pak choi or Chinese cabbage'
+p403
+aS'rice vinegar or cider vinegar'
+p404
+aS'toasted sesame oil'
+p405
+aS'spring onions'
+p406
+aS'cornflour'
+p407
+atp408
+tp409
+Rp410
 s.
