@@ -65,6 +65,9 @@ class filterTest(unittest.TestCase):
 	def test_20(self): 
 		self.assertEqual(filter_key_ingred("8 canned anchovy fillets in oil, drained"), "anchovy")
 
+	def test_21(self): 
+		self.assertEqual(filter_key_ingred("trimmings and skin from the pumpkin (see below)"), "pumpkin")
+
 	# 4 tbsp chopped, fresh mint or coriander
 
 	 # 1 tbsp strattu or 2 tbsp tomato puree

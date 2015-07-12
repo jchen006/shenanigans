@@ -27,12 +27,14 @@ def filter_key_ingred(line):
 	if len(line.split()) == 0: 
 		return 
 	elif "," in line: 
-		#split on commas and run filter key ingredient on it 
+		#Need to debug this case
 		splits = check_commas(line)
 		print splits
 		updated_line = ""
 		for s in splits:
-			updated_line = updated_line + filter_key_ingred(s.strip())
+			if type(filter_key_ingred(s.strip())) is tuple: 
+				return filter_key_ingred(s.strip())
+			updated_line = updated_line + " " + filter_key_ingred(s.strip())
 		return updated_line
 	else: 
 		updated_line = such_as_cases(line)
@@ -45,6 +47,8 @@ def filter_key_ingred(line):
 		updated_line = remove_state(updated_line)
 		updated_line = remove_misc(updated_line)
 		updated_line = for_something(updated_line)
+		if "from" in updated_line: 
+			return from_cases(updated_line)
 		if "in" in updated_line: 
 			return in_cases(updated_line)
 		if "or" in updated_line: 
@@ -69,19 +73,21 @@ if __name__=="__main__":
 	# filter_key_ingred("350g/1214oz cold, cooked leftover turkey meat, sliced into strips")
 	# filter_key_ingred("1 tbsp strattu or 2 tbsp tomato puree")
 	# filter_key_ingred("knob of unsalted butter")
-	print "final", filter_key_ingred("4 tbsp chopped, fresh mint or coriander")
-	
+	# print filter_key_ingred("4 tbsp chopped, fresh mint or coriander") #Need to check why or case doesn't work
+	# print filter_key_ingred("350g/1214oz cold, cooked leftover turkey meat, sliced into strips")
+	# print filter_key_ingred("225g/8oz tinned pineapple in pineapple juice, drained, dried and roughly chopped")
+	# print filter_key_ingred("750g/1lb 14oz mixed summer fruit (such as raspberries, red, white and blackcurrants, tayberries, loganberries, blackberries, cherries and blueberries)")
+	pass
 	# Failed Cases:  4 tbsp chopped, fresh mint or coriander
 	#1 tbsp pomace oil or good quality olive oi
 	 # 1 tbsp strattu or 2 tbsp tomato puree
-	# 350g/1214oz cold, cooked leftover turkey meat, sliced into strips
+	# 
 	#small handful red or natural (uncoloured) glace cherries
-	#225g/8oz tinned pineapple in pineapple juice, drained, dried and roughly chopped
-	#icing sugar for dusting
+	#
 	#trimmings and skin from the pumpkin (see below)
 	#1 x 400g/7oz tin peach slices in syrup, drained
 	# 2 x 320g/11oz ready-made all-butter puff pastry sheets (about 35cm x 23cm/14in x 9in)
-	#750g/1lb 14oz mixed summer fruit (such as raspberries, red, white and blackcurrants, tayberries, loganberries, blackberries, cherries and blueberries
+	#
 		
 		# the leaves from 4 or 5 mint sprigs, chopped
 

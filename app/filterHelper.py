@@ -163,6 +163,19 @@ def in_cases(line):
 			print "in cases: ", line
 		return line
 
+def from_cases(line): 
+	"""Handles 'from cases'"""
+	case = re.search(r'(.+\sfrom\s(.+))', line)
+	if case: 
+		result = case.group(2)
+		if PRINT_STEPS: 
+			print "from cases:" , result
+		return result
+	else: 
+		if PRINT_STEPS: 
+			print "from cases:", line
+		return line
+
 def remove_misc(line): 
 	tokens = line.split()
 	for m in misc: 
