@@ -11,6 +11,17 @@ def home():
 def about():
   return render_template('about.html')
 
+@app.route('/recipes')
+def recipes(): 
+    """This is to list out all recipes currently in the database"""
+    return render_template('recipes.html')
+
+@app.route('/recipes/<file_name>')
+def recipe():
+    """Takes in the file_name and runs it through the recipePage 
+    and generates a specific recipe page related to it"""
+    return render_template('recipe.html')
+
 @app.route('/d3')
 def d3(): 
 	return render_template('d3.html')
