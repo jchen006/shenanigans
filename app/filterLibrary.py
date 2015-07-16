@@ -2,12 +2,9 @@
 #Python built in 
 import re, unicodedata, sys
 #External Libraries
-import en, enchant
+# import en, enchant
 #French 
 from constants import *
-
-d_us = enchant.Dict("en_US")
-d_fr = enchant.Dict("fr_FR")
 
 def remove_measurements(tokens):
 	"""Removes the measurements in the front of an ingredients"""
@@ -27,15 +24,6 @@ def remove_comma_after(line):
 def join(tokens):
 	"""Joins the entire string back together"""
 	return " ".join(tokens)
-
-def change_to_singular(token): 
-	"""Changes any plural form of a word to singular form"""
-	updated_token = token
-	updated_token = en.noun.singular(token)
-	if d_us.check(updated_token): 
-		return updated_token
-	else: 
-		return token
 
 def remove_numbers(tokens):
 	"""Removes any numbers"""
@@ -74,11 +62,6 @@ def map_descriptor(key_ingred, phrase):
 	else: 
 		descriptor = " ".join(token)
 	return descriptor, key_ingred
-
-#Fix encoding issue and then write script to handle french terms
-def check_french(phrase): 
-	print phrase.encode("ascii", "ignore")
-	return d_fr.check(phrase)
 
 #Need to also consider spanish cases 
 

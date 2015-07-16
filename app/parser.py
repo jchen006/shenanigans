@@ -1,6 +1,7 @@
 from filterLibrary import * 
 import collections as c
 import pickle, os
+from settings import *
 
 
 Data = c.namedtuple("Data", "url chef ingredients")
@@ -26,31 +27,34 @@ class recipeParse:
 			self.ingredients.append(filter_ingred(i))
 		self.data = Data(self.url, self.chef, self.ingredients)	
 
+	def get_data(self): 
+		return self.data
+
 class parser: 
+
+	# with open(url_for('static', filename='bmidata.txt')) as f:
 
 	def __init__(self): 
 		self.recipes = {}
 
-	def generate_path(self, directory):
-		def get_parent_dir(directory):
-			return os.path.dirname(directory)
-		file_path = get_parent_dir(os.getcwd()) + "/" + directory + "/"
-		return file_path
-
-	def pickling(self): 
-		print "Picking and pickling"
-		path = self.generate_path("recipes")
-		for i in os.listdir(path):
+	def convert_data(self): 
+		print "Converting data"
+		src = os.path.join(APP_ROOT, 'recipes')
+		for i in os.listdir(src):
 			if i.endswith(".txt"): 
-				r = recipeParse(path + i)
+				r = recipeParse("../recipes/" + i)
 				r.parse_ingredients()
 				self.recipes[r.name] = r.data
-		with open(self.generate_path("data") + 'recipes.pickle', 'w') as handle:
+
+	def pickle_data(self):
+		print "Pickling data"
+		with open("../data/recipes.pickle", 'w') as handle:
  			pickle.dump(self.recipes, handle)
 
 def main(): 
 	p = parser()
-	p.pickling()
+	p.convert_data()
+	p.pickle_data()
 
 if __name__=="__main__": 
 	main()

@@ -7,9 +7,7 @@ logging.basicConfig('../log/general.log',level=logging.DEBUG)
 class Epicurious: 
 
 	def __init__(self, number): 
-		if number is not "all":
-			self.number = number
-		self.number = 0 
+		self.number = number
 
 	def scrape_recipes(self): 
 		"""Scrapes all the recipes 

@@ -14,7 +14,8 @@ Still in debugging for specific pages.
 Dependecies 
 - Flask 
 - pyenchant 
-- 
+
+*Need to add settings for dataset sizes 
 
 
 

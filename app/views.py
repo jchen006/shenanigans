@@ -1,6 +1,7 @@
 from app import app
 import numpy as np
 from flask import render_template
+from recipePage import *
 import json
 
 @app.route('/')
@@ -14,7 +15,10 @@ def about():
 @app.route('/recipes')
 def recipes(): 
     """This is to list out all recipes currently in the database"""
-    return render_template('recipes.html')
+    # r = recipePage()
+    # recipes = r.generate_list()
+    recipes = ['Roast Duck', 'Roast Chicken']
+    return render_template('recipes.html', recipes=recipes)
 
 @app.route('/recipes/<file_name>')
 def recipe():
