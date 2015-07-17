@@ -15,9 +15,8 @@ def about():
 @app.route('/recipes')
 def recipes(): 
     """This is to list out all recipes currently in the database"""
-    # r = recipePage()
-    # recipes = r.generate_list()
-    recipes = ['Roast Duck', 'Roast Chicken']
+    r = recipePage()
+    recipes = r.generate_list()
     return render_template('recipes.html', recipes=recipes)
 
 @app.route('/recipes/<file_name>')

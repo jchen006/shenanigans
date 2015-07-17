@@ -1,6 +1,6 @@
 from filterLibrary import * 
 import collections as c
-import pickle, os
+import pickle, os, tempfile
 from settings import *
 
 
@@ -39,10 +39,11 @@ class parser:
 
 	def convert_data(self): 
 		print "Converting data"
-		src = os.path.join(APP_ROOT, 'recipes')
+		src = os.path.join(APP_ROOT, 'tmp')
 		for i in os.listdir(src):
 			if i.endswith(".txt"): 
-				r = recipeParse("../recipes/" + i)
+				temp = src + "/" + i
+				r = recipeParse(temp)
 				r.parse_ingredients()
 				self.recipes[r.name] = r.data
 
