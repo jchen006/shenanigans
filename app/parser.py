@@ -1,10 +1,6 @@
 from filters import * 
 import collections as c
-<<<<<<< HEAD
-import pickle, os, random
-=======
 import pickle, os, tempfile
->>>>>>> BA_scraper
 from settings import *
 
 
@@ -29,7 +25,8 @@ class recipeParse:
 		self.chef = temp.pop(0)	
 		for i in temp: 
 			#Where filters happen
-			self.ingredients.append(filter_key_ingred(i))
+			# self.ingredients.append(filter_key_ingred(i))
+			self.ingredients.append(i)
 		self.data = Data(self.url, self.chef, self.ingredients)	
 
 	def get_data(self): 

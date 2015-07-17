@@ -1,9 +1,6 @@
 # coding: utf-8
 #Python built in 
 import re, unicodedata, sys
-#External Libraries
-import en, enchant, nltk
-#French 
 from constants import *
 from settings import *
 from filterHelper import *

@@ -1,14 +1,9 @@
 # coding: utf-8
 #Python built in 
 import re, unicodedata, sys
-#External Libraries
-import en, enchant, nltk
-#French 
 from constants import *
 from string import digits
 
-d_us = enchant.Dict("en_US")
-d_fr = enchant.Dict("fr_FR")
 
 """NEED TO STREAMLINE HOW TOKENS RETURNED"""
 
@@ -92,20 +87,6 @@ def remove_state(line):
 			updated_line = line.replace(s, "")
 	return updated_line
 
-def en_remove_verb(tokens): 
-	"""Removes all verbs in the tokens"""
-	for t in tokens: 
-		if en.is_verb(t): 
-			tokens.remove(t)
-	return tokens
-
-def en_remove_adverb(tokens): 
-	"""Removes all adjectives in the tokens"""
-	for t in tokens: 
-		if en.is_adverb(t): 
-			tokens.remove(t)
-	return tokens
-
 def remove_conjunctions(phrase):
 	"""Removes all conjunctions""" 
 	tokens = phrase.split()
@@ -117,15 +98,6 @@ def remove_conjunctions(phrase):
 def join(tokens):
 	"""Joins the entire string back together"""
 	return " ".join(tokens)
-
-def change_to_singular(token): 
-	"""Changes any plural form of a word to singular form"""
-	updated_token = token
-	updated_token = en.noun.singular(token)
-	if d_us.check(updated_token): 
-		return updated_token
-	else: 
-		return token
 
 def word_type_tokenize(phrase): 
 	text = nltk.word_tokenize(phrase)
