@@ -1,10 +1,16 @@
 from filters import * 
 import collections as c
-import pickle, os, tempfile
+import pickle, os, tempfile, random, logging
 from settings import *
 
 
 Data = c.namedtuple("Data", "url chef ingredients")
+"""	Call to the URL will look like... p.recipes['Lemony pork with French beans'].url
+	Call to the chef will look like... p.recipes['Lemony pork with French beans'].chef
+	Call to the ingredients will look like... p.recipes['Lemony pork with French beans'].ingredients
+	"""
+
+logging.basicConfig(filename='../log/general.log', level=logging.DEBUG)
 
 class recipeParse: 
 
@@ -38,6 +44,28 @@ class parser:
 
 	def __init__(self): 
 		self.recipes = {}
+		self.recipe_path = "../recipes/"
+		self.data_path = "../data/"
+
+	def picking(self): 
+		print "Picking"
+		
+		num_files = len([f for f in os.listdir(self.recipe_path)if os.path.isfile(os.path.join(self.recipe_path, f))])
+		logging.info("Total number of recipes: " + str(num_files))
+
+		if DATA_SET: 
+
+			logging.info("Using dataset of " + str(DATA_SET) + " to convert to graph")
+
+			for i in range(0, DATA_SIZE): 
+				file_name = random.choice(os.listdir(self.recipe_path)) 
+				r = recipeParse(self.recipe_path + file_name)
+				r.parse_ingredients()
+				self.recipes[r.name] = r.data
+		else: 
+			
+			logging.info("Using dataset of " + str(num_files) + " to convert to graph")
+			self.convert_data()
 
 	def convert_data(self): 
 		print "Converting data"
@@ -56,9 +84,10 @@ class parser:
 
  	def unpickle(self): 
  		print "unpickle"
- 		self.recipes = pickle.load(open(self.generate_path("data") + 'recipes.pickle', "r" ))
+ 		self.recipes = pickle.load(open(self.datapth + 'recipes.pickle', "r" ))
 
-def main(): 
+def main():
+
 	p = parser()
 	p.convert_data()
 	p.pickle_data()

@@ -1,6 +1,8 @@
 import collections as c
 import pickle, os
-from environment import *
+<<<<<<< HEAD
+from settings import *
+from parser import *
 
 Data = c.namedtuple("Data", "url chef ingredients")
 
@@ -22,18 +24,32 @@ class Graph:
             recipes = pickle.load(f)
         for recipe_name in recipes.keys():
             self.add_node(recipes[recipe_name], recipe_name)
-        return 
+
+    def make_graph_from_tuple(self): 
+        p = parser()
+        p.picking()
+        recipes = p.recipes
+        for recipe_name in recipes.keys(): 
+            self.add_node(recipes[recipe_name], recipe_name)
     
     def ingredients(self):
         return self.graph.keys()
 
-
 def main_test():
     g = Graph()
     g.make_graph_from_pickle("../data/recipes.pickle")
-    for i in range(0, NODE_PRINT): 
+    # g.make_graph_from_tuple()
+    ingredients = []
+
+    SET_SIZE = 75
+    DEFAULT = len(g.ingredients())
+
+    for i in range(DEFAULT): 
         ing = g.ingredients()[i]
-        print "Key " + str(i) + ":" ,ing,"Value: ",g.graph[ing]
+        ingredients.append(ing)
+        print "Key " + str(i) + ": ",ing
+        #print "Value ", g.graph[ing#]
+    return ingredients
 
 if __name__=='__main__':
     main_test()

@@ -21,43 +21,42 @@ pink peppercorn -> (pink, peppercorn)
 
 def filter_key_ingred(line): 
 	"""Filters for the key ingredient"""
-	print "_____________________"
+	print "_____________________\n"
 	print "Filtering primary", line
 	size = len(line.split())
 	if len(line.split()) == 0: 
 		return 
-	elif size < 4: 
-		print line.split()
-		updated_line = remove_optional(line)
-		updated_line = remove_comma_after(updated_line)
-		updated_line = remove_first_token(updated_line)
-		updated_line = remove_size(updated_line)
-		updated_line = remove_first_token(updated_line)
-		updated_line = updated_line.replace("of ", "")
-		updated_line = change_to_singular(updated_line)
-		print updated_line
-	elif size < 6: 
-		print line.split()
-		print "medium"
-	else:
-		#Check if ccontains "and" and "or"
-		if " or " in line: 
-			print line
-		updated_line = remove_x(line)
-		updated_line = remove_optional(updated_line)
-		updated_line = remove_comma_after(updated_line)
-		updated_line = remove_first_token(updated_line)
-		updated_line = remove_size(updated_line)
-		updated_line = remove_conjunctions(updated_line)
-		updated_line = remove_misc(updated_line)
-		updated_line = remove_state(updated_line)
-		updated_line = remove_second_token(updated_line)
-		
-		print updated_line
+	elif "," in line: 
+		#Need to debug this case
+		splits = check_commas(line)
+		print splits
+		updated_line = ""
+		for s in splits:
+			if type(filter_key_ingred(s.strip())) is tuple: 
+				return filter_key_ingred(s.strip())
+			updated_line = updated_line + " " + filter_key_ingred(s.strip())
 		return updated_line
-		#find some way to cycle through one more time
-	
-		
+	else: 
+		updated_line = such_as_cases(line)
+		updated_line = x_of_something(updated_line)
+		updated_line = remove_first_comma(updated_line)
+		updated_line = remove_parantheses(updated_line)
+		updated_line = remove_measurements_and_numbers(updated_line)
+		updated_line = remove_x(updated_line)
+		updated_line = remove_size(updated_line)
+		updated_line = remove_state(updated_line)
+		updated_line = remove_misc(updated_line)
+		updated_line = for_something(updated_line)
+		if "from" in updated_line: 
+			return from_cases(updated_line)
+		if "in" in updated_line: 
+			return in_cases(updated_line)
+		if "or" in updated_line: 
+			return or_cases(updated_line)
+		if "and" in updated_line: 
+			return and_cases(updated_line)
+		updated_line = last_cleanups(updated_line)
+		return updated_line
 
 def map_descriptor(key_ingred, phrase): 
 	token = phrase.split()
@@ -69,23 +68,30 @@ def map_descriptor(key_ingred, phrase):
 		descriptor = " ".join(token)
 	return descriptor, key_ingred
 
-def alternate_names(line): 
-	"""Finds the alternative name that is listed"""
-	pass
-
-
 if __name__=="__main__": 
-	# print filter_key_ingred("white peaches, halved")
-	# print filter_key_ingred("good-quality dark chocolate")
- # 	print filter_key_ingred("whole wheat, soaked for hours in several changes of water (or alternatively use canned cooked wheat, also called pastiera di grano")
-	# print filter_key_ingred("orange liqueur (optional)")
-	# print filter_key_ingred("rum, bourbon or a mixture of the two")
-	# print alternate_names("rum or bourbon")
-	# print filter_key_ingred("1 tbsp clear rice vinegar or cider vinegar")
-	# print filter_key_ingred("2 large eggs, separated")
-	# p
-	# print filter_key_ingred("570ml/1 pint milk")
-	print change_to_singular("pine nuts")
+	# filter_key_ingred("1 x 500g/1lb 2oz bag fresh gnocchi")
+	# filter_key_ingred("350g/1214oz cold, cooked leftover turkey meat, sliced into strips")
+	# filter_key_ingred("1 tbsp strattu or 2 tbsp tomato puree")
+	# filter_key_ingred("knob of unsalted butter")
+	# print filter_key_ingred("4 tbsp chopped, fresh mint or coriander") #Need to check why or case doesn't work
+	# print filter_key_ingred("350g/1214oz cold, cooked leftover turkey meat, sliced into strips")
+	# print filter_key_ingred("225g/8oz tinned pineapple in pineapple juice, drained, dried and roughly chopped")
+	# print filter_key_ingred("750g/1lb 14oz mixed summer fruit (such as raspberries, red, white and blackcurrants, tayberries, loganberries, blackberries, cherries and blueberries)")
+	pass
+	# Failed Cases:  4 tbsp chopped, fresh mint or coriander
+	#1 tbsp pomace oil or good quality olive oi
+	 # 1 tbsp strattu or 2 tbsp tomato puree
+	# 
+	#small handful red or natural (uncoloured) glace cherries
+	#
+	#trimmings and skin from the pumpkin (see below)
+	#1 x 400g/7oz tin peach slices in syrup, drained
+	# 2 x 320g/11oz ready-made all-butter puff pastry sheets (about 35cm x 23cm/14in x 9in)
+	#
+		
+		# the leaves from 4 or 5 mint sprigs, chopped
+
+
 
 
 
