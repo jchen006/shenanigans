@@ -10,7 +10,7 @@ Data = c.namedtuple("Data", "url chef ingredients")
 	Call to the ingredients will look like... p.recipes['Lemony pork with French beans'].ingredients
 	"""
 
-logging.basicConfig(filename='../log/general.log', level=logging.DEBUG)
+# logging.basicConfig(filename = '/log/general.log', level=logging.DEBUG)
 
 class recipeParse: 
 

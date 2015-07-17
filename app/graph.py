@@ -1,6 +1,5 @@
 import collections as c
 import pickle, os
-<<<<<<< HEAD
 from settings import *
 from parser import *
 
