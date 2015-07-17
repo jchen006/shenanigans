@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+  
+{% block content %}
+<div class="jumbotron">
+  <div class="container">
+  	<h2>Recipes</h2>
+  	<ul> 
+      {% for r in recipes %}
+  		<li> {{ r }}</li>
+      {% endfor %}
+  	</ul>
+  </div>
+</div>
+{% endblock %}

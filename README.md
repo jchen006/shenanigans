@@ -17,6 +17,7 @@ Still in debugging for specific pages.
 - Flask 
 - pyenchant 
 
+<<<<<<< HEAD
 ##Local Deployment 
 ```
 $python app/run.py
@@ -28,6 +29,9 @@ Make sure everything is up to date on Git
 $ git push heroku master 
 ```
 
+=======
+*Need to add settings for dataset sizes 
+>>>>>>> BA_scraper
 
 
 
