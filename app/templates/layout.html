@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en" data-ng-app>
 <html>
   <head>
     <title>Shenanigans</title>    
@@ -6,6 +7,7 @@
     <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
 
@@ -67,6 +69,10 @@
 
   <body>
     <div class="container">
+      <label>Name:</label>
+      <input type="text" data-ng-model="yourName" placeholder="Enter a name here">
+      <hr>
+      <h1>Hello {{yourName|angular}}!</h1>
       {% block content %}
       {% endblock %}
     </div>
