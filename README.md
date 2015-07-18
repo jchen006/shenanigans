@@ -30,8 +30,10 @@ $ git push heroku master
 ```
 
 =======
+Notes
 *Need to add settings for dataset sizes 
->>>>>>> BA_scraper
+*Need to add flask-triangle as a requirement 
+
 
 
 

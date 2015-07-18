@@ -17,7 +17,7 @@ def about():
 def recipes(): 
     """This is to list out all recipes currently in the database"""
     r = recipePage()
-    recipes = r.generate_list()
+    recipes = r.generate_recipe_page().sort()
     return render_template('recipes.html', recipes=recipes)
 
 @app.route('/recipes/<file_name>')
