@@ -1,11 +1,12 @@
 from app import app
 from flask import render_template
-from recipePage import *
+from pages import *
 import json
 from graph import *
 from flask.ext.triangle import Triangle
 
 Triangle(app)
+p = Page()
 
 @app.route('/')
 def home():
@@ -18,8 +19,7 @@ def about():
 @app.route('/recipes')
 def recipes(): 
     """This is to list out all recipes currently in the database"""
-    r = recipePage()
-    recipes = r.generate_recipe_page()
+    recipes = p.recipe_list
     return render_template('recipes.html', recipes=recipes)
 
 @app.route('/recipes/<file_name>')

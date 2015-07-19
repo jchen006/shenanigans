@@ -6,7 +6,7 @@ from parser import *
 class Page: 
 
 	def __init__(self): 
-		self.recipe_list = []
+		self.recipe_list = self.create_recipe_page()
 		self.ingredient_list = []
 
 	"""Takes the file name converts it to a file name 
@@ -16,11 +16,14 @@ class Page:
 		"""Takes the directory and grabs all of the recipes"""
 		p = parser()
 		p.convert_data()
-		return p.recipes.keys()
+		recipes = p.recipes.keys()
+		recipes.sort()
+		return recipes
 
 	def create_ingredient_list(self): 
 		"""Takes the graph and generates the ingredient list"""
 		pass
 
 if __name__ == "__main__": 
-	r = recipePage()
+	p = Page()
+	print p.recipe_list
