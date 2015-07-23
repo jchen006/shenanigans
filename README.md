@@ -30,7 +30,7 @@ $ git push heroku master
 
 =======
 *Need to add settings for dataset sizes 
->>>>>>> BA_scraper
+
 
 
 
