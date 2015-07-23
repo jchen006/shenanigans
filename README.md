@@ -17,7 +17,6 @@ Still in debugging for specific pages.
 - Flask 
 - pyenchant 
 
-<<<<<<< HEAD
 ##Local Deployment 
 ```
 $python app/run.py
