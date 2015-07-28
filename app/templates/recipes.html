@@ -1,14 +1,13 @@
 {% extends "layout.html" %}
-  
 {% block content %}
-<div class="jumbotron">
-  <div class="container">
-  	<h2>Recipes Used in the Graph</h2>
-  	<ul> 
-      {% for r in recipes %}
-  		<li> {{ r }}</li>
-      {% endfor %}
-  	</ul>
-  </div>
-</div>
+	<div class="jumbotron">
+  		<div class="container">
+  			<h2>Recipes Used in the Graph</h2>
+  			<ul> 
+      			{% for r in recipes %}
+  					<li> {{ r }}</li>
+      			{% endfor %}
+  			</ul>
+  		</div>
+	</div>
 {% endblock %}

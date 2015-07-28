@@ -3,10 +3,9 @@ from flask import render_template
 from pages import *
 import json
 from graph import *
-from flask.ext.triangle import Triangle
 
-Triangle(app)
 p = Page()
+g = Graph()
 
 @app.route('/')
 def home():
@@ -30,9 +29,8 @@ def recipe():
 
 @app.route('/ingredients')
 def ingredients(): 
-    ing = main_test()
-    print ing
-    return render_template('ingredients.html', ingredients=ing)
+
+    return render_template('ingredients.html', ingredients=ingredients)
 
 @app.route('/d3')
 def d3(): 

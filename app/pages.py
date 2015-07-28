@@ -20,10 +20,6 @@ class Page:
 		recipes.sort()
 		return recipes
 
-	def create_ingredient_list(self): 
-		"""Takes the graph and generates the ingredient list"""
-		pass
-
 if __name__ == "__main__": 
 	p = Page()
 	print p.recipe_list
