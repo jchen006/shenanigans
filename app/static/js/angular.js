@@ -10623,8 +10623,8 @@ $interpolateMinErr.interr = function(text, err) {
 </example>
  */
 function $InterpolateProvider() {
-  var startSymbol = '{{';
-  var endSymbol = '}}';
+  var startSymbol = '{[';
+  var endSymbol = ']}';
 
   /**
    * @ngdoc method
