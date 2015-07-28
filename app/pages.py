@@ -17,8 +17,26 @@ class Page:
 		p = parser()
 		p.convert_data()
 		recipes = p.recipes.keys()
+		recipes = self.capitalize(recipes)
 		recipes.sort()
 		return recipes
+
+	def capitalize(self, recipes):
+		"""Capitalizes everything in recipes"""
+		cap_recipes = []
+		for r in recipes: 
+			cap_recipes.append(r.title())
+		return cap_recipes
+
+	def create_individual_page(self): 
+		"""Creates an individual page based on the recipe
+		based on the information that is converted"""
+		pass 
+
+	def general_recipe_url(self): 
+		"""Creates takes in a URL and convert it to a html
+		for instance apple pie becomes /apple_pie.html"""
+		pass
 
 if __name__ == "__main__": 
 	p = Page()
