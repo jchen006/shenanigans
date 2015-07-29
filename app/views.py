@@ -21,16 +21,26 @@ def recipes():
     recipes = p.recipe_list
     return render_template('recipes.html', recipes=recipes)
 
-@app.route('/recipes/<file_name>')
-def recipe():
+@app.route('/recipe_page/<recipe>')
+def recipe(recipe):
     """Takes in the file_name and runs it through the recipePage 
-    and generates a specific recipe page related to it"""
-    return render_template('recipe.html')
+    and generates a specific recipe page related to it
+    Should take in individuals values that are needed including original url, 
+    chef, and ingredients, and instructions"""
+    p.
+    url, chef, ingredients = p.create_individual_pages(recipe)
+    return render_template('recipe_page.html', url=url, chef=chef, ingredients=ingredients)
 
-@app.route('/ingredients')
-def ingredients(): 
 
-    return render_template('ingredients.html', ingredients=ingredients)
+
+
+
+
+
+
+
+
+
 
 @app.route('/d3')
 def d3(): 

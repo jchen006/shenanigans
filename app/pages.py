@@ -5,39 +5,31 @@ from parser import *
 
 class Page: 
 
+
 	def __init__(self): 
-		self.recipe_list = self.create_recipe_page()
-		self.ingredient_list = []
-
-	"""Takes the file name converts it to a file name 
-	File name will have everything that it needs to have"""
-
-	def create_recipe_page(self): 
-		"""Takes the directory and grabs all of the recipes"""
-		p = parser()
-		p.convert_data()
-		recipes = p.recipes.keys()
-		recipes = self.capitalize(recipes)
-		recipes.sort()
-		return recipes
-
-	def capitalize(self, recipes):
-		"""Capitalizes everything in recipes"""
-		cap_recipes = []
-		for r in recipes: 
-			cap_recipes.append(r.title())
-		return cap_recipes
-
-	def create_individual_page(self): 
-		"""Creates an individual page based on the recipe
-		based on the information that is converted"""
+		pass
+		
+	def capitalize_keys(): 
+		"""Updates the keys to capitalized"""
 		pass 
 
-	def general_recipe_url(self): 
-		"""Creates takes in a URL and convert it to a html
-		for instance apple pie becomes /apple_pie.html"""
+	def create_titles_page(): 
+		"""Returns the titles of the recipes sorted"""
 		pass
 
+	def create_recipe_page(self, recipe): 
+		"""Returns all the needed fields for the recipe including
+		title, url, chef, and the ingredients"""
+		pass
+
+	def create_recipe_url(self, recipe): 
+		return recipe.replace(" ", "_")
+
+	def revert_recipe_url(self, url): 
+		return url.replace("_", " ")
+		
 if __name__ == "__main__": 
 	p = Page()
-	print p.recipe_list
+	# print p.recipe_list
+	print p.create_recipe_url("Winter Vegetable Colcannon")
+	print p.revert_recipe_url("Winter_Vegetable_Colcannon")
