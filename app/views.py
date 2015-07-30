@@ -1,8 +1,11 @@
 from app import app
 from flask import render_template
-from recipePage import *
+from pages import *
 import json
 from graph import *
+
+p = Page()
+g = Graph()
 
 @app.route('/')
 def home():
@@ -12,25 +15,28 @@ def home():
 def about():
   return render_template('about.html')
 
-
 @app.route('/recipes')
 def recipes(): 
     """This is to list out all recipes currently in the database"""
-    r = recipePage()
-    recipes = r.generate_list()
-    return render_template('recipes.html', recipes=recipes)
+    titles = p.create_titles_page()
+    recipes = {}
+    for t in titles: 
+        url = p.create_recipe_url(t)
+        recipes[t] = url
+    return render_template('recipes.html', titles=titles, recipes=recipes)
 
-@app.route('/recipes/<file_name>')
-def recipe():
+@app.route('/recipe_page/<recipe>')
+def recipe_page(recipe):
     """Takes in the file_name and runs it through the recipePage 
-    and generates a specific recipe page related to it"""
-    return render_template('recipe.html')
+    and generates a specific recipe page related to it
+    Should take in individuals values that are needed including original url, 
+    chef, and ingredients, and instructions"""    
+    title, url, chef, ingredients = p.create_recipe_page(recipe)
+    return render_template('recipe_page.html', title=title, url=url, chef=chef, ingredients=ingredients)
 
 @app.route('/ingredients')
 def ingredients(): 
-    ing = main_test()
-    print ing
-    return render_template('ingredients.html', ingredients=ing)
+    pass
 
 @app.route('/d3')
 def d3(): 

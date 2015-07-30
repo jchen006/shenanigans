@@ -17,7 +17,6 @@ Still in debugging for specific pages.
 - Flask 
 - pyenchant 
 
-<<<<<<< HEAD
 ##Local Deployment 
 ```
 $python app/run.py
@@ -30,8 +29,18 @@ $ git push heroku master
 ```
 
 =======
+<<<<<<< HEAD
 *Need to add settings for dataset sizes 
->>>>>>> BA_scraper
+=======
+Notes
+- Get angular working 
+- Add the search filter option 
+- Add Bon Appetit scraper 
+- Add Epicurious Scraper 
+- Look into getting a recipe page working
+
+>>>>>>> origin/ingredients_page
+
 
 
 
