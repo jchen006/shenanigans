@@ -4,8 +4,8 @@
   		<div class="container">
   			<h2>Recipes Used in the Graph</h2>
   			<ul> 
-      			{% for r in recipes %}
-  					<li> {{ r }}</li>
+      			{% for t in titles %}
+  					<li> <a href="{{ url_for('recipe_page', recipe=recipes[t]) }}">{{ t }}</a></li>
       			{% endfor %}
   			</ul>
   		</div>

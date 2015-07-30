@@ -31,8 +31,12 @@ $ git push heroku master
 
 =======
 Notes
-*Need to add settings for dataset sizes 
-*Need to add flask-triangle as a requirement 
+- Get angular working 
+- Add the search filter option 
+- Add Bon Appetit scraper 
+- Add Epicurious Scraper 
+- Look into getting a recipe page working
+
 
 
 

@@ -18,29 +18,25 @@ def about():
 @app.route('/recipes')
 def recipes(): 
     """This is to list out all recipes currently in the database"""
-    recipes = p.recipe_list
-    return render_template('recipes.html', recipes=recipes)
+    titles = p.create_titles_page()
+    recipes = {}
+    for t in titles: 
+        url = p.create_recipe_url(t)
+        recipes[t] = url
+    return render_template('recipes.html', titles=titles, recipes=recipes)
 
 @app.route('/recipe_page/<recipe>')
-def recipe(recipe):
+def recipe_page(recipe):
     """Takes in the file_name and runs it through the recipePage 
     and generates a specific recipe page related to it
     Should take in individuals values that are needed including original url, 
-    chef, and ingredients, and instructions"""
-    p.
-    url, chef, ingredients = p.create_individual_pages(recipe)
-    return render_template('recipe_page.html', url=url, chef=chef, ingredients=ingredients)
+    chef, and ingredients, and instructions"""    
+    title, url, chef, ingredients = p.create_recipe_page(recipe)
+    return render_template('recipe_page.html', title=title, url=url, chef=chef, ingredients=ingredients)
 
-
-
-
-
-
-
-
-
-
-
+@app.route('/ingredients')
+def ingredients(): 
+    pass
 
 @app.route('/d3')
 def d3(): 
