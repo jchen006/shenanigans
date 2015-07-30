@@ -1,4 +1,5 @@
 from filters import * 
+import pymongo as pm
 import collections as c
 import pickle, os, tempfile, random, logging
 from settings import *
@@ -77,6 +78,16 @@ class parser:
 				r.parse_ingredients()
 				self.recipes[r.name] = r.data
 
+                #should find a cleaner way than creating a client each time...
+                '''
+                mClient = pm.MongoClient('localhost', 27017)
+                db = mClient['test-database']
+                collection = db['test-collection']
+                post = {r.name: r.data}
+                posts = db.posts
+                post_id = posts.insert_one(post).inserted_id
+                '''
+
 	def pickle_data(self):
 		print "Pickling data"
 		with open("../data/recipes.pickle", 'w') as handle:
@@ -87,7 +98,6 @@ class parser:
  		self.recipes = pickle.load(open(self.datapth + 'recipes.pickle', "r" ))
 
 def main():
-
 	p = parser()
 	p.convert_data()
 	p.pickle_data()
