@@ -31,7 +31,7 @@ class Graph:
         for recipe_name in recipes.keys(): 
             self.add_node(recipes[recipe_name], recipe_name)
     
-    def ingredients(self):
+    def get_ingredients(self):
         return self.graph.keys()
 
 def main_test():

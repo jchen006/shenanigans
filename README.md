@@ -29,7 +29,17 @@ $ git push heroku master
 ```
 
 =======
+<<<<<<< HEAD
 *Need to add settings for dataset sizes 
+=======
+Notes
+- Get angular working 
+- Add the search filter option 
+- Add Bon Appetit scraper 
+- Add Epicurious Scraper 
+- Look into getting a recipe page working
+
+>>>>>>> origin/ingredients_page
 
 
 
