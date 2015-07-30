@@ -3,7 +3,6 @@ import collections as c
 import pickle, os, tempfile
 from settings import *
 
-
 Data = c.namedtuple("Data", "url chef ingredients")
 
 class recipeParse: 

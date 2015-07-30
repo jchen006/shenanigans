@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
-import os
+import os, sys
 from unicodedata import normalize
+sys.path.append("../app")
+from settings import *
 
 class Recipe_Generator: 
 
@@ -17,7 +19,7 @@ class Recipe_Generator:
 		title = title.replace("(", "")
 		title = title.replace(")", "")
 		self.file_name = title + ".txt"
-		return self.generate_path() + self.file_name
+		return self.file_name
 
 	def remove_excess(self, name): 
 		tokens = name.split()
@@ -35,8 +37,9 @@ class Recipe_Generator:
 		
 	def write_to_text(self, name, recipe_url, recipe_ingred, recipe_instruct, chef=None): 
 		print "Writing to a text file for '" + name + "'"
-		file_name = self.generate_file_name(name)
-		with open(file_name, "wb") as text_file:
+		src = os.path.join(APP_ROOT, 'tmp')
+		file = src + "/" + self.generate_file_name(name)
+		with open(file, "w") as text_file:
 			text_file.write(normalize('NFKD', name).encode('ASCII', 'ignore') + "\n")
 			text_file.write(recipe_url + "\n")
 			if chef is not None: 
@@ -53,10 +56,5 @@ class Recipe_Generator:
 		print "Finished writing"
 
 		text_file.close()
-		logging.info('Finished writing ' + filename)
+		# logging.info('Finished writing ' + filename)
 
-	def generate_path(self):
-		def get_parent_dir(directory):
-			return os.path.dirname(directory)
-		file_path = get_parent_dir(os.getcwd()) + "/recipes/"
-		return file_path
