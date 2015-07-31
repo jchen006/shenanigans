@@ -15,10 +15,18 @@ class bon_appetit:
 		self.category = category
 		self.recipes = []
 
-	def scrape_category(self, category): 
-		#h3 class = result-title 
-		#scrape all the ahref 
-		pass
+	def scrape_category(self): 
+		r = requests.get(self.base_address + self.category)
+		data = r.text 
+		soup = BeautifulSoup(data)
+
+		results = soup.findAll("h3", attrs={"class":"result-title"})
+		for r in results: 
+			for link in soup.findAll('a', href=True):
+				potential = link['href']
+				if '/recipe/' in potential and potential not in self.recipes: 
+					self.recipes.append(potential)
+
 
 class bon_appetit_recipe:
 
@@ -74,5 +82,5 @@ class bon_appetit_recipe:
 			self.recipe_instruct.append(i.text)
 
 if __name__=="__main__": 
-	b = bon_appetit_recipe("http://www.bonappetit.com/recipe/duck-breast-with-mustard-greens-turnips-and-radishes")	
-	b.do_all()
+	b = bon_appetit("holidays-recipes")
+	b.scrape_category()
