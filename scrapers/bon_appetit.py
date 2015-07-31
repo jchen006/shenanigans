@@ -2,8 +2,7 @@ from bs4 import BeautifulSoup
 import csv, requests, re, urllib2, os, time
 
 # categories = ['holiday-recipes', 'quick-recipes', 'family-meals', 'healthy', 'desserts', 'chicken']
-# 	pages = {'quick-recipes': 53, 
-# 		}
+
 from recipeGenerator import Recipe_Generator
 
 class bon_appetit: 
@@ -15,8 +14,9 @@ class bon_appetit:
 		self.category = category
 		self.recipes = []
 
-	def scrape_category(self): 
-		r = requests.get(self.base_address + self.category)
+	def scrape_page(self, url): 
+
+		r = requests.get(category_url)
 		data = r.text 
 		soup = BeautifulSoup(data)
 
@@ -27,6 +27,29 @@ class bon_appetit:
 				if '/recipe/' in potential and potential not in self.recipes: 
 					self.recipes.append(potential)
 
+	def scrape_category(self, category):
+		category_url = self.base_address + category 
+		counter = 1
+
+		r = requests.get(category_url)
+		data = r.text 
+		soup = BeautifulSoup(data)
+
+		while has_results(soup):
+			if counter is 1:
+				self.scrape_page(soup)
+			else: 
+				page_url = base_address + category + "/page" + counter
+				counter = counter + 1
+
+
+	def has_results(self, soup):
+		results = soup.findAll("h1") 
+		print results[0].text
+		if results[0].text == "Not Found":
+			return False 
+		else: 
+			return True
 
 class bon_appetit_recipe:
 
