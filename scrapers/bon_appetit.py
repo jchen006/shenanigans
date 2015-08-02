@@ -12,11 +12,12 @@ class bon_appetit:
 
 	def __init__(self, category): 
 		self.category = category
+		self.category_url = self.base_address + category
 		self.recipes = []
 
-	def scrape_page(self, url): 
-
-		r = requests.get(category_url)
+	def scrape_page_for_recipes(self, url): 
+		print "Scraping page", url
+		r = requests.get(url)
 		data = r.text 
 		soup = BeautifulSoup(data)
 
@@ -27,29 +28,37 @@ class bon_appetit:
 				if '/recipe/' in potential and potential not in self.recipes: 
 					self.recipes.append(potential)
 
-	def scrape_category(self, category):
-		category_url = self.base_address + category 
-		counter = 1
-
-		r = requests.get(category_url)
+	def has_results(self, url):
+		r = requests.get(url)
 		data = r.text 
 		soup = BeautifulSoup(data)
 
-		while has_results(soup):
-			if counter is 1:
-				self.scrape_page(soup)
-			else: 
-				page_url = base_address + category + "/page" + counter
-				counter = counter + 1
-
-
-	def has_results(self, soup):
 		results = soup.findAll("h1") 
 		print results[0].text
 		if results[0].text == "Not Found":
 			return False 
 		else: 
 			return True
+
+	def scrape_category(self):
+		counter = 1
+		page_url = self.category_url
+
+		while self.has_results(page_url):
+			if counter is 1:
+				print "Scraping first page"
+				self.scrape_page_for_recipes(page_url)
+			else: 
+				page_url = self.category_url + "/page/" + str(counter)
+				self.scrape_page_for_recipes(page_url)
+
+			counter = counter + 1
+			print self.recipe
+
+	def scrape_actual_recipe(self):
+		for r in self.recipes: 
+			bar = bon_appetit_recipe(r)
+			bar.do_all()
 
 class bon_appetit_recipe:
 
@@ -107,3 +116,4 @@ class bon_appetit_recipe:
 if __name__=="__main__": 
 	b = bon_appetit("holidays-recipes")
 	b.scrape_category()
+	b.scrape_actual_recipe()
