@@ -22,20 +22,12 @@ pink peppercorn -> (pink, peppercorn)
 def filter_key_ingred(line): 
 	"""Filters for the key ingredient"""
 	print "_____________________\n"
-	print "Filtering primary", line
+	print "Filtering through", line
 	size = len(line.split())
 	if len(line.split()) == 0: 
 		return 
 	elif "," in line: 
-		#Need to debug this case
-		splits = check_commas(line)
-		print splits
-		updated_line = ""
-		for s in splits:
-			if type(filter_key_ingred(s.strip())) is tuple: 
-				return filter_key_ingred(s.strip())
-			updated_line = updated_line + " " + filter_key_ingred(s.strip())
-		return updated_line
+		return comma_splits(line).strip()
 	else: 
 		updated_line = such_as_cases(line)
 		updated_line = x_of_something(updated_line)
@@ -54,8 +46,10 @@ def filter_key_ingred(line):
 		if "or" in updated_line: 
 			return or_cases(updated_line)
 		if "and" in updated_line: 
+			#Handle standalone conjunction cases 
 			return and_cases(updated_line)
 		updated_line = last_cleanups(updated_line)
+		print "Final", updated_line
 		return updated_line
 
 def map_descriptor(key_ingred, phrase): 
@@ -68,6 +62,17 @@ def map_descriptor(key_ingred, phrase):
 		descriptor = " ".join(token)
 	return descriptor, key_ingred
 
+"""Splits on commas and then filters each subphrase"""
+def comma_splits(line):
+	result = ""
+	splits = check_commas(line)
+	print "Subpharses", splits
+	for s in splits: 
+		result = result + " " + filter_key_ingred(s)
+	print "Split result: ", result.strip()
+	return result
+
+
 if __name__=="__main__": 
 	# filter_key_ingred("1 x 500g/1lb 2oz bag fresh gnocchi")
 	# filter_key_ingred("350g/1214oz cold, cooked leftover turkey meat, sliced into strips")
@@ -77,7 +82,7 @@ if __name__=="__main__":
 	# print filter_key_ingred("350g/1214oz cold, cooked leftover turkey meat, sliced into strips")
 	# print filter_key_ingred("225g/8oz tinned pineapple in pineapple juice, drained, dried and roughly chopped")
 	# print filter_key_ingred("750g/1lb 14oz mixed summer fruit (such as raspberries, red, white and blackcurrants, tayberries, loganberries, blackberries, cherries and blueberries)")
-	pass
+	filter_key_ingred("225g/8oz tinned pineapple in pineapple juice, drained, dried and roughly chopped")
 	# Failed Cases:  4 tbsp chopped, fresh mint or coriander
 	#1 tbsp pomace oil or good quality olive oi
 	 # 1 tbsp strattu or 2 tbsp tomato puree

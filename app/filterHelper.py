@@ -147,6 +147,7 @@ def and_cases(line):
 			print "And cases:", result
 		return result
 	else: 
+		line = ""
 		if PRINT_STEPS: 
 			print "And cases:", line
 		return line

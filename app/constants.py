@@ -23,10 +23,10 @@ states = ['ground ', 'clarified', 'grated', 'peeled', 'cored', 'quartered', 'unp
 	'blanched', 'puree', 'free-range', 'clear', 'mixed', 'finely', 'canned', 'easy-cook', 'cold-pressed',
 	'freeze-dried', 'essence', 'minced', 'melted', 'natural', 'pickled', 'streaky', 'light', 'shavings', 'skinless',
 	'boneless', 'nibbed', 'paste', 'cutlets', 'chilled', 'stalk', 'stalks', 'flakes', 'crystallised', 'leftover', 
-	'sliced', 'drained'] 
+	'sliced', 'drained', 'tinned'] 
 
 misc = ['good-quality', 'ready_made', 'ready-to-eat' 'freshly', 'strong', 'smoked', 'soft', 'hard', 'warm', 'fresh',
 	'few', 'raw', 'good', 'wild', 'dried', 'generous', 'very', 'whole', 'half-fat', 'a little', 'quality', 'level', 
-	'about', 'plain', 'vacuum-packed', 'heaped', 'the', 'thickly', 'thinly']
+	'about', 'plain', 'vacuum-packed', 'heaped', 'the', 'thickly', 'thinly', 'pin boned', 'roughly']
 
 colors = ['red', 'white', 'black']
