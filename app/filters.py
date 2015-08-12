@@ -74,8 +74,10 @@ def comma_splits(line):
 			results = sub_result
 			break
 		elif isinstance(sub_result, str): 
-			results = results + sub_result
+			results = results + " " + sub_result
 	print results
+	if isinstance(results, str): 
+		return results.strip()
 	return results
 
 if __name__=="__main__": 
@@ -88,7 +90,7 @@ if __name__=="__main__":
 	# filter_key_ingred("225g/8oz tinned pineapple in pineapple juice, drained, dried and roughly chopped")
 	# print filter_key_ingred("750g/1lb 14oz mixed summer fruit (such as raspberries, red, white and blackcurrants, tayberries, loganberries, blackberries, cherries and blueberries)")
 	# filter_key_ingred("1 small tub (about 200g/7oz) half-fat creme fraiche")
-	filter_key_ingred("4 tbsp chopped, fresh mint or coriander")
+	filter_key_ingred("4 x 175g/6oz gurnard fillets, pin boned, skin scored")
 	# Failed Cases:  4 tbsp chopped, fresh mint or coriander
 	#1 tbsp pomace oil or good quality olive oi
 	 # 1 tbsp strattu or 2 tbsp tomato puree
@@ -101,9 +103,5 @@ if __name__=="__main__":
 	#
 		
 		# the leaves from 4 or 5 mint sprigs, chopped
-
-
-
-
 
 
