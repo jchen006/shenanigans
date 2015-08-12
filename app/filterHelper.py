@@ -7,6 +7,15 @@ from string import digits
 from constants import *
 from settings import *
 
+
+"""Checks to see if there's only one word"""
+def contains_one(line): 
+	splits = line.split()
+	if len(splits) is 1: 
+		return True 
+	else: 
+		return False
+
 def remove_measurements_and_numbers(line): 
 	tokens = line.split(" ")
 	index = []
@@ -59,6 +68,8 @@ def remove_x(line):
 
 def x_of_something(line): 
 	"""Looks for '... of ...' cases"""
+	if contains_one(line): 
+		return line
 	matchObj = re.search(r'.+\sof\s(.+)', line)
 	if matchObj: 
 		result = matchObj.group(1)
@@ -103,6 +114,8 @@ def remove_comma_after(line):
 def or_cases(line): 
 	"""Handles x or y z which splits into x z or y z 
 	Handles x or y which splits into x y """
+	if contains_one(line): 
+		return 
 	case_1 = re.search(r'(.+)\sor(.+)\s(.+)', line)
 	case_2 = re.search(r'(.+)\sor\s(.+)', line)
 	if case_1: 
@@ -133,6 +146,7 @@ def such_as_cases(line):
 		result = case.group(2)
 		if PRINT_STEPS: 
 			print "such as cases: ", result
+		return result
 	else: 
 		if PRINT_STEPS: 
 			print "such as cases: ", line
@@ -140,6 +154,8 @@ def such_as_cases(line):
 
 def and_cases(line): 
 	"""Handles x and y which splits into x, y"""
+	if contains_one(line): 
+		return ""
 	case = re.search(r'(.+)\sand\s(.+)', line)
 	if case: 
 		result = case.group(1).strip(), case.group(2).strip()

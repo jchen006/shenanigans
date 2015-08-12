@@ -24,7 +24,7 @@ class filterTest(unittest.TestCase):
 		self.assertEqual(filter_key_ingred("icing sugar for dusting"), "icing sugar")
 
 	def test_7(self): 
-		self.assertEqual(filter_key_ingred("squeeze of lemon juice"), "lemon juice")
+		self.assertEqual(filter_key_ingred("squeeze of lemon juice"), "lemon")
 
 	def test_8(self): 
 		self.assertEqual(filter_key_ingred("1 loaf sourdough bread, thickly sliced"), "sourdough bread")

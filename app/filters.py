@@ -26,10 +26,11 @@ def filter_key_ingred(line):
 	size = len(line.split())
 	if len(line.split()) == 0: 
 		return 
-	elif "," in line: 
-		return comma_splits(line).strip()
+	elif "," in line:
+		return comma_splits(line)
 	else: 
 		updated_line = such_as_cases(line)
+		#Need to check if only one token 
 		updated_line = x_of_something(updated_line)
 		updated_line = remove_first_comma(updated_line)
 		updated_line = remove_parantheses(updated_line)
@@ -39,17 +40,17 @@ def filter_key_ingred(line):
 		updated_line = remove_state(updated_line)
 		updated_line = remove_misc(updated_line)
 		updated_line = for_something(updated_line)
-		if "from" in updated_line: 
+		if " from " in updated_line: 
 			return from_cases(updated_line)
-		if "in" in updated_line: 
+		if " in " in updated_line: 
 			return in_cases(updated_line)
-		if "or" in updated_line: 
+		if " or " in updated_line: 
 			return or_cases(updated_line)
 		if "and" in updated_line: 
 			#Handle standalone conjunction cases 
 			return and_cases(updated_line)
 		updated_line = last_cleanups(updated_line)
-		print "Final", updated_line
+		print "Final: ", updated_line
 		return updated_line
 
 def map_descriptor(key_ingred, phrase): 
@@ -64,14 +65,18 @@ def map_descriptor(key_ingred, phrase):
 
 """Splits on commas and then filters each subphrase"""
 def comma_splits(line):
-	result = ""
+	results = ""
 	splits = check_commas(line)
 	print "Subpharses", splits
 	for s in splits: 
-		result = result + " " + filter_key_ingred(s)
-	print "Split result: ", result.strip()
-	return result
-
+		sub_result = filter_key_ingred(s)
+		if type(sub_result) is tuple: 
+			results = sub_result
+			break
+		elif isinstance(sub_result, str): 
+			results = results + sub_result
+	print results
+	return results
 
 if __name__=="__main__": 
 	# filter_key_ingred("1 x 500g/1lb 2oz bag fresh gnocchi")
@@ -80,9 +85,10 @@ if __name__=="__main__":
 	# filter_key_ingred("knob of unsalted butter")
 	# print filter_key_ingred("4 tbsp chopped, fresh mint or coriander") #Need to check why or case doesn't work
 	# print filter_key_ingred("350g/1214oz cold, cooked leftover turkey meat, sliced into strips")
-	# print filter_key_ingred("225g/8oz tinned pineapple in pineapple juice, drained, dried and roughly chopped")
+	# filter_key_ingred("225g/8oz tinned pineapple in pineapple juice, drained, dried and roughly chopped")
 	# print filter_key_ingred("750g/1lb 14oz mixed summer fruit (such as raspberries, red, white and blackcurrants, tayberries, loganberries, blackberries, cherries and blueberries)")
-	filter_key_ingred("225g/8oz tinned pineapple in pineapple juice, drained, dried and roughly chopped")
+	# filter_key_ingred("1 small tub (about 200g/7oz) half-fat creme fraiche")
+	filter_key_ingred("4 tbsp chopped, fresh mint or coriander")
 	# Failed Cases:  4 tbsp chopped, fresh mint or coriander
 	#1 tbsp pomace oil or good quality olive oi
 	 # 1 tbsp strattu or 2 tbsp tomato puree
