@@ -38,6 +38,7 @@ def filter_key_ingred(line):
 		updated_line = remove_x(updated_line)
 		updated_line = remove_size(updated_line)
 		updated_line = remove_state(updated_line)
+		updated_line = remove_temperature(updated_line)
 		updated_line = remove_misc(updated_line)
 		updated_line = for_something(updated_line)
 		if " from " in updated_line: 
@@ -49,7 +50,9 @@ def filter_key_ingred(line):
 		if "and" in updated_line: 
 			#Handle standalone conjunction cases 
 			return and_cases(updated_line)
+		updated_line = remove_conjunctions(conjunctions, updated_line)
 		updated_line = last_cleanups(updated_line)
+
 		print "Final: ", updated_line
 		return updated_line
 
@@ -90,7 +93,8 @@ if __name__=="__main__":
 	# filter_key_ingred("225g/8oz tinned pineapple in pineapple juice, drained, dried and roughly chopped")
 	# print filter_key_ingred("750g/1lb 14oz mixed summer fruit (such as raspberries, red, white and blackcurrants, tayberries, loganberries, blackberries, cherries and blueberries)")
 	# filter_key_ingred("1 small tub (about 200g/7oz) half-fat creme fraiche")
-	filter_key_ingred("4 x 175g/6oz gurnard fillets, pin boned, skin scored")
+	# filter_key_ingred("1 small tub (about 200g/7oz) half-fat creme fraiche")
+	filter_key_ingred("350g/1214oz cold, cooked leftover turkey meat, sliced into strips")
 	# Failed Cases:  4 tbsp chopped, fresh mint or coriander
 	#1 tbsp pomace oil or good quality olive oi
 	 # 1 tbsp strattu or 2 tbsp tomato puree

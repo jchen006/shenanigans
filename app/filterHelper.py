@@ -222,6 +222,15 @@ def remove_state(line):
 		print "Removing states:", updated_line
 	return updated_line
 
+def remove_temperature(line): 
+	updated_line = line 
+	for t in temperature: 
+		if t in line:
+			updated_line = updated_line.replace(t, "")
+	if PRINT_STEPS: 
+		print "Removing states:", updated_line
+	return updated_line
+
 def last_cleanups(line): 
 	tokens = line.split()
 	if len(tokens) == 0: 
@@ -233,16 +242,16 @@ def last_cleanups(line):
 		print "Final cleanup: ", result
 	return result
 
-def remove_conjunctions(phrase):
+def remove_conjunctions(conjunctions, phrase):
 	"""Removes all conjunctions""" 
-	tokens = phrase.split()
-	for t in tokens: 
-		if t in conjunctions: 
-			tokens.remove(t)
-	result = join(tokens)
-	if PRINT_STEPS:
-		print "Remove conjunctions:", result
-	return result
+	c_in_phrase = re.findall(r'\b(%s)\b' % '|'.join(conjunctions), phrase.lower())
+	print c_in_phrase
+	for c in c_in_phrase: 
+		phrase = phrase.replace(c, "")
+	if PRINT_STEPS: 
+		print "Removing conjunctions:", phrase
+	return phrase
+
 
 def convert_singular(line): 
 	"""Converts the phrase to singular form"""

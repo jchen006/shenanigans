@@ -82,6 +82,9 @@ class filterTest(unittest.TestCase):
 	
 	def test_26(self):
 		self.assertEqual(filter_key_ingred("225g/8oz tinned pineapple in pineapple juice, drained, dried and roughly chopped"), "pineapple")
+
+	def test_27(self): 
+		self.assertEqual(filter_key_ingred("1 x 400g/7oz tin peach slices in syrup, drained"), "peach")
 	
 if __name__ == '__main__':
     unittest.main()
