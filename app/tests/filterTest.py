@@ -24,7 +24,7 @@ class filterTest(unittest.TestCase):
 		self.assertEqual(filter_key_ingred("icing sugar for dusting"), "icing sugar")
 
 	def test_7(self): 
-		self.assertEqual(filter_key_ingred("squeeze of lemon juice"), "lemon juice")
+		self.assertEqual(filter_key_ingred("squeeze of lemon juice"), "lemon")
 
 	def test_8(self): 
 		self.assertEqual(filter_key_ingred("1 loaf sourdough bread, thickly sliced"), "sourdough bread")
@@ -68,12 +68,23 @@ class filterTest(unittest.TestCase):
 	def test_21(self): 
 		self.assertEqual(filter_key_ingred("trimmings and skin from the pumpkin (see below)"), "pumpkin")
 
-	# 4 tbsp chopped, fresh mint or coriander
+	def test_22(self): 
+		self.assertEqual(filter_key_ingred("4 tbsp chopped, fresh mint or coriander"), ('mint', 'coriander'))
 
-	 # 1 tbsp strattu or 2 tbsp tomato puree
-	# 350g/1214oz cold, cooked leftover turkey meat, sliced into strips
-	#225g/8oz tinned pineapple in pineapple juice, drained, dried and roughly chopped
+	def test_23(self): 
+		self.assertEqual(filter_key_ingred("1 tbsp strattu or 2 tbsp tomato puree"), ('strattu', 'tomato puree'))
+
+	def test_24(self): 
+		self.assertEqual(filter_key_ingred("freshly squeezed lime juice"), "lime")
+
+	def test_25(self): 
+		self.assertEqual(filter_key_ingred("350g/1214oz cold, cooked leftover turkey meat, sliced into strips"), "turkey meat")
 	
-	#freshly  lime juice
+	def test_26(self):
+		self.assertEqual(filter_key_ingred("225g/8oz tinned pineapple in pineapple juice, drained, dried and roughly chopped"), "pineapple")
+
+	def test_27(self): 
+		self.assertEqual(filter_key_ingred("1 x 400g/7oz tin peach slices in syrup, drained"), "peach")
+	
 if __name__ == '__main__':
     unittest.main()
