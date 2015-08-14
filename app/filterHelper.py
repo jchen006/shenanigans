@@ -16,21 +16,31 @@ def contains_one(line):
 	else: 
 		return False
 
-def remove_measurements_and_numbers(line): 
+def remove_numbers(line): 
 	tokens = line.split(" ")
+	print tokens
 	index = []
 	updated = []
 	for t in tokens: 
-		for m in measurements: 
-			if m == t or contains_digits(t):
-				index.append(tokens.index(t))
+		if contains_digits(t):
+			index.append(tokens.index(t))
 	for i in range(len(tokens)): 
 		if i not in index: 
 			updated.append(tokens[i])
 	result = " ".join(updated)
 	if PRINT_STEPS: 
-		print "Measurements and numbers result: ", result
+		print "Numbers result: ", result
 	return result
+
+def remove_measurements(measurements, phrase):
+	"""Removes all conjunctions""" 
+	m_in_phrase = re.findall(r'\b(%s)\b' % '|'.join(measurements), phrase.lower())
+	print m_in_phrase
+	for m in m_in_phrase: 
+		phrase = phrase.replace(m, "")
+	if PRINT_STEPS: 
+		print "Removing conjunctions:", phrase
+	return phrase
 
 _digits = re.compile('\d')
 def contains_digits(d):

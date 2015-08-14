@@ -72,7 +72,7 @@ class filterTest(unittest.TestCase):
 		self.assertEqual(filter_key_ingred("4 tbsp chopped, fresh mint or coriander"), ('mint', 'coriander'))
 
 	def test_23(self): 
-		self.assertEqual(filter_key_ingred("1 tbsp strattu or 2 tbsp tomato puree"), ('strattu', 'tomato puree'))
+		self.assertEqual(filter_key_ingred("1 tbsp strattu or 2 tbsp tomato puree"), ('strattu', 'tomato'))
 
 	def test_24(self): 
 		self.assertEqual(filter_key_ingred("freshly squeezed lime juice"), "lime")

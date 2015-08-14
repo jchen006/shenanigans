@@ -34,7 +34,8 @@ def filter_key_ingred(line):
 		updated_line = x_of_something(updated_line)
 		updated_line = remove_first_comma(updated_line)
 		updated_line = remove_parantheses(updated_line)
-		updated_line = remove_measurements_and_numbers(updated_line)
+		updated_line = remove_numbers(updated_line)
+		updated_line = remove_measurements(measurements, updated_line)
 		updated_line = remove_x(updated_line)
 		updated_line = remove_size(updated_line)
 		updated_line = remove_state(updated_line)
@@ -94,7 +95,8 @@ if __name__=="__main__":
 	# print filter_key_ingred("750g/1lb 14oz mixed summer fruit (such as raspberries, red, white and blackcurrants, tayberries, loganberries, blackberries, cherries and blueberries)")
 	# filter_key_ingred("1 small tub (about 200g/7oz) half-fat creme fraiche")
 	# filter_key_ingred("1 small tub (about 200g/7oz) half-fat creme fraiche")
-	filter_key_ingred("350g/1214oz cold, cooked leftover turkey meat, sliced into strips")
+	# filter_key_ingred("350g/1214oz cold, cooked leftover turkey meat, sliced into strips")
+	filter_key_ingred("1 tbsp strattu or 2 tbsp tomato puree")
 	# Failed Cases:  4 tbsp chopped, fresh mint or coriander
 	#1 tbsp pomace oil or good quality olive oi
 	 # 1 tbsp strattu or 2 tbsp tomato puree
