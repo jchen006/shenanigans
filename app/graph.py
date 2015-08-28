@@ -23,6 +23,7 @@ class Graph:
             recipes = pickle.load(f)
         for recipe_name in recipes.keys():
             self.add_node(recipes[recipe_name], recipe_name)
+            # NEED TO ADD A LABEL FOR EACH NODE
 
     def make_graph_from_tuple(self): 
         p = parser()

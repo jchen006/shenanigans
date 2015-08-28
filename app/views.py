@@ -1,14 +1,10 @@
 from app import app
 from flask import render_template
-<<<<<<< HEAD
-from pages import *
-=======
 from recipePage import *
->>>>>>> BA_scraper
 import json
 from graph import *
 
-p = Page()
+p = recipePage()
 g = Graph()
 
 @app.route('/')
