@@ -3,6 +3,7 @@ from flask import render_template
 from recipePage import *
 import json
 from graph import *
+from pages import *
 
 p = recipePage()
 g = Graph()
