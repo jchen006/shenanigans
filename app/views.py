@@ -5,7 +5,7 @@ import json
 from graph import *
 from pages import *
 
-p = recipePage()
+p = Page()
 g = Graph()
 
 @app.route('/')
