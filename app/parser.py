@@ -79,12 +79,12 @@ class parser:
 				self.recipes[r.name] = r.data
 
                 #should find a cleaner way than creating a client each time...
-                mClient = pm.MongoClient('localhost', 27017)
-                db = mClient['test-database']
-                collection = db['test-collection']
-                post = {r.name: r.data}
-                posts = db.posts
-                post_id = posts.insert_one(post).inserted_id
+                #mClient = pm.MongoClient('localhost', 27017)
+                #db = mClient['test-database']
+                #collection = db['test-collection']
+                #post = {r.name: r.data}
+                #posts = db.posts
+                #post_id = posts.insert_one(post).inserted_id
 
 	def pickle_data(self):
 		print "Pickling data"

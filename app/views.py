@@ -5,7 +5,7 @@ import json
 from graph import *
 from pages import *
 
-p = recipePage()
+p = Page()
 g = Graph()
 
 @app.route('/')
@@ -60,3 +60,9 @@ def data(ndata=100):
     return json.dumps([{"_id": i, "x": x[i], "y": y[i], "area": A[i],
         "color": c[i]}
         for i in range(ndata)])
+
+@app.route("/mongo")
+def readMongo():
+    x = mongoHelper()
+    listOfJson = x.findAll()
+    return json.dumps(listOfJson)
