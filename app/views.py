@@ -4,9 +4,11 @@ from recipePage import *
 import json
 from graph import *
 from pages import *
+from mongoHelper import *
 
 p = Page()
 g = Graph()
+m = MongoHelper()
 
 @app.route('/')
 def home():
@@ -63,6 +65,5 @@ def data(ndata=100):
 
 @app.route("/mongo")
 def readMongo():
-    x = mongoHelper()
-    listOfJson = x.findAll()
-    return json.dumps(listOfJson)
+    listOfJson = m.findAll()
+    return json.dumps(str(listOfJson))
