@@ -41,6 +41,11 @@ def recipe_page(recipe):
 def ingredients(): 
     pass
 
+@app.route('/graph')
+def graph():
+    g.make_graph_from_mongo()
+    return json.dumps(g.graph)
+
 @app.route('/d3')
 def d3(): 
     return render_template('d3.html')

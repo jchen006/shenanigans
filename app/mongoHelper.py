@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+import json
 
 class MongoHelper:
     uri = "mongodb://recipe_user:dinneriscoming@ds035543.mongolab.com:35543/recipes"
@@ -18,7 +19,7 @@ class MongoHelper:
         return post_id
 
     def findByJson(self, json):
-        return self.collection.find(json)
+        return list(self.collection.find(json))
         
     def findById(self, post_id):
         if isinstance(post_id, str):
@@ -38,6 +39,7 @@ if __name__ == "__main__":
     ids += x.insertToRemote({"foo1":"bar1"})
     ids += x.insertToRemote({"foo2":"bar2"})
     ids += x.insertToRemote([{"one":"fish"}, {"two":"fish"}, {"red":"fish"}, {"blue":"fish"}])
+    ids += x.insertToRemote({"name":"bob", "chef":"gordon", "url":"youtube.com", "ingredients":["fish", "onions", "garlic"]})
 
 
     for id in ids:
@@ -55,3 +57,7 @@ if __name__ == "__main__":
     print x.findByJson({"foo":"fish"})
     print "Query for {\"one\":\"fish\"}"
     print x.findByJson({"one":"fish"})
+    print "Query for {\"name\":\"bob\"}"
+    print x.findByJson({"name":"bob"})
+    print "Query for {\"name\":\"bob\", \"url\":\"youtube.com\"}"
+    print x.findByJson({"name":"bob", "url":"youtube.com"})

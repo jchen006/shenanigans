@@ -7,7 +7,7 @@ class Page:
 
 
 	def __init__(self): 
-		self.p = parser()
+		self.p = Parser()
 		self.p.convert_data()
 		self.recipes = self.capitalize_keys(self.p.recipes)
 		

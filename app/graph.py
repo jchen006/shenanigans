@@ -2,6 +2,7 @@ import collections as c
 import pickle, os
 from settings import *
 from parser import *
+from ingredient import *
 
 Data = c.namedtuple("Data", "url chef ingredients")
 
@@ -9,25 +10,18 @@ class Graph:
     def __init__(self): 
         self.graph = {}
 
-    def add_node(self, data_obj, recipe_name):
-        for i in data_obj.ingredients:
-            if i not in self.graph:
-                self.graph[i] = []
-                self.graph[i].append(recipe_name)
-            else:
-                self.graph[i].append(recipe_name)
+    def add_node(self, recipe_obj, recipe_name):
+        for ingred_name in recipe_obj.ingredients:
+            import pdb; pdb.set_trace()
+            if ingred_name not in self.graph:
+                self.graph[ingred_name] = Ingredient(ingred_name)
+            ingred_obj = self.graph[ingred_name]
+            ingred_obj.recipes.append(recipe_name)
         return
 
-    def make_graph_from_pickle(self, filename):
-        with open(filename, 'r') as f:
-            recipes = pickle.load(f)
-        for recipe_name in recipes.keys():
-            self.add_node(recipes[recipe_name], recipe_name)
-            # NEED TO ADD A LABEL FOR EACH NODE
-
-    def make_graph_from_tuple(self): 
-        p = parser()
-        p.picking()
+    def make_graph_from_mongo(self): 
+        p = Parser()
+        p.retrieve_data()
         recipes = p.recipes
         for recipe_name in recipes.keys(): 
             self.add_node(recipes[recipe_name], recipe_name)
