@@ -1,5 +1,5 @@
 from filters import * 
-from mongoHelper import *
+from mongo_helper import *
 import collections as c
 import pickle, os, tempfile, random, logging, json
 from settings import *
@@ -15,7 +15,7 @@ Data = c.namedtuple("Data", "url chef ingredients")
 
 class Recipe: 
 
-    def __init__(self, file_path=None, name="", url="", chef="", ingredients=[]): 
+    def __init__(self, file_path=None, name=None, url=None, chef=None, ingredients=None):
         self.file_path = file_path
         self.name = name
         self.url = url
@@ -64,7 +64,7 @@ class Parser:
 
             for i in range(0, DATA_SIZE): 
                 file_name = random.choice(os.listdir(self.recipe_path)) 
-                r = Recipe(self.recipe_path + file_name)
+                r = Recipe(self.recipe_path + file_name, ingredients = [])
                 r.parse_ingredients()
                 self.recipes[r.name] = Recipe(None, r.name)
         else: 
@@ -78,7 +78,8 @@ class Parser:
         for i in os.listdir(src):
             if i.endswith(".txt"): 
                 temp = src + "/" + i
-                r = Recipe(temp)
+                new_list = []
+                r = Recipe(temp, ingredients = new_list)
                 r.parse_ingredients()
                 self.recipes[r.name] = r.data
                 

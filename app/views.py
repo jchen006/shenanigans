@@ -1,13 +1,15 @@
 from app import app
 from flask import render_template
-from recipePage import *
+from recipe_page import *
 import json
 from graph import *
 from pages import *
-from mongoHelper import *
+from mongo_helper import *
 
 p = Page()
 g = Graph()
+g.make_graph_from_mongo()
+
 m = MongoHelper()
 
 @app.route('/')
@@ -43,8 +45,7 @@ def ingredients():
 
 @app.route('/graph')
 def graph():
-    g.make_graph_from_mongo()
-    return json.dumps(g.graph)
+    return str(g.graph)
 
 @app.route('/d3')
 def d3(): 

@@ -14,7 +14,7 @@ class recipePage:
 	def generate_list(self): 
 		"""Takes the directory and grabs all of the recipes"""
 		p = parser()
-		p.convert_data()
+		p.retrieve_data()
 		return p.recipes.keys()
 
 if __name__ == "__main__": 

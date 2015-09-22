@@ -1,14 +1,14 @@
 """recipePage is to generate the methods that will be needed to convert
 a recipe into an actual page. It will take a text file and convert the 
 text file into a page for recipes""" 
-from parser import *
+from recipe_parser import *
 
 class Page: 
 
 
 	def __init__(self): 
 		self.p = Parser()
-		self.p.convert_data()
+		self.p.retrieve_data()
 		self.recipes = self.capitalize_keys(self.p.recipes)
 		
 	def capitalize_keys(self, dict): 

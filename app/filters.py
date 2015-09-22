@@ -3,7 +3,7 @@
 import re, unicodedata, sys
 from constants import *
 from settings import *
-from filterHelper import *
+from filter_helper import *
 
 """Will have two separate methods 
 (1) Filter for the primary key that will be the key ingredient for instance 
