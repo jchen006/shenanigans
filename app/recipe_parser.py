@@ -88,8 +88,8 @@ class Parser:
                 if len(res) == 0:
                     self.mongo.insertToRemote(temp_json)
                 
-    def json_to_recipe(self, temp_dict):
-        rp = Recipe(None, temp_dict["name"], temp_dict["url"], temp_dict["chef"], temp_dict["ingredients"])
+    def json_to_recipe(self, mongo_json_dict):
+        rp = Recipe(None, mongo_json_dict["name"], mongo_json_dict["url"], mongo_json_dict["chef"], mongo_json_dict["ingredients"])
         return rp
 
     def retrieve_data(self):

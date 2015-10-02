@@ -4,7 +4,7 @@ class Ingredient:
         self.info = info
 
         # classification = the labels that are prescribed by LDA e.g. fruit, vegitable, etc (a string)
-        self.classificataion = classification 
+        self.classification = classification 
 
         # types = descriptor to a common ingredient e.g. Fuji Apple, Granny Smith Apple, Green Apple (list of types as strings)
         self.types = types

@@ -1,5 +1,5 @@
 import collections as c
-import pickle, os
+import pickle, os, itertools, json
 from settings import *
 from recipe_parser import *
 from ingredient import *
@@ -9,6 +9,8 @@ from ingredient import *
 class Graph: 
     def __init__(self): 
         self.graph = {}
+        self.d3_json = None
+        self.recipes = None
 
     def add_node(self, recipe_obj, recipe_name):
         for ingred_name in recipe_obj.ingredients:
@@ -24,15 +26,61 @@ class Graph:
             new_list = []
             self.graph[ingred_name] = Ingredient(ingred_name, recipes = new_list)
         ingred_obj = self.graph[ingred_name]
-        ingred_obj.recipes.append(recipe_name)
+        ingred_obj.recipes.append(recipe_name) # we need to append Recipe ID instead of the name
         return
+
+    ####
+    # METHOD TO CONVERT GRAPH INTO d3.json()
+    # nodes: [] // Ingredients are nodes
+    # links: [] // Ingredients are connected if they share recipes
+    #           // The link 'strength' is the count of the number of recipes two ingredients share
+    ####
+    def make_d3(self):
+        graph_d3_json = {}
+        graph_d3_json["nodes"] = []
+        graph_d3_json["links"] = []
+
+        temp_node_to_idx = {}
+
+        for ing_name, ing_value in self.graph.items():
+            if(ing_value.name != "" and type(ing_value.name) is not list and ing_value.name is not None):
+                graph_d3_json["nodes"].append({"name":ing_value.name, "count":0})
+                temp_node_to_idx[ing_value.name] = len(graph_d3_json["nodes"]) - 1
+                
+
+        # TODO: we have duplicate links! need to fix
+        # TODO: Some Ingredients are still lists!
+        if self.recipes is not None:
+            for recipe_name, recipe_value in self.recipes.items():
+                ingreds_in_recipe = recipe_value.ingredients
+                for ingred1, ingred2 in list(itertools.combinations(ingreds_in_recipe, 2)):
+                    if(ingred1 != "" and ingred2 != "" and ingred1 is not None and ingred2 is not None and type(ingred1) is not list and type(ingred2) is not list):
+                        graph_d3_json["links"].append({"source":temp_node_to_idx[ingred1], "target":temp_node_to_idx[ingred2], "value":1})
+                
+                
+            
+        self.d3_json = graph_d3_json
+        return
+
+    def get_d3_json(self):
+        if self.d3_json is not None:
+            return json.dumps(self.d3_json)
+        else:
+            return ""
+
+    ### Returns a List of source,dest tuples where Source and Dest are Ingredient ID's
+    def find_d3_links(self):
+        pass
+
+    def find_common_recipe(self, ingred1, ingred2):
+        pass
 
     def make_graph_from_mongo(self): 
         p = Parser()
         p.retrieve_data()
-        recipes = p.recipes
-        for recipe_name in recipes.keys(): 
-            self.add_node(recipes[recipe_name], recipe_name)
+        self.recipes = p.recipes
+        for recipe_name in self.recipes.keys(): 
+            self.add_node(self.recipes[recipe_name], recipe_name)
         return
     
     def get_ingredients(self):
@@ -44,4 +92,5 @@ class Graph:
 if __name__=='__main__':
     g = Graph()
     g.make_graph_from_mongo()
+    g.make_d3()
     # g.make_graph_from_tuple()

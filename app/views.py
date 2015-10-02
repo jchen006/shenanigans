@@ -9,6 +9,7 @@ from mongo_helper import *
 p = Page()
 g = Graph()
 g.make_graph_from_mongo()
+g.make_d3()
 
 m = MongoHelper()
 
@@ -45,7 +46,11 @@ def ingredients():
 
 @app.route('/graph')
 def graph():
-    return str(g.graph)
+    return render_template('graph_page.html')
+
+@app.route('/graph_json')
+def graph_json():
+    return g.get_d3_json()
 
 @app.route('/d3')
 def d3(): 
