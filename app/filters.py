@@ -21,8 +21,6 @@ pink peppercorn -> (pink, peppercorn)
 
 def filter_key_ingred(line): 
     """Filters for the key ingredient"""
-    print "_____________________\n"
-    print "Filtering through", line
     size = len(line.split())
     if len(line.split()) == 0: 
             return 
@@ -54,7 +52,6 @@ def filter_key_ingred(line):
         updated_line = remove_conjunctions(conjunctions, updated_line)
         updated_line = last_cleanups(updated_line)
 
-        print "Final: ", updated_line
         return updated_line
 
 def map_descriptor(key_ingred, phrase): 
@@ -71,7 +68,6 @@ def map_descriptor(key_ingred, phrase):
 def comma_splits(line):
     results = ""
     splits = check_commas(line)
-    print "Subpharses", splits
     for s in splits: 
         sub_result = filter_key_ingred(s)
         if type(sub_result) is tuple: 
@@ -79,7 +75,6 @@ def comma_splits(line):
             break
         elif isinstance(sub_result, str): 
             results = results + " " + sub_result
-    print results
     if isinstance(results, str): 
         return results.strip()
     return results

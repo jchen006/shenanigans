@@ -14,11 +14,7 @@ class Graph:
 
     def add_node(self, recipe_obj, recipe_name):
         for ingred_name in recipe_obj.ingredients:
-            if type(ingred_name) is list:
-                for in_name_sub in ingred_name:
-                    self.insert_ingred_obj(in_name_sub, recipe_name)
-            else:
-                self.insert_ingred_obj(ingred_name, recipe_name)
+            self.insert_ingred_obj(ingred_name, recipe_name)
         return
 
     def insert_ingred_obj(self, ingred_name, recipe_name):
@@ -42,20 +38,34 @@ class Graph:
 
         temp_node_to_idx = {}
 
+        temp_links_dict = {}
+
+        # NODES WITH NO LINKS ARE DUE TO LISTS
         for ing_name, ing_value in self.graph.items():
-            if(ing_value.name != "" and type(ing_value.name) is not list and ing_value.name is not None):
+            if(ing_value.name != "" and ing_value.name is not None):
                 graph_d3_json["nodes"].append({"name":ing_value.name, "count":0})
                 temp_node_to_idx[ing_value.name] = len(graph_d3_json["nodes"]) - 1
                 
 
+        # CHANGE recipe_parser.py's retrieve_data() method to get fewer results
         # TODO: we have duplicate links! need to fix
-        # TODO: Some Ingredients are still lists!
         if self.recipes is not None:
             for recipe_name, recipe_value in self.recipes.items():
                 ingreds_in_recipe = recipe_value.ingredients
                 for ingred1, ingred2 in list(itertools.combinations(ingreds_in_recipe, 2)):
-                    if(ingred1 != "" and ingred2 != "" and ingred1 is not None and ingred2 is not None and type(ingred1) is not list and type(ingred2) is not list):
-                        graph_d3_json["links"].append({"source":temp_node_to_idx[ingred1], "target":temp_node_to_idx[ingred2], "value":1})
+                    if(ingred1 != "" and ingred2 != "" and ingred1 is not None and ingred2 is not None):
+
+                        idx1 = temp_node_to_idx[ingred1]
+                        idx2 = temp_node_to_idx[ingred2]
+
+                        if (idx1 in temp_links_dict) and (temp_links_dict[idx1] == idx2):
+                            continue
+                        elif idx1 != idx2:
+                            temp_links_dict[idx1] = idx2
+                            graph_d3_json["links"].append({"source":idx1, "target":idx2, "value":1})
+                            continue
+
+
                 
                 
             
@@ -79,6 +89,7 @@ class Graph:
         p = Parser()
         p.retrieve_data()
         self.recipes = p.recipes
+        self.ingredients = p.all_ingredients
         for recipe_name in self.recipes.keys(): 
             self.add_node(self.recipes[recipe_name], recipe_name)
         return

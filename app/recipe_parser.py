@@ -35,8 +35,13 @@ class Recipe:
         self.chef = temp.pop(0) 
         for i in temp: 
             #Where filters happen
-            self.ingredients.append(filter_key_ingred(i))
-            #self.ingredients.append(i)
+            ingred = filter_key_ingred(i)
+            if type(ingred) is list or type(ingred) is tuple:
+                for sub_in in ingred:
+                    self.ingredients.append(sub_in)
+            else:
+                self.ingredients.append(ingred)
+        print self.ingredients
         self.data = Data(self.url, self.chef, self.ingredients) 
 
     def get_data(self): 
@@ -48,6 +53,7 @@ class Parser:
 
     def __init__(self): 
         self.recipes = {}
+        self.all_ingredients = set()
         self.recipe_path = "../recipes/"
         self.data_path = "../data/"
         self.mongo = MongoHelper()
@@ -81,17 +87,24 @@ class Parser:
                 new_list = []
                 r = Recipe(temp, ingredients = new_list)
                 r.parse_ingredients()
+                self.all_ingredients = self.all_ingredients.union(r.ingredients)
                 self.recipes[r.name] = r.data
                 
                 temp_json = {"name": r.name, "url": r.url, "chef":r.chef, "ingredients":r.ingredients}
                 res = self.mongo.findByJson({"name":r.name, "url":r.url, "chef":r.chef})
                 if len(res) == 0:
                     self.mongo.insertToRemote(temp_json)
+        #self.all_ingredients = check_duplicates(self.ingredients)
+        #for recipe_name, recipe_val in self.recipes.items():
+        #    recipe_val.ingredients = filter_ingredients(recipe_val.ingredients, self.ingredients)
+
+        # TODO: add to recipes, and json / mongo logic
                 
     def json_to_recipe(self, mongo_json_dict):
         rp = Recipe(None, mongo_json_dict["name"], mongo_json_dict["url"], mongo_json_dict["chef"], mongo_json_dict["ingredients"])
         return rp
 
+    # CHANGE for j in jsons[:20] to only get 20 recipes
     def retrieve_data(self):
         print "Retrieving from Mongo"
         jsons = self.mongo.findAll()
@@ -100,8 +113,8 @@ class Parser:
 
 def main():
     p = Parser()
-    #p.convert_data()
-    p.retrieve_data()
+    p.convert_data()
+    #p.retrieve_data()
     #p.pickle_data()
 
 if __name__=="__main__": 
