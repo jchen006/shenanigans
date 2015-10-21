@@ -6,6 +6,7 @@ from string import digits
 #Internal Libraries
 from constants import *
 from settings import *
+from nltk.stem import WordNetLemmatizer
 
 
 """Checks to see if there's only one word"""
@@ -241,12 +242,14 @@ def remove_temperature(line):
         print "Removing states:", updated_line
     return updated_line
 
-def last_cleanups(line): 
+def last_cleanups(line, wnl): 
     tokens = line.split()
     if len(tokens) == 0: 
         return line
     if tokens[0] == "a": 
         tokens.remove(tokens[0])
+    for i in range(len(tokens)):
+        tokens[i] = wnl.lemmatize(tokens[i], 'n')
     result = join(tokens).strip()
     if PRINT_STEPS: 
         print "Final cleanup: ", result

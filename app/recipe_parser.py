@@ -21,6 +21,7 @@ class Recipe:
         self.url = url
         self.chef = chef
         self.ingredients = ingredients
+        self.filter_obj = Filter()
 
     def parse_ingredients(self): 
         temp = []
@@ -35,7 +36,7 @@ class Recipe:
         self.chef = temp.pop(0) 
         for i in temp: 
             #Where filters happen
-            ingred = filter_key_ingred(i)
+            ingred = self.filter_obj.filter_key_ingred(i)
             if type(ingred) is list or type(ingred) is tuple:
                 for sub_in in ingred:
                     self.ingredients.append(sub_in)
@@ -88,6 +89,21 @@ class Parser:
                 r = Recipe(temp, ingredients = new_list)
                 r.parse_ingredients()
                 self.all_ingredients = self.all_ingredients.union(r.ingredients)
+                #for ing in r.ingredients:
+                #    if(ing is not in self.all_ingredients):
+                #        self.all_ingredients[ing] = True
+                ## Check for duplicates right now
+                #for ing_str in r.ingredients:
+                #    for stored_ing in self.all_ingredients.keys():
+                #        if ing_str in stored_ing:
+                #            # if the ingredient to add is a substring of a stored ingredient then we replace that stored ingredient
+                #            # TODO: THIS ELIMINTES LABELS FOR INGREDIENTS e.g. FUJI APPLE AND GREEN APPLE BECOME APPLE
+                #            # Consider having the Dictionary of All Ingredients have Keys as the singularized, consolodiated form
+                #            #and the values as a list of variants e.g. all_ingredients["apple"] = ["fuji", "green", "granny smith"]
+                #            # TODO: WE ALSO NEED TO CHECK THE ORDER OF THE ADDITIONS e.g. if "lemon" is parsed first, "lemon zest" won't be a substring of "lemon" (but the inverse is true)
+                #            #self.all_ingredients[stored_ing] = ing_str
+                #            self.all_ingredients[]
+
                 self.recipes[r.name] = r.data
                 
                 temp_json = {"name": r.name, "url": r.url, "chef":r.chef, "ingredients":r.ingredients}

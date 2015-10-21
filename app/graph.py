@@ -65,10 +65,6 @@ class Graph:
                             graph_d3_json["links"].append({"source":idx1, "target":idx2, "value":1})
                             continue
 
-
-                
-                
-            
         self.d3_json = graph_d3_json
         return
 
