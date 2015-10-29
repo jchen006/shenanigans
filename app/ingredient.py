@@ -1,5 +1,5 @@
 class Ingredient: 
-    def __init__(self, name, info=None, classification=None, types=None, timeframe=None, recipes=None):
+    def __init__(self, name, group_name=None, info=None, classification=None, types=None, timeframe=None, recipes=None):
         self.name = name 
         self.info = info
 

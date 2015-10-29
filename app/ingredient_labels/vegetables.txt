@@ -1,0 +1,6 @@
+cabbage
+lettuce
+carrot
+zucchini
+cucumber
+spinach

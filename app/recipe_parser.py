@@ -39,9 +39,9 @@ class Recipe:
             ingred = self.filter_obj.filter_key_ingred(i)
             if type(ingred) is list or type(ingred) is tuple:
                 for sub_in in ingred:
-                    self.ingredients.append(sub_in)
+                    if sub_in is not None: self.ingredients.append(sub_in)
             else:
-                self.ingredients.append(ingred)
+                if ingred is not None: self.ingredients.append(ingred)
         print self.ingredients
         self.data = Data(self.url, self.chef, self.ingredients) 
 
@@ -55,6 +55,7 @@ class Parser:
     def __init__(self): 
         self.recipes = {}
         self.all_ingredients = set()
+        self.consol_ingred = {}
         self.recipe_path = "../recipes/"
         self.data_path = "../data/"
         self.mongo = MongoHelper()
@@ -89,9 +90,7 @@ class Parser:
                 r = Recipe(temp, ingredients = new_list)
                 r.parse_ingredients()
                 self.all_ingredients = self.all_ingredients.union(r.ingredients)
-                #for ing in r.ingredients:
-                #    if(ing is not in self.all_ingredients):
-                #        self.all_ingredients[ing] = True
+
                 ## Check for duplicates right now
                 #for ing_str in r.ingredients:
                 #    for stored_ing in self.all_ingredients.keys():
@@ -107,9 +106,25 @@ class Parser:
                 self.recipes[r.name] = r.data
                 
                 temp_json = {"name": r.name, "url": r.url, "chef":r.chef, "ingredients":r.ingredients}
-                res = self.mongo.findByJson({"name":r.name, "url":r.url, "chef":r.chef})
-                if len(res) == 0:
-                    self.mongo.insertToRemote(temp_json)
+                # TODO: REMOVE THESE COMMENTS TO ENABLE JSON
+                #res = self.mongo.findByJson({"name":r.name, "url":r.url, "chef":r.chef})
+                #if len(res) == 0:
+                #    self.mongo.insertToRemote(temp_json)
+
+
+        # TODO: separate this into a different method
+        for ing in self.all_ingredients:
+            if len(ing.split()) == 1:
+                self.consol_ingred[ing] = []
+            
+        
+        for ing in self.all_ingredients:
+            if len(ing.split()) > 1:
+                for token in ing.split():
+                    for key in self.consol_ingred.keys():
+                        if key in token:
+                            self.consol_ingred[key].append(ing)
+
         #self.all_ingredients = check_duplicates(self.ingredients)
         #for recipe_name, recipe_val in self.recipes.items():
         #    recipe_val.ingredients = filter_ingredients(recipe_val.ingredients, self.ingredients)
