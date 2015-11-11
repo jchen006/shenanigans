@@ -1,5 +1,67 @@
-apple
-blueberry
-strawberry
-banana
-orange
+Apple
+Apricot
+Avocado
+Banana
+Breadfruit
+Carob
+Cherry
+Citron
+Coconut
+Date
+Dragon Fruit
+Pitaya
+Durian
+Fig
+Ginger
+Grapes
+Currant
+Raisin
+Grapefruit
+Guava
+Jackfruit
+Jujube
+Kiwifruit
+Kumquat
+Lemon
+Lime
+Longan
+Loquat
+Lucuma
+Lychee
+Mamey Sapote
+Mango
+Mangosteen
+Nance
+Nectarine
+Noni
+Oranges
+Blood Orange
+Mandarin
+Clementine
+Satsuma
+Navel
+Seville
+Valencia
+Papaya
+Passion Fruit
+Peach
+Pear
+Asian Pear
+Persimmon
+Pineapple
+Plantain
+Plum
+Damson
+Prunes
+Pomegranate
+Pomelo
+Prickly Pear
+Cactus Pear
+Quince
+Rambutan
+Rhubarb
+Starfruit
+Tamarillo
+Tamarind
+Tangerine
+Tangelo

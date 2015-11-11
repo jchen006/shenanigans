@@ -1,0 +1,7 @@
+Caviar,sturgeon roe
+Ikura,salmon roe
+Kazunoko,herring roe
+Lumpfish roe
+Masago,capelin roe
+Shad roe
+Tobiko,flying-fish roe
