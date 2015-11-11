@@ -22,6 +22,7 @@ class Recipe:
         self.chef = chef
         self.ingredients = ingredients
         self.filter_obj = Filter()
+        self.filter_obj.parse_master_text_files()
 
     def parse_ingredients(self): 
         temp = []
@@ -42,7 +43,7 @@ class Recipe:
                     if sub_in is not None: self.ingredients.append(sub_in)
             else:
                 if ingred is not None: self.ingredients.append(ingred)
-        print self.ingredients
+        print self.name,self.ingredients
         self.data = Data(self.url, self.chef, self.ingredients) 
 
     def get_data(self): 
@@ -139,7 +140,7 @@ class Parser:
     def retrieve_data(self):
         print "Retrieving from Mongo"
         jsons = self.mongo.findAll()
-        for j in jsons:
+        for j in jsons[:20]:
             self.recipes[j["name"]] = self.json_to_recipe(j)
 
 def main():

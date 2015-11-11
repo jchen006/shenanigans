@@ -43,6 +43,14 @@ class Filter():
                             lem_ing = r.lower()
                             self.master_list[lem_ing] = lem_ing
 
+    def check_word_not_in_word(self, query, line):
+        before_ind = line.find(query) - 1
+        after_ind = before_ind + len(query) + 1
+
+        if (before_ind >= 0 and line[before_ind].isspace()) or (after_ind <= len(line)-1 and line[after_ind].isspace()):
+            return True
+        return False
+
     def filter_key_ingred(self, line): 
         """Filters for the key ingredient"""
         size = len(line.split())
@@ -51,9 +59,12 @@ class Filter():
         elif "," in line:
                 return self.comma_splits(line)
         else:
+            #TODO: THIS HAS AN ISSUE WHERE WORDS ARE CONTAINED AS PART OF OTHER WORDS
+            # E.g. 'self-raising flour' contains 'raisin'
             for key_ing in self.master_list.keys():
                 if key_ing in line:
-                    return self.master_list[key_ing]
+                    if self.check_word_not_in_word(key_ing, line):
+                        return self.master_list[key_ing]
 
             updated_line = such_as_cases(line)
             #Need to check if only one token 
@@ -69,14 +80,14 @@ class Filter():
             updated_line = remove_misc(updated_line)
             updated_line = for_something(updated_line)
             if " from " in updated_line: 
-                    return from_cases(updated_line)
+                return from_cases(updated_line)
             if " in " in updated_line: 
-                    return in_cases(updated_line)
+                return in_cases(updated_line)
             if " or " in updated_line: 
-                    return or_cases(updated_line)
+                return or_cases(updated_line)
             if "and" in updated_line: 
-                    #Handle standalone conjunction cases 
-                    return and_cases(updated_line)
+                #Handle standalone conjunction cases 
+                return and_cases(updated_line)
             updated_line = remove_conjunctions(conjunctions, updated_line)
             updated_line = last_cleanups(updated_line, self.wnl)
             return updated_line
