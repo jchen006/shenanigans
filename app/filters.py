@@ -24,6 +24,24 @@ class Filter():
 
     def __init__(self):
         self.wnl = WordNetLemmatizer()
+        self.master_list = {}
+    
+    def parse_master_text_files(self):
+        src = os.path.join(APP_ROOT, 'ingredient_labels')
+        for i in os.listdir(src):
+            if i.endswith(".txt"):
+                temp = src + "/" + i
+                with open(temp, 'r') as recipe:
+                    for r in recipe.read().splitlines():
+                        if ',' in r:
+                            ingreds = r.split(",")
+                            first_ing = ingreds[0].lower()
+                            for ing in ingreds:
+                                lem_ing = ing.lower()
+                                self.master_list[lem_ing] = lem_ing
+                        else:
+                            lem_ing = r.lower()
+                            self.master_list[lem_ing] = lem_ing
 
     def filter_key_ingred(self, line): 
         """Filters for the key ingredient"""
@@ -32,7 +50,11 @@ class Filter():
                 return 
         elif "," in line:
                 return self.comma_splits(line)
-        else: 
+        else:
+            for key_ing in self.master_list.keys():
+                if key_ing in line:
+                    return self.master_list[key_ing]
+
             updated_line = such_as_cases(line)
             #Need to check if only one token 
             updated_line = x_of_something(updated_line)
@@ -97,8 +119,9 @@ if __name__=="__main__":
     # filter_key_ingred("1 small tub (about 200g/7oz) half-fat creme fraiche")
     # filter_key_ingred("350g/1214oz cold, cooked leftover turkey meat, sliced into strips")
     F = Filter()
-    F.filter_key_ingred("1 tbsp strattu or 2 tbsp tomato puree")
-    F.filter_key_ingred("fuji apples")
+    F.parse_master_text_files()
+    print F.filter_key_ingred("1 tbsp strattu or 2 tbsp tomato puree")
+    print F.filter_key_ingred("fuji apples")
     # Failed Cases:  4 tbsp chopped, fresh mint or coriander
     #1 tbsp pomace oil or good quality olive oi
      # 1 tbsp strattu or 2 tbsp tomato puree
