@@ -47,6 +47,10 @@
 
 (17) Mushrooms
 
+(18) Alcohols
+
+(19) Berry
+
 
 The master list will exhibit a decent level of granularity 
 such as shellfish will be independent of seafood. Idea is to

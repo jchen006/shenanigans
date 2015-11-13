@@ -27,7 +27,7 @@ Carrot
 Cassava/Yuca
 Cauliflower
 Celery
-Celery Root/Celeriac
+Celery Root,Celeriac
 Celtuce
 Chayote
 Chinese Broccoli,Kai-lan,Gailan
@@ -55,7 +55,7 @@ String Beans
 Snap Beans
 Wax Beans
 Greens
-Amaranth Leaves/Chinese Spinach
+Amaranth Leaves,Chinese Spinach
 Beet Greens
 Collard Greens
 Dandelion Greens
@@ -69,8 +69,7 @@ Turnip Greens
 Hearts of Palm
 Horseradish
 Jerusalem Artichoke,Sunchokes
-Jícama
-Kale
+Jicama
 Curly
 Lacinato
 Ornamental

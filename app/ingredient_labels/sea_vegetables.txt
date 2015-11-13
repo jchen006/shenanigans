@@ -3,7 +3,7 @@ Aonori
 Arame
 Oarweed
 Dulse
-Hijiki/Hiziki
+Hijiki,Hiziki
 Kelp
 Kombu
 Mozuku
