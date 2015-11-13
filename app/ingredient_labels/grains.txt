@@ -1,0 +1,48 @@
+Amaranth
+Barley
+Hulled Barley,Barley Groats
+Pot Barley,Scotch Barley
+Pearl Barley,Pearled Barley
+Barley Flakes
+Barley Grits
+Buckwheat
+Buckwheat Groats,Unroasted Buckwheat
+Kasha Buckwheat,Roasted Buckwheat
+Buckwheat Grits
+Corn
+Hominy
+Popcorn
+Millet
+Oats
+Oat Groats
+Rolled Oats,Old Fashioned Oatmeal
+Steel cut oats,Irish Oatmeal
+Quick Cooking Oats,Quick Oatmeal
+Instant Oats,Instant Oatmeal
+Oat Bran
+Quinoa
+Rye
+Rye Berries
+Cracked Rye
+Rye Flakes
+Sorghum
+Spelt
+Spelt Berries
+Spelt Flakes
+Teff
+Triticale
+Triticale Berries
+Triticale Flakes
+Wheat
+Wheat Berries
+Bulgur Wheat
+Cracked Wheat
+Farina
+Semolina
+Pasta
+Couscous
+Wheat Bran
+Wheat Flakes
+Seitan,Wheat Gluten
+Farro
+Durum Wheat
