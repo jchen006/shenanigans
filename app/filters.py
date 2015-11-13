@@ -38,7 +38,7 @@ class Filter():
                             first_ing = ingreds[0].lower()
                             for ing in ingreds:
                                 lem_ing = ing.lower()
-                                self.master_list[lem_ing] = lem_ing
+                                self.master_list[lem_ing] = first_ing
                         else:
                             lem_ing = r.lower()
                             self.master_list[lem_ing] = lem_ing
@@ -56,41 +56,42 @@ class Filter():
         size = len(line.split())
         if len(line.split()) == 0: 
                 return 
-        elif "," in line:
-                return self.comma_splits(line)
         else:
-            #TODO: THIS HAS AN ISSUE WHERE WORDS ARE CONTAINED AS PART OF OTHER WORDS
-            # E.g. 'self-raising flour' contains 'raisin'
+            #TODO: RIGHT NOW WE DON'T LOOK AT VARIANTS BEFORE GENERAL CASES
+            # E.g. 'raspberry liquer' becomes 'raspberry' if 'raspberry' is parsed first
             for key_ing in self.master_list.keys():
                 if key_ing in line:
                     if self.check_word_not_in_word(key_ing, line):
                         return self.master_list[key_ing]
+            if "," in line:
+                return self.comma_splits(line)
+            else:
 
-            updated_line = such_as_cases(line)
-            #Need to check if only one token 
-            updated_line = x_of_something(updated_line)
-            updated_line = remove_first_comma(updated_line)
-            updated_line = remove_parantheses(updated_line)
-            updated_line = remove_numbers(updated_line)
-            updated_line = remove_measurements(measurements, updated_line)
-            updated_line = remove_x(updated_line)
-            updated_line = remove_size(updated_line)
-            updated_line = remove_state(updated_line)
-            updated_line = remove_temperature(updated_line)
-            updated_line = remove_misc(updated_line)
-            updated_line = for_something(updated_line)
-            if " from " in updated_line: 
-                return from_cases(updated_line)
-            if " in " in updated_line: 
-                return in_cases(updated_line)
-            if " or " in updated_line: 
-                return or_cases(updated_line)
-            if "and" in updated_line: 
-                #Handle standalone conjunction cases 
-                return and_cases(updated_line)
-            updated_line = remove_conjunctions(conjunctions, updated_line)
-            updated_line = last_cleanups(updated_line, self.wnl)
-            return updated_line
+                updated_line = such_as_cases(line)
+                #Need to check if only one token 
+                updated_line = x_of_something(updated_line)
+                updated_line = remove_first_comma(updated_line)
+                updated_line = remove_parantheses(updated_line)
+                updated_line = remove_numbers(updated_line)
+                updated_line = remove_measurements(measurements, updated_line)
+                updated_line = remove_x(updated_line)
+                updated_line = remove_size(updated_line)
+                updated_line = remove_state(updated_line)
+                updated_line = remove_temperature(updated_line)
+                updated_line = remove_misc(updated_line)
+                updated_line = for_something(updated_line)
+                if " from " in updated_line: 
+                    return from_cases(updated_line)
+                if " in " in updated_line: 
+                    return in_cases(updated_line)
+                if " or " in updated_line: 
+                    return or_cases(updated_line)
+                if "and" in updated_line: 
+                    #Handle standalone conjunction cases 
+                    return and_cases(updated_line)
+                updated_line = remove_conjunctions(conjunctions, updated_line)
+                updated_line = last_cleanups(updated_line, self.wnl)
+                return updated_line
 
     def map_descriptor(self, key_ingred, phrase): 
         token = phrase.split()
