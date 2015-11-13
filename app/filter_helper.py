@@ -19,7 +19,6 @@ def contains_one(line):
 
 def remove_numbers(line): 
     tokens = line.split(" ")
-    print tokens
     index = []
     updated = []
     for t in tokens: 
@@ -36,7 +35,6 @@ def remove_numbers(line):
 def remove_measurements(measurements, phrase):
     """Removes all conjunctions""" 
     m_in_phrase = re.findall(r'\b(%s)\b' % '|'.join(measurements), phrase.lower())
-    print m_in_phrase
     for m in m_in_phrase: 
         phrase = phrase.replace(m, "")
     if PRINT_STEPS: 
@@ -258,7 +256,6 @@ def last_cleanups(line, wnl):
 def remove_conjunctions(conjunctions, phrase):
     """Removes all conjunctions""" 
     c_in_phrase = re.findall(r'\b(%s)\b' % '|'.join(conjunctions), phrase.lower())
-    print c_in_phrase
     for c in c_in_phrase: 
         phrase = phrase.replace(c, "")
     if PRINT_STEPS: 

@@ -3,6 +3,7 @@ Arugula
 Green Asparagus
 Purple Asparagus
 White Asparagus
+Asparagus
 Avocado
 Bamboo Shoots
 Bean Sprouts
@@ -18,6 +19,7 @@ Broccoli
 Brussels Sprouts
 Burdock Root
 Gobo
+Cabbage
 Green Cabbage
 Red Cabbage
 Savoy Cabbage
@@ -26,8 +28,8 @@ Capers
 Carrot
 Cassava/Yuca
 Cauliflower
-Celery
 Celery Root,Celeriac
+Celery
 Celtuce
 Chayote
 Chinese Broccoli,Kai-lan,Gailan
@@ -37,7 +39,7 @@ Cucumber
 English Cucumber
 Gherkin
 Pickling Cucumbers
-Daikon Radish
+Radish,Daikon,Mooli
 Edamame
 Eggplant,Aubergine
 Elephant Garlic

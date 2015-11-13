@@ -22,6 +22,7 @@ class Recipe:
         self.chef = chef
         self.ingredients = ingredients
         self.filter_obj = Filter()
+        self.filter_obj.parse_master_text_files()
 
     def parse_ingredients(self): 
         temp = []
@@ -42,7 +43,6 @@ class Recipe:
                     if sub_in is not None: self.ingredients.append(sub_in)
             else:
                 if ingred is not None: self.ingredients.append(ingred)
-        print self.ingredients
         self.data = Data(self.url, self.chef, self.ingredients) 
 
     def get_data(self): 
@@ -55,7 +55,6 @@ class Parser:
     def __init__(self): 
         self.recipes = {}
         self.all_ingredients = set()
-        self.consol_ingred = {}
         self.recipe_path = "../recipes/"
         self.data_path = "../data/"
         self.mongo = MongoHelper()
@@ -106,31 +105,11 @@ class Parser:
                 self.recipes[r.name] = r.data
                 
                 temp_json = {"name": r.name, "url": r.url, "chef":r.chef, "ingredients":r.ingredients}
-                # TODO: REMOVE THESE COMMENTS TO ENABLE JSON
-                #res = self.mongo.findByJson({"name":r.name, "url":r.url, "chef":r.chef})
-                #if len(res) == 0:
-                #    self.mongo.insertToRemote(temp_json)
+                # TODO: REMOVE THESE COMMENTS TO ENABLE JSON INSERTION TO MONGO!
+                res = self.mongo.findByJson({"name":r.name, "url":r.url, "chef":r.chef})
+                if len(res) == 0:
+                    self.mongo.insertToRemote(temp_json)
 
-
-        # TODO: separate this into a different method
-        for ing in self.all_ingredients:
-            if len(ing.split()) == 1:
-                self.consol_ingred[ing] = []
-            
-        
-        for ing in self.all_ingredients:
-            if len(ing.split()) > 1:
-                for token in ing.split():
-                    for key in self.consol_ingred.keys():
-                        if key in token:
-                            self.consol_ingred[key].append(ing)
-
-        #self.all_ingredients = check_duplicates(self.ingredients)
-        #for recipe_name, recipe_val in self.recipes.items():
-        #    recipe_val.ingredients = filter_ingredients(recipe_val.ingredients, self.ingredients)
-
-        # TODO: add to recipes, and json / mongo logic
-                
     def json_to_recipe(self, mongo_json_dict):
         rp = Recipe(None, mongo_json_dict["name"], mongo_json_dict["url"], mongo_json_dict["chef"], mongo_json_dict["ingredients"])
         return rp
@@ -139,13 +118,13 @@ class Parser:
     def retrieve_data(self):
         print "Retrieving from Mongo"
         jsons = self.mongo.findAll()
-        for j in jsons:
+        for j in jsons[:20]:
             self.recipes[j["name"]] = self.json_to_recipe(j)
 
 def main():
     p = Parser()
-    p.convert_data()
-    #p.retrieve_data()
+    #p.convert_data()
+    p.retrieve_data()
     #p.pickle_data()
 
 if __name__=="__main__": 

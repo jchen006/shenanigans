@@ -24,40 +24,74 @@ class Filter():
 
     def __init__(self):
         self.wnl = WordNetLemmatizer()
+        self.master_list = {}
+    
+    def parse_master_text_files(self):
+        src = os.path.join(APP_ROOT, 'ingredient_labels')
+        for i in os.listdir(src):
+            if i.endswith(".txt"):
+                temp = src + "/" + i
+                with open(temp, 'r') as recipe:
+                    for r in recipe.read().splitlines():
+                        if ',' in r:
+                            ingreds = r.split(",")
+                            first_ing = ingreds[0].lower()
+                            for ing in ingreds:
+                                lem_ing = ing.lower()
+                                self.master_list[lem_ing] = first_ing
+                        else:
+                            lem_ing = r.lower()
+                            self.master_list[lem_ing] = lem_ing
+
+    def check_word_not_in_word(self, query, line):
+        before_ind = line.find(query) - 1
+        after_ind = before_ind + len(query) + 1
+
+        if (before_ind >= 0 and line[before_ind].isspace()) or (after_ind <= len(line)-1 and line[after_ind].isspace()):
+            return True
+        return False
 
     def filter_key_ingred(self, line): 
         """Filters for the key ingredient"""
         size = len(line.split())
         if len(line.split()) == 0: 
                 return 
-        elif "," in line:
+        else:
+            #TODO: RIGHT NOW WE DON'T LOOK AT VARIANTS BEFORE GENERAL CASES
+            # E.g. 'raspberry liquer' becomes 'raspberry' if 'raspberry' is parsed first
+            for key_ing in self.master_list.keys():
+                if key_ing in line:
+                    if self.check_word_not_in_word(key_ing, line):
+                        return self.master_list[key_ing]
+            if "," in line:
                 return self.comma_splits(line)
-        else: 
-            updated_line = such_as_cases(line)
-            #Need to check if only one token 
-            updated_line = x_of_something(updated_line)
-            updated_line = remove_first_comma(updated_line)
-            updated_line = remove_parantheses(updated_line)
-            updated_line = remove_numbers(updated_line)
-            updated_line = remove_measurements(measurements, updated_line)
-            updated_line = remove_x(updated_line)
-            updated_line = remove_size(updated_line)
-            updated_line = remove_state(updated_line)
-            updated_line = remove_temperature(updated_line)
-            updated_line = remove_misc(updated_line)
-            updated_line = for_something(updated_line)
-            if " from " in updated_line: 
+            else:
+
+                updated_line = such_as_cases(line)
+                #Need to check if only one token 
+                updated_line = x_of_something(updated_line)
+                updated_line = remove_first_comma(updated_line)
+                updated_line = remove_parantheses(updated_line)
+                updated_line = remove_numbers(updated_line)
+                updated_line = remove_measurements(measurements, updated_line)
+                updated_line = remove_x(updated_line)
+                updated_line = remove_size(updated_line)
+                updated_line = remove_state(updated_line)
+                updated_line = remove_temperature(updated_line)
+                updated_line = remove_misc(updated_line)
+                updated_line = for_something(updated_line)
+                if " from " in updated_line: 
                     return from_cases(updated_line)
-            if " in " in updated_line: 
+                if " in " in updated_line: 
                     return in_cases(updated_line)
-            if " or " in updated_line: 
+                if " or " in updated_line: 
                     return or_cases(updated_line)
-            if "and" in updated_line: 
+                if "and" in updated_line: 
                     #Handle standalone conjunction cases 
                     return and_cases(updated_line)
-            updated_line = remove_conjunctions(conjunctions, updated_line)
-            updated_line = last_cleanups(updated_line, self.wnl)
-            return updated_line
+                updated_line = remove_conjunctions(conjunctions, updated_line)
+                updated_line = last_cleanups(updated_line, self.wnl)
+                return updated_line
 
     def map_descriptor(self, key_ingred, phrase): 
         token = phrase.split()
@@ -97,8 +131,9 @@ if __name__=="__main__":
     # filter_key_ingred("1 small tub (about 200g/7oz) half-fat creme fraiche")
     # filter_key_ingred("350g/1214oz cold, cooked leftover turkey meat, sliced into strips")
     F = Filter()
-    F.filter_key_ingred("1 tbsp strattu or 2 tbsp tomato puree")
-    F.filter_key_ingred("fuji apples")
+    F.parse_master_text_files()
+    print F.filter_key_ingred("1 tbsp strattu or 2 tbsp tomato puree")
+    print F.filter_key_ingred("fuji apples")
     # Failed Cases:  4 tbsp chopped, fresh mint or coriander
     #1 tbsp pomace oil or good quality olive oi
      # 1 tbsp strattu or 2 tbsp tomato puree
