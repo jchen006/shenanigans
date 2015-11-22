@@ -51,6 +51,9 @@ For instance Korean Short Rib Taco a percentage bar of 70% korean and 30% mexica
 (5) how are we going to make our site look sexy 
 (6) Make the pipeline a lot more smoother so that the user can define the dataset size
 
+Nomenclature for all charts 
+all CSS, javascript will start with the html pages name
+
 
 
 

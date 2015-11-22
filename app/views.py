@@ -64,6 +64,10 @@ def graph():
 def graph_json():
     return g.get_d3_json()
 
+@app.route('/ingredient_Frequency')
+def ing_freq():
+    return render_template('ingredient_Frequency.html')
+
 @app.route('/d3')
 def d3(): 
     return render_template('d3.html')
