@@ -1,5 +1,5 @@
 var margin = {top: 40, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
+    width = 600 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 var formatPercent = d3.format(".0%");
@@ -55,7 +55,7 @@ d3.tsv("static/js/data.tsv", type, function(error, data) {
 
   svg.selectAll(".bar")
       .data(data)
-    .enter().append("rect")
+      .enter().append("rect")
       .attr("class", "bar")
       .attr("x", function(d) { return x(d.letter); })
       .attr("width", x.rangeBand())
