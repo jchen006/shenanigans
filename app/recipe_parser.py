@@ -40,9 +40,9 @@ class Recipe:
             ingred = self.filter_obj.filter_key_ingred(i)
             if type(ingred) is list or type(ingred) is tuple:
                 for sub_in in ingred:
-                    if sub_in is not None: self.ingredients.append(sub_in)
+                    if sub_in is not None and str(sub_in) != "": self.ingredients.append(str(sub_in))
             else:
-                if ingred is not None: self.ingredients.append(ingred)
+                if ingred is not None and str(ingred) != "": self.ingredients.append(str(ingred))
         self.data = Data(self.url, self.chef, self.ingredients) 
 
     def get_data(self): 
@@ -118,8 +118,10 @@ class Parser:
     def retrieve_data(self):
         print "Retrieving from Mongo"
         jsons = self.mongo.findAll()
-        for j in jsons[:20]:
+        for j in jsons:#[:20]:
             self.recipes[j["name"]] = self.json_to_recipe(j)
+        for r_name, r_val in self.recipes.iteritems():
+            self.all_ingredients = self.all_ingredients.union(r_val.ingredients)
 
 def main():
     p = Parser()
