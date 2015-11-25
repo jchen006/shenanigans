@@ -1,6 +1,7 @@
 from app import app
 from flask import render_template
 from recipe_page import *
+from analytics import *
 import json
 from graph import *
 from pages import *
@@ -10,6 +11,9 @@ p = Page()
 g = Graph()
 g.make_graph_from_mongo()
 g.make_d3()
+b = BagOfIngredients()
+b.generate_bag_of_ingredients()
+b.generate_recipe_vectors()
 
 m = MongoHelper()
 
@@ -63,6 +67,10 @@ def graph():
 @app.route('/graph_json')
 def graph_json():
     return g.get_d3_json()
+
+@app.route('/ingredient_Frequency_json')
+def ing_freq_json():
+    return b.get_top_N_ingredients_json(30)
 
 @app.route('/ingredient_Frequency')
 def ing_freq():
