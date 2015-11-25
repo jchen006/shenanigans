@@ -34,7 +34,8 @@ var svg = d3.select("#graph1").append("svg")
 
 svg.call(tip);
 
-d3.json("/ingredient_Frequency_json", type, function(error, data) {
+d3.json("/ingredient_Frequency_json", function(error, data) {
+  console.log(data);
   x.domain(data.map(function(d) { return d.ingredient; }));
   y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
 
