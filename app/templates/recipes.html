@@ -2,7 +2,7 @@
 {% block content %}
 	<div class="jumbotron">
   		<div class="container">
-  			<h2>Recipes Used in the Graph</h2>
+  			<h2>Active Recipes</h2>
   			<ul> 
       			{% for t in titles %}
   					<li> <a href="{{ url_for('recipe_page', recipe=recipes[t]) }}">{{ t }}</a></li>

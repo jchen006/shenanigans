@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+
+	<h1> 
+		<center><strong>Frequency of Ingredients </strong></center>
+	</h1>
+	<div class="row">
+		<div class="col-md-6">
+  			<body>
+    			<div id="graph1"></div>
+  			</body>
+		</div>
+		<div class="col-md-6">
+			<br>
+			<br>
+			<p> 
+			The idea of this graph is to depict the frequency of an ingredient in the recipe. 
+			Surprisingly the most popular ingredient was <b> [something] </b>. 
+			<p>
+		</div>
+	</div>
+  
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+	<script type="text/javascript" src="/static/js/ingredient_Frequency_bar.js"></script>
+	<link rel="stylesheet" link href="/static/css/ingredient_Frequency_bar.css">
+
+{% endblock %}
