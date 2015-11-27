@@ -1,4 +1,4 @@
-var margin = {top: 40, right: 20, bottom: 30, left: 40},
+var margin = {top: 40, right: 20, bottom: 130, left: 40},
     width = 600 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -16,8 +16,7 @@ var xAxis = d3.svg.axis()
 
 var yAxis = d3.svg.axis()
     .scale(y)
-    .orient("left")
-    .tickFormat(formatPercent);
+    .orient("left");
 
 var tip = d3.tip()
   .attr('class', 'd3-tip')
@@ -29,7 +28,7 @@ var tip = d3.tip()
 var svg = d3.select("#graph1").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-  .append("g")
+    .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 svg.call(tip);
@@ -42,17 +41,23 @@ d3.json("/ingredient_Frequency_json", function(error, data) {
   svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
+      .call(xAxis)
+       .selectAll("text")  
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-50)" );;
+
 
   svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
-    .append("text")
+      .append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Frequency");
+      .text("Number of Occurences");
 
   svg.selectAll(".bar")
       .data(data)
