@@ -2334,6 +2334,7 @@ th {
 
 .table {
 	width: 100%;
+	font-size: 14px;
 	max-width: 100%;
 	margin-bottom: 20px
 }
@@ -4472,7 +4473,8 @@ textarea.input-group-sm>.form-control, textarea.input-group-sm>.input-group-addo
 }
 
 .navbar-default .navbar-nav>li>a {
-	color: #777
+	color: #777;
+	font-size:14px
 }
 
 .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus

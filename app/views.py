@@ -25,6 +25,10 @@ def home():
 def about():
   return render_template('about.html')
 
+@app.route('/experiments')
+def experiments():
+    return render_template('experiments.html')
+
 @app.route('/recipes')
 def recipes(): 
     """This is to list out all recipes currently in the database"""
