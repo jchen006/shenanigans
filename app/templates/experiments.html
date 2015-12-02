@@ -1,21 +1,19 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="jumbotron">
-  <div class="container">
-    <table class="table">
+    <h1> List of All Experiments </h1>
+    <table class="table table-hover" border="1">
       <tr>
         <th>Experiment</th>
         <th>Description</th>
       </tr>
       <tr>
-        <td>Graph</td>
-        <td>A graph of all the recipes</td>
-      </tr>
-      <tr>
         <td>Frequency</td>
         <td>Frequency of all ingredients</td>
       </tr>
+      <tr class="warning">
+        <td>Graph</td>
+        <td>A graph of all the recipes</td>
+      </tr>
+      
     </table>
-  </div>
-</div>
 {% endblock %}
