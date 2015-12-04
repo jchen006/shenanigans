@@ -5,6 +5,10 @@ from recipe_parser import *
 from ingredient import *
 import numpy as np
 import json
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.decomposition import PCA
+from lda import LDA
+from sklearn.neighbors import NearestNeighbors
 
 #Data = c.namedtuple("Data", "url chef ingredients")
 
@@ -56,7 +60,27 @@ class BagOfIngredients:
         top_ingreds, top_freqs = self.get_top_N_ingredient_frequencies(N)
         js = [{"ingredient": x, "frequency": y} for x, y in zip(top_ingreds, top_freqs)]
         return json.dumps(js)
-        
+
+def PCAModel(bag_of_ingredients_matrix, K=2):
+    pca = PCA(K)
+    X = pca.fit_transform(bag_of_ingredients_matrix)
+    return X
+    
+
+def LDAModel(bag_of_ingredients_matrix, ingredient_mapping, K=10):
+    model = LDA(K) 
+    model.fit(bag_of_ingredients_matrix.astype('int64'))
+    for i, topic_dist in enumerate(model.topic_word_):
+    	topic_words = np.array(ingredient_mapping)[np.argsort(topic_dist)][:-(K+1):-1]
+	
+    doc_topic = model.doc_topic_
+    return doc_topic
+
+def NearestNeighborsModel(bag_of_ingredients_matrix):
+    nbrs = NearestNeighbors()
+    nbrs.fit(bag_of_ingredients_matrix)
+    return nbrs
+
 
 
 
@@ -65,5 +89,9 @@ if __name__=='__main__':
     b.generate_bag_of_ingredients()
     b.generate_recipe_vectors()
     top_ingreds, top_freqs = b.get_top_N_ingredient_frequencies(20)
+    X = b.recipe_vects
+    pca_x = PCAModel(X)
+    lda_x_doc_topic = LDAModel(X, b.ordered_ingredients)
+    nearest_neighbors_x = NearestNeighborsModel(X)
     import pdb; pdb.set_trace()
     # g.make_graph_from_tuple()
