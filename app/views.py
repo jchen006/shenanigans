@@ -80,6 +80,10 @@ def ing_freq_json():
 def ing_freq():
     return render_template('ingredient_Frequency.html')
 
+@app.route('/lda_graph')
+def lda_graph(): 
+    return render_template('lda_graph.html')
+
 @app.route('/d3')
 def d3(): 
     return render_template('d3.html')
