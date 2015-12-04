@@ -61,28 +61,41 @@ class BagOfIngredients:
         js = [{"ingredient": x, "frequency": y} for x, y in zip(top_ingreds, top_freqs)]
         return json.dumps(js)
 
-def PCAModel(bag_of_ingredients_matrix, K=2):
-    pca = PCA(K)
-    X = pca.fit_transform(bag_of_ingredients_matrix)
-    return X
-    
+class PCAModel:
+    def __init__(self, bag_of_ingredients_matrix, K=2):
+        self.model = PCA(K)
+        self.BOI = bag_of_ingredients_matrix
+        self.fit_data = self.model.fit_transform(self.BOI)
 
-def LDAModel(bag_of_ingredients_matrix, ingredient_mapping, K=10):
-    model = LDA(K) 
-    model.fit(bag_of_ingredients_matrix.astype('int64'))
-    for i, topic_dist in enumerate(model.topic_word_):
-    	topic_words = np.array(ingredient_mapping)[np.argsort(topic_dist)][:-(K+1):-1]
-	
-    doc_topic = model.doc_topic_
-    return doc_topic
+class LDAModel:
+    def __init__(self, bag_of_ingredients_matrix, ingredients, recipes, K=10):
+        self.model = LDA(K) 
+        self.BOI = bag_of_ingredients_matrix
+        self.ingredients = ingredients
+        self.recipes = recipes
+        self.model.fit(self.BOI.astype('int64'))
+        
+        self.doc_topic = self.model.doc_topic_
+        self.topic_assignments = self.doc_topic.argmax(axis=1)
+        self.clustered_recipes = {}
+        for i in range(K):
+            self.clustered_recipes[i] = []
 
-def NearestNeighborsModel(bag_of_ingredients_matrix):
-    nbrs = NearestNeighbors()
-    nbrs.fit(bag_of_ingredients_matrix)
-    return nbrs
+        for i in range(len(self.topic_assignments)):
+            self.clustered_recipes[self.topic_assignments[i]].append(self.recipes[i].name)
 
+    def get_K_topic_words(self, K):
+        topic_words_arr = []
+        for i, topic_dist in enumerate(self.model.topic_word_):
+            topic_words = np.array(self.ingredients)[np.argsort(topic_dist)][:-(K+1):-1]
+            topic_words_arr.append(topic_words)
+        return np.array(topic_words_arr)
 
-
+class NearestNeighborsModel:
+    def __init__(self, bag_of_ingredients_matrix):
+        self.model = NearestNeighbors()
+        self.BOI = bag_of_ingredients_matrix
+        self.model.fit(bag_of_ingredients_matrix)
 
 if __name__=='__main__':
     b = BagOfIngredients()
@@ -90,8 +103,10 @@ if __name__=='__main__':
     b.generate_recipe_vectors()
     top_ingreds, top_freqs = b.get_top_N_ingredient_frequencies(20)
     X = b.recipe_vects
-    pca_x = PCAModel(X)
-    lda_x_doc_topic = LDAModel(X, b.ordered_ingredients)
-    nearest_neighbors_x = NearestNeighborsModel(X)
+    P = PCAModel(X)
+    L = LDAModel(X, b.ordered_ingredients, b.ordered_recipes)
+    NN = NearestNeighborsModel(X)
+    clusters = L.clustered_recipes
+    print L.clustered_recipes
     import pdb; pdb.set_trace()
     # g.make_graph_from_tuple()
