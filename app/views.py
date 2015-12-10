@@ -14,6 +14,13 @@ g.make_d3()
 b = BagOfIngredients()
 b.generate_bag_of_ingredients()
 b.generate_recipe_vectors()
+top_ingreds, top_freqs = b.get_top_N_ingredient_frequencies(20)
+X = b.recipe_vects
+P = PCAModel(X)
+L = LDAModel(X, b.ordered_ingredients, b.ordered_recipes)
+NN = NearestNeighborsModel(X)
+clusters = L.clustered_recipes
+lda_json = L.d3_json
 
 m = MongoHelper()
 
@@ -79,6 +86,10 @@ def ing_freq_json():
 @app.route('/ingredient_Frequency')
 def ing_freq():
     return render_template('ingredient_Frequency.html')
+
+@app.route('/lda_graph_json')
+def lda_graph_json():
+    return lda_json
 
 @app.route('/lda_graph')
 def lda_graph(): 
