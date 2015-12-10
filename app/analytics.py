@@ -83,6 +83,8 @@ class LDAModel:
 
         for i in range(len(self.topic_assignments)):
             self.clustered_recipes[self.topic_assignments[i]].append(self.recipes[i].name)
+	
+	self.d3_json = self.get_d3_json()
 
     def get_K_topic_words(self, K):
         topic_words_arr = []
@@ -90,6 +92,27 @@ class LDAModel:
             topic_words = np.array(self.ingredients)[np.argsort(topic_dist)][:-(K+1):-1]
             topic_words_arr.append(topic_words)
         return np.array(topic_words_arr)
+
+    def get_d3_json(self):
+    	temp_json = {}
+	temp_json["name"] = "LDA"
+	temp_json["children"] = []
+	json_clusters = temp_json["children"]
+	for i in range(len(self.clustered_recipes)):
+	    cluster = self.clustered_recipes[i]
+	    temp_cluster_json = {}
+	    temp_cluster_json["name"] = "Cluster " + str(i)
+	    temp_cluster_json["children"] = []
+	    children = temp_cluster_json["children"]
+	    for r in cluster:
+	    	children.append({"name": r,"size":1})
+	    
+	    json_clusters.append(temp_cluster_json)
+	
+	return json.dumps(temp_json)
+	    	
+	    
+	
 
 class NearestNeighborsModel:
     def __init__(self, bag_of_ingredients_matrix):
@@ -107,6 +130,6 @@ if __name__=='__main__':
     L = LDAModel(X, b.ordered_ingredients, b.ordered_recipes)
     NN = NearestNeighborsModel(X)
     clusters = L.clustered_recipes
-    print L.clustered_recipes
+    lda_json = L.d3_json
     import pdb; pdb.set_trace()
     # g.make_graph_from_tuple()
