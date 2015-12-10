@@ -1,115 +1,74 @@
-var width = 960,
-    height = 500,
-    padding = 1.5, // separation between same-color nodes
-    clusterPadding = 6, // separation between different-color nodes
-    maxRadius = 12;
+var margin = 20,
+    diameter = 500;
 
-var n = 200, // total number of nodes
-    m = 10; // number of distinct clusters
+var color = d3.scale.linear()
+    .domain([-1, 5])
+    .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
+    .interpolate(d3.interpolateHcl);
 
-var color = d3.scale.category10()
-    .domain(d3.range(m));
-
-// The largest node for each cluster.
-var clusters = new Array(m);
-
-var nodes = d3.range(n).map(function() {
-  var i = Math.floor(Math.random() * m),
-      r = Math.sqrt((i + 1) / m * -Math.log(Math.random())) * maxRadius,
-      d = {cluster: i, radius: r};
-  if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
-  return d;
-});
-
-// Use the pack layout to initialize node positions.
-d3.layout.pack()
-    .sort(null)
-    .size([width, height])
-    .children(function(d) { return d.values; })
-    .value(function(d) { return d.radius * d.radius; })
-    .nodes({values: d3.nest()
-      .key(function(d) { return d.cluster; })
-      .entries(nodes)});
-
-var force = d3.layout.force()
-    .nodes(nodes)
-    .size([width, height])
-    .gravity(.02)
-    .charge(0)
-    .on("tick", tick)
-    .start();
+var pack = d3.layout.pack()
+    .padding(2)
+    .size([diameter - margin, diameter - margin])
+    .value(function(d) { return d.size; })
 
 var svg = d3.select("#lda").append("svg")
-    .attr("width", width)
-    .attr("height", height);
+    .attr("width", diameter)
+    .attr("height", diameter)
+  .append("g")
+    .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-var node = svg.selectAll("circle")
-    .data(nodes)
-  	.enter().append("circle")
-    .style("fill", function(d) { return color(d.cluster); })
-    .call(force.drag);
+d3.json("/static/js/experiments/flare.json", function(error, root) {
+  if (error) throw error;
 
+  var focus = root,
+      nodes = pack.nodes(root),
+      view;
 
+  var circle = svg.selectAll("circle")
+      .data(nodes)
+    .enter().append("circle")
+      .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+      .style("fill", function(d) { return d.children ? color(d.depth) : null; })
+      .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
 
-node.transition()
-    .duration(750)
-    .delay(function(d, i) { return i * 5; })
-    .attrTween("r", function(d) {
-      var i = d3.interpolate(0, d.radius);
-      return function(t) { return d.radius = i(t); };
-    });
+  var text = svg.selectAll("text")
+      .data(nodes)
+    .enter().append("text")
+      .attr("class", "label")
+      .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
+      .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+      .text(function(d) { return d.name; });
 
-function tick(e) {
-  node
-      .each(cluster(10 * e.alpha * e.alpha))
-      .each(collide(.5))
-      .attr("cx", function(d) { return d.x; })
-      .attr("cy", function(d) { return d.y; });
-}
+  var node = svg.selectAll("circle,text");
 
-// Move d to be adjacent to the cluster node.
-function cluster(alpha) {
-  return function(d) {
-    var cluster = clusters[d.cluster];
-    if (cluster === d) return;
-    var x = d.x - cluster.x,
-        y = d.y - cluster.y,
-        l = Math.sqrt(x * x + y * y),
-        r = d.radius + cluster.radius;
-    if (l != r) {
-      l = (l - r) / l * alpha;
-      d.x -= x *= l;
-      d.y -= y *= l;
-      cluster.x += x;
-      cluster.y += y;
-    }
-  };
-}
+  d3.select("body")
+      .style("background", color(-1))
+      .on("click", function() { zoom(root); });
 
-// Resolves collisions between d and all other circles.
-function collide(alpha) {
-  var quadtree = d3.geom.quadtree(nodes);
-  return function(d) {
-    var r = d.radius + maxRadius + Math.max(padding, clusterPadding),
-        nx1 = d.x - r,
-        nx2 = d.x + r,
-        ny1 = d.y - r,
-        ny2 = d.y + r;
-    quadtree.visit(function(quad, x1, y1, x2, y2) {
-      if (quad.point && (quad.point !== d)) {
-        var x = d.x - quad.point.x,
-            y = d.y - quad.point.y,
-            l = Math.sqrt(x * x + y * y),
-            r = d.radius + quad.point.radius + (d.cluster === quad.point.cluster ? padding : clusterPadding);
-        if (l < r) {
-          l = (l - r) / l * alpha;
-          d.x -= x *= l;
-          d.y -= y *= l;
-          quad.point.x += x;
-          quad.point.y += y;
-        }
-      }
-      return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
-    });
-  };
-}
+  zoomTo([root.x, root.y, root.r * 2 + margin]);
+
+  function zoom(d) {
+    var focus0 = focus; focus = d;
+
+    var transition = d3.transition()
+        .duration(d3.event.altKey ? 7500 : 750)
+        .tween("zoom", function(d) {
+          var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
+          return function(t) { zoomTo(i(t)); };
+        });
+
+    transition.selectAll("text")
+      .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+        .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
+        .each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+        .each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+  }
+
+  function zoomTo(v) {
+    var k = diameter / v[2]; view = v;
+    node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+    circle.attr("r", function(d) { return d.r * k; });
+  }
+});
+
+d3.select(self.frameElement).style("height", diameter + "px");
