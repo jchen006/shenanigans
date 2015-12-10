@@ -17,7 +17,7 @@ var svg = d3.select("#lda").append("svg")
   .append("g")
     .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-d3.json("/static/js/experiments/flare.json", function(error, root) {
+d3.json("/lda_graph_json", function(error, root) {
   if (error) throw error;
 
   var focus = root,
