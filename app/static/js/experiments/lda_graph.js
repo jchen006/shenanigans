@@ -24,9 +24,11 @@ d3.json("/lda_graph_json", function(error, root) {
       nodes = pack.nodes(root),
       view;
 
-  var circle = svg.selectAll("circle")
+  var circles = svg.selectAll("circle")
       .data(nodes)
-    .enter().append("circle")
+      .enter();
+
+  var circle = circles.append("circle")
       .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
       .style("fill", function(d) { return d.children ? color(d.depth) : null; })
       .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
