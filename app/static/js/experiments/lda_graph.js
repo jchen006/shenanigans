@@ -17,6 +17,15 @@ var svg = d3.select("#lda").append("svg")
   .append("g")
     .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>Recipe:</strong> <span style='color:red'>" + d.name + "</span>";
+})
+
+svg.call(tip);
+
 d3.json("/lda_graph_json", function(error, root) {
   if (error) throw error;
 

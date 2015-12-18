@@ -127,7 +127,7 @@ if __name__=='__main__':
     top_ingreds, top_freqs = b.get_top_N_ingredient_frequencies(20)
     X = b.recipe_vects
     P = PCAModel(X)
-    L = LDAModel(X, b.ordered_ingredients, b.ordered_recipes)
+    L = LDAModel(X, b.ordered_ingredients, b.ordered_recipes, K=2)
     NN = NearestNeighborsModel(X)
     clusters = L.clustered_recipes
     lda_json = L.d3_json
