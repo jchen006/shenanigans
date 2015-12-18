@@ -95,6 +95,10 @@ def lda_graph_json():
 def lda_graph(): 
     return render_template('lda_graph.html')
 
+@app.route('/radar_graph') 
+def radar_graph(): 
+    return render_template('radar_graph.html')
+
 @app.route('/d3')
 def d3(): 
     return render_template('d3.html')
