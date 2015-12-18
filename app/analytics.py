@@ -110,9 +110,25 @@ class LDAModel:
 	    json_clusters.append(temp_cluster_json)
 	
 	return json.dumps(temp_json)
-	    	
-	    
-	
+
+    def get_ordered_recipes_json(self):
+    	temp_json = {}
+	temp_json["ordered_recipes"] = self.ordered_recipes
+	return json.dumps(temp_json)
+
+    def get_radar_json(self, rec_idx1, rec_idx2):
+    	vec1, vec2 = self.doc_topic[rec_idx1], self.doc_topic[rec_idx2]
+	temp_json = {}
+	temp_json["dists"] = []
+
+	for rec_i in [rec_idx1, rec_idx2]:
+	   temp_list = []
+           vec = self.doc_topic[rec_i]
+	   for j in range(len(vec)):
+	       temp_list.append({"axis":"cluster " + str(j), "value": "{0:.5f}".format(vec[j]) })
+           temp_json["dists"].append(temp_list)
+
+        return json.dumps(temp_json)
 
 class NearestNeighborsModel:
     def __init__(self, bag_of_ingredients_matrix):

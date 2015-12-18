@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template
+from flask import render_template, request
 from recipe_page import *
 from analytics import *
 import json
@@ -94,6 +94,12 @@ def lda_graph_json():
 @app.route('/lda_graph')
 def lda_graph(): 
     return render_template('lda_graph.html')
+
+@app.route('/radar_graph_json')
+def radar_graph_json():
+    r1 = request.args.get('recipe1')
+    r2 = request.args.get('recipe2')
+    return L.get_radar_json(r1, r2)
 
 @app.route('/d3')
 def d3(): 
