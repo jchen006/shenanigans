@@ -101,7 +101,7 @@ def radar_graph():
 
 @app.route('/ordered_recipes_json')
 def ordered_recipes_json():
-    return b.get_ordered_recipes_json()
+    return L.get_ordered_recipes_json()
 
 @app.route('/radar_graph_json')
 def radar_graph_json():

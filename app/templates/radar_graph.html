@@ -14,11 +14,8 @@
   				<div class="col-md-5">
   					<div class="form-group">
  						<label for="recipe1">Select list:</label>
-  						<select class="form-control" id="recipe2">
-   							<option>1</option>
-    						<option>2</option>
-    						<option>3</option>
-    						<option>4</option>
+  						<select class="form-control" id="recipe1">
+  							<option></option>
   						</select>
 					</div>
 				</div>
@@ -26,10 +23,7 @@
   					<div class="form-group">
  						<label for="recipe2">Select list:</label>
   						<select class="form-control" id="recipe2">
-   							<option>1</option>
-    						<option>2</option>
-    						<option>3</option>
-    						<option>4</option>
+  							<option></option>
   						</select>
 					</div>
 				</div>
@@ -51,7 +45,26 @@
 			</div>
 		</body-main>
 	</div>
-  
+  	<script>
+	window.onload = loadSelectors();
+
+	function loadSelectors() {
+		loadSelector('recipe1');
+		loadSelector('recipe2');
+	}
+
+	function loadSelector(selectorId){
+  		var recipe = document.getElementById(selectorId);
+  		var test = ['Sugar Cookies', 'something', 'something1', 'something2'];
+    	for(var i = 0; i <= test.length; i++) {
+        	var option = document.createElement("option");
+        	option.value = i;
+        	option.innerHTML = test[i];
+        	recipe.appendChild(option);
+    	}
+	};
+
+	</script>
 	<script type="text/javascript" src="/static/js/experiments/radar_chart.js"></script>
 	<link rel="stylesheet" link href="/static/css/experiments/radar_chart.css">
 	<script>
