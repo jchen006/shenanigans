@@ -13,8 +13,8 @@
   				<div class="row">
   				<div class="col-md-5">
   					<div class="form-group">
- 						<label for="sel1">Select list:</label>
-  						<select class="form-control" id="sel1">
+ 						<label for="recipe1">Select list:</label>
+  						<select class="form-control" id="recipe2">
    							<option>1</option>
     						<option>2</option>
     						<option>3</option>
@@ -24,8 +24,8 @@
 				</div>
 				<div class="col-md-5">
   					<div class="form-group">
- 						<label for="sel1">Select list:</label>
-  						<select class="form-control" id="sel1">
+ 						<label for="recipe2">Select list:</label>
+  						<select class="form-control" id="recipe2">
    							<option>1</option>
     						<option>2</option>
     						<option>3</option>
@@ -34,7 +34,7 @@
 					</div>
 				</div>
 				<div class="col-md-3">
-  					<input class="btn btn-primary" type="submit" value="Submit">
+  					<input class="btn btn-primary" type="submit" value="Submit" onClick="">
 				</div>
 				</div>
     			<div class="radarChart"></div>
@@ -67,23 +67,22 @@
 			////////////////////////// Data ////////////////////////////// 
 			////////////////////////////////////////////////////////////// 
 
-			var data =  [[{"value": "0.13750", "axis": "cluster 0"}, {"value": "0.01250", "axis": "cluster 1"}, {"value": "0.01250", "axis": "cluster 2"}, {"value": "0.01250", "axis": "cluster 3"}, {"value": "0.01250", "axis": "cluster 4"}, {"value": "0.01250", "axis": "cluster 5"}, {"value": "0.01250", "axis": "cluster 6"}, {"value": "0.01250", "axis": "cluster 7"}, {"value": "0.76250", "axis": "cluster 8"}, {"value": "0.01250", "axis": "cluster 9"}], [{"value": "0.01000", "axis": "cluster 0"}, {"value": "0.01000", "axis": "cluster 1"}, {"value": "0.01000", "axis": "cluster 2"}, {"value": "0.31000", "axis": "cluster 3"}, {"value": "0.01000", "axis": "cluster 4"}, {"value": "0.01000", "axis": "cluster 5"}, {"value": "0.31000", "axis": "cluster 6"}, {"value": "0.01000", "axis": "cluster 7"}, {"value": "0.01000", "axis": "cluster 8"}, {"value": "0.31000", "axis": "cluster 9"}]];
+			function generateGraph(recipe1, recipe2) {
+				var response = $.ajax({
+					url : "/radar_graph_json?recipe1=" + recipe1.toString() + "&recipe2=" + recipe2.toString(),
+					type : "GET",
+					success : function(result) {
+						var data = JSON.parse(result);
+						var dataset = data.dists;
+						RadarChart(".radarChart", dataset, radarChartOptions);
+					},
+					error : function(xhr, ajaxOptions, thrownError) {
+						alert("There was an error with your string." + thrownError);
+					}
+				});
+			};
 
-			var ajaxOptions = {
-			url : "/identity-monitor-go/hourly?flow=" + flow + "&offeringId="
-					+ name,
-			type : "GET",
-			success : function(result) {
-				var data = JSON.parse(result);
-				
-
-			},
-			error : function(xhr, ajaxOptions, thrownError) {
-				alert("There was an error with your string." + thrownError);
-			}
-		};
-
-		$.ajax(ajaxOptions);
+			
 			////////////////////////////////////////////////////////////// 
 			//////////////////// Draw the Chart ////////////////////////// 
 			////////////////////////////////////////////////////////////// 
@@ -100,8 +99,9 @@
 			  roundStrokes: true,
 			  color: color
 			};
-			//Call function to draw the Radar chart
-			RadarChart(".radarChart", data, radarChartOptions);
+
+			generateGraph(1, 2);
+			
 		</script>
 
 {% endblock %}
