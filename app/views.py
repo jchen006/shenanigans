@@ -99,6 +99,10 @@ def lda_graph():
 def radar_graph(): 
     return render_template('radar_graph.html')
 
+@app.route('/ordered_recipes_json')
+def ordered_recipes_json():
+    return b.get_ordered_recipes_json()
+
 @app.route('/radar_graph_json')
 def radar_graph_json():
     r1 = request.args.get('recipe1')
