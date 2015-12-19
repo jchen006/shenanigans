@@ -113,7 +113,7 @@ class LDAModel:
 
     def get_ordered_recipes_json(self):
     	temp_json = {}
-	temp_json["ordered_recipes"] = self.ordered_recipes
+	temp_json["ordered_recipes"] = self.recipes
 	return json.dumps(temp_json)
 
     def get_radar_json(self, rec_idx1, rec_idx2):
