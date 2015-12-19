@@ -10,6 +10,33 @@
 	<div class="row">
 		<div class="col-md-6">
   			<body>
+  				<div class="row">
+  				<div class="col-md-5">
+  					<div class="form-group">
+ 						<label for="sel1">Select list:</label>
+  						<select class="form-control" id="sel1">
+   							<option>1</option>
+    						<option>2</option>
+    						<option>3</option>
+    						<option>4</option>
+  						</select>
+					</div>
+				</div>
+				<div class="col-md-5">
+  					<div class="form-group">
+ 						<label for="sel1">Select list:</label>
+  						<select class="form-control" id="sel1">
+   							<option>1</option>
+    						<option>2</option>
+    						<option>3</option>
+    						<option>4</option>
+  						</select>
+					</div>
+				</div>
+				<div class="col-md-3">
+  					<input class="btn btn-primary" type="submit" value="Submit">
+				</div>
+				</div>
     			<div class="radarChart"></div>
   			</body>
 		</div>
@@ -17,6 +44,7 @@
 			<div class="col-md-6">
 				<br>
 				<br>
+				<h3> [Article]
 				<p> 
 				Radar graph to show 
 				<p>
@@ -39,36 +67,23 @@
 			////////////////////////// Data ////////////////////////////// 
 			////////////////////////////////////////////////////////////// 
 
-			var data = [
-					  [//iPhone
-						{axis:"Battery Life",value:0.22},
-						{axis:"Brand",value:0.28},
-						{axis:"Contract Cost",value:0.29},
-						{axis:"Design And Quality",value:0.17},
-						{axis:"Have Internet Connectivity",value:0.22},
-						{axis:"Large Screen",value:0.02},
-						{axis:"Price Of Device",value:0.21},
-						{axis:"To Be A Smartphone",value:0.50}			
-					  ],[//Samsung
-						{axis:"Battery Life",value:0.27},
-						{axis:"Brand",value:0.16},
-						{axis:"Contract Cost",value:0.35},
-						{axis:"Design And Quality",value:0.13},
-						{axis:"Have Internet Connectivity",value:0.20},
-						{axis:"Large Screen",value:0.13},
-						{axis:"Price Of Device",value:0.35},
-						{axis:"To Be A Smartphone",value:0.38}
-					  ],[//Nokia Smartphone
-						{axis:"Battery Life",value:0.26},
-						{axis:"Brand",value:0.10},
-						{axis:"Contract Cost",value:0.30},
-						{axis:"Design And Quality",value:0.14},
-						{axis:"Have Internet Connectivity",value:0.22},
-						{axis:"Large Screen",value:0.04},
-						{axis:"Price Of Device",value:0.41},
-						{axis:"To Be A Smartphone",value:0.30}
-					  ]
-					];
+			var data =  [[{"value": "0.13750", "axis": "cluster 0"}, {"value": "0.01250", "axis": "cluster 1"}, {"value": "0.01250", "axis": "cluster 2"}, {"value": "0.01250", "axis": "cluster 3"}, {"value": "0.01250", "axis": "cluster 4"}, {"value": "0.01250", "axis": "cluster 5"}, {"value": "0.01250", "axis": "cluster 6"}, {"value": "0.01250", "axis": "cluster 7"}, {"value": "0.76250", "axis": "cluster 8"}, {"value": "0.01250", "axis": "cluster 9"}], [{"value": "0.01000", "axis": "cluster 0"}, {"value": "0.01000", "axis": "cluster 1"}, {"value": "0.01000", "axis": "cluster 2"}, {"value": "0.31000", "axis": "cluster 3"}, {"value": "0.01000", "axis": "cluster 4"}, {"value": "0.01000", "axis": "cluster 5"}, {"value": "0.31000", "axis": "cluster 6"}, {"value": "0.01000", "axis": "cluster 7"}, {"value": "0.01000", "axis": "cluster 8"}, {"value": "0.31000", "axis": "cluster 9"}]];
+
+			var ajaxOptions = {
+			url : "/identity-monitor-go/hourly?flow=" + flow + "&offeringId="
+					+ name,
+			type : "GET",
+			success : function(result) {
+				var data = JSON.parse(result);
+				
+
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				alert("There was an error with your string." + thrownError);
+			}
+		};
+
+		$.ajax(ajaxOptions);
 			////////////////////////////////////////////////////////////// 
 			//////////////////// Draw the Chart ////////////////////////// 
 			////////////////////////////////////////////////////////////// 
