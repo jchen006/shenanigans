@@ -83,8 +83,8 @@ class LDAModel:
 
         for i in range(len(self.topic_assignments)):
             self.clustered_recipes[self.topic_assignments[i]].append(self.recipes[i].name)
-	
-	self.d3_json = self.get_d3_json()
+    
+        self.d3_json = self.get_d3_json()
 
     def get_K_topic_words(self, K):
         topic_words_arr = []
@@ -94,40 +94,39 @@ class LDAModel:
         return np.array(topic_words_arr)
 
     def get_d3_json(self):
-    	temp_json = {}
-	temp_json["name"] = "LDA"
-	temp_json["children"] = []
-	json_clusters = temp_json["children"]
-	for i in range(len(self.clustered_recipes)):
-	    cluster = self.clustered_recipes[i]
-	    temp_cluster_json = {}
-	    temp_cluster_json["name"] = "Cluster " + str(i)
-	    temp_cluster_json["children"] = []
-	    children = temp_cluster_json["children"]
-	    for r in cluster:
-	    	children.append({"name": r,"size":1})
-	    
-	    json_clusters.append(temp_cluster_json)
-	
-	return json.dumps(temp_json)
+        temp_json = {}
+        temp_json["name"] = "LDA"
+        temp_json["children"] = []
+        json_clusters = temp_json["children"]
+        for i in range(len(self.clustered_recipes)):
+            cluster = self.clustered_recipes[i]
+            temp_cluster_json = {}
+            temp_cluster_json["name"] = "Cluster " + str(i)
+            temp_cluster_json["children"] = []
+            children = temp_cluster_json["children"]
+            for r in cluster:
+                children.append({"name": r,"size":1})
+            
+            json_clusters.append(temp_cluster_json)
+    
+        return json.dumps(temp_json)
 
     def get_ordered_recipes_json(self):
-    	temp_json = {}
-	temp_json["ordered_recipes"] = self.recipes
-	return json.dumps(temp_json)
+        temp_json = {}
+        temp_json["ordered_recipes"] = [r.name for r in self.recipes]
+        return json.dumps(temp_json)
 
     def get_radar_json(self, rec_idx1, rec_idx2):
-    	vec1, vec2 = self.doc_topic[rec_idx1], self.doc_topic[rec_idx2]
-	temp_json = {}
-	temp_json["dists"] = []
+        vec1, vec2 = self.doc_topic[rec_idx1], self.doc_topic[rec_idx2]
+        temp_json = {}
+        temp_json["dists"] = []
 
-	for rec_i in [rec_idx1, rec_idx2]:
-	   temp_list = []
+        for rec_i in [rec_idx1, rec_idx2]:
+           temp_list = []
            vec = self.doc_topic[rec_i]
-	   for j in range(len(vec)):
-	       temp_list.append({"axis":"cluster " + str(j), "value": "{0:.5f}".format(vec[j]) })
-           temp_json["dists"].append(temp_list)
-
+           for j in range(len(vec)):
+               temp_list.append({"axis":"cluster " + str(j), "value": "{0:.5f}".format(vec[j]) })
+               temp_json["dists"].append(temp_list)
         return json.dumps(temp_json)
 
 class NearestNeighborsModel:
