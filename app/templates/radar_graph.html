@@ -28,7 +28,7 @@
 					</div>
 				</div>
 				<div class="col-md-3">
-  					<input class="btn btn-primary" type="submit" value="Submit" onclick="">
+  					<input class="btn btn-primary" type="submit" value="Submit" onclick="createGraph()">
 				</div>
 				</div>
     			<div class="radarChart"></div>
@@ -46,27 +46,38 @@
 		</body-main>
 	</div>
   	<script>
-	window.onload = loadSelectors();
+	window.onload = generateSelector();
 
 	function loadSelectors() {
 		loadSelector('recipe1');
 		loadSelector('recipe2');
 	}
 
-	function loadSelector(selectorId){
+	function loadSelector(selectorId, data){
   		var recipe = document.getElementById(selectorId);
-  		var test = ['Sugar Cookies', 'something', 'something1', 'something2'];
-    	for(var i = 0; i <= test.length; i++) {
+    	for(var i = 0; i <= data.length; i++) {
         	var option = document.createElement("option");
         	option.value = i;
-        	option.innerHTML = test[i];
+        	option.innerHTML = data[i];
         	recipe.appendChild(option);
     	}
 	};
 
-	function createGraph() {
-		
-	}
+	function generateSelector() {
+		var response = $.ajax({
+			url : "/ordered_recipes_json",
+			type : "GET",
+			success : function(result) {
+				var data = JSON.parse(result);
+				var dataset = data.ordered_recipes;
+				loadSelector("recipe1", dataset);
+				loadSelector("recipe2", dataset);
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				alert("There was an error with your string." + thrownError);
+				}
+			});
+		};
 
 	</script>
 	<script type="text/javascript" src="/static/js/experiments/radar_chart.js"></script>
@@ -99,6 +110,11 @@
 				});
 			};
 
+			function createGraph() {
+				var recipe1 = document.getElementById("recipe1").value;
+				var recipe2 = document.getElementById("recipe2").value;
+				generateGraph(recipe1, recipe2);
+			}
 			
 			////////////////////////////////////////////////////////////// 
 			//////////////////// Draw the Chart ////////////////////////// 
