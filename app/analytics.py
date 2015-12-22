@@ -123,7 +123,7 @@ class LDAModel:
 
         for rec_i in [rec_idx1, rec_idx2]:
            temp_list = []
-           vec = self.doc_topic[rec_i]
+           vec = self.doc_topic[int(rec_i)]
            for j in range(len(vec)):
                temp_list.append({"axis":"cluster " + str(j), "value": "{0:.5f}".format(vec[j]) })
                temp_json["dists"].append(temp_list)
