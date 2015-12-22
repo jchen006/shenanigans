@@ -117,6 +117,7 @@ class LDAModel:
 	return json.dumps(temp_json)
 
     def get_radar_json(self, rec_idx1, rec_idx2):
+        rec_idx1, rec_idx2 = int(rec_idx1), int(rec_idx2)
     	vec1, vec2 = self.doc_topic[rec_idx1], self.doc_topic[rec_idx2]
 	temp_json = {}
 	temp_json["dists"] = []
