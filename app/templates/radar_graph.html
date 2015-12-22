@@ -14,11 +14,8 @@
   				<div class="col-md-5">
   					<div class="form-group">
  						<label for="recipe1">Select list:</label>
-  						<select class="form-control" id="recipe2">
-   							<option>1</option>
-    						<option>2</option>
-    						<option>3</option>
-    						<option>4</option>
+  						<select class="form-control" id="recipe1">
+  							<option></option>
   						</select>
 					</div>
 				</div>
@@ -26,15 +23,12 @@
   					<div class="form-group">
  						<label for="recipe2">Select list:</label>
   						<select class="form-control" id="recipe2">
-   							<option>1</option>
-    						<option>2</option>
-    						<option>3</option>
-    						<option>4</option>
+  							<option></option>
   						</select>
 					</div>
 				</div>
 				<div class="col-md-3">
-  					<input class="btn btn-primary" type="submit" value="Submit" onClick="">
+  					<input class="btn btn-primary" type="submit" value="Submit" onclick="createGraph()">
 				</div>
 				</div>
     			<div class="radarChart"></div>
@@ -51,7 +45,41 @@
 			</div>
 		</body-main>
 	</div>
-  
+  	<script>
+	window.onload = generateSelector();
+
+	function loadSelectors() {
+		loadSelector('recipe1');
+		loadSelector('recipe2');
+	}
+
+	function loadSelector(selectorId, data){
+  		var recipe = document.getElementById(selectorId);
+    	for(var i = 0; i <= data.length; i++) {
+        	var option = document.createElement("option");
+        	option.value = i;
+        	option.innerHTML = data[i];
+        	recipe.appendChild(option);
+    	}
+	};
+
+	function generateSelector() {
+		var response = $.ajax({
+			url : "/ordered_recipes_json",
+			type : "GET",
+			success : function(result) {
+				var data = JSON.parse(result);
+				var dataset = data.ordered_recipes;
+				loadSelector("recipe1", dataset);
+				loadSelector("recipe2", dataset);
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				alert("There was an error with your string." + thrownError);
+				}
+			});
+		};
+
+	</script>
 	<script type="text/javascript" src="/static/js/experiments/radar_chart.js"></script>
 	<link rel="stylesheet" link href="/static/css/experiments/radar_chart.css">
 	<script>
@@ -82,6 +110,11 @@
 				});
 			};
 
+			function createGraph() {
+				var recipe1 = document.getElementById("recipe1").value;
+				var recipe2 = document.getElementById("recipe2").value;
+				generateGraph(recipe1, recipe2);
+			}
 			
 			////////////////////////////////////////////////////////////// 
 			//////////////////// Draw the Chart ////////////////////////// 
