@@ -7,7 +7,24 @@
 	<h1> 
 		<center><strong>Comparison of Two Recipes </strong></center>
 	</h1>
-	<div class="row">
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="active">
+			<a data-target="#home" data-toggle="tab">Home</a>
+		</li>
+		<li>
+			<a data-target="#profile" data-toggle="tab">Profile</a>
+		</li>
+		<li>
+			<a data-target="#messages" data-toggle="tab">Messages</a>
+		</li>
+		<li>
+			<a data-target="#settings" data-toggle="tab">Settings</a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+		<div class="tab-pane active" id="home">
+			<div class="row">
 		<div class="col-md-6">
   			<body>
   				<div class="row">
@@ -45,6 +62,13 @@
 			</div>
 		</body-main>
 	</div>
+		</div>
+		<div class="tab-pane" id="profile">Profile</div>
+		<div class="tab-pane" id="messages">Message</div>
+		<div class="tab-pane" id="messages">Message</div>
+	</div>
+
+	
   	<script>
 	window.onload = generateSelector();
 
