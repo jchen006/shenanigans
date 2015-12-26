@@ -9,35 +9,32 @@
 	</h1>
 	<ul class="nav nav-tabs" id="myTab">
 		<li class="active">
-			<a data-target="#home" data-toggle="tab">Home</a>
+			<a data-target="#radar" data-toggle="tab">Radar Graph</a>
 		</li>
 		<li>
-			<a data-target="#profile" data-toggle="tab">Profile</a>
+			<a data-target="#ingredCloud" data-toggle="tab">Ingredient Cloud</a>
 		</li>
 		<li>
-			<a data-target="#messages" data-toggle="tab">Messages</a>
-		</li>
-		<li>
-			<a data-target="#settings" data-toggle="tab">Settings</a>
+			<a data-target="#barGraph" data-toggle="tab">Bar Graph</a>
 		</li>
 	</ul>
 
 	<div class="tab-content">
-		<div class="tab-pane active" id="home">
+		<div class="tab-pane active" id="radar">
 			<div class="row">
 				<div class="col-md-6">
   					<body>
   						<div class="row">
   							<div class="col-md-5">
   								<div class="form-group">
- 									<label for="recipe1">Select list:</label>
+ 									<label for="recipe1">Select recipe:</label>
   									<select class="form-control" id="recipe1">
   									</select>
 								</div>
 							</div>
 							<div class="col-md-5">
   								<div class="form-group">
- 									<label for="recipe2">Select list:</label>
+ 									<label for="recipe2">Select recipe:</label>
   									<select class="form-control" id="recipe2">
 									</select>
 								</div>
@@ -60,9 +57,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="tab-pane" id="profile">Profile</div>
-		<div class="tab-pane" id="messages">Message</div>
-		<div class="tab-pane" id="messages">Message</div>
+		<div class="tab-pane" id="ingredCloud">Ingredient Cloud</div>
+		<div class="tab-pane" id="barGraph">Bar Graph</div>
 	</div>
 
 	
@@ -117,18 +113,22 @@
 			////////////////////////////////////////////////////////////// 
 
 			function generateGraph(recipe1, recipe2) {
-				var response = $.ajax({
-					url : "/radar_graph_json?recipe1=" + recipe1.toString() + "&recipe2=" + recipe2.toString(),
-					type : "GET",
-					success : function(result) {
-						var data = JSON.parse(result);
-						var dataset = data.dists;
-						RadarChart(".radarChart", dataset, radarChartOptions);
-					},
-					error : function(xhr, ajaxOptions, thrownError) {
-						alert("There was an error with your string." + thrownError);
-					}
-				});
+				if(recipe1 === recipe2) {
+
+				} else {
+					var response = $.ajax({
+						url : "/radar_graph_json?recipe1=" + recipe1.toString() + "&recipe2=" + recipe2.toString(),
+						type : "GET",
+						success : function(result) {
+							var data = JSON.parse(result);
+							var dataset = data.dists;
+							RadarChart(".radarChart", dataset, radarChartOptions);
+						},
+						error : function(xhr, ajaxOptions, thrownError) {
+							alert("There was an error with your string." + thrownError);
+						}
+					});
+				}
 			};
 
 			function createGraph() {
