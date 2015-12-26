@@ -25,43 +25,40 @@
 	<div class="tab-content">
 		<div class="tab-pane active" id="home">
 			<div class="row">
-		<div class="col-md-6">
-  			<body>
-  				<div class="row">
-  				<div class="col-md-5">
-  					<div class="form-group">
- 						<label for="recipe1">Select list:</label>
-  						<select class="form-control" id="recipe1">
-  							<option></option>
-  						</select>
-					</div>
+				<div class="col-md-6">
+  					<body>
+  						<div class="row">
+  							<div class="col-md-5">
+  								<div class="form-group">
+ 									<label for="recipe1">Select list:</label>
+  									<select class="form-control" id="recipe1">
+  									</select>
+								</div>
+							</div>
+							<div class="col-md-5">
+  								<div class="form-group">
+ 									<label for="recipe2">Select list:</label>
+  									<select class="form-control" id="recipe2">
+									</select>
+								</div>
+							</div>
+							<div class="col-md-3">
+  								<input class="btn btn-primary" type="submit" value="Submit" onclick="createGraph()">
+							</div>
+						</div>
+    					<div class="radarChart"></div>
+  					</body>
 				</div>
-				<div class="col-md-5">
-  					<div class="form-group">
- 						<label for="recipe2">Select list:</label>
-  						<select class="form-control" id="recipe2">
-  							<option></option>
-  						</select>
-					</div>
+				<div class="col-md-2"></div>
+				<div class="col-md-4">
+					<body-main>
+						<br>
+						<br>
+						<h3> [Article]
+						<p> Radar graph to show </p>
+					</body-main>
 				</div>
-				<div class="col-md-3">
-  					<input class="btn btn-primary" type="submit" value="Submit" onclick="createGraph()">
-				</div>
-				</div>
-    			<div class="radarChart"></div>
-  			</body>
-		</div>
-		<body-main>
-			<div class="col-md-6">
-				<br>
-				<br>
-				<h3> [Article]
-				<p> 
-				Radar graph to show 
-				<p>
 			</div>
-		</body-main>
-	</div>
 		</div>
 		<div class="tab-pane" id="profile">Profile</div>
 		<div class="tab-pane" id="messages">Message</div>
