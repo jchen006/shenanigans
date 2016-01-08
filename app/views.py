@@ -130,6 +130,9 @@ def data(ndata=100):
     return json.dumps([{"_id": i, "x": x[i], "y": y[i], "area": A[i],
         "color": c[i]}
         for i in range(ndata)])
+@app.route('/recipe_scatterplot')
+def recipe_scatterplot(): 
+    return render_template('recipe_scatterplot.html')
 
 @app.route("/mongo")
 def readMongo():
