@@ -173,7 +173,7 @@ class LDAModel:
            ys = npos[:,1]
            for ind in range(len(ys)):
                plt.scatter(xs[ind], ys[ind], c=colors[self.topic_assignments[ind]], s=20)
-	   plt.legend('NMDS'), loc='best')
+	   plt.legend('NMDS', loc='best')
 
 	   similarities = similarities.max() / similarities * 100
 	   similarities[np.isinf(similarities)] = 0
