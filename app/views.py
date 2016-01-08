@@ -18,6 +18,7 @@ top_ingreds, top_freqs = b.get_top_N_ingredient_frequencies(20)
 X = b.recipe_vects
 P = PCAModel(X)
 L = LDAModel(X, b.ordered_ingredients, b.ordered_recipes)
+L.plot_mds()
 NN = NearestNeighborsModel(X)
 clusters = L.clustered_recipes
 lda_json = L.d3_json
@@ -130,6 +131,11 @@ def data(ndata=100):
     return json.dumps([{"_id": i, "x": x[i], "y": y[i], "area": A[i],
         "color": c[i]}
         for i in range(ndata)])
+
+@app.route('/recipe_scatterplot_json')
+def recipe_scatterplot_json():
+    return L.get_mds_json()
+
 @app.route('/recipe_scatterplot')
 def recipe_scatterplot(): 
     return render_template('recipe_scatterplot.html')

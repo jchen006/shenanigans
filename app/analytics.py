@@ -92,6 +92,7 @@ class LDAModel:
             self.clustered_recipes[self.topic_assignments[i]].append(self.recipes[i].name)
     
         self.d3_json = self.get_d3_json()
+        self.mds_json = self.plot_mds()
 
     def get_K_topic_words(self, K):
         topic_words_arr = []
@@ -139,6 +140,9 @@ class LDAModel:
                temp_json["dists"].append(temp_list)
 
         return json.dumps(temp_json)
+
+    def get_mds_json(self):
+        return json.dumps(self.mds_json)
     
     def plot_mds(self, DEBUG=False):
     	X_true = self.doc_topic
@@ -153,46 +157,55 @@ class LDAModel:
 
 	npos = mds.fit_transform(similarities, init=pos)
 	
-	pos *= np.sqrt((X_true ** 2).sum()) / np.sqrt((pos ** 2).sum())
+	#pos *= np.sqrt((X_true ** 2).sum()) / np.sqrt((pos ** 2).sum())
 	npos *= np.sqrt((X_true ** 2).sum()) / np.sqrt((npos ** 2).sum())
 
 	clf = PCA(n_components=2)
 	X_true = clf.fit_transform(X_true)
 
-	pos = clf.fit_transform(pos)
+	#pos = clf.fit_transform(pos)
 	npos = clf.fit_transform(npos)
 
+        temp_json = {"mds_json": []}
+
+        xs = npos[:,0]
+        ys = npos[:,1]
+        for ind in range(len(ys)):
+            temp_json["mds_json"].append({"x":str(xs[ind]), "y":str(ys[ind]), "name":self.recipes[ind].name, "cluster":str(self.topic_assignments[ind])})
+
 	if DEBUG:
-	   fig = plt.figure(1)
-	   ax = plt.axes([0., 0., 1., 1.])
-           colors = cm.rainbow(np.linspace(0, 1, self.K))
+            fig = plt.figure(1)
+            ax = plt.axes([0., 0., 1., 1.])
+            colors = cm.rainbow(np.linspace(0, 1, self.K))
 
-	   #plt.scatter(X_true[:, 0], X_true[:, 1], c='r', s=20)
-	   #plt.scatter(pos[:, 0], pos[:, 1], c='g', s=20)
-           xs = npos[:,0]
-           ys = npos[:,1]
-           for ind in range(len(ys)):
-               plt.scatter(xs[ind], ys[ind], c=colors[self.topic_assignments[ind]], s=20)
-	   plt.legend('NMDS', loc='best')
+            #plt.scatter(X_true[:, 0], X_true[:, 1], c='r', s=20)
+            #plt.scatter(pos[:, 0], pos[:, 1], c='g', s=20)
+            xs = npos[:,0]
+            ys = npos[:,1]
+            for ind in range(len(ys)):
+                plt.scatter(xs[ind], ys[ind], c=colors[self.topic_assignments[ind]], s=20)
+            plt.legend('NMDS', loc='best')
 
-	   similarities = similarities.max() / similarities * 100
-	   similarities[np.isinf(similarities)] = 0
+            similarities = similarities.max() / similarities * 100
+            similarities[np.isinf(similarities)] = 0
 
-	   # Plot the edges
-	   start_idx, end_idx = np.where(pos)
-	   #a sequence of (*line0*, *line1*, *line2*), where::
-	   #            linen = (x0, y0), (x1, y1), ... (xm, ym)
-	   segments = [[X_true[i, :], X_true[j, :]]
-	   	    for i in range(len(pos)) for j in range(len(pos))]
-	   values = np.abs(similarities)
-	   lc = LineCollection(segments,
-	   		    zorder=0, cmap=plt.cm.hot_r,
-	   		    norm=plt.Normalize(0, values.max()))
-	   lc.set_array(similarities.flatten())
-	   lc.set_linewidths(0.5 * np.ones(len(segments)))
-	   ax.add_collection(lc)
+            # Plot the edges
+            start_idx, end_idx = np.where(pos)
+            #a sequence of (*line0*, *line1*, *line2*), where::
+            #            linen = (x0, y0), (x1, y1), ... (xm, ym)
+            segments = [[X_true[i, :], X_true[j, :]]
+                     for i in range(len(pos)) for j in range(len(pos))]
+            values = np.abs(similarities)
+            lc = LineCollection(segments,
+                             zorder=0, cmap=plt.cm.hot_r,
+                             norm=plt.Normalize(0, values.max()))
+            lc.set_array(similarities.flatten())
+            lc.set_linewidths(0.5 * np.ones(len(segments)))
+            ax.add_collection(lc)
 
-	   plt.show()
+            plt.show()
+
+        return temp_json
 
     	
 
