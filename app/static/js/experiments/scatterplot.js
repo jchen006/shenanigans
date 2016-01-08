@@ -18,7 +18,12 @@ var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left");
 
-var svg = d3.select("#scatterplot").append("svg")
+var div = d3.select("body")
+    .append("div")  // declare the tooltip div 
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+var svg = d3.select("#scatterplot").append("svg") 
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
@@ -65,7 +70,18 @@ d3.json("/recipe_scatterplot_json", function(error, data) {
       .attr("r", 3.5)
       .attr("cx", function(d) { return x(d.x); })
       .attr("cy", function(d) { return y(d.y); })
-      .style("fill", function(d) { return color(d.cluster); });
+      .style("fill", function(d) { return color(d.cluster); })
+      .on("mouseover", function(d) {        
+            div.transition()
+                .duration(500)    
+                .style("opacity", 0);
+            div.transition()
+                .duration(200)    
+                .style("opacity", .9);    
+            div.html(d.name)     
+                .style("left", (d3.event.pageX) + "px")             
+                .style("top", (d3.event.pageY - 28) + "px");
+            });
 
   var legend = svg.selectAll(".legend")
       .data(color.domain())
