@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+
+	<h1> 
+		<center><strong>Recipe Scatterplot</strong></center>
+	</h1>
+	<div class="row">
+		<div class="col-md-6">
+  			<body>
+    			<div id="scatterplot"></div>
+  			</body>
+		</div>
+		<body-main>
+			<div class="col-md-6">
+				<br>
+				<br>
+				<p> 
+				recipe scatterplot explanation <b> [something] </b>. 
+				<p>
+			</div>
+		</body-main>
+	</div>
+  
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script type="text/javascript" src="/static/js/experiments/lda_graph.js"></script>
+	<link rel="stylesheet" href="/static/css/experiments/lda_graph.css">
+
+{% endblock %}
