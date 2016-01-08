@@ -81,7 +81,12 @@ d3.json("/recipe_scatterplot_json", function(error, data) {
             div.html(d.name)     
                 .style("left", (d3.event.pageX) + "px")             
                 .style("top", (d3.event.pageY - 28) + "px");
-            });
+            })
+      .on("mouseout", function(d) {       
+            div.transition()        
+                .duration(500)      
+                .style("opacity", 0);   
+        });
 
   var legend = svg.selectAll(".legend")
       .data(color.domain())
