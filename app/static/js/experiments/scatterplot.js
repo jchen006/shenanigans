@@ -24,16 +24,17 @@ var svg = d3.select("#scatterplot").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.tsv("data.tsv", function(error, data) {
+d3.json("/recipe_scatterplot_json", function(error, data) {
   if (error) throw error;
 
-  data.forEach(function(d) {
-    d.sepalLength = +d.sepalLength;
-    d.sepalWidth = +d.sepalWidth;
+  var mds = data.mds_json;
+  mds.forEach(function(d) {
+    d.y = +d.y;
+    d.x = +d.x;
   });
 
-  x.domain(d3.extent(data, function(d) { return d.sepalWidth; })).nice();
-  y.domain(d3.extent(data, function(d) { return d.sepalLength; })).nice();
+  x.domain(d3.extent(mds, function(d) { return d.x })).nice();
+  y.domain(d3.extent(mds, function(d) { return d.y; })).nice();
 
   svg.append("g")
       .attr("class", "x axis")
@@ -44,7 +45,7 @@ d3.tsv("data.tsv", function(error, data) {
       .attr("x", width)
       .attr("y", -6)
       .style("text-anchor", "end")
-      .text("Sepal Width (cm)");
+      .text("x");
 
   svg.append("g")
       .attr("class", "y axis")
@@ -55,16 +56,16 @@ d3.tsv("data.tsv", function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Sepal Length (cm)")
+      .text("y")
 
   svg.selectAll(".dot")
-      .data(data)
+      .data(mds)
     .enter().append("circle")
       .attr("class", "dot")
       .attr("r", 3.5)
-      .attr("cx", function(d) { return x(d.sepalWidth); })
-      .attr("cy", function(d) { return y(d.sepalLength); })
-      .style("fill", function(d) { return color(d.species); });
+      .attr("cx", function(d) { return x(d.x); })
+      .attr("cy", function(d) { return y(d.y); })
+      .style("fill", function(d) { return color(d.cluster); });
 
   var legend = svg.selectAll(".legend")
       .data(color.domain())
