@@ -1,8 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
+<body-main>
 	<div class="jumbotron">
   		<div class="container">
-  			<h2>Active Recipes</h2>
+  			<h2>Active Recipes in Dataset</h2>
   			<ul> 
       			{% for t in titles %}
   					<li> <a href="{{ url_for('recipe_page', recipe=recipes[t]) }}">{{ t }}</a></li>
@@ -10,5 +11,6 @@
   			</ul>
   		</div>
 	</div>
+</body-main>
 {% endblock %}
 

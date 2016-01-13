@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template
+from flask import render_template, request
 from recipe_page import *
 from analytics import *
 import json
@@ -18,6 +18,7 @@ top_ingreds, top_freqs = b.get_top_N_ingredient_frequencies(20)
 X = b.recipe_vects
 P = PCAModel(X)
 L = LDAModel(X, b.ordered_ingredients, b.ordered_recipes)
+L.plot_mds()
 NN = NearestNeighborsModel(X)
 clusters = L.clustered_recipes
 lda_json = L.d3_json
@@ -95,6 +96,20 @@ def lda_graph_json():
 def lda_graph(): 
     return render_template('lda_graph.html')
 
+@app.route('/radar_graph') 
+def radar_graph(): 
+    return render_template('radar_graph.html')
+
+@app.route('/ordered_recipes_json')
+def ordered_recipes_json():
+    return L.get_ordered_recipes_json()
+
+@app.route('/radar_graph_json')
+def radar_graph_json():
+    r1 = request.args.get('recipe1')
+    r2 = request.args.get('recipe2')
+    return L.get_radar_json(r1, r2)
+
 @app.route('/d3')
 def d3(): 
     return render_template('d3.html')
@@ -116,6 +131,14 @@ def data(ndata=100):
     return json.dumps([{"_id": i, "x": x[i], "y": y[i], "area": A[i],
         "color": c[i]}
         for i in range(ndata)])
+
+@app.route('/recipe_scatterplot_json')
+def recipe_scatterplot_json():
+    return L.get_mds_json()
+
+@app.route('/recipe_scatterplot')
+def recipe_scatterplot(): 
+    return render_template('recipe_scatterplot.html')
 
 @app.route("/mongo")
 def readMongo():
