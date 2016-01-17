@@ -29,6 +29,14 @@ var svg = d3.select("#scatterplot").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+  var show_recipe_name = function(name) {
+    document.getElementById("recipe_name").innerHTML = name;
+  }
+
+  var clear_recipe_name = function(name) {
+    document.getElementById("recipe_name").innerHTML = "";
+  }
+
 d3.json("/recipe_scatterplot_json", function(error, data) {
   if (error) throw error;
 
@@ -72,20 +80,10 @@ d3.json("/recipe_scatterplot_json", function(error, data) {
       .attr("cy", function(d) { return y(d.y); })
       .style("fill", function(d) { return color(d.cluster); })
       .on("mouseover", function(d) {        
-            div.transition()
-                .duration(500)    
-                .style("opacity", 0);
-            div.transition()
-                .duration(200)    
-                .style("opacity", .9);    
-            div.html(d.name)     
-                .style("left", (d3.event.pageX) + "px")             
-                .style("top", (d3.event.pageY - 28) + "px");
+            show_recipe_name(d.name);
             })
       .on("mouseout", function(d) {       
-            div.transition()        
-                .duration(500)      
-                .style("opacity", 0);   
+            clear_recipe_name();   
         });
 
   var legend = svg.selectAll(".legend")
@@ -106,5 +104,6 @@ d3.json("/recipe_scatterplot_json", function(error, data) {
       .attr("dy", ".35em")
       .style("text-anchor", "end")
       .text(function(d) { return d; });
+
 
 });
