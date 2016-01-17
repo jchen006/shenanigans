@@ -87,10 +87,11 @@ d3.json("/recipe_scatterplot_json", function(error, data) {
         });
 
   var legend = svg.selectAll(".legend")
-      .data(color.domain())
-    .enter().append("g")
+      .data(color.domain().sort())
+      .enter().append("g")
       .attr("class", "legend")
-      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+      .attr("transform", function(d, i) { 
+        return "translate(0," + i * 20 + ")"; });
 
   legend.append("rect")
       .attr("x", width - 18)
