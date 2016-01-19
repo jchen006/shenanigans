@@ -31,11 +31,19 @@ def home():
   
 @app.route('/about')
 def about():
-  return render_template('about.html')
+  return render_template('about_us.html')
 
 @app.route('/experiments')
 def experiments():
     return render_template('experiments.html')
+
+@app.route('/references')
+def references():
+    return render_template('references.html')
+
+@app.route('/about_project')
+def about_project(): 
+    return render_template('about_project.html')
 
 @app.route('/recipes')
 def recipes(): 
