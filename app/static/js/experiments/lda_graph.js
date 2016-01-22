@@ -52,8 +52,8 @@ d3.json("/lda_graph_json", function(error, root) {
 
   var node = svg.selectAll("circle,text");
 
-  d3.select("graph")
-      .style("background", color(-1))
+  d3.select("lda")
+      .style("background", color(1))
       .on("click", function() { zoom(root); });
 
   zoomTo([root.x, root.y, root.r * 2 + margin]);
