@@ -43,6 +43,8 @@ section.module.parallax h1 {
   text-transform: uppercase;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
+
 section.module.parallax-1 {
   background-image: url("http://cdn.cstatic.net/images/gridfs/53becfeff92ea15d480164df/FINISHED-meat-fruit-dinner-by-heston-blumenthal-london.jpg");
 }
@@ -64,6 +66,7 @@ section.module.parallax-3 {
     font-size: 96px;
   }
 }
+
 @media all and (min-width: 960px) {
   section.module.parallax h1 {
     font-size: 160px;

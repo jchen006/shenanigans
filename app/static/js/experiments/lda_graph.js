@@ -44,7 +44,7 @@ d3.json("/lda_graph_json", function(error, root) {
 
   var text = svg.selectAll("text")
       .data(nodes)
-    .enter().append("text")
+      .enter().append("text")
       .attr("class", "label")
       .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
       .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
@@ -65,14 +65,25 @@ d3.json("/lda_graph_json", function(error, root) {
         .duration(d3.event.altKey ? 7500 : 750)
         .tween("zoom", function(d) {
           var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
-          return function(t) { zoomTo(i(t)); };
+          return function(t) { 
+            zoomTo(i(t));
+          };
         });
 
     transition.selectAll("text")
-      .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
-        .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
-        .each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-        .each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+        .filter(function(d) { 
+          return d.parent === focus || this.style.display === "inline"; 
+        })
+        .style("fill-opacity", function(d) { 
+          return d.parent === focus ? 1 : 0; 
+        })
+        .each("start", function(d) { 
+          appendToList(d);
+          // if (d.parent === focus) this.style.display = "inline"; 
+        })
+        .each("end", function(d) { 
+          if (d.parent !== focus) this.style.display = "none"; 
+        });
   }
 
   function zoomTo(v) {
@@ -82,4 +93,17 @@ d3.json("/lda_graph_json", function(error, root) {
   }
 });
 
+function appendToList(value) {
+  var list = document.getElementById("ingred"); 
+  var entry = document.createElement("li");
+  entry.appendChild(document.createTextNode(value.name));
+  list.appendChild(entry);
+}
+
+function clearList() {
+  document.getElementById("ingred").innerHTML = "";
+}
+
 d3.select(self.frameElement).style("height", diameter + "px");
+
+
