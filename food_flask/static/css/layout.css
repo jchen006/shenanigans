@@ -1,0 +1,63 @@
+/*The current orientation uses IDs a not wrappers*/
+
+/*CSS Reset - Was used to eliminate the whitespace at the top */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, caption {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+/*And attempt at sidebar alterations later? */
+
+html, body {
+    height: 100%;
+
+}
+
+
+#wrapper {
+    min-height: 100%; /* Needed to set this to min height 100% with the html and body */
+    background: url("https://tastefoodblog.files.wordpress.com/2012/10/oyster-ingredients-tf.jpg")
+}
+
+/*Modify the Sidebar from Sidebar.css */
+
+.page-content-wrapper {
+/*This seems to make the text purple or override the jumbotron so leave this blank for now */
+
+
+}
+
+
+.page-content-wrapper .content-top-bar {
+background-color: transparent;
+
+}
+
+
+.page-content-wrapper .main-content {
+/*No style only contains the included block */
+    overflow: hidden;
+    background: rgba(32,26,22,.7);
+    filter: blur(5px);
+}
+
+.page-content-wrapper .content-footer {
+    overflow: hidden;
+    background: rgba(32,26,22,.7);
+    filter: blur(5px);
+} 
+
+.page-content-wrapper .content-footer h1 {
+color: white;
+
+
+}
+
+
+
+ 

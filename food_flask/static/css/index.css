@@ -1,0 +1,13 @@
+/*The CSS for the Main Page */
+
+
+.jumbotron {
+    overflow: hidden;
+    background: rgba(32,26,22,.7);
+    filter: blur(5px);
+}
+
+.jumbotron h1 {
+    color: red;
+
+}
