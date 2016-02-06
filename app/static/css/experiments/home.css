@@ -2,19 +2,8 @@
   PRIMARY STRUCTURE
 ============================================================ */
 .container {
-  max-width: 960px;
+  max-width: 1080px;
   margin: 0 auto;
-  position: relative;
-  top: 60%;
-  /*transform: translateY(-50%);*/
-}
-.caption-container {
-  max-width: 960px;
-  margin: 0 auto;
-  position: relative;
-  top: 85%;
-  left: 35%;
-  /*transform: translateY(-50%);*/
 }
 /* ============================================================
   SECTIONS
@@ -23,9 +12,9 @@ section.module:last-child {
   margin-bottom: 0;
 }
 section.module h2 {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   font-family: "Roboto Slab", serif;
-  font-size: 80px;
+  font-size: 30px;
 }
 section.module p {
   margin-bottom: 40px;
@@ -36,7 +25,7 @@ section.module p:last-child {
   margin-bottom: 0;
 }
 section.module.content {
-  padding: 20px 0;
+  padding: 40px 0;
 }
 section.module.parallax {
   height: 600px;
@@ -46,45 +35,38 @@ section.module.parallax {
   background-size: cover;
 }
 section.module.parallax h1 {
-  color: #f8f8f8;
-  font-weight: 10;
-  text-align: center;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-  /*font-size: 48px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 48px;
   line-height: 600px;
   font-weight: 700;
   text-align: center;
-  text-transform: uppercase;*/
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
-
-
 section.module.parallax-1 {
-  background-image: url("http://cdn.cstatic.net/images/gridfs/53becfeff92ea15d480164df/FINISHED-meat-fruit-dinner-by-heston-blumenthal-london.jpg");
+  background-image: url("http://pied-a-terre.navig8testserver-linux.com/www35/images/bg/1.jpg");
+
 }
 section.module.parallax-2 {
-  background-image: url("http://pied-a-terre.navig8testserver-linux.com/www35/images/bg/1.jpg");
+  background-image: url("http://artsmacked.com/wp-content/uploads/2012/02/Pigeon-rotie-fraises-du-bois-et-petals-de-roses.jpg");
 }
 section.module.parallax-3 {
-  background-image: url("http://www.elitetraveler.com/wp-content/uploads/2013/06/restaurant-gordon-ramsey2.jpg");
+  background-image: url("http://www.qatarisbooming.com/wp-content/uploads/2012/04/St.-Regis-Doha-to-open-two-Gordon-Ramsay-restaurants-qatarisbooming.com-640x480.jpg");
 }
 
 @media all and (min-width: 600px) {
   section.module h2 {
-    /*font-size: 42px;*/
-    font-size: 62px;
+    font-size: 42px;
   }
   section.module p {
     font-size: 20px;
   }
   section.module.parallax h1 {
-    /*font-size: 96px;*/
-    font-size: 18px;
+    font-size: 96px;
   }
 }
-
 @media all and (min-width: 960px) {
   section.module.parallax h1 {
-    /*font-size: 160px;*/
-    font-size: 20px;
+    font-size: 160px;
   }
 }
