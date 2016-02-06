@@ -86,12 +86,12 @@ d3.json("/lda_graph_json", function(error, root) {
           return d.parent === focus ? 1 : 0; 
         })
         .each("start", function(d) { 
-          if (d.parent === focus) clearList(); 
+          if (d.parent === focus) clearList("ingred"); 
           console.log(focus);
         })
         .each("end", function(d) { 
           console.log("red");
-          if (d.parent !== focus) updateList(focus.children); 
+          if (d.parent !== focus) updateList("ingred", focus.children); 
         });
   }
 
@@ -102,40 +102,6 @@ d3.json("/lda_graph_json", function(error, root) {
   }
 });
 
-function updateList(list) {
-  var curr = document.getElementById("ingred").getElementsByTagName("li");
-  if(curr.length == 0) {
-    createList(list);
-  } 
-}
-
-function createList(list) {
-  for(var i = 0; i < list.length; i++) {
-     console.log(list[i].name);
-     appendToList(list[i].name);
-  }
-}
-
-function appendToList(value) {
-  var list = document.getElementById("ingred"); 
-  var entry = document.createElement("li");
-  entry.appendChild(document.createTextNode(value));
-  list.appendChild(entry);
-}
-
-Array.prototype.contains = function(obj) {
-    var i = this.length;
-    while (i--) {
-        if (this[i] === obj) {
-            return true;
-        }
-    }
-    return false;
-}
-
-function clearList() {
-  document.getElementById("ingred").innerHTML = "";
-}
 
 d3.select(self.frameElement).style("height", diameter + "px");
 
