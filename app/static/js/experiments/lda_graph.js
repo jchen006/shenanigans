@@ -54,12 +54,19 @@ d3.json("/lda_graph_json", function(error, root) {
 
   d3.select("graph")
       .style("background", color(-1))
-      .on("click", function() { zoom(root); });
+      .on("click", function() { 
+        //remove everything from the list
+        //repopulatewithclusters
+        zoom(root); }
+      );
 
   zoomTo([root.x, root.y, root.r * 2 + margin]);
 
   function zoom(d) {
     var focus0 = focus; focus = d;
+
+    console.log(focus0);
+    console.log(focus);
 
     var transition = d3.transition()
         .duration(d3.event.altKey ? 7500 : 750)
@@ -75,14 +82,16 @@ d3.json("/lda_graph_json", function(error, root) {
           return d.parent === focus || this.style.display === "inline"; 
         })
         .style("fill-opacity", function(d) { 
+          console.log("opacity");
           return d.parent === focus ? 1 : 0; 
         })
         .each("start", function(d) { 
-          appendToList(d);
-          // if (d.parent === focus) this.style.display = "inline"; 
+          if (d.parent === focus) clearList(); 
+          console.log(focus);
         })
         .each("end", function(d) { 
-          if (d.parent !== focus) this.style.display = "none"; 
+          console.log("red");
+          if (d.parent !== focus) updateList(focus.children); 
         });
   }
 
@@ -93,11 +102,35 @@ d3.json("/lda_graph_json", function(error, root) {
   }
 });
 
+function updateList(list) {
+  var curr = document.getElementById("ingred").getElementsByTagName("li");
+  if(curr.length == 0) {
+    createList(list);
+  } 
+}
+
+function createList(list) {
+  for(var i = 0; i < list.length; i++) {
+     console.log(list[i].name);
+     appendToList(list[i].name);
+  }
+}
+
 function appendToList(value) {
   var list = document.getElementById("ingred"); 
   var entry = document.createElement("li");
-  entry.appendChild(document.createTextNode(value.name));
+  entry.appendChild(document.createTextNode(value));
   list.appendChild(entry);
+}
+
+Array.prototype.contains = function(obj) {
+    var i = this.length;
+    while (i--) {
+        if (this[i] === obj) {
+            return true;
+        }
+    }
+    return false;
 }
 
 function clearList() {
