@@ -1,76 +1,77 @@
 <!DOCTYPE html>
 <html lang="en" data-ng-app>
 <html>
-  <head>
-    <title>Shenanigans</title>    
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
 
-  <nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="{{ url_for('home') }}">Shenanigans</a>
-    </div>
+<head>
+  <!-- Was not working because not ../ -->
+  <link href="../static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <link href="../static/css/bootstrap-responsive.css" rel="stylesheet">
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script src="../static/js/bootstrap.min.js"></script>
+  <script src="../static/js/foundation.js.min.js"></script>
+  <script src="../static/js/foundation.min.js"></script>
+  <link href="../static/css/layout.css" rel="stylesheet">
+  <link href="../static/css/foundation.css" rel="stylesheet"> 
+  <link href="../static/css/foundation.min.css" rel="stylesheet"> 
+  <link href="../static/css/foundation-flex.css" rel="stylesheet"> 
+  <link href="../static/css/normalize.css" rel="stylesheet"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-       <!--  <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
-       <!--  <li><a href="{{ url_for('home') }}">Home</a></li> -->
-      <li><a href="{{ url_for('recipes') }}">Recipes</a></li>
-      <li><a href="{{ url_for('ingredients') }}">Ingredients</a></li>
-      <li><a href="">Experiments</a></li>
-      <li><a href="{{ url_for('about') }}">About</a></li>
+   
+<body>
 
-        <!-- <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
+<div class="off-canvas-wrapper">
+    <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+      <div class="off-canvas position-left" id="offCanvasLeft" data-off-canvas>
+       <ul class="vertical-menu" data-accordion-menu>
+        <li>
+          <a href="#">Item 1</a>
+          <ul class="menu vertical nested">
+            <li><a href="#">Item 1A</a></li>
+            <li><a href="#">Item 1B</a></li>
           </ul>
-        </li> -->
-      </ul>
-     <!--  <form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+        </li>
+        <li><a href="#">Item 2</a></li>
+      </ul> 
+      </div> <!--Remove this div and everything is gone -->
+
+      <div class="off-canvas-content" data-off-canvas-content>
+        <div class="title-bar">
+          <div class="title-bar-left">
+            <button class="menu-icon" type="button" data-open="offCanvasLeft"></button>
+            <span class="title-bar-title">Yumster Title</span>
+          </div>
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form> -->
-      <ul class="nav navbar-nav navbar-right">
-       <!--  <li><a href="#">Link</a></li> -->
-        <!-- <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Account
-          <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Sign in</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Sign up</a></li>
-          </ul>
-        </li> -->
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-    <div class="container">
-      {% block content %}
-      {% endblock %}
-    </div>
 
+      <div class="page-content-wrapper">
+            <div class="main-content">
+                  <!-- Second part of page content -->
+                  {% block content %}{% endblock %}
+            </div>
+
+            <div class ="content-footer">
+                <h1> This is the footer text </h1>
+            </div>
+      </div>
+
+
+      </div>
+    </div>
+  </div>
+
+
+<script>
+$(document).foundation();
+$(".off-canvas-submenu").hide();
+$(".off-canvas-submenu-call").click(function() {
+    var icon = $(this).parent().next(".off-canvas-submenu").is(':visible') ? '+' : '-';
+    $(this).parent().next(".off-canvas-submenu").slideToggle('fast');
+    $(this).find("span").text(icon);
+});
+</script>
+
+
+
+</body>
 </html>
