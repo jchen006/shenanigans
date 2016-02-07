@@ -63,7 +63,7 @@ background-color: pink;
     background: brown;
 }
 
-.off-canvas-wrapper .content-footer {
+.off-canvas-wrapper .content-footer { /*HTML to create a footer */
     /* Location */
     position: fixed;
     bottom: 0px;
