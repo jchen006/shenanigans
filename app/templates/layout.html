@@ -22,21 +22,38 @@
 <body>
 
 <div class="off-canvas-wrapper">
+
+    <!-- Delete this and the JS nav bar pop does not work -->
     <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+      <! -- Side and Navbar Stuff -->
       <div class="off-canvas position-left" id="offCanvasLeft" data-off-canvas>
        <ul class="vertical-menu" data-accordion-menu>
+         <div id = "sidebar-brand">
+            <a href = "about">
+             Sidebar Brand
+         </div>
         <li>
-          <a href="#">Item 1</a>
+          <a href="#">Click to Expand</a>
           <ul class="menu vertical nested">
-            <li><a href="#">Item 1A</a></li>
-            <li><a href="#">Item 1B</a></li>
+            <li><a href="experiments">Experiments</a></li>
+            <li><a href="graph_page">Graph</a></li>
+            <li><a href="ingredient_Frequency">Frequnecy</a></li>
+            <li><a href="lda_graph">LDA</a></li>
+            <li><a href="radar_graph">Radar</a></li>
+            <li><a href="recipe_page">Recipie</a></li>
+            <li><a href="recipe_scatterplot">Scatterplot</a></li>
+            <li><a href="recipes">Recipes</a></li>
+            <li><a href="references">References</a></li>
           </ul>
         </li>
-        <li><a href="#">Item 2</a></li>
       </ul> 
       </div> <!--Remove this div and everything is gone -->
 
+
+      <!-- Page Content -->
       <div class="off-canvas-content" data-off-canvas-content>
+
         <div class="title-bar">
           <div class="title-bar-left">
             <button class="menu-icon" type="button" data-open="offCanvasLeft"></button>
@@ -44,20 +61,18 @@
           </div>
         </div>
 
-      <div class="page-content-wrapper">
-            <div class="main-content">
-                  <!-- Second part of page content -->
-                  {% block content %}{% endblock %}
-            </div>
+        <div class="main-content">
+              <!-- Second part of page content -->
+              {% block content %}{% endblock %}
+        </div>
 
-            <div class ="content-footer">
-                <h1> This is the footer text </h1>
-            </div>
-      </div>
-
+        <div class ="content-footer">
+            <h1> This is the footer text </h1>
+        </div>
 
       </div>
-    </div>
+
+
   </div>
 
 
