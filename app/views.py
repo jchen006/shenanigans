@@ -59,14 +59,15 @@ def recipes():
         recipes[t] = url
     return render_template('recipes.html', titles=titles, recipes=recipes)
 
-@app.route('/recipe_page/<recipe>')
-def recipe_page(recipe):
+@app.route('/recipe_card/<recipe>')
+def recipe_card(recipe):
     """Takes in the file_name and runs it through the recipePage 
     and generates a specific recipe page related to it
     Should take in individuals values that are needed including original url, 
-    chef, and ingredients, and instructions"""    
+    chef, and ingredients, and instructions"""
+    print recipe
     title, url, chef, ingredients = p.create_recipe_page(recipe)
-    return render_template('recipe_page.html', title=title, url=url, chef=chef, ingredients=ingredients)
+    return render_template('recipe_card.html', title=title, url=url, chef=chef, ingredients=ingredients)
 
 @app.route('/ingredients')
 def ingredients(): 
