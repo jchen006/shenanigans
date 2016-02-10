@@ -17,52 +17,78 @@ html, body {
     height: 100%;
 }
 
+ul {
+    list-style-position: inside;
+    /* text-align: center; */
+}
 
 /* It should be li instead of UL for this */
 li {
     list-style-type: none;
+    border-bottom: solid 1px #000;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+li a {
+    color: #A6ABAB;
 }
 
 
 .off-canvas-wrapper {
     height: 100%; /* Needed to set this to min height 100% with the html and body */
-    background: url("https://tastefoodblog.files.wordpress.com/2012/10/oyster-ingredients-tf.jpg")
+    background: #E1E3E4;
+}
+
+.off-canvas-wrapper .off-canvas-wrapper-inner {
+    height: 70%; /*Controls Height*/
+    overflow: hidden;
 }
 
 
 /*Also controls the border of the Menu */
-#offCanvasLeft {
-    overflow: hidden;
-    background: rgba(32,26,22,.7);
-    filter: blur(5px);
-    min-height: 100%;
-}
-
-#sidebar-brand {
-    background: pink;
-}
-
-
-/*Controls the Menu itself */
-.off-canvas-wrapper .vertical-menu {
+.off-canvas-wrapper .off-canvas-wrapper-inner #offCanvasLeft {
+    height: 100%;
+    overflow: visible;
     background: red;
 }
 
+#sidebar-brand {
+    text-align: center;
+    background: #343434;
+    padding: 4px;
+}
 
-.off-canvas-wrapper .vertical-menu h1 {
-    color: red;
+#sidebar-brand h1 {
+    color: #C2C2C2;
+}
 
+
+.off-canvas-wrapper .vertical-menu {
+    background: #343434;
+}
+
+
+.off-canvas-wrapper .vertical-menu .menu-content {
+    text-color: #C2C2C2;
+    padding: 0px;
+    margin: 0px;
 }
 
 /*I had to be more specific to override the foundation .css */
 .off-canvas-wrapper .off-canvas-content {
-    padding: 30px;
-    min-height: 100%; /*This controls the spread */ 
-    overflow: hidden;
-    background: rgba(32,26,22,.7);
-    filter: blur(5px);
+    padding: 0px 30px;
+    height: 50%; /*This controls the spread */ 
+    /* I had the filter here */
+    background: #F38630 
 }
 
+
+.off-canvas-wrapper .off-canvas-wrapper-inner .off-canvas-content .title-bar {
+    background: #3C948B;   
+    color: #FFFFFF;
+    /*padding: .5rem */ 
+}
 
 .off-canvas-wrapper .off-canvas-content .main-content {
     padding-top: 20px; /*PADDING is How spacce is created between divs*/
@@ -80,12 +106,11 @@ li {
 .off-canvas-wrapper .off-canvas-content .content-footer { /*HTML to create a footer */
     /* Location */
     position: fixed;
+    overflow: visible;
     bottom: 0px;
     height: 30px;
     width: 100%;
-    overflow: hidden;
-    background: rgba(32,26,22,.7);
-    filter: blur(5px);
+    background: #3C948B;    
 } 
 
 .off-canvas-content .content-footer h1 {
