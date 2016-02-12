@@ -94,7 +94,7 @@
 
 	function generateSelector() {
 		var response = $.ajax({
-			url : "/ordered_recipes_json",
+			url : "/api/ordered_recipes",
 			type : "GET",
 			success : function(result) {
 				var data = JSON.parse(result);
@@ -167,7 +167,7 @@
 
 				} else {
 					var response = $.ajax({
-						url : "/radar_graph_json?recipe1=" + recipe1.toString() + "&recipe2=" + recipe2.toString(),
+						url : "/api/radar_graph?recipe1=" + recipe1.toString() + "&recipe2=" + recipe2.toString(),
 						type : "GET",
 						success : function(result) {
 							var data = JSON.parse(result);

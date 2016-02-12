@@ -37,7 +37,7 @@ var svg = d3.select("#scatterplot").append("svg")
     document.getElementById("recipe_name").innerHTML = "";
   }
 
-d3.json("/recipe_scatterplot_json", function(error, data) {
+d3.json("/api/recipe_scatterplot", function(error, data) {
   if (error) throw error;
 
   var mds = data.mds_json;
