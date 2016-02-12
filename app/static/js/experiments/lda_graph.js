@@ -26,7 +26,7 @@ var tip = d3.tip()
 
 svg.call(tip);
 
-d3.json("/lda_graph_json", function(error, root) {
+d3.json("/api/lda_graph", function(error, root) {
   if (error) throw error;
 
   var focus = root,
