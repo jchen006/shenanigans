@@ -1,16 +1,27 @@
 {% extends "layout.html" %}
 {% block content %}
+<script type="text/javascript" src="/static/js/util/list.js"></script>
+<script type="text/javascript" src="/static/js/util/fuzzysearch.js"></script>
 <body-main>
-	<div class="jumbotron">
-  		<div class="container">
-  			<h2>Active Recipes in Dataset</h2>
-  			<ul> 
-      			{% for t in titles %}
-            <li><a href="{{ url_for('recipe_card', recipe=recipes[t]) }}">{{ t }}</a></li>
-      			{% endfor %}
-  			</ul>
-  		</div>
-	</div>
+  <div class="jumbotron">
+    <div class="container">
+  	 <h2>Active Recipes in Dataset</h2>
+     <div id="test-list">
+        <input type="text" class="fuzzy-search" />
+        <ul class="list">
+          {% for t in titles %}
+            <li><p class="name"><a href="{{ url_for('recipe_card', recipe=recipes[t]) }}">{{ t }}</a></p></li>
+          {% endfor %}
+        </ul>
+     </div>
+    </div>
+  </div>
 </body-main>
+<script> 
+  var monkeyList = new List('test-list', { 
+    valueNames: ['name'], 
+    plugins: [ ListFuzzySearch() ] 
+  });
+</script>
 {% endblock %}
 
