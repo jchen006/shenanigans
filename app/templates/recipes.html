@@ -6,7 +6,7 @@
   			<h2>Active Recipes in Dataset</h2>
   			<ul> 
       			{% for t in titles %}
-  					<li> <a href="{{ url_for('recipe_page', recipe=recipes[t]) }}">{{ t }}</a></li>
+            <li><a href="{{ url_for('recipe_card', recipe=recipes[t]) }}">{{ t }}</a></li>
       			{% endfor %}
   			</ul>
   		</div>
