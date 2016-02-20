@@ -13,8 +13,11 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 
 /*And attempt at sidebar alterations later? */
 
+
+/*Fonts to use are Merriweather and Yeseva One */
 html, body {
     height: 100%;
+
 }
 
 ul {
@@ -41,8 +44,7 @@ li a {
 }
 
 .off-canvas-wrapper .off-canvas-wrapper-inner {
-    height: 70%; /*Controls Height*/
-    overflow: hidden;
+    height: 90%; /*Controls Height*/
 }
 
 
@@ -66,21 +68,27 @@ li a {
 
 .off-canvas-wrapper .vertical-menu {
     background: #343434;
+    margin-left: 0px; /*Shifted it left again the div wall*/
+    min-height: 100%;
 }
 
 
+.off-canvas-wrapper .vertical-menu li {
+    background: #343434;
+    padding: 10px 0px;
+}
+
 .off-canvas-wrapper .vertical-menu .menu-content {
     text-color: #C2C2C2;
-    padding: 0px;
-    margin: 0px;
+    padding: 10px 0px; /*Spaced out the items in the list */
 }
 
 /*I had to be more specific to override the foundation .css */
 .off-canvas-wrapper .off-canvas-content {
-    padding: 0px 30px;
-    height: 50%; /*This controls the spread */ 
+    /*padding: 0px 30px; - Eliminate padding */
+    height: 75%; /*This controls the spread */ 
     /* I had the filter here */
-    background: #F38630 
+    background: #E1E3E4; 
 }
 
 
@@ -91,11 +99,11 @@ li a {
 }
 
 .off-canvas-wrapper .off-canvas-content .main-content {
-    padding-top: 20px; /*PADDING is How spacce is created between divs*/
+    padding-top: 20px 15px; /*PADDING is How spacce is created between divs*/
     height: 80%;
     background: white;
+    overflow: scroll;
 }
-
 
 /*Style the Children here too?? It is pink */
 .off-canvas-wrapper .page-content-content .jumbotron {
@@ -109,8 +117,9 @@ li a {
     overflow: visible;
     bottom: 0px;
     height: 30px;
-    width: 100%;
-    background: #3C948B;    
+    min-width: 120%;     
+    background: rgba(32,26,22,.7);
+    filter: blur(5px);
 } 
 
 .off-canvas-content .content-footer h1 {
