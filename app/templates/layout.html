@@ -17,6 +17,7 @@
    
 <body>
 
+
 <div class="off-canvas-wrapper">
 
     <!-- Delete this and the JS nav bar pop does not work -->
@@ -28,7 +29,7 @@
 
         <div id = "sidebar-brand">
            <a href = "about">
-               Sidebar Brand </a>
+               Navigation </a>
         </div>
 
         <div id = "menu-content">
@@ -71,7 +72,7 @@
         </div>
 
         <div class ="content-footer">
-            <h1> This is the footer text </h1>
+            <h1> Footer - Jeff, Sidd, Ryan </h1>
         </div>
 
       </div>
@@ -90,7 +91,17 @@ $(".off-canvas-submenu-call").click(function() {
 });
 </script>
 
-
+<!-- Hover Darkening Effect! -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("li").hover(function(){
+        $(this).css("background-color", "#222");
+        }, function(){
+        $(this).css("background-color", "#343434");
+    });
+});
+</script>
 
 </body>
 </html>
