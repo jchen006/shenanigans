@@ -1,0 +1,8 @@
+1. Finish the Sidebar 
+
+2. Update the Javascript on the sidebar, full darkening 
+
+3. Clean Up
+
+
+

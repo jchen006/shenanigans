@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app>
+<html>
+
+<head>
+  <!-- Was not working because not ../ -->
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script src="../static/js/foundation.js"></script>
+  <link href="../static/css/layout.css" rel="stylesheet">
+  <link href="../static/css/foundation.css" rel="stylesheet"> 
+  <link href="../static/css/foundation.min.css" rel="stylesheet"> 
+  <link href="../static/css/foundation-flex.css" rel="stylesheet"> 
+  <link href="../static/css/normalize.css" rel="stylesheet"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Profile Card Links -->
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="../static/css/profileCard.css"></script>
+  <script src="../static/js/profileCard.js"></script>
+</head>
+
+   
+<body>
+
+
+<div class="off-canvas-wrapper">
+
+    <!-- Delete this and the JS nav bar pop does not work -->
+    <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+      <!-- Side and Navbar Stuff  -->
+      <div class="off-canvas position-left" id="offCanvasLeft" data-off-canvas>
+       <ul class="vertical-menu" data-accordion-menu>
+
+        <div id = "sidebar-brand">
+           <a href = "about">
+               Navigation </a>
+        </div>
+
+        <div id = "menu-content">
+            <li><a href="experiments">Experiments</a></li>
+            <li><a href="graph_page">Graph</a></li>
+            <li><a href="ingredient_Frequency">Frequnecy</a></li>
+            <li><a href="lda_graph">LDA</a></li>
+            <li><a href="radar_graph">Radar</a></li>
+            <li><a href="recipe_page">Recipie</a></li>
+            <li><a href="recipe_scatterplot">Scatterplot</a></li>
+            <li><a href="recipes">Recipes</a></li>
+            <li><a href="references">References</a></li>
+        </div>
+
+        <li>
+          <a href="#">Click to Expand</a>
+          <ul class="menu vertical nested">
+            <li><a href="experiments">Experiments</a></li>
+            <li><a href="references">References</a></li>
+          </ul>
+        </li>
+
+      </ul> 
+      </div> <!--Remove this div and everything is gone -->
+
+
+      <!-- Page Content -->
+      <div class="off-canvas-content" data-off-canvas-content>
+
+        <div class="title-bar">
+          <div class="title-bar-left">
+            <button class="menu-icon" type="button" data-open="offCanvasLeft"></button>
+            <span class="title-bar-title">Yumster Title</span>
+          </div>
+        </div>
+
+        <div class="main-content">
+              <!-- Second part of page content -->
+              {% block content %}{% endblock %}
+        </div>
+
+        <div class ="content-footer">
+            <h1> Footer - Jeff, Sidd, Ryan </h1>
+        </div>
+
+      </div>
+
+
+  </div>
+
+
+<script>
+$(document).foundation();
+$(".off-canvas-submenu").hide();
+$(".off-canvas-submenu-call").click(function() {
+    var icon = $(this).parent().next(".off-canvas-submenu").is(':visible') ? '+' : '-';
+    $(this).parent().next(".off-canvas-submenu").slideToggle('fast');
+    $(this).find("span").text(icon);
+});
+</script>
+
+<!-- Hover Darkening Effect! -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("li").hover(function(){
+        $(this).css("background-color", "#222");
+        }, function(){
+        $(this).css("background-color", "#343434");
+    });
+});
+</script>
+
+</body>
+</html>
+Status API Training Shop Blog About
