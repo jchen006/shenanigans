@@ -49,7 +49,7 @@ def recipe_card(recipe):
     chef, and ingredients, and instructions"""
     print recipe
     title, url, chef, ingredients = p.create_recipe_page(recipe)
-    return render_template('recipe_card.html', title=title, url=url, chef=chef, ingredients=ingredients)
+    return render_template('profileCard', title=title, url=url, chef=chef, ingredients=ingredients)
 
 @app.route('/ingredients')
 def ingredients(): 

@@ -1,15 +1,14 @@
-<!DOCTYPE html>
+{% extends "ryanLayout.html" %}
+
 <head>
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="../static/css/profileCard.css"></script>
-<script src="../static/js/profileCard.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="../static/css/profileCard.css"></script>
+  <script src="../static/js/profileCard.js"></script>
 </head>
+<head>
 
-<body>
-
-{% extends "layout.html"%}
 {% block content %}
 <div class= "profile-background">
   <div class="profile-card">
@@ -23,9 +22,6 @@
                 <img alt="" src="http://bitstrategist.com/wp-content/uploads/2013/12/ingredients.jpg">
             </div>
             <div class="card-info"> <span class="card-title">
-              {{title}}
-              {{chef}}
-              <h5> <a href="{{ url }}"> Source </a></h5>
             </span>
 
             </div>
@@ -53,6 +49,9 @@
           <div class="tab-content">
             <div class="tab-pane fade in active" id="tab1">
               <h3>This is tab 1</h3>
+                  {{title}}
+                  {{chef}}
+              <h5> <a href="{{ url }}"> Source </a></h5>
                     {% for i in ingredients %}
                     <li> {{i}} </li>
                     {% endfor %}
@@ -70,4 +69,5 @@
       </div>
   </div>
 </div>
+
 {% endblock %}
