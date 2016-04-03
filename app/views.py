@@ -39,7 +39,7 @@ def recipes():
     for t in titles: 
         url = p.create_recipe_url(t)
         recipes[t] = url
-    return render_template('recipes.html', titles=titles, recipes=recipes)
+    return render_template('profileCard.html', titles=titles, recipes=recipes)
 
 @app.route('/recipe_card/<recipe>')
 def recipe_card(recipe):
