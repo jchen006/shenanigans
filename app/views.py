@@ -1,4 +1,4 @@
-fom app import app
+from app import app
 from flask import render_template, request
 from recipe_page import *
 from pages import *
