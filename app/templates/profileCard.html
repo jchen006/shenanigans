@@ -1,16 +1,16 @@
-{% extends "layout.html"}
-{%block content$}
 <!DOCTYPE html>
 <head>
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="../static/css/profile.css"></script>
-<script src="../static/js/profile.js"></script>
+<link rel="stylesheet" href="../static/css/profileCard.css"></script>
+<script src="../static/js/profileCard.js"></script>
 </head>
 
 <body>
 
+{% extends "layout.html"%}
+{% block content %}
 <div class= "profile-background">
   <div class="profile-card">
     <div class="col-lg-10 col-sm-8">
@@ -23,8 +23,8 @@
                 <img alt="" src="http://bitstrategist.com/wp-content/uploads/2013/12/ingredients.jpg">
             </div>
             <div class="card-info"> <span class="card-title">
-              {title}
-              {chef}
+              {{title}}
+              {{chef}}
               <h5> <a href="{{ url }}"> Source </a></h5>
             </span>
 
@@ -70,4 +70,4 @@
       </div>
   </div>
 </div>
-{% endblock% }
+{% endblock %}
