@@ -2,7 +2,7 @@ from pymongo import MongoClient
 from bson.binary import Binary
 from bson.objectid import ObjectId
 import json
-import pickle
+import cPickle as pickle
 
 class MongoHelper:
     uri = "mongodb://recipe_user:dinneriscoming@ds035543.mongolab.com:35543/recipes"
