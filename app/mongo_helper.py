@@ -1,6 +1,8 @@
 from pymongo import MongoClient
+from bson.binary import Binary
 from bson.objectid import ObjectId
 import json
+import pickle
 
 class MongoHelper:
     uri = "mongodb://recipe_user:dinneriscoming@ds035543.mongolab.com:35543/recipes"
@@ -9,6 +11,20 @@ class MongoHelper:
         self.client = MongoClient(MongoHelper.uri) 
         self.db = self.client['recipes']
         self.collection = self.db['recipe_collection']
+        self.binary_collection = self.db['bin-data']
+
+    def insertObj(self, mongo_name, python_obj):
+        pickeled_obj = pickle.dumps(python_obj)
+        self.binary_collection.insert({mongo_name : Binary(pickeled_obj)})
+         
+    def findObj(self, mongo_name):
+        objs = []
+        for p in self.binary_collection.find({ mongo_name : { '$exists': True } }): # ASSUME ONLY 1 OBJECT RETURNED!!
+            objs.append(p)
+        if len(objs) != 0:
+            return pickle.loads(objs[0][mongo_name])
+        else:
+            return None
 
     def insertToRemote(self, json):
         post_id = None
