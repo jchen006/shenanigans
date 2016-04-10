@@ -74,13 +74,27 @@ class PCAModel:
         self.fit_data = self.model.fit_transform(self.BOI)
 
 class LDAModel:
+
+    LDA_MONGO_NAME = 'lda_model'
     def __init__(self, bag_of_ingredients_matrix, ingredients, recipes, K=10):
         self.model = LDA(K) 
         self.K = K
         self.BOI = bag_of_ingredients_matrix
         self.ingredients = ingredients
         self.recipes = recipes
-        self.model.fit(self.BOI.astype('int64'))
+
+        self.mongoHelper = MongoHelper()       
+
+        print "Looking for LDA object in Mongo..."
+        tmp_model_obj_from_mongo = self.mongoHelper.findObj(self.LDA_MONGO_NAME)
+        if tmp_model_obj_from_mongo is not None:
+            print "LDA object found!"
+            self.model = tmp_model_obj_from_mongo
+        else:
+            print "No LDA object found, rerunning..."
+            self.model.fit(self.BOI.astype('int64'))
+            print "Storing LDA object in mongo"
+            self.mongoHelper.insertObj(self.LDA_MONGO_NAME, self.model)
         
         self.doc_topic = self.model.doc_topic_
         self.topic_assignments = self.doc_topic.argmax(axis=1)
@@ -93,6 +107,7 @@ class LDAModel:
     
         self.d3_json = self.get_d3_json()
         self.mds_json = self.plot_mds()
+        print "Finished LDA init"
 
     def get_K_topic_words(self, K):
         topic_words_arr = []
