@@ -75,4 +75,8 @@ def radar_graph():
 def recipe_scatterplot(): 
     return render_template('recipe_scatterplot.html')
 
+@app.route('/word_cloud')
+def word_cloud(): 
+    return render_template('word_cloud.html')
+
 
