@@ -4,32 +4,75 @@ from bayes_filter import *
 
 class bayesFilterTest(unittest.TestCase): 
 
-	test_data = [
-    		('I love this sandwich.', 'pos'),
-    		('This is an amazing place!', 'pos'),
-    		('I feel very good about these beers.', 'pos'),
-    		('This is my best work.', 'pos'),
-    		("What an awesome view", 'pos'),
-    		('I do not like this restaurant', 'neg'),
-    		('I am tired of this stuff.', 'neg'),
-    		("I can't deal with this", 'neg'),
-    		('He is my sworn enemy!', 'neg'),
-    		('My boss is horrible.', 'neg')
+	def test_classifyPhrase(self): 
+  		test_data = [
+			('I love this sandwich.', 'pos'),
+			('this is an amazing place!', 'pos'),
+			('I feel very good about these beers.', 'pos'),
+			('this is my best work.', 'pos'),
+			("what an awesome view", 'pos'),
+			('I do not like this restaurant', 'neg'),
+			('I am tired of this stuff.', 'neg'),
+			("I can't deal with this", 'neg'),
+			('he is my sworn enemy!', 'neg'),
+			('my boss is horrible.', 'neg')
+ 		]
+ 		cl = bayesClassifier(test_data)
+ 		test_response = cl.classifyPhrase("The beer is good. But the hangover is horrible.")
+ 		self.assertEqual(test_response, "pos")
+
+ 	def test_accuracy(self): 
+ 		test_data = [
+			('I love this sandwich.', 'pos'),
+			('this is an amazing place!', 'pos'),
+			('I feel very good about these beers.', 'pos'),
+			('this is my best work.', 'pos'),
+			("what an awesome view", 'pos'),
+			('I do not like this restaurant', 'neg'),
+			('I am tired of this stuff.', 'neg'),
+			("I can't deal with this", 'neg'),
+			('he is my sworn enemy!', 'neg'),
+			('my boss is horrible.', 'neg')
+ 		]
+ 		cl = bayesClassifier(test_data)
+ 		test = [
+    		('the beer was good.', 'pos'),
+			('I do not enjoy my job', 'neg'),
+			("I ain't feeling dandy today.", 'neg'),
+			("I feel amazing!", 'pos'),
+			('Gary is a friend of mine.', 'pos'),
+			("I can't believe I'm doing this.", 'neg')
 		]
-	cl = bayesClassifier(test_data)
+ 		self.assertEqual(cl.model.accuracy(test), 0.8333333333333334)
 
-	def classifyPhraseTest(self): 
 
-		test = cl.classifyPhrase("Their burgers are amazing")
-		test_2 = cl.classifyPhrase("I don't like their pizza.")
-		self.assertEqual(test, "pos")
-		self.assertEqual(test_2, "neg")
+ 	def test_updateTrainingSet(self): 
+ 		test_data = [
+			('I love this sandwich.', 'pos'),
+			('this is an amazing place!', 'pos'),
+			('I feel very good about these beers.', 'pos'),
+			('this is my best work.', 'pos'),
+			("what an awesome view", 'pos'),
+			('I do not like this restaurant', 'neg'),
+			('I am tired of this stuff.', 'neg'),
+			("I can't deal with this", 'neg'),
+			('he is my sworn enemy!', 'neg'),
+			('my boss is horrible.', 'neg')
+ 		]
+ 		cl = bayesClassifier(test_data)
+ 		test = [
+    		('the beer was good.', 'neg'),
+			('I do not enjoy my job', 'neg'),
+			("I ain't feeling dandy today.", 'neg'),
+			("I feel amazing!", 'pos'),
+			('Gary is a friend of mine.', 'pos'),
+			("I can't believe I'm doing this.", 'neg')
+		]
+ 		cl.updateTrainingSet(test)
+ 		test_response = cl.classifyPhrase("The beer is good. But the hangover is horrible.")
+ 		self.assertEqual(test_response, "neg")
 
-	def checkAccuracy(self): 
-		pass
 
-	def updateTrainingTest(self): 
-		pass
 
 
 if __name__=='__main__': 
