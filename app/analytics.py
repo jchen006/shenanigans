@@ -61,10 +61,11 @@ class BagOfIngredients:
         top_ingreds = np.array(self.ordered_ingredients)[top_N_indices]
         top_freqs = freqs[top_N_indices]
         return top_ingreds.tolist(), top_freqs.tolist()
-
-    def get_top_N_ingredients_json(self, N):
+    
+    def get_top_N_ingredients_json(self, N, MAX_FONT=120):
         top_ingreds, top_freqs = self.get_top_N_ingredient_frequencies(N)
-        js = [{"ingredient": x, "frequency": y} for x, y in zip(top_ingreds, top_freqs)]
+        MULT_FONT_SCALE = MAX_FONT / (1.0*max(top_freqs))
+        js = [{"text": x, "size": int(y*MULT_FONT_SCALE)} for x, y in zip(top_ingreds, top_freqs)]
         return json.dumps(js)
 
 class PCAModel:
@@ -235,9 +236,10 @@ if __name__=='__main__':
     b.generate_bag_of_ingredients()
     b.generate_recipe_vectors()
     top_ingreds, top_freqs = b.get_top_N_ingredient_frequencies(20)
+    top_js = b.get_top_N_ingredients_json(10)
     X = b.recipe_vects
     P = PCAModel(X)
-    L = LDAModel(X, b.ordered_ingredients, b.ordered_recipes, K=5)
+    L = LDAModel(X, b.ordered_ingredients, b.ordered_recipes, K=10)
     NN = NearestNeighborsModel(X)
     clusters = L.clustered_recipes
     lda_json = L.d3_json
