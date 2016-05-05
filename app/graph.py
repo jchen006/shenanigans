@@ -1,5 +1,6 @@
 import collections as c
 import pickle, os, itertools, json
+import numpy as np
 from settings import *
 from recipe_parser import *
 from ingredient import *
@@ -73,6 +74,14 @@ class Graph:
             return json.dumps(self.d3_json)
         else:
             return ""
+
+    def percent_intersect_recipe_sets(self, recipe_ing_sets):
+        smallest_set_idx = np.argmin([len(x) for x in recipe_ing_sets])
+        len_smallest_recipe_set = len(recipe_ing_sets[smallest_set_idx])
+        return (1.0*len(self.intersect_recipe_sets(recipe_ing_sets)))/(1.0*len_smallest_recipe_set)
+
+    def intersect_recipe_sets(self, recipe_ing_sets):
+        return set.intersection(*recipe_ing_sets)
 
     ### Returns a List of source,dest tuples where Source and Dest are Ingredient ID's
     def find_d3_links(self):
