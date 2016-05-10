@@ -79,4 +79,7 @@ def recipe_scatterplot():
 def word_cloud(): 
     return render_template('word_cloud.html')
 
+@app.route('/js-sandbox')
+def js_sandbox(): 
+    return render_template('js-sandbox.html')
 
