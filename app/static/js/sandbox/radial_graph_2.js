@@ -32,7 +32,7 @@ d3.json("static/js/experiments/food.json", function(error, root) {
       .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
 
   node.append("circle")
-      .attr("r", 4.5);
+      .attr("r", 50);
 
   node.append("text")
       .attr("dy", ".31em")
@@ -41,7 +41,8 @@ d3.json("static/js/experiments/food.json", function(error, root) {
         var adjust = adjustment(d.x);
         console.log(d.name + d.x  + "->" + adjust);
         var rotate = 180;
-        return "rotate(" + adjust + ")translate(-8)"; 
+        // return "rotate(" + adjust + ")translate(-10)"; 
+        return "translate(-10)"; 
       })
       .text(function(d) { return d.name; });
 });

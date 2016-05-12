@@ -39,8 +39,8 @@ var node = svg.selectAll("node")
     .enter()
     .append("circle")
     .attr("r", function(d) {return d.weight*10})
-    .attr("class", "node")
-    .on("mouseover", function(d) {console.log(d.name)});
+    .attr("class", "node");
+   
 
 node.append("text")
     .attr("dy", ".40em")
@@ -57,6 +57,9 @@ force.on("tick", function(e) {
         .attr("cy", function(d) { return d.y; });
 
 });
+
+link.on("mousover", function(){ console.log("hi")});
+     // .on("mouseover", function() {console.log("hi")});
 
 function flatten(root) {
     var nodes = [];
