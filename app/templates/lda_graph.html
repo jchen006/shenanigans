@@ -20,13 +20,14 @@
 	</br>
 	<div class="row">
 		<div class="col-md-12">
-			<div class="panel panel-default">
+			<div class="panel panel-info">
   				<div class="panel-heading">
     				<h3 class="panel-title">Explanation</h3>
   				</div>
   				<div class="panel-body">
-    				Something awesome cool and LDA related
+    				One experiment we wanted to try was a basic clustering of recipes. For our first attempt, we wanted an unsupervised clustering - a way to cluster without manually labeling or providing pre-defined clusters for the recipes. For this goal, Latent Dirichlet Allocation (LDA) seemed a perfect fit, as it assigns “topics” for “documents” consisting of “words”. In our case, it assigns clusters for recipes consisting of ingredients. It does this by building a basic probabilistic model of the relationships (bayesian conditional probabilities) between ingredients and recipe, recipes and cluster, and ingredients and clusters. Although we want to find a cluster for each recipe, in reality LDA assigns each recipe a probability distribution - namely the probability a recipe belongs to each of K clusters, where the number K is chosen as an input parameter. With this ‘distribution’ over K topics 
   				</div>
+  				<div class="panel-footer">1 http://www.codecogs.com/latex/integration/htmlequations.php</div>
 			</div>
 		</div>
 	</div>
