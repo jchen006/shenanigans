@@ -1,9 +1,9 @@
-var margin = 20,
-    diameter = 750;
+var margin = 50,
+    diameter = 600;
 
 var color = d3.scale.linear()
-    .domain([-1, 5])
-    .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
+    .domain([1, 5])
+    .range([d3.rgb("#d4ebf2"), d3.rgb("#7997a1")])
     .interpolate(d3.interpolateHcl);
 
 var pack = d3.layout.pack()
@@ -26,7 +26,7 @@ d3.json("/api/lda_graph", function(error, root) {
 
   var circle = svg.selectAll("circle")
       .data(nodes)
-    .enter().append("circle")
+      .enter().append("circle")
       .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
       .style("fill", function(d) { return d.children ? color(d.depth) : null; })
       .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
