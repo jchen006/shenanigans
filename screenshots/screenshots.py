@@ -55,7 +55,7 @@ class Screenshot():
 	#word_cloud
 
 if __name__ == "__main__": 
-	s = Screenshot("http://localhost:5000/word_cloud", "word_cloud")
+	s = Screenshot("http://localhost:5000/lda_graph", "lda")
 	s.get_original_diagram()
 	s.crop_screenshot()
 	s.finish()	
