@@ -7,11 +7,19 @@ from ingredient import *
 
 #Data = c.namedtuple("Data", "url chef ingredients")
 
-class Graph: 
+class RadialGraph: 
     def __init__(self): 
         self.graph = {}
         self.d3_json = None
         self.recipes = None
+        self.ingred_root = None
+        self.PERCENT_INTERSECT_THRESH = 0.5
+        self.MAX_CHILDREN = 10
+        self.MAX_NODES = 100
+
+    @property
+    def root_recipes(self):
+        return self.graph[self.ingred_root].recipes
 
     def add_node(self, recipe_obj, recipe_name):
         for ingred_name in recipe_obj.ingredients:
@@ -20,10 +28,10 @@ class Graph:
 
     def insert_ingred_obj(self, ingred_name, recipe_name):
         if ingred_name not in self.graph:
-            new_list = []
-            self.graph[ingred_name] = Ingredient(ingred_name, recipes = new_list)
+            new_set = set()
+            self.graph[ingred_name] = Ingredient(ingred_name, recipes = new_set)
         ingred_obj = self.graph[ingred_name]
-        ingred_obj.recipes.append(recipe_name) # we need to append Recipe ID instead of the name
+        ingred_obj.recipes.add(recipe_name) # we need to append Recipe ID instead of the name
         return
 
     ####
@@ -41,13 +49,25 @@ class Graph:
 
         temp_links_dict = {}
 
+        import pdb; pdb.set_trace()
         # NODES WITH NO LINKS ARE DUE TO LISTS
+        best_overlaps = []
+
+        # first do distance to root
         for ing_name, ing_value in self.graph.items():
             if(ing_value.name != "" and ing_value.name is not None):
-                graph_d3_json["nodes"].append({"name":ing_value.name, "count":0})
-                temp_node_to_idx[ing_value.name] = len(graph_d3_json["nodes"]) - 1
+                intersect_percent = self.percent_intersect_recipe_sets((ing_value.recipes, self.root_recipes))
+                if intersect_percent > self.PERCENT_INTERSECT_THRESH:
+                    best_overlaps.append((ing_value, intersect_percent))
+
+        import pdb; pdb.set_trace()
+        sorted(best_overlaps, key=lambda x: x[1])
+
+                #graph_d3_json["nodes"].append({"name":ing_value.name, "count":0})
+                #temp_node_to_idx[ing_value.name] = len(graph_d3_json["nodes"]) - 1
                 
 
+        import pdb; pdb.set_trace()
         # CHANGE recipe_parser.py's retrieve_data() method to get fewer results
         # TODO: we have duplicate links! need to fix
         if self.recipes is not None:
@@ -76,10 +96,7 @@ class Graph:
             return ""
     
     #TODO: 
-    # args for intersection radial graph
-    # maxThresh: the percentage overlap required to be in connection with a node
-    # minThresh: the minimum percentage overlap required to be in the graph at all
-    # k: number of nodes (children? each with 2 children max or something)
+    # harmonic mean - somehow penalize the small set being too small
 
     def percent_intersect_recipe_sets(self, recipe_ing_sets):
         smallest_set_idx = np.argmin([len(x) for x in recipe_ing_sets])
@@ -96,13 +113,14 @@ class Graph:
     def find_common_recipe(self, ingred1, ingred2):
         pass
 
-    def make_graph_from_mongo(self): 
+    def make_graph_from_mongo(self, root): 
         p = Parser()
         p.retrieve_data()
         self.recipes = p.recipes
         self.ingredients = p.all_ingredients
         for recipe_name in self.recipes.keys(): 
             self.add_node(self.recipes[recipe_name], recipe_name)
+        self.ingred_root = root
         return
     
     def get_ingredients(self):
@@ -112,7 +130,7 @@ class Graph:
         return str(self)
 
 if __name__=='__main__':
-    g = Graph()
-    g.make_graph_from_mongo()
+    g = RadialGraph()
+    g.make_graph_from_mongo('black pepper')
     g.make_d3()
     # g.make_graph_from_tuple()
