@@ -9,35 +9,15 @@ var graph = {
         {"name":"7","rating":1,"id":64654},
         {"name":"8","rating":20,"id":354654},
         {"name":"9","rating":50,"id":8494},     
-        {"name":"10","rating":1,"id":6846874},
-        {"name":"11","rating":1,"id":5487},
-        {"name":"12","rating":80,"id":"parfum_kenzo"},
-        {"name":"13","rating":1,"id":65465465},
-        {"name":"14","rating":90,"id":"jungle_de_kenzo"},
-        {"name":"15","rating":20,"id":313514},
-        {"name":"16","rating":40,"id":36543614},
-        {"name":"17","rating":100,"id":"Yann_YA645"},
-        {"name":"18","rating":1,"id":97413},
-        {"name":"19","rating":1,"id":97414},
-        {"name":"20","rating":100,"id":976431231},
-        {"name":"21","rating":1,"id":9416},
-        {"name":"22","rating":1,"id":998949},
-        {"name":"23","rating":100,"id":984941},
-        {"name":"24","rating":100,"id":"99843"},
-        {"name":"25","rating":1,"id":94915},
-        {"name":"26","rating":1,"id":913134},
-        {"name":"27","rating":1,"id":9134371}
     ],
     "links":[
-        {"source":6,"target":5,"value":6, "label":"publishedOn"},
-        {"source":8,"target":5,"value":6, "label":"publishedOn"},
-        {"source":7,"target":1,"value":4, "label":"containsKeyword"},
-        {"source":8,"target":10,"value":3, "label":"containsKeyword"},
-        {"source":7,"target":14,"value":4, "label":"publishedBy"},
-        {"source":8,"target":15,"value":6, "label":"publishedBy"},
-        {"source":9,"target":1,"value":6, "label":"depicts"},
-        {"source":10,"target":1,"value":6, "label":"depicts"},
-        {"source":16,"target":1,"value":6, "label":"manageWebsite"},
+        {"source":1,"target":2,"value":6, "label":"publishedOn"},
+        {"source":1,"target":3,"value":6, "label":"publishedOn"},
+        {"source":1,"target":4,"value":4, "label":"containsKeyword"},
+        {"source":1,"target":5,"value":5, "label":""},
+        {"source":2,"target":6,"value":8,"label":""},
+        {"source":2,"target":7,"value":9,"label":""},
+        {"source":3,"target":8,"value":7,"label":""},
     ]
 }
 
@@ -49,8 +29,8 @@ var width = 500 - margin.left - margin.right,
 var color = d3.scale.category20();
     
 var force = d3.layout.force()
-    .charge(-200)
-    .linkDistance(50)
+    .charge(-800)
+    .linkDistance(100)
     .size([width + margin.left + margin.right, height + margin.top + margin.bottom]);
 
 var svg = d3.select("body").append("svg")
@@ -70,33 +50,31 @@ var container = svg.append("g");
 
 //d3.json('http://blt909.free.fr/wd/map2.json', function(error, graph) {
                 
-    force
-        .nodes(graph.nodes)
-                    .links(graph.links)
-                    .start();
+force
+    .nodes(graph.nodes)
+    .links(graph.links)
+    .start();
                 
-      
-        
-        var link = container.append("g")
-                        .attr("class", "links")
-                        .selectAll(".link")
-            .data(graph.links)
-                        .enter().append("line")
-            .attr("class", "link")
-            .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+var link = container.append("g")
+    .attr("class", "links")
+    .selectAll(".link")
+    .data(graph.links)
+    .enter()
+    .append("line")
+    .attr("class", "link")
+    .style("stroke-width", function(d) { return Math.sqrt(d.value); });
  
         var node = container.append("g")
-                        .attr("class", "nodes")
-                        .selectAll(".node")
+            .attr("class", "nodes")
+            .selectAll(".node")
             .data(graph.nodes)
             .enter().append("g")
             .attr("class", "node")
-                        .attr("cx", function(d) { return d.x; })
-                        .attr("cy", function(d) { return d.y; });
+            .attr("cx", function(d) { return d.x; })
+            .attr("cy", function(d) { return d.y; });
           
         node.append("circle")
-            .attr("r", function(d) { return d.weight * 2+ 12; })
-            .style("fill", function(d) { return color(1/d.rating); });
+            .attr("r", function(d) { return d.weight * 2+ 12; });
          
                 
                 force.on("tick", function() {
