@@ -1,6 +1,7 @@
 .node {
   stroke: #fff;
   stroke-width: 1.5px;
+   font: 10px sans-serif;
 }
 
 .node-active{
