@@ -8,7 +8,7 @@ class MongoHelper:
     uri = "mongodb://recipe_user:dinneriscoming@ds035543.mongolab.com:35543/recipes"
 
     def __init__(self, debug=False):
-        self.client = MongoClient(MongoHelper.uri) 
+        self.client = MongoClient(MongoHelper.uri)
         self.db = self.client['recipes']
         self.collection = self.db['recipe_collection']
         self.binary_collection = self.db['bin-data']
@@ -16,7 +16,7 @@ class MongoHelper:
     def insertObj(self, mongo_name, python_obj):
         pickeled_obj = pickle.dumps(python_obj)
         self.binary_collection.insert({mongo_name : Binary(pickeled_obj)})
-         
+
     def findObj(self, mongo_name):
         objs = []
         for p in self.binary_collection.find({ mongo_name : { '$exists': True } }): # ASSUME ONLY 1 OBJECT RETURNED!!
@@ -30,13 +30,13 @@ class MongoHelper:
         post_id = None
         if isinstance(json, dict):
             post_id = [self.collection.insert_one(json).inserted_id]
-        elif isinstance(json, list): 
+        elif isinstance(json, list):
             post_id = self.collection.insert_many(json).inserted_ids
         return post_id
 
     def findByJson(self, json):
         return list(self.collection.find(json))
-        
+
     def findById(self, post_id):
         if isinstance(post_id, str):
             post_id = ObjectId(post_id)
