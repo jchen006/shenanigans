@@ -58,27 +58,22 @@ def readMongo():
 def output_word_cloud_json(num_words):
     return b.get_top_N_ingredients_json(N=int(num_words), MAX_FONT=70)
 
-#Routes to add recipe and ingredients into the system
-@api.route("/submit_ingredient")
+#Routes to add recipe and ingredients into the system - API routes, for these things
+@api.route("/submit_ingredient", methods=['POST'])
 def submit_ingredient():
     return
 
-
 @api.route("/submit_recipe")
-def submit_recipe():
+def submit_recipe(request):
+    recipe_title = request.form
+    ingredients = request.form
     return
 
-
+#Create a new URL prefix for the stuff on the Auth Path
 @api.route("/admin_submit_recipe")
 def submit_recipe():
     return
 
-
 @api.route("/admin_submit_recipe")
 def submit_recipe():
     return
-
-
-
-
-

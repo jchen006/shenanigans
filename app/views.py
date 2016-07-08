@@ -2,7 +2,10 @@ from app import app
 from flask import render_template, request
 from recipe_page import *
 from pages import *
-from mongo_helper import *
+from mongo_helper import*
+
+#Adding form components here
+from components import *
 
 p = Page()
 m = MongoHelper()
@@ -83,7 +86,8 @@ def word_cloud():
 # Ryan Login and Icebox
 @app.route('/submit_recipes')
 def submit_recipes():
-    return render_template('submit_recipes')
+    form = RegistrationForm(request.form)
+    return render_template('submit_recipes', form=form)
 
 @app.route('/control_panel')
 def control_panel():
