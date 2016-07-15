@@ -10,6 +10,9 @@ g = Graph()
 g.make_graph_from_mongo()
 g.make_d3()
 
+rg = RadialGraph()
+rg.init_graph_from_mongo()
+
 b = BagOfIngredients()
 b.generate_bag_of_ingredients()
 b.generate_recipe_vectors()
