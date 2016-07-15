@@ -21,7 +21,6 @@ def about():
 
 @app.route('/experiments')
 def experiments():
-
     return render_template('experiments.html')
 
 @app.route('/references')
