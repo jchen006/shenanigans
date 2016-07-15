@@ -1,5 +1,6 @@
 from flask import Blueprint
 from graph import *
+from radial_graph import *
 from analytics import *
 import json
 from flask import request
@@ -29,13 +30,23 @@ lda_json = L.d3_json
 def graph_json():
     return g.get_d3_json()
 
+@api.route('/ingredient_frequency')
+def ing_freq_json():
+    return b.get_top_N_ingredients_json(30)
+
+@api.route('/ingredient_network_json')
+def ingredient_network_json():
+   root = request.args.get('root') 
+   return rg.make_d3_graph_json(root)
+
 @api.route('/lda_graph')
 def lda_graph_json():
     return lda_json
 
-@api.route('/ingredient_frequency')
-def ing_freq_json():
-    return b.get_top_N_ingredients_json(30)
+@api.route("/mongo")
+def readMongo():
+    listOfJson = m.findAll()
+    return json.dumps(str(listOfJson))
 
 @api.route('/ordered_recipes')
 def ordered_recipes_json():
@@ -50,11 +61,6 @@ def radar_graph_json():
 @api.route('/recipe_scatterplot')
 def recipe_scatterplot_json():
     return L.get_mds_json()
-
-@api.route("/mongo")
-def readMongo():
-    listOfJson = m.findAll()
-    return json.dumps(str(listOfJson))
 
 @api.route("/word_cloud_json/<num_words>")
 def output_word_cloud_json(num_words):

@@ -44,6 +44,8 @@ class RadialGraph:
     ####
     def make_d3_graph_json(self, root, K_ = 3, level_of_tree = 3):
         self.ingred_root = root
+        if root not in self.graph:
+            return "NOT A VALID ROOT!!"
         graph_d3_json = {}
         graph_d3_json["nodes"] = []
         graph_d3_json["links"] = []
@@ -51,7 +53,7 @@ class RadialGraph:
         temp_node_to_idx = defaultdict(int)
 
         temp_links_dict = defaultdict(int)
-
+        
         temp_root_ing_val = self.graph[self.ingred_root]
         nodes_to_eval = []
         next_nodes_to_eval = []
@@ -86,7 +88,7 @@ class RadialGraph:
             K_ = max(K_ / 2, 1)
             level_of_tree -= 1
 
-        return graph_d3_json
+        return json.dumps(graph_d3_json)
 
     def find_children_of_root(self, temp_root_ing_val, visited_set, INTERSECT_THRESH=0.4, K=5):
 

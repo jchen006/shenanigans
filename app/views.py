@@ -3,7 +3,6 @@ from flask import render_template, request
 from recipe_page import *
 from pages import *
 from mongo_helper import *
-from screenshots import *
 
 p = Page()
 m = MongoHelper()
