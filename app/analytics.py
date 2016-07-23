@@ -19,17 +19,16 @@ from sklearn.neighbors import NearestNeighbors
 #Data = c.namedtuple("Data", "url chef ingredients")
 
 class BagOfIngredients: 
-    def __init__(self): 
+    def __init__(self, parser_obj): 
         self.bag = {}
         self.ordered_ingrediends = None
         self.ordered_recipes = None
         self.recipe_vects = None
+        self.parser = parser_obj
 
     def generate_bag_of_ingredients(self):
-        p = Parser()
-        p.retrieve_data()
-        recipes = p.recipes
-        all_ingreds = p.all_ingredients
+        recipes = self.parser.recipes
+        all_ingreds = self.parser.all_ingredients
         for ing in all_ingreds:
             self.bag[ing] = 0
             

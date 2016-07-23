@@ -1,10 +1,10 @@
 from app import app
 from flask import render_template, request
-from recipe_page import *
 from pages import *
 from mongo_helper import *
+from API import parser
 
-p = Page()
+p = Page(parser)
 m = MongoHelper()
 
 @app.route('/')
