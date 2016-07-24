@@ -1,6 +1,6 @@
 var margin = {top: -5, right: -5, bottom: -5, left: -5};
-var width = 500 - margin.left - margin.right,
-    height = 400- margin.top - margin.bottom;
+var width = 1000 - margin.left - margin.right,
+    height = 1000- margin.top - margin.bottom;
 
 var color = d3.scale.category20();
     
@@ -49,10 +49,10 @@ function create_root_network(root) {
         .attr("cx", function(d) { return d.x; })
         .attr("cy", function(d) { return d.y; });
               
-    node.append("circle")
+    var circle = node.append("circle")
         .attr("r", function(d) { 
             console.log(d.name + " " + d.weight);
-            return d.weight * 2+ 12; 
+            return d.weight * 7 + 12; 
         })
         .attr("fill", "white")
         .attr("stroke", "black");
@@ -100,17 +100,30 @@ function create_root_network(root) {
                         
             d3.select(this).select("circle").transition()
                 .duration(750)
-                .attr("r", d.weight * 2+ 12);
+                .attr("r", d.weight * 9+ 12);
         });
 
-    node.append("text")
+    circle.append("text")
         .attr("dy", ".35em")
         .attr("text-anchor", "middle")
-        .text(function(d) { return d.name; });
-
-    });                
+        .text(function(d) { 
+            return d.name; })
+        .attr("id", function(d) {
+            return d.name;
+        });
+    });          
+ 
 }
 
+    function wrap_text() {
+        d3.selectAll("text").each(function(d, i) {
+            d3plus.textwrap()
+            .container(d3.selectAll(this))
+            .resize(true)
+            .draw();     
+        });
+
+    }
 
 function dottype(d) {
     d.x = +d.x;
