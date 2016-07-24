@@ -9,10 +9,11 @@ from collections import defaultdict
 #Data = c.namedtuple("Data", "url chef ingredients")
 
 class RadialGraph: 
-    def __init__(self): 
+    def __init__(self, parser_obj): 
         self.graph = {}
         self.d3_json = None
         self.recipes = None
+        self.parser = parser_obj
         self.ingred_root = None
         self.PERCENT_INTERSECT_THRESH = 0.3
         self.PERCENT_RECIPE_SIZE = 0.1
@@ -155,10 +156,8 @@ class RadialGraph:
         return set.intersection(*recipe_ing_sets)
 
     def init_graph_from_mongo(self): 
-        p = Parser()
-        p.retrieve_data()
-        self.recipes = p.recipes
-        self.ingredients = p.all_ingredients
+        self.recipes = self.parser.recipes
+        self.ingredients = self.parser.all_ingredients
         for recipe_name in self.recipes.keys(): 
             self.add_node(self.recipes[recipe_name], recipe_name)
         return

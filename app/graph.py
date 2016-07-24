@@ -8,10 +8,11 @@ from ingredient import *
 #Data = c.namedtuple("Data", "url chef ingredients")
 
 class Graph: 
-    def __init__(self): 
+    def __init__(self, parser_obj): 
         self.graph = {}
         self.d3_json = None
         self.recipes = None
+        self.parser = parser_obj
 
     def add_node(self, recipe_obj, recipe_name):
         for ingred_name in recipe_obj.ingredients:
@@ -97,10 +98,8 @@ class Graph:
         pass
 
     def make_graph_from_mongo(self): 
-        p = Parser()
-        p.retrieve_data()
-        self.recipes = p.recipes
-        self.ingredients = p.all_ingredients
+        self.recipes = self.parser.recipes
+        self.ingredients = self.parser.all_ingredients
         for recipe_name in self.recipes.keys(): 
             self.add_node(self.recipes[recipe_name], recipe_name)
         return

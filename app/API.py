@@ -7,14 +7,17 @@ from flask import request
 
 api = Blueprint('api', __name__)
 
-g = Graph()
+parser = Parser()
+parser.retrieve_data()
+
+g = Graph(parser)
 g.make_graph_from_mongo()
 g.make_d3()
 
-rg = RadialGraph()
+rg = RadialGraph(parser)
 rg.init_graph_from_mongo()
 
-b = BagOfIngredients()
+b = BagOfIngredients(parser)
 b.generate_bag_of_ingredients()
 b.generate_recipe_vectors()
 top_ingreds, top_freqs = b.get_top_N_ingredient_frequencies(20)
