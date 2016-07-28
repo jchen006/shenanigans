@@ -103,7 +103,7 @@ function create_root_network(root) {
                 .attr("r", d.weight * 9+ 12);
         });
 
-    circle.append("text")
+   node.append("text")
         .attr("dy", ".35em")
         .attr("text-anchor", "middle")
         .text(function(d) { 
@@ -117,6 +117,7 @@ function create_root_network(root) {
 
     function wrap_text() {
         d3.selectAll("text").each(function(d, i) {
+            console.log(d);
             d3plus.textwrap()
             .container(d3.selectAll(this))
             .resize(true)
