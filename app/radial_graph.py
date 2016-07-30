@@ -51,16 +51,13 @@ class RadialGraph:
         graph_d3_json["nodes"] = []
         graph_d3_json["links"] = []
 
-        temp_node_to_idx = defaultdict(int)
-
-        temp_links_dict = defaultdict(int)
-        
+        # temp_node_to_idx = defaultdict(int)        
         temp_root_ing_val = self.graph[self.ingred_root]
         nodes_to_eval = []
         next_nodes_to_eval = []
         nodes_to_eval.append(temp_root_ing_val)
-        graph_d3_json["nodes"].append({"name":temp_root_ing_val.name, "count":0})
-        temp_node_to_idx[temp_root_ing_val.name] = len(graph_d3_json["nodes"]) - 1
+        graph_d3_json["nodes"].append({"name":temp_root_ing_val.name, "count":12})
+        # temp_node_to_idx[temp_root_ing_val.name] = len(graph_d3_json["nodes"]) - 1
 
         overlaps_list = []
         visited_nodes_set = set()
@@ -69,15 +66,17 @@ class RadialGraph:
                 temp_root_value = nodes_to_eval.pop()
                 overlaps = self.find_children_of_root(temp_root_value, visited_nodes_set, K=K_)
 
-                source_idx = temp_node_to_idx[temp_root_value.name]
+                # source_idx = temp_node_to_idx[temp_root_value.name]
+                source_name = temp_root_value.name
                 for ing_value, overlap_score in overlaps:
                     
                     # TODO: overlaps doesn't return what we want! we need an ingredient object
-                    graph_d3_json["nodes"].append({"name":ing_value.name, "count":0})
-                    temp_node_to_idx[ing_value.name] = len(graph_d3_json["nodes"]) - 1
+                    graph_d3_json["nodes"].append({"name":ing_value.name, "size":12})
+                    # temp_node_to_idx[ing_value.name] = len(graph_d3_json["nodes"]) - 1
 
-                    target_idx = temp_node_to_idx[ing_value.name]
-                    graph_d3_json["links"].append({"source":source_idx, "target":target_idx, "value":overlap_score})
+                    # target_idx = temp_node_to_idx[ing_value.name]
+                    target_name = ing_value.name
+                    graph_d3_json["links"].append({"source":source_name, "target":target_name})
                 overlaps_list.append(overlaps)
 
             lists_len = len(overlaps_list)

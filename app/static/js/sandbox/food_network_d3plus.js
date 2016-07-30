@@ -7,9 +7,11 @@ function generate_graph(ingredient) {
 	draw_graph(nodes, links);
 }
 
-function draw_graph(nodes, links) {
+function draw_graph(nodes, links) {	
+	console.log(typeof nodes)
 	var visualization = d3plus.viz()
 		.container("#viz")
+		.type("network")
 		.data(nodes)
 		.edges(links)
 		.size("count")
@@ -23,3 +25,5 @@ function api_call(ingred) {
 	xhr.send();
 	return xhr.response;
 }
+
+
