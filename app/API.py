@@ -60,20 +60,39 @@ def output_word_cloud_json(num_words):
 
 #Routes to add recipe and ingredients into the system - API routes, for these things
 @api.route("/submit_ingredient", methods=['POST'])
-def submit_ingredient():
-    return
+def submit_ingredient(request):
+    ingredient = request.ingredient
+    return mh.insertObject(
 
-@api.route("/submit_recipe")
+@api.route("/submit_recipe", methods=['POST'])
 def submit_recipe(request):
-    recipe_title = request.form
-    ingredients = request.form
-    return
+    recipeName = request.recicpeName
+    recipeIngredients = []
+    for ingredient in request.recipeIngredients:
+      recipeIngredients.append(recipeIngredients)
+    return mh.insertObject(
 
 #Create a new URL prefix for the stuff on the Auth Path
-@api.route("/admin_submit_recipe")
-def submit_recipe():
+@api.route("/admin_submit_ingredient", methods=['POST'])
+def submit_recipe(request):
     return
 
-@api.route("/admin_submit_recipe")
-def submit_recipe():
+@api.route("/admin_submit_recipe", methods=['POST'])
+def submit_recipe(request):
+    return
+
+@api.route("/admin_edit_ingredient", methods=['POST'])
+def submit_recipe(request):
+    return
+
+@api.route("/admin_edit_recipe", methods=['POST'])
+def submit_recipe(request):
+    return
+
+@api.route("/admin_delete_ingredient", methods=['POST'])
+def submit_recipe(request):
+    return
+
+@api.route("/admin_delete_recipe", methods=['POST'])
+def submit_recipe(request):
     return

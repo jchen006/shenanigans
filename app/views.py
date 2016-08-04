@@ -2,7 +2,8 @@ from app import app
 from flask import render_template, request
 from recipe_page import *
 from pages import *
-from mongo_helper import*
+from mongo_helper import *
+import mongo_helper as mh
 
 #Adding form components here
 from components import *
@@ -83,13 +84,16 @@ def recipe_scatterplot():
 def word_cloud():
     return render_template('word_cloud.html')
 
-# Ryan Login and Icebox
+#Ryan Submission and Control Panel
 @app.route('/submit_recipes')
 def submit_recipes():
-    form = RegistrationForm(request.form)
-    return render_template('submit_recipes', form=form)
+    return render_template('submit_recipes.html')
 
 @app.route('/control_panel')
 def control_panel():
-    return render_template('control_panel.html')
+    iceBoxIngredients = ["test1", "test2", "test3"]
+    iceBoxRecipes = ["rtest1", "rtest2", "rtest3"]
+    return render_template('control_panel.html', reviewIngredients = iceBoxIngredients, reviewRecipes = iceBoxRecipes)
+
+
 
