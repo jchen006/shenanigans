@@ -62,7 +62,7 @@ def output_word_cloud_json(num_words):
 @api.route("/submit_ingredient", methods=['POST'])
 def submit_ingredient(request):
     ingredient = request.ingredient
-    return mh.insertObject(
+    return mh.insertObject({'ingredient': ingredient})
 
 @api.route("/submit_recipe", methods=['POST'])
 def submit_recipe(request):
@@ -70,29 +70,6 @@ def submit_recipe(request):
     recipeIngredients = []
     for ingredient in request.recipeIngredients:
       recipeIngredients.append(recipeIngredients)
-    return mh.insertObject(
+    return mh.insertObject({recipeName: recipeIngredients})
 
-#Create a new URL prefix for the stuff on the Auth Path
-@api.route("/admin_submit_ingredient", methods=['POST'])
-def submit_recipe(request):
-    return
-
-@api.route("/admin_submit_recipe", methods=['POST'])
-def submit_recipe(request):
-    return
-
-@api.route("/admin_edit_ingredient", methods=['POST'])
-def submit_recipe(request):
-    return
-
-@api.route("/admin_edit_recipe", methods=['POST'])
-def submit_recipe(request):
-    return
-
-@api.route("/admin_delete_ingredient", methods=['POST'])
-def submit_recipe(request):
-    return
-
-@api.route("/admin_delete_recipe", methods=['POST'])
-def submit_recipe(request):
-    return
+#Private Method in the routes -> Admin MongoHelper.by
