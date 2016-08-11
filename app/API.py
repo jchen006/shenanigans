@@ -58,18 +58,3 @@ def readMongo():
 def output_word_cloud_json(num_words):
     return b.get_top_N_ingredients_json(N=int(num_words), MAX_FONT=70)
 
-#Routes to add recipe and ingredients into the system - API routes, for these things
-@api.route("/submit_ingredient", methods=['POST'])
-def submit_ingredient(request):
-    ingredient = request.ingredient
-    return mh.insertObject({'ingredient': ingredient})
-
-@api.route("/submit_recipe", methods=['POST'])
-def submit_recipe(request):
-    recipeName = request.recicpeName
-    recipeIngredients = []
-    for ingredient in request.recipeIngredients:
-      recipeIngredients.append(recipeIngredients)
-    return mh.insertObject({recipeName: recipeIngredients})
-
-#Private Method in the routes -> Admin MongoHelper.by

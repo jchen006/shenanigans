@@ -84,16 +84,3 @@ def recipe_scatterplot():
 def word_cloud():
     return render_template('word_cloud.html')
 
-#Ryan Submission and Control Panel
-@app.route('/submit_recipes')
-def submit_recipes():
-    return render_template('submit_recipes.html')
-
-@app.route('/control_panel')
-def control_panel():
-    iceBoxIngredients = ["test1", "test2", "test3"]
-    iceBoxRecipes = ["rtest1", "rtest2", "rtest3"]
-    return render_template('control_panel.html', reviewIngredients = iceBoxIngredients, reviewRecipes = iceBoxRecipes)
-
-
-
