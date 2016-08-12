@@ -12,17 +12,17 @@ def control_panel():
 #Merge Recipe/Ingredient from Icebox
 @admin.route('mergePendingItem')
 def merge_pending_item():
-
+    pass
 
 #Edit recipe/ingredient from Icebox
 @admin.route('/editPendingItem')
 def edit_pending_item():
-
+    pass
 
 @admin.route('/removePendingItem')
 #Remvoe recipe/ingredient from Icebox1
 def remove_pending_item():
-
+    pass
 
 #Add Item to DB
 @admin.route('/addItem')
@@ -33,11 +33,10 @@ def add_item():
 #Edit Item in DB
 @admin.route('/editItem')
 def edit_item():
-
+    pass
 
 #Remove Item in DB
 @admin.route('/removeItem')
 def remove_item():
-
-
+    pass
 

@@ -6,7 +6,7 @@ from mongo_helper import *
 import mongo_helper as mh
 
 #Adding form components here
-from components import *
+#from components import *
 
 p = Page()
 m = MongoHelper()
