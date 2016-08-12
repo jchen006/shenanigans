@@ -1,3 +1,5 @@
+//Working on better javascript bindings
+
 var submitFormAction = function() {
 	//Get Data fields one by one 
 	console.log("submitFormCalled");
@@ -11,7 +13,7 @@ var submitFormAction = function() {
 		contentType: false,
 		type: 'POST',
 		success: function(res) {
-			console.log(res)
+			console.log("success");
 		}
 	}
 };
