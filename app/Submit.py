@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 import mongo_submit_helper as msh
 submit = Blueprint('submit', __name__)
 
@@ -6,15 +6,32 @@ submit = Blueprint('submit', __name__)
 #Route to submit to icebox
 #I need to submit to the correct collection, might need to modify mongohelper to be generic
 
-#Ryan Submission and Control Panel
+"""Submit recipes page"""
 @submit.route('/submit_recipes')
 def submit_recipes():
-    return render_template('submit_recipes_or_ingredients.html')
+    return render_template('submit_recipes.html')
+
+"""Submission of feedback that goes to our emails"""
+@submit.route('/submit_feedback')
+def submit_feedback(): 
+	return render_template('submit_feedback.html')
+
+"""Update ingredient will pull from all our existing database 
+and allow user to pick a specific ingredient and suggest an update to it"""
+@submit.route('/update_ingredient')
+def update_ingredient(): 
+	return render_template('update_ingredient.html')
 
 @submit.route("/submit_ingredient", methods=['POST'])
-def submit_ingredient(request):
-    ingredient = request.ingredient
-    return msh.insertObject({'ingredient': ingredient})
+def submit_ingredient():
+	email = request.form['email']
+	recipe_name = request.form['recipe_name']
+	recipe_ingredients = request.form['ingredients']
+	# msh.insertObject(
+	# 	{'email': email,
+	# 	'recipe_name': recipe_name,
+	# 	'ingredients': recipe_ingredients})
+	return render_template('submit_success.html', recipe_name=recipe_name, ingredients=recipe_ingredients)
 
 @submit.route("/submit_recipe", methods=['POST'])
 def submit_recipe(request):

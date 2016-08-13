@@ -9,40 +9,31 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-  <script type="/static/js/util/submit.js"></script>
+  <script type="text/javascript" src="/static/js/util/submit.js"></script>
 
 </head>
 
 <body>
 
-  <form id="subissionForm">
+  <form method="post" action="{{url_for('submit.submit_ingredient')}}">
     <!--ID the Person -->
     <div class="form-group">
       <label for="exampleInputEmail1">Email address</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-    </div>
+      <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+<!--       <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
 
-    <!-- Submit Ingredient -->
-    <div class="form-group">
-      <label for="ingredientSubmission">Ingredient</label>
-      <input type="text" class="form-control" id="ingredientSubmission" placeholder="Something Good">
-    </div>
-
-    <!-- Submit Recipe -->
-    <div class="form-group">
       <label for="recipeName"> Recipe Name </label>
-      <input type="text" class="form-control" id="recipeNameText"></textarea>
+      <input type="text" class="form-control" name="recipe_name"></textarea>
 
       <label for="recipeIngredientList">Ingredients of Recipe</label>
-      <textarea class="form-control" id="recipeIngredientsText" rows="5"></textarea>
+      <textarea class="form-control" name="ingredients" rows="5"></textarea>
     </div>
-
     <!-- Define action for submit -->
-    <button onclick="submitFormAction()" type="submit" class="btn btn-primary">Submit</button>
+    <input type="submit" name="Submit">
   </form>
 
 </body>
+
 
 
 

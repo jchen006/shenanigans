@@ -3,17 +3,20 @@ var submitFormAction = function() {
 	console.log("submitFormCalled");
 	var submitForm = document.getElementById("submissionForm");
 	var submissionData = new FormData(submitForm);
+	//Need to serialize to JSON 
+	console.log(submissionData.keys());
 	$.ajax({
-		url: '/submit/submit_recipe',
+		url: '/submit/submit_ingredient',
 		data: submissionData,
-		cache: false,
-		processData: false,
-		contentType: false,
+		contentType: 'application/json',
 		type: 'POST',
 		success: function(res) {
 			console.log(res)
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			console.log("There was an error with your string." + thrownError);
 		}
-	}
+	});
 };
 
 
