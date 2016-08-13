@@ -6,6 +6,8 @@ submit = Blueprint('submit', __name__)
 #Route to submit to icebox
 #I need to submit to the correct collection, might need to modify mongohelper to be generic
 
+mongo = msh.SubmitMongoHelper()
+
 """Submit recipes page"""
 @submit.route('/submit_recipes')
 def submit_recipes():
@@ -27,10 +29,10 @@ def submit_ingredient():
 	email = request.form['email']
 	recipe_name = request.form['recipe_name']
 	recipe_ingredients = request.form['ingredients']
-	# msh.insertObject(
-	# 	{'email': email,
-	# 	'recipe_name': recipe_name,
-	# 	'ingredients': recipe_ingredients})
+	mongo.insertToRemote(
+		{'email': email,
+		'recipe_name': recipe_name,
+		'ingredients': recipe_ingredients})
 	return render_template('submit_success.html', recipe_name=recipe_name, ingredients=recipe_ingredients)
 
 @submit.route("/submit_recipe", methods=['POST'])
