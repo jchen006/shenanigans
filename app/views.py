@@ -3,6 +3,10 @@ from flask import render_template, request
 from recipe_page import *
 from pages import *
 from mongo_helper import *
+import mongo_helper as mh
+
+#Adding form components here
+#from components import *
 
 p = Page()
 m = MongoHelper()
@@ -14,7 +18,7 @@ def index():
 @app.route('/home')
 def home():
   return render_template('home.html')
-  
+
 @app.route('/about')
 def about():
   return render_template('about_us.html')
@@ -29,31 +33,31 @@ def references():
     return render_template('references.html')
 
 @app.route('/about_project')
-def about_project(): 
+def about_project():
     return render_template('about_project.html')
 
 @app.route('/recipes')
-def recipes(): 
+def recipes():
     """This is to list out all recipes currently in the database"""
     titles = p.create_titles_page()
     recipes = {}
-    for t in titles: 
+    for t in titles:
         url = p.create_recipe_url(t)
         recipes[t] = url
     return render_template('recipes.html', titles=titles, recipes=recipes)
 
 @app.route('/recipe_card/<recipe>')
 def recipe_card(recipe):
-    """Takes in the file_name and runs it through the recipePage 
+    """Takes in the file_name and runs it through the recipePage
     and generates a specific recipe page related to it
-    Should take in individuals values that are needed including original url, 
+    Should take in individuals values that are needed including original url,
     chef, and ingredients, and instructions"""
     print recipe
     title, url, chef, ingredients = p.create_recipe_page(recipe)
     return render_template('recipe_card.html', title=title, url=url, chef=chef, ingredients=ingredients)
 
 @app.route('/ingredients')
-def ingredients(): 
+def ingredients():
     pass
 
 @app.route('/graph')
@@ -65,19 +69,18 @@ def ing_freq():
     return render_template('ingredient_frequency.html')
 
 @app.route('/lda_graph')
-def lda_graph(): 
+def lda_graph():
     return render_template('lda_graph.html')
 
-@app.route('/radar_graph') 
-def radar_graph(): 
+@app.route('/radar_graph')
+def radar_graph():
     return render_template('radar_graph.html')
 
 @app.route('/recipe_scatterplot')
-def recipe_scatterplot(): 
+def recipe_scatterplot():
     return render_template('recipe_scatterplot.html')
 
 @app.route('/word_cloud')
-def word_cloud(): 
+def word_cloud():
     return render_template('word_cloud.html')
-
 

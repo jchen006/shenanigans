@@ -1,0 +1,28 @@
+.formHeader {
+	border-style: solid 1px;
+}
+
+.formHeader h1 {
+	font-size: 30x;
+}
+
+#formContainer {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	min-width: 50%;
+	min-height: 50%;
+	font-size: medium;
+}
+
+#formContainer label {
+	font-size: 20px;
+	font-weight: normal;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#formContainer #submitButton {
+	font-size: 20px;
+}

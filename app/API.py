@@ -3,6 +3,7 @@ from graph import *
 from analytics import *
 import json
 from flask import request
+import mongo_helper as mh
 
 api = Blueprint('api', __name__)
 
@@ -56,3 +57,4 @@ def readMongo():
 @api.route("/word_cloud_json/<num_words>")
 def output_word_cloud_json(num_words):
     return b.get_top_N_ingredients_json(N=int(num_words), MAX_FONT=70)
+
