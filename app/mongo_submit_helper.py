@@ -7,10 +7,10 @@ import json
 class SubmitMongoHelper:
 	uri = "mongodb://recipe_user:dinneriscoming@ds035543.mongolab.com:35543/recipes"
 
-	def __init__(self, debug=False):
+	def __init__(self, collection, debug=False):
 		self.client = MongoClient(SubmitMongoHelper.uri)
 		self.db = self.client['recipes']
-		self.collection = self.db['pending_recipe_collection']
+		self.collection = self.db[collection]
 		self.binary_collection = self.db['bin-data']
 
 
