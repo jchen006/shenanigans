@@ -1,39 +1,37 @@
 <!-- Add an ingredient, a single string, type to a dropdow menu --> 
 {% extends "layout.html" %}
 {% block content %}
-
 <body>
-  <form method="post" action="{{url_for('submit.submit_ingredient')}}">
-    <div class="form-group">
-      <label for="exampleInputEmail1">Email address</label>
-      <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+  <div id="formContainer">
+    <form method="post" action="{{url_for('submit.submit_ingredient')}}">
+      <div class="formHeader">
+        <h1> Ingredient Submission Form </h1>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email">
 
-      <label for="name"> Ingredient </label>
-      <input type="text" class="form-control" name="name"></textarea>
+        <label for="name"> Ingredient </label>
+        <input type="text" class="form-control" name="name"></textarea>
 
-      <label for="type">Ingredient Form</label>
-      <select class="form-control" name="type" id="selectType">
-      	<option value="none"> None </option>
-      	<option value="beans"> Beans </option>
-      	<option value="starch"> Starch </option>
-      	<option value="fruits"> Fruits </option>
-      	<option value="grain"> Grains </option>
-      	<option value="spice"> Spices </option>
-      	<option value="nuts"> Nuts </option>
-      	<option value="herbs"> Herbs </option>
-      	<option value="seafood"> Seafood </option>
-      	<option value="seed"> Seeds </option>
-      	<option value="spices"> Spices </option>
-      	<option value="vegetable"> Vegetables </option>
-      </select>
-    </div>
-    <!-- Define action for submit -->
-    <input type="submit" name="Submit">
-  </form>
-
+        <label for="type">Ingredient Form</label>
+        <select class="form-control" name="type" id="selectType">
+        	<option value="none"> None </option>
+        	<option value="beans"> Beans </option>
+        	<option value="starch"> Starch </option>
+        	<option value="fruits"> Fruits </option>
+        	<option value="grain"> Grains </option>
+        	<option value="spice"> Spices </option>
+        	<option value="nuts"> Nuts </option>
+        	<option value="herbs"> Herbs </option>
+        	<option value="seafood"> Seafood </option>
+        	<option value="seed"> Seeds </option>
+        	<option value="spices"> Spices </option>
+        	<option value="vegetable"> Vegetables </option>
+        </select>
+      </div>
+      <input id="submitButton" class="btn btn-primary" type="submit" name="Submit">
+    </form>
+  </div>
 </body>
-
-
-
-
 {% endblock %}
