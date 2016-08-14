@@ -23,7 +23,7 @@ def update_ingredient():
 
 
 @submit.route("/submit_recipe", methods=['POST'])
-def submit_ingredient():
+def submit_recipe():
 	email = request.form['email']
 	recipe_name = request.form['recipe_name']
 	recipe_ingredients = request.form['ingredients']
@@ -37,7 +37,7 @@ def submit_ingredient():
 TODO: need to add specific classifiers as options before they can submit
 """
 @submit.route("/submit_ingredient", methods=['POST'])
-def submit_recipe():
+def submit_ingredient():
     email = request.form['email']
     action = request.form['action']
     if action is "update": 
