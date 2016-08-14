@@ -19,7 +19,7 @@ def submit_feedback():
 and allow user to pick a specific ingredient and suggest an update to it"""
 @submit.route('/update_ingredient')
 def update_ingredient(): 
-	return render_template('submit/update_ingredient.html')
+	return render_template('submit/submit_ingredient.html')
 
 
 @submit.route("/submit_recipe", methods=['POST'])
@@ -36,25 +36,16 @@ def submit_recipe():
 """
 TODO: need to add specific classifiers as options before they can submit
 """
-@submit.route("/submit_ingredient", methods=['POST'])
+@submit.route("/submit_ingredient", methods=['GET', 'POST'])
 def submit_ingredient():
-    email = request.form['email']
-    action = request.form['action']
-    if action is "update": 
-		original = request.form['original']
-		update = request.form['update']
-		mongo_ingred.insertToRemote(
-    		{'email': email,
-    		'action': action,
-    		'original': original,
-    		'update': update
+	email = request.form['email']
+	suggested = request.form['name']
+	ingred_type = request.form.get('type')
+	mongo_ingred.insertToRemote({
+    		'email': email, 
+    		'action': "suggestion", 
+    		'suggested': suggested,
+    		'type': ingred_type
     		})
-    else:
-		suggested = request.form['suggested']
-		mongo_ingred.insertToRemote({
-    		'email', email, 
-    		'action', action, 
-    		'suggested', suggested
-    		})
-    return render_template('submit/submit_success.html', response="Thanks for your ingredient suggestion!")
+	return render_template('submit/submit_success.html', response="Thanks for your ingredient suggestion!")
 
