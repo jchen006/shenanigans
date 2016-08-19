@@ -1,5 +1,6 @@
 import collections as c
 import pickle, os, itertools, json
+import numpy as np
 from settings import *
 from recipe_parser import *
 from ingredient import *
@@ -7,10 +8,11 @@ from ingredient import *
 #Data = c.namedtuple("Data", "url chef ingredients")
 
 class Graph: 
-    def __init__(self): 
+    def __init__(self, parser_obj): 
         self.graph = {}
         self.d3_json = None
         self.recipes = None
+        self.parser = parser_obj
 
     def add_node(self, recipe_obj, recipe_name):
         for ingred_name in recipe_obj.ingredients:
@@ -73,6 +75,20 @@ class Graph:
             return json.dumps(self.d3_json)
         else:
             return ""
+    
+    #TODO: 
+    # args for intersection radial graph
+    # maxThresh: the percentage overlap required to be in connection with a node
+    # minThresh: the minimum percentage overlap required to be in the graph at all
+    # k: number of nodes (children? each with 2 children max or something)
+
+    def percent_intersect_recipe_sets(self, recipe_ing_sets):
+        smallest_set_idx = np.argmin([len(x) for x in recipe_ing_sets])
+        len_smallest_recipe_set = len(recipe_ing_sets[smallest_set_idx])
+        return (1.0*len(self.intersect_recipe_sets(recipe_ing_sets)))/(1.0*len_smallest_recipe_set)
+
+    def intersect_recipe_sets(self, recipe_ing_sets):
+        return set.intersection(*recipe_ing_sets)
 
     ### Returns a List of source,dest tuples where Source and Dest are Ingredient ID's
     def find_d3_links(self):
@@ -82,10 +98,8 @@ class Graph:
         pass
 
     def make_graph_from_mongo(self): 
-        p = Parser()
-        p.retrieve_data()
-        self.recipes = p.recipes
-        self.ingredients = p.all_ingredients
+        self.recipes = self.parser.recipes
+        self.ingredients = self.parser.all_ingredients
         for recipe_name in self.recipes.keys(): 
             self.add_node(self.recipes[recipe_name], recipe_name)
         return

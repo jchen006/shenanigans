@@ -1,14 +1,15 @@
 from app import app
 from flask import render_template, request
-from recipe_page import *
 from pages import *
 from mongo_helper import *
+from API import parser
 import mongo_helper as mh
 
 #Adding form components here
 #from components import *
 
-p = Page()
+
+p = Page(parser)
 m = MongoHelper()
 
 @app.route('/')
@@ -25,7 +26,6 @@ def about():
 
 @app.route('/experiments')
 def experiments():
-
     return render_template('experiments.html')
 
 @app.route('/references')
@@ -60,6 +60,10 @@ def recipe_card(recipe):
 def ingredients():
     pass
 
+@app.route('/radial_network_graph')
+def radial_network(): 
+    return render_template ('radial_network_graph.html')
+
 @app.route('/graph')
 def graph():
     return render_template('graph_page.html')
@@ -84,3 +88,6 @@ def recipe_scatterplot():
 def word_cloud():
     return render_template('word_cloud.html')
 
+@app.route('/js-sandbox')
+def js_sandbox(): 
+    return render_template('js-sandbox.html')

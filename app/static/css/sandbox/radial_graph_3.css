@@ -1,0 +1,48 @@
+
+.link10 { stroke: #ccc; stroke-width: 2px; stroke-dasharray: 3, 3; }
+.link1 { stroke: #000; stroke-width: 2px;}
+.nodetext { pointer-events: none;}
+
+.node.type1 {
+  fill:#690011;
+}
+.node.type2 {
+  fill:#BF0426;
+}
+.node.type3 {
+  fill:#E5B96F;
+}
+.node.type4 {
+  fill:#FFFFFF;
+  stroke:#1695A3; 
+  stroke-width: 3px;
+}
+
+.node.type5 {
+	fill:#1BC9E0;
+}
+
+.node.type6 {
+	fill:#E01B98;
+}
+
+image.circle {
+	cursor:pointer;
+}
+
+.fadein{
+display:none;
+font-size:20px;
+}
+
+.rectD{
+background-color:#000000;
+width:70px;
+height:30px
+}
+
+.rectL{
+background-color:#000000;
+width:90px;
+height:30px
+}
