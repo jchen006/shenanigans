@@ -1,5 +1,8 @@
 from flask import Flask
 from app import views
+
+app = Flask(__name__)
+
 from API import api
 from Admin import admin
 from Submit import submit
