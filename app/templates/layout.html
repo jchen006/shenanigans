@@ -30,15 +30,15 @@
       <ul class="nav navbar-nav">
        <!--  <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
        <!--  <li><a href="{{ url_for('home') }}">Home</a></li> -->
-      <li><a href="{{url_for('experiments')}}">Experiments</a></li>
+      <li><a href="{{url_for('about.about_experiments')}}">Experiments</a></li>
       <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">About <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="{{url_for('about_project')}}">The Project</a></li>
+            <li><a href="{{url_for('about.about_project')}}">The Project</a></li>
             <li class="divider"></li>
-            <li><a href="{{url_for('about')}}">About Us</a></li>
+            <li><a href="{{url_for('about.about_us')}}">About Us</a></li>
             <li class="divider"></li>
-            <li><a href="{{url_for('references')}}">References</a></li>
+            <li><a href="{{url_for('about.about_references')}}">References</a></li>
           </ul>
         </li>
       </ul>
