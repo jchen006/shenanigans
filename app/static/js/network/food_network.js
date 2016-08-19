@@ -1,10 +1,16 @@
-
-
 function generate_graph(ingredient) {
-	var response = JSON.parse(api_call(ingredient));
-	var nodes = response.nodes;
-	var links = response.links;
-	draw_graph(nodes, links);
+	if(ingredient) {
+		var response = JSON.parse(api_call(ingredient));
+		var nodes = response.nodes;
+		var links = response.links;
+		draw_graph(nodes, links);
+	} else {
+		 var visualization = d3plus.viz()
+    		.container("#viz")  
+    		.error("Enter in an ingredient")  // Halt the viz and display message instead
+    		.draw()        
+	}
+	
 }
 
 function draw_graph(nodes, links) {	
@@ -16,6 +22,8 @@ function draw_graph(nodes, links) {
 		.edges(links)
 		.size("count")
 		.id("name")
+		.height(700)
+		.width(1000)
 		.draw()
 }
 
