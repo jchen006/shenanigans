@@ -15,11 +15,5 @@ class Ingredient:
         # recipes = list of strings for the names of the recipes
         self.recipes = recipes 
 
-    def __str__(self): 
-        return str(self.__dict__)
-    
-    def __repr__(self):
-        return str(self.__dict__)
-
 if __name__ == "__main__":
     x = Ingredient("buttercake crackers")

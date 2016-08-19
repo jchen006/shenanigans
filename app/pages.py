@@ -6,10 +6,9 @@ from recipe_parser import *
 class Page: 
 
 
-	def __init__(self): 
-		self.p = Parser()
-		self.p.retrieve_data()
-		self.recipes = self.capitalize_keys(self.p.recipes)
+	def __init__(self, parser_obj): 
+		self.parser = parser_obj
+		self.recipes = self.capitalize_keys(self.parser.recipes)
 		
 	def capitalize_keys(self, dict): 
 		"""Updates the keys to capitalized"""

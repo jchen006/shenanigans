@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="http://www.d3plus.org/js/d3plus.js"></script>
+
+
+	<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+	<script type="text/javascript" src="/static/js/network/food_network.js"></script>
+	<form>
+  		<div class="form-group">
+  			<div class="row">
+  				<div class="col-md-4">
+    				<label for="entry">Entry</label>
+    				<input class="form-control" id="entry" placeholder="Ex. Carrot">
+ 			 		<button id="submit" type="submit" class="btn btn-primary">Submit</button>
+ 			 	</div>
+ 			</div>
+ 		</div>
+	</form>
+	<div id="viz"></div>
+
+{% endblock %}

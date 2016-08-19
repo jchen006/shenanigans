@@ -5,17 +5,16 @@ from parser import *
 
 class recipePage: 
 
-	def __init__(self): 
+	def __init__(self, parser_obj): 
 		self.recipe_file = []
+        self.p = parser_obj
 
 	"""Takes the file name converts it to a file name 
 	File name will have everything that it needs to have"""
 
 	def generate_list(self): 
 		"""Takes the directory and grabs all of the recipes"""
-		p = parser()
-		p.retrieve_data()
-		return p.recipes.keys()
+		return self.p.recipes.keys()
 
 if __name__ == "__main__": 
 	r = recipePage()
