@@ -44,34 +44,6 @@ def recipe_card(recipe):
 def ingredients():
     pass
 
-@shenanigans.route('/radial_network_graph')
-def radial_network(): 
-    return render_template ('radial_network_graph.html')
-
-@shenanigans.route('/graph')
-def graph():
-    return render_template('graph_page.html')
-
-@shenanigans.route('/ingredient_frequency')
-def ing_freq():
-    return render_template('ingredient_frequency.html')
-
-@shenanigans.route('/lda_graph')
-def lda_graph():
-    return render_template('lda_graph.html')
-
-@shenanigans.route('/radar_graph')
-def radar_graph():
-    return render_template('radar_graph.html')
-
-@shenanigans.route('/recipe_scatterplot')
-def recipe_scatterplot():
-    return render_template('recipe_scatterplot.html')
-
-@shenanigans.route('/word_cloud')
-def word_cloud():
-    return render_template('word_cloud.html')
-
 @shenanigans.route('/js-sandbox')
 def js_sandbox(): 
     return render_template('js-sandbox.html')
