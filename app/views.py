@@ -60,6 +60,10 @@ def recipe_card(recipe):
 def ingredients():
     pass
 
+@app.route('/radial_network_graph')
+def radial_network(): 
+    return render_template ('radial_network_graph.html')
+
 @app.route('/graph')
 def graph():
     return render_template('graph_page.html')
