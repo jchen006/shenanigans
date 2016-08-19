@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+<body>
+  <div id="formContainer">
+    <form method="post" action="{{url_for('submit.submit_ingredient')}}">
+      <div class="formHeader">
+        <h1> Recipe Submission Form </h1>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+        <label for="recipeName"> Recipe Name </label>
+        <input type="text" class="form-control" name="recipe_name"></textarea>
+        <label for="recipeIngredientList">Ingredients of Recipe</label>
+        <textarea class="form-control" name="ingredients" rows="5"></textarea>
+      </div>
+      <input id="submitButton" class="btn btn-primary" type="submit" name="Submit">
+    </form>
+  </div>
+</body>
+{% endblock %}
