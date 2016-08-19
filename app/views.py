@@ -1,4 +1,4 @@
-from app import app
+import app
 from flask import render_template, request
 from pages import *
 from mongo_helper import *
@@ -19,22 +19,6 @@ def index():
 @app.route('/home')
 def home():
   return render_template('home.html')
-
-@app.route('/about')
-def about():
-  return render_template('about_us.html')
-
-@app.route('/experiments')
-def experiments():
-    return render_template('experiments.html')
-
-@app.route('/references')
-def references():
-    return render_template('references.html')
-
-@app.route('/about_project')
-def about_project():
-    return render_template('about_project.html')
 
 @app.route('/recipes')
 def recipes():
