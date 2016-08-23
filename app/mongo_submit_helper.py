@@ -22,9 +22,9 @@ class SubmitMongoHelper:
 	        post_id = self.collection.insert_many(json).inserted_ids
 	    return post_id
 
-
-
-
-
-
+	def findAll(self):
+		posts = []
+		for post in self.collection.find():
+			posts.append(post)
+		return posts
 

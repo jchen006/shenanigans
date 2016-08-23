@@ -1,14 +1,20 @@
-from flask import Blueprint
+from flask import Blueprint, render_template
 admin  = Blueprint('admin', __name__)
-
+import mongo_submit_helper as msh
+mongo_recipe = msh.SubmitMongoHelper('pending_recipe_collection')
 #Use react for the Admin Page views Route to render admin page view
 #Import mongo helper object -
 
 #Import mongo helper JUSt for rendering send an http request else
 @admin.route('/control_panel')
 def control_panel():
-  return render_template('control_panel.html')
+	pendingItems = mongo_recipe.findAll() 
+	print pendingItems
+	return render_template('control_panel.html', pendingItems=pendingItems)
 
+
+
+'''
 #Merge Recipe/Ingredient from Icebox
 @admin.route('mergePendingItem')
 def merge_pending_item():
@@ -39,4 +45,4 @@ def edit_item():
 @admin.route('/removeItem')
 def remove_item():
     pass
-
+'''
