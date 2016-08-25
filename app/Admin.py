@@ -6,13 +6,15 @@ mongo_recipe = msh.SubmitMongoHelper('pending_recipe_collection')
 #Import mongo helper object -
 
 #Import mongo helper JUSt for rendering send an http request else
+@admin.route('/admin_login')
+def admin_login():
+    return render_template('admin_login.html')
+
 @admin.route('/control_panel')
 def control_panel():
-	pendingItems = mongo_recipe.findAll() 
+	pendingItems = mongo_recipe.findAll()
 	print pendingItems
 	return render_template('control_panel.html', pendingItems=pendingItems)
-
-
 
 '''
 #Merge Recipe/Ingredient from Icebox

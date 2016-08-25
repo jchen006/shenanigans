@@ -45,5 +45,5 @@ def ingredients():
     pass
 
 @shenanigans.route('/js-sandbox')
-def js_sandbox(): 
+def js_sandbox():
     return render_template('js-sandbox.html')
