@@ -2,19 +2,29 @@ from flask import Blueprint, render_template
 admin  = Blueprint('admin', __name__)
 import mongo_submit_helper as msh
 mongo_recipe = msh.SubmitMongoHelper('pending_recipe_collection')
-#Use react for the Admin Page views Route to render admin page view
-#Import mongo helper object -
+from flask.ext.login import LoginManager, UserMixin, login_required
 
-#Import mongo helper JUSt for rendering send an http request else
+
+#https://realpython.com/blog/python/using-flask-login-for-user-management-with-flask/
+#1) Admin User Class - With Mongo DB - Add a new collection
+
+#2)  User Loader
+
+#3) Login and logout
+
+
 @admin.route('/admin_login')
 def admin_login():
     return render_template('admin_login.html')
 
+#4) Control Panel Endpoint
 @admin.route('/control_panel')
 def control_panel():
 	pendingItems = mongo_recipe.findAll()
 	print pendingItems
 	return render_template('control_panel.html', pendingItems=pendingItems)
+
+#4) Script to create admin user
 
 '''
 #Merge Recipe/Ingredient from Icebox
