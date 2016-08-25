@@ -13,7 +13,6 @@ class SubmitMongoHelper:
 		self.collection = self.db[collection]
 		self.binary_collection = self.db['bin-data']
 
-
 	def insertToRemote(self, json):
 	    post_id = None
 	    if isinstance(json, dict):
@@ -27,4 +26,10 @@ class SubmitMongoHelper:
 		for post in self.collection.find():
 			posts.append(post)
 		return posts
+
+	def removeOne(self, item):
+		result = self.collection.delete_one({"name": item})
+		return result.deleted_count
+
+
 
