@@ -1,60 +1,41 @@
+from app import lm
 from flask import Blueprint, render_template
 admin  = Blueprint('admin', __name__)
-import mongo_submit_helper as msh
-mongo_recipe = msh.SubmitMongoHelper('pending_recipe_collection')
-from flask.ext.login import LoginManager, UserMixin, login_required
+import mongo_admin_helper as mah
+from flask.ext.login import UserMixin, login_required
 
+@admin.route('/admin_form')
+def admin_form():
+  return render_template('admin/admin_form.html')
 
-#https://realpython.com/blog/python/using-flask-login-for-user-management-with-flask/
-#1) Admin User Class - With Mongo DB - Add a new collection
+@lm.user_loader
+def user_loader(user_id):
+  return mah.getUser(user_id)
 
-#2)  User Loader
-
-#3) Login and logout
-
-
+#405 error here i need to find out why the post request is getting rejected
 @admin.route('/admin_login')
-def admin_login():
-    return render_template('admin_login.html')
+def login():
+  formUser = request.form['userId']
+  formPassword = request.form['password']
+  print request.form
+  admin = mah.getUser(formUser)
+  if admin:
+    if password == admin.password:
+      login_user(admin, remember=True)
+      return redirect(url_for("admin.control_panel")) #Flash comment
+  return render_template("admin_login.html")
 
-#4) Control Panel Endpoint
+@admin.route('/admin_logout')
+def logout():
+  logout_user()
+  return render_template("admin_login.html")
+
 @admin.route('/control_panel')
+@login_required
 def control_panel():
 	pendingItems = mongo_recipe.findAll()
 	print pendingItems
 	return render_template('control_panel.html', pendingItems=pendingItems)
 
+
 #4) Script to create admin user
-
-'''
-#Merge Recipe/Ingredient from Icebox
-@admin.route('mergePendingItem')
-def merge_pending_item():
-    pass
-
-#Edit recipe/ingredient from Icebox
-@admin.route('/editPendingItem')
-def edit_pending_item():
-    pass
-
-@admin.route('/removePendingItem')
-#Remvoe recipe/ingredient from Icebox1
-def remove_pending_item():
-    pass
-
-#Add Item to DB
-@admin.route('/addItem')
-def add_item():
-  ingredient = request.ingredient
-  return mh.insertObject({'ingredient': ingredient})
-
-#Edit Item in DB
-@admin.route('/editItem')
-def edit_item():
-    pass
-
-#Remove Item in DB
-@admin.route('/removeItem')
-def remove_item():
-    pass
-'''

@@ -1,5 +1,8 @@
 from flask import Flask
+from flask.ext.login import LoginManager
 shenanigans = Flask(__name__)
+lm = LoginManager()
+lm.init_app(shenanigans)
 
 from app import views
 from API import api
@@ -9,6 +12,7 @@ from About import about
 from Experiments import experiments
 from TestSandbox import test
 from Database import db
+
 
 shenanigans.register_blueprint(api, url_prefix="/api")
 shenanigans.register_blueprint(admin, url_prefix="/admin")
