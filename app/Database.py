@@ -22,7 +22,10 @@ def remove_mongo_recipe():
 		abort(400)
 	name = request.json['name']
 	result = mongo_recipe.removeOne(name)
-	return jsonify({'action':'REMOVED'}), 200
+	if result == 1:
+		return jsonify({'action':'REMOVED'}), 200
+	else: 
+		return jsonify({'action':'ITEM NOT FOUND'}), 200
 
 
 """Removes the recipe from icebox to main route

@@ -29,7 +29,6 @@ class SubmitMongoHelper:
 
 	def removeOne(self, item):
 		removal_json = {"recipe_name" : item}
-		print(removal_json)
 		result = self.collection.delete_one(removal_json)
 		return result.deleted_count
 
