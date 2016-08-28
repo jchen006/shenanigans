@@ -32,15 +32,14 @@ def remove_mongo_recipe():
 def approve_mongo_recipe(): 
 	if not request.json:
 		abort(400)
-	recipe_name = request.json['recipe_name']
+	id = request.json['id'].encode("ascii", "ignore")
+	pending_recipe = mongo_recipe.findById(id)
 	recipe_to_move = {
-		"name": recipe_name, 
-		"ingredients": {
-			request.json['ingredients']
-		}, 
+		"name": pending_recipe['recipe_name'].encode("ascii", "ignore"), 
+		"ingredients": str(pending_recipe['ingredients']).split(","), 
 		"url": "", 
 		"chef": ""
 	}
 	mongo_main.insertToRemote(recipe_to_move)
-	result = mongo_recipe.removeOne(recipe_name)
+	result = mongo_recipe.removeById(id)
 	return jsonify({'action':'MOVED'}), 200
