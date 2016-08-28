@@ -13,7 +13,6 @@ mongo_main = mh.MongoHelper()
 def update_mongo_recipe(): 
 	pass
 
-
 """Remove the recipe route
 """
 @db.route("/remove", methods=['POST'])
@@ -25,8 +24,7 @@ def remove_mongo_recipe():
 	if result == 1:
 		return jsonify({'action':'REMOVED'}), 200
 	else: 
-		return jsonify({'action':'ITEM NOT FOUND'}), 200
-
+		return jsonify({'action':'ITEM_NOT_FOUND'}), 200
 
 """Removes the recipe from icebox to main route
 """
@@ -34,7 +32,6 @@ def remove_mongo_recipe():
 def approve_mongo_recipe(): 
 	if not request.json:
 		abort(400)
-
 	recipe_name = request.json['recipe_name']
 	recipe_to_move = {
 		"name": recipe_name, 
@@ -46,4 +43,4 @@ def approve_mongo_recipe():
 	}
 	mongo_main.insertToRemote(recipe_to_move)
 	result = mongo_recipe.removeOne(recipe_name)
-	return jsonify({'action':'MOVED'})
+	return jsonify({'action':'MOVED'}), 200
