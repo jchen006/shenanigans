@@ -1,4 +1,11 @@
 from textblob.classifiers import NaiveBayesClassifier 
+from flask import Blueprint, jsonify
+
+bayes = Blueprint('bayes', __name__)
+
+@bayes.route("/add", methods=['POST'])
+def add_data(): 
+	pass
 
 class bayesClassifier: 
 	
@@ -18,3 +25,4 @@ class bayesClassifier:
 	"""Returns the informative features"""
 	def getInformativeFeatures(self, numFeatures): 
 		return self.model.show_informative_features(numFeatures)
+

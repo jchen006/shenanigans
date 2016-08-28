@@ -12,6 +12,7 @@ from About import about
 from Experiments import experiments
 from TestSandbox import test
 from Database import db
+from BayesFilter import bayes
 
 
 shenanigans.register_blueprint(api, url_prefix="/api")
@@ -21,3 +22,4 @@ shenanigans.register_blueprint(about, url_prefix="/about")
 shenanigans.register_blueprint(experiments, url_prefix="/experiments")
 shenanigans.register_blueprint(test, url_prefix="/test")
 shenanigans.register_blueprint(db, url_prefix="/db")
+shenanigans.register_blueprint(bayes, url_prefix="/bayes")

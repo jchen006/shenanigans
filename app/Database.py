@@ -42,4 +42,8 @@ def approve_mongo_recipe():
 	}
 	mongo_main.insertToRemote(recipe_to_move)
 	result = mongo_recipe.removeById(id)
-	return jsonify({'action':'MOVED'}), 200
+	if result == 1: 
+		return jsonify({'action':'MOVED'}), 200
+	else:
+		return jsonify({'action':'ITEM_NOT_FOUND'}), 200
+	
