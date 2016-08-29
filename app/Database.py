@@ -14,8 +14,7 @@ def update_mongo_recipe():
 	id = request.json['_id'].encode("ascii", "ignore")
 	field = request.json['field'].encode("ascii", "ignore")
 	content = request.json['content'].encode("ascii", "ignore")
-	recipe = mongo_recipe.findById(id)
-	result = mongo_recipe.updateFields(recipe._id, field, content)
+	result = mongo_recipe.updateFields(id, field, content)
 	return jsonify({"action":"ITEM_UPDATED"}), 200
 
 """Remove the recipe route

@@ -52,7 +52,8 @@ class SubmitMongoHelper:
 				"$set": {
 					field : content
 				}
-			}
+			},
+			"$currentDate": {"lastModified": True}
 		)
 		return result
 

@@ -1,7 +1,9 @@
 from textblob.classifiers import NaiveBayesClassifier 
 from flask import Blueprint, jsonify
+import mongo_submit_helper as msh
 
 bayes = Blueprint('bayes', __name__)
+
 
 @bayes.route("/add", methods=['POST'])
 def add_data(): 
