@@ -7,11 +7,16 @@ db = Blueprint('db', __name__)
 mongo_recipe = msh.SubmitMongoHelper('pending_recipe_collection')
 mongo_main = mh.MongoHelper()
 
-"""Edits the recipe route
+"""Updates the recipe 
 """
-@db.route("/update")
+@db.route("/update_pending", methods=['POST'])
 def update_mongo_recipe(): 
-	pass
+	id = request.json['_id'].encode("ascii", "ignore")
+	field = request.json['field'].encode("ascii", "ignore")
+	content = request.json['content'].encode("ascii", "ignore")
+	recipe = mongo_recipe.findById(id)
+	result = mongo_recipe.updateFields(recipe._id, field, content)
+	return jsonify({"action":"ITEM_UPDATED"}), 200
 
 """Remove the recipe route
 """
