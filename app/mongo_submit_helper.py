@@ -32,7 +32,7 @@ class SubmitMongoHelper:
 			post_id = ObjectId(post_id)
 		return self.collection.find_one({"_id": post_id})
 
-	def removeById(self, post_id): 
+	def removeById(self, post_id):
 		if isinstance(post_id, str):
 			post_id = ObjectId(post_id)
 		result = self.collection.delete_one({"_id": post_id})
