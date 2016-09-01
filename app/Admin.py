@@ -22,7 +22,7 @@ def login():
     if password == admin.password:
       login_user(admin, remember=True)
       return redirect(url_for("admin.control_panel")) #Flash comment
-  return render_template("admin_login.html")
+  return render_template("admin/admin_login.html")
 
 @admin.route('/admin_logout', methods=['GET', 'POST'])
 def logout():
@@ -34,6 +34,6 @@ def logout():
 def control_panel():
 	pendingItems = mongo_recipe.findAll()
 	print pendingItems
-	return render_template('control_panel.html', pendingItems=pendingItems)
+	return render_template('admin/control_panel.html', pendingItems=pendingItems)
 
 #4) Script to create admin user

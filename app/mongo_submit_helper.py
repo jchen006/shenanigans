@@ -53,7 +53,7 @@ class SubmitMongoHelper:
 					field : content
 				}
 			},
-			"$currentDate": {"lastModified": True}
+			{"$currentDate": {"lastModified": True}}
 		)
 		return result
 
