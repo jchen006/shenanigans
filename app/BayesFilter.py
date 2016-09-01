@@ -1,17 +1,21 @@
 from textblob.classifiers import NaiveBayesClassifier 
 from flask import Blueprint, jsonify
-import mongo_submit_helper as msh
+import mongo_bayes_helper as mbh
 
 bayes = Blueprint('bayes', __name__)
+training = mbh.MongoBayesHelper()
 
 
 @bayes.route("/add", methods=['POST'])
 def add_data(): 
-	pass
+	
+
+	return jsonify({"action": "ADDED"}), 200
 
 class bayesClassifier: 
 	
-	def __init__(self, trainingSet):
+	def __init__(self):
+		trainingSet = training.findAll()
 		self.model = NaiveBayesClassifier(trainingSet)
 
 	""" Adds new data to the training set
