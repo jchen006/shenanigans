@@ -1,12 +1,12 @@
 from pymongo import MongoClient 
-from json 
+import json 
 import cPickle as pickle 
 
 class MongoBayesHelper: 
 	uri = "mongodb://recipe_user:dinneriscoming@ds017736.mlab.com:17736/bayesian_training"
 
 	def __init__(self, debug=False): 
-		self.client = MongoClient(MongoHelper.uri)
+		self.client = MongoClient(MongoBayesHelper.uri)
 		self.db = self.client['bayesian_training']
 		self.collection = self.db['training_data']
 
