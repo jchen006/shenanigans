@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, redirect, url_for #I did 
 admin  = Blueprint('admin', __name__)
 import mongo_admin_helper as mah
 import mongo_helper as mh
-from flask.ext.login import UserMixin, login_required, login_user, UserMixin
+from flask.ext.login import UserMixin, login_required, login_user, logout_user, UserMixin
 
 #Ah! My issues is that i need to instant the admin helper object 
 #I need to call it on the the class of the file
@@ -38,7 +38,7 @@ def login():
 @admin.route('/admin_logout', methods=['GET', 'POST'])
 def logout():
   logout_user()
-  return render_template("admin_signin.html")
+  return render_template("admin/admin_signin.html")
 
 @admin.route('/control_panel')
 @login_required
