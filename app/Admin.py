@@ -1,42 +1,48 @@
-from flask import Blueprint
+from app import lm
+from flask import Blueprint, render_template, request #I did not import the request library
 admin  = Blueprint('admin', __name__)
+import mongo_admin_helper as mah
+from flask.ext.login import UserMixin, login_required, login_user
 
-#Use react for the Admin Page views Route to render admin page view
-#Import mongo helper object -
+#Ah! My issues is that i need to instant the admin helper object 
+#I need to call it on the the class of the file
+mongo_admin = mah.AdminMongoHelper('admin')
 
-#Import mongo helper JUSt for rendering send an http request else
+@admin.route('/admin_signin')
+def admin_form():
+  return render_template('admin/admin_signin.html')
+
+@lm.user_loader
+def user_loader(user_id):
+  return mongo_admin.getUser(user_id)
+
+@admin.route('/admin_login', methods=['GET', 'POST'])
+def login():
+  formUser = request.form['userId']
+  formPassword = request.form['password']
+  print "request", formUser, formPassword
+  admin = mongo_admin.getUser(formUser)
+  #Make sure this is seen as empty
+  if admin:
+    print "object found", admin
+    if formPassword == admin[formPassword]:
+      #Almost there, the ADMIN object in the DB must have those 
+      #Attrbutes, but most of this works
+
+      login_user(admin, remember=True)
+      return redirect(url_for("admin.control_panel.html")) #Flash comment
+  return render_template("admin/admin_signin.html")
+
+@admin.route('/admin_logout', methods=['GET', 'POST'])
+def logout():
+  logout_user()
+  return render_template("admin_signin.html")
+
 @admin.route('/control_panel')
+@login_required
 def control_panel():
-  return render_template('control_panel.html')
+	pendingItems = mongo_recipe.findAll()
+	print pendingItems
+	return render_template('admin/control_panel.html', pendingItems=pendingItems)
 
-#Merge Recipe/Ingredient from Icebox
-@admin.route('mergePendingItem')
-def merge_pending_item():
-    pass
-
-#Edit recipe/ingredient from Icebox
-@admin.route('/editPendingItem')
-def edit_pending_item():
-    pass
-
-@admin.route('/removePendingItem')
-#Remvoe recipe/ingredient from Icebox1
-def remove_pending_item():
-    pass
-
-#Add Item to DB
-@admin.route('/addItem')
-def add_item():
-  ingredient = request.ingredient
-  return mh.insertObject({'ingredient': ingredient})
-
-#Edit Item in DB
-@admin.route('/editItem')
-def edit_item():
-    pass
-
-#Remove Item in DB
-@admin.route('/removeItem')
-def remove_item():
-    pass
-
+#4) Script to create admin user

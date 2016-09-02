@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+<!--Add functionality to CRUD the files -->
+
+
+{% block content %}
+<body>
+
+<h1> Pending Items </h1>
+<table id="icebox" class="table">
+  <thead>
+    <tr>
+      <th> _id </th>
+      <th> Email </th>
+      <th> Pending Recipe Name </th>
+      <th> Pending Ingredients </th>
+      <th> Pending Item Action </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for pendingItem in pendingItems %}
+      <tr>
+        <th> {{pendingItem._id}} </th>
+        <th> {{pendingItem.email}} </th>
+        <th> {{pendingItem.recipe_name}} </th>
+        <th> {{pendingItem.ingredients}}</th>
+        <th> STUFF </th>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h1> Database Changes </h1>
+
+
+
+<h1> Analytics </h1>
+
+
+
+
+
+</body>
+{% endblock %}

@@ -12,13 +12,13 @@ def submit_recipes():
 
 """Submission of feedback that goes to our emails"""
 @submit.route('/submit_feedback')
-def submit_feedback(): 
+def submit_feedback():
 	return render_template('submit_feedback.html')
 
-"""Update ingredient will pull from all our existing database 
+"""Update ingredient will pull from all our existing database
 and allow user to pick a specific ingredient and suggest an update to it"""
 @submit.route('/update_ingredient')
-def update_ingredient(): 
+def update_ingredient():
 	return render_template('submit/submit_ingredient.html')
 
 
@@ -42,8 +42,8 @@ def submit_ingredient():
 	suggested = request.form['name']
 	ingred_type = request.form.get('type')
 	mongo_ingred.insertToRemote({
-    		'email': email, 
-    		'action': "suggestion", 
+    		'email': email,
+    		'action': "suggestion",
     		'suggested': suggested,
     		'type': ingred_type
     		})
