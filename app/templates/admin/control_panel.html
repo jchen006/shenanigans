@@ -1,9 +1,10 @@
 {% extends "layout.html" %}
 <!--Add functionality to CRUD the files -->
 
-
 {% block content %}
 <body>
+
+<a type="button" href="{{url_for('admin.logout')}}"> Logout </a>
 
 <h1> Pending Items </h1>
 <table id="icebox" class="table">
@@ -35,8 +36,6 @@
 
 
 <h1> Analytics </h1>
-
-
 
 
 
