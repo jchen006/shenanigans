@@ -20,8 +20,9 @@ from evaluate import *
 from logic import *
 
 ##############################################################
-## Utility functions for connecting parse output to semantics
+# Utility functions for connecting parse output to semantics
 ##############################################################
+
 
 def text_parse(inputs, grammar, trace=0):
     """
@@ -34,6 +35,7 @@ def text_parse(inputs, grammar, trace=0):
         syntrees = parser.get_parse_list(tokens)
         parses[sent] = syntrees
     return parses
+
 
 def root_node(syntree, start='S'):
     """
@@ -50,6 +52,7 @@ def root_node(syntree, start='S'):
     else:
         raise ValueError("Tree not rooted in %s node" % start)
 
+
 def semrep(node, beta_reduce=True):
     """
     Find the semantic representation at a given tree node.
@@ -65,12 +68,14 @@ def semrep(node, beta_reduce=True):
         print "Node has no 'sem' feature specification"
     raise
 
+
 def root_semrep(syntree, beta_reduce=True):
     """
     Find the semantic representation at the root of a tree.
     """
     node = root_node(syntree)
     return semrep(node, beta_reduce=beta_reduce)
+
 
 def text_interpret(inputs, grammar, beta_reduce=True):
     """
@@ -82,9 +87,11 @@ def text_interpret(inputs, grammar, beta_reduce=True):
     for sent in inputs:
         syntrees = parses[sent]
         syn_sem = \
-           [(syn, root_semrep(syn, beta_reduce=beta_reduce)) for syn in syntrees]
+            [(syn, root_semrep(syn, beta_reduce=beta_reduce))
+             for syn in syntrees]
         semreps[sent] = syn_sem
     return semreps
+
 
 def text_evaluate(inputs, grammar, model, assignment):
     """
@@ -97,8 +104,7 @@ def text_evaluate(inputs, grammar, model, assignment):
     evaluations = {}
     for sent in inputs:
         syn_sem_val = \
-          [(syn, sem, m.evaluate(str(sem), g)) for (syn, sem) in semreps[sent]]
+            [(syn, sem, m.evaluate(str(sem), g))
+             for (syn, sem) in semreps[sent]]
         evaluations[sent] = syn_sem_val
     return evaluations
-    
-

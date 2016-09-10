@@ -14,7 +14,7 @@ Additions by Bill Ross
 This corpus contains 5001 female names and 2943 male names, sorted
 alphabetically, one per line.
 (Used in NLTK with permission.  See the README file for details.)
-"""       
+"""
 
 from en.parser.nltk_lite.corpora import get_basedir
 import os
@@ -24,15 +24,18 @@ items = ['female', 'male']
 item_name = {
     'female':     'Female names',
     'male':       'Male names'
-    }
+}
 
-def raw(files = ['female', 'male']):
-    if type(files) is str: files = (files,)
+
+def raw(files=['female', 'male']):
+    if type(files) is str:
+        files = (files,)
 
     for file in files:
-        path = os.path.join(get_basedir(), "names", file+".txt")
+        path = os.path.join(get_basedir(), "names", file + ".txt")
         for word in open(path).readlines():
             yield word.strip()
+
 
 def demo():
     from en.parser.nltk_lite.corpora import names
@@ -51,4 +54,3 @@ def demo():
 
 if __name__ == '__main__':
     demo()
-

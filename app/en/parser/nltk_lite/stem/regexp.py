@@ -9,12 +9,14 @@
 
 from en.parser.nltk_lite.stem import *
 
+
 class Regexp(StemI):
     """
     A stemmer that uses regular expressions to identify morphological
     affixes.  Any substrings that matches the regular expressions will
     be removed.
     """
+
     def __init__(self, regexp, min=0):
         """
         Create a new regexp stemmer.
@@ -40,6 +42,7 @@ class Regexp(StemI):
     def __repr__(self):
         return '<Regexp Stemmer: %r>' % self._regexp.pattern
 
+
 def demo():
     from en.parser.nltk_lite import tokenize, stem
 
@@ -53,8 +56,7 @@ def demo():
     for word in tokens:
         print '%20s => %s' % (word, stemmer.stem(word))
     print
-        
 
-if __name__ == '__main__': demo()
 
-    
+if __name__ == '__main__':
+    demo()

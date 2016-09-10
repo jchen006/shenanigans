@@ -9,11 +9,12 @@
 C-Span Inaugural Address Corpus
 
 US presidential inaugural addresses 1789-2005
-"""       
+"""
 
 from en.parser.nltk_lite.corpora import get_basedir
 from en.parser.nltk_lite import tokenize
-import os, re
+import os
+import re
 
 items = [
     '1789-Washington',
@@ -73,8 +74,10 @@ items = [
     '2005-Bush'
 ]
 
-def raw(files = items):
-    if type(files) is str: files = (files,)
+
+def raw(files=items):
+    if type(files) is str:
+        files = (files,)
 
     for file in files:
         path = os.path.join(get_basedir(), "inaugural", file + ".txt")
@@ -83,6 +86,7 @@ def raw(files = items):
         text = f.read()
         for t in tokenize.wordpunct(text):
             yield t
+
 
 def demo():
     from en.parser.nltk_lite.corpora import inaugural

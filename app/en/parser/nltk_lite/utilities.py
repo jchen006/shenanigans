@@ -25,6 +25,7 @@ def pr(data, start=0, end=None):
     from itertools import islice
     pprint(list(islice(data, start, end)))
 
+
 def print_string(s, width=70):
     """
     Pretty print a string, breaking lines on whitespace
@@ -45,6 +46,7 @@ def print_string(s, width=70):
         print s[:i]
         s = s[i:]
 
+
 class SortedDict(dict):
     """
     A very rudamentary sorted dictionary, whose main purpose is to
@@ -55,20 +57,29 @@ class SortedDict(dict):
     the sort order for keys().  I.e., zip(d.keys(), d.values()) is not
     necessarily equal to d.items().
     """
+
     def keys(self): return sorted(dict.keys(self))
+
     def items(self): return sorted(dict.items(self))
+
     def values(self): return sorted(dict.values(self))
+
     def iterkeys(self): return iter(sorted(dict.keys(self)))
+
     def iteritems(self): return iter(sorted(dict.items(self)))
+
     def itervalues(self): return iter(sorted(dict.values(self)))
+
     def __iter__(self): return iter(sorted(dict.keys(self)))
+
     def repr(self):
         items = ['%s=%s' % t for t in sorted(self.items())]
         return '{%s}' % ', '.join(items)
-    
+
 ##########################################################################
 # EDIT DISTANCE (LEVENSHTEIN)
 ##########################################################################
+
 
 def _edit_dist_init(len1, len2):
     lev = []
@@ -80,11 +91,13 @@ def _edit_dist_init(len1, len2):
         lev[0][j] = j           # row 0: 0,1,2,3,4,...
     return lev
 
+
 def _edit_dist_step(lev, i, j, c1, c2):
-    a = lev[i-1][j  ] + 1            # skipping s1[i]
-    b = lev[i-1][j-1] + (c1 != c2)   # matching s1[i] with s2[j]
-    c = lev[i  ][j-1] + 1            # skipping s2[j]
-    lev[i][j] = min(a,b,c)           # pick the cheapest
+    a = lev[i - 1][j] + 1            # skipping s1[i]
+    b = lev[i - 1][j - 1] + (c1 != c2)   # matching s1[i] with s2[j]
+    c = lev[i][j - 1] + 1            # skipping s2[j]
+    lev[i][j] = min(a, b, c)           # pick the cheapest
+
 
 def edit_dist(s1, s2):
     """
@@ -101,13 +114,14 @@ def edit_dist(s1, s2):
     @rtype C{int}
     """
     # set up a 2-D array
-    len1 = len(s1); len2 = len(s2)
-    lev = _edit_dist_init(len1+1, len2+1)
+    len1 = len(s1)
+    len2 = len(s2)
+    lev = _edit_dist_init(len1 + 1, len2 + 1)
 
     # iterate over the array
     for i in range(len1):
-        for j in range (len2):
-            _edit_dist_step(lev, i+1, j+1, s1[i], s2[j])
+        for j in range(len2):
+            _edit_dist_step(lev, i + 1, j + 1, s1[i], s2[j])
     return lev[len1][len2]
 
 
@@ -125,6 +139,7 @@ class MinimalSet(object):
     cases like wind (noun) 'air in rapid motion', vs wind (verb)
     'coil, wrap'.
     """
+
     def __init__(self, parameters=None):
         """
         Create a new minimal set.
@@ -133,7 +148,7 @@ class MinimalSet(object):
         @type parameters: C{list} of C{tuple} of C{string}
         """
         self._targets = set()  # the contrastive information
-        self._contexts = set() # what we are controlling for
+        self._contexts = set()  # what we are controlling for
         self._seen = {}        # to record what we have seen
         self._displays = {}    # what we will display
 
@@ -154,7 +169,7 @@ class MinimalSet(object):
         """
         # Store the set of targets that occurred in this context
         if context not in self._seen:
-           self._seen[context] = set()
+            self._seen[context] = set()
         self._seen[context].add(target)
 
         # Keep track of which contexts and targets we have seen
@@ -184,7 +199,8 @@ class MinimalSet(object):
         result = []
         for target in self._targets:
             x = self.display(context, target)
-            if x: result.append(x)
+            if x:
+                result.append(x)
         return result
 
     def targets(self):
@@ -192,10 +208,12 @@ class MinimalSet(object):
 
 
 ######################################################################
-## Regexp display (thanks to David Mertz)
+# Regexp display (thanks to David Mertz)
 ######################################################################
 
 import re
+
+
 def re_show(regexp, string):
     """
     Search C{string} for substrings matching C{regexp} and wrap
@@ -227,14 +245,15 @@ def filestring(f):
 # COUNTER, FOR UNIQUE NAMING
 ##########################################################################
 
+
 class Counter:
     """
     A counter that auto-increments each time its value is read.
     """
+
     def __init__(self, initial_value=0):
-	self._value = initial_value
+        self._value = initial_value
+
     def get(self):
-	self._value += 1
-	return self._value
-
-
+        self._value += 1
+        return self._value

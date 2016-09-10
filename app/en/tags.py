@@ -20,22 +20,23 @@ tags_html = [
     "tr", "tt", "u", "ul", "var", "xmp"
 ]
 
+
 def is_tag(str):
-    
+
     if str.startswith("<") and str.endswith(">"):
         return True
     else:
-        return False    
+        return False
+
 
 def is_html_tag(str):
-    
     """ Guesses whether the word is a HTML tag.
-    
+
     Checks if the string is a tag,
     and if the tag is in the list of HTML entitities.
-    
+
     """
-    
+
     if is_tag(str):
         str = str.strip("</>").lower()
         i = str.find(" ")
@@ -43,36 +44,39 @@ def is_html_tag(str):
             str = str[:i]
         if str in tags_html:
             return True
-    
+
     return False
 
-#print is_html_tag("</HTML>")
-#print is_html_tag("<a href>")
-#print is_html_tag("<xml>")
+# print is_html_tag("</HTML>")
+# print is_html_tag("<a href>")
+# print is_html_tag("<xml>")
 
 import sgmllib
+
+
 class TagStripper(sgmllib.SGMLParser):
-    
-	def __init__(self):
-		sgmllib.SGMLParser.__init__(self)
-		
-	def strip(self, html):
-		self.data = ""
-		self.feed(html)
-		self.close()
-		return self.data
-		
-	def handle_data(self, data):
-	    self.data += data + " "
+
+    def __init__(self):
+        sgmllib.SGMLParser.__init__(self)
+
+    def strip(self, html):
+        self.data = ""
+        self.feed(html)
+        self.close()
+        return self.data
+
+    def handle_data(self, data):
+        self.data += data + " "
+
 
 def strip_tags(str, clean=True):
-    
+
     s = TagStripper()
     str = s.strip(str)
-    
+
     import re
     str = re.sub("[ ]+", " ", str)
-    
+
     if clean:
         lines = str.split("\n")
         str = ""
@@ -80,10 +84,10 @@ def strip_tags(str, clean=True):
             if len(l.strip()) > 0:
                 str += l.strip() + "\n"
         str.strip().strip()
-        
+
     return str.strip()
 
 #from urllib import urlopen
 #html = urlopen("http://news.bbc.co.uk/").read()
 #html = open("bbc.txt", "r").read()
-#print strip_tags(html)
+# print strip_tags(html)

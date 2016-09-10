@@ -8,7 +8,7 @@
 
 """
 Read tokens from the Stopwords Corpus.
-"""       
+"""
 
 from en.parser.nltk_lite.corpora import get_basedir
 import os
@@ -28,15 +28,18 @@ item_name = {
     'russian':    'Russian stopwords',
     'spanish':    'Spanish stopwords',
     'swedish':    'Swedish stopwords',
-    }
+}
 
-def raw(files = 'english'):
-    if type(files) is str: files = (files,)
+
+def raw(files='english'):
+    if type(files) is str:
+        files = (files,)
 
     for file in files:
         path = os.path.join(get_basedir(), "stopwords", file)
         for word in open(path).readlines():
             yield word.strip()
+
 
 def demo():
     from en.parser.nltk_lite.corpora import stopwords
@@ -51,4 +54,3 @@ def demo():
 
 if __name__ == '__main__':
     demo()
-

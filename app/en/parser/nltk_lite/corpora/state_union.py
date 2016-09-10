@@ -11,11 +11,12 @@ C-Span State of the Union Address Corpus
 Annual US presidential addresses 1945-2005
 
 http://www.c-span.org/executive/stateoftheunion.asp
-"""       
+"""
 
 from en.parser.nltk_lite.corpora import get_basedir
 from en.parser.nltk_lite import tokenize
-import os, re
+import os
+import re
 
 items = [
     '1945-Truman',
@@ -84,8 +85,10 @@ items = [
     '2005-Bush'
 ]
 
-def raw(files = items):
-    if type(files) is str: files = (files,)
+
+def raw(files=items):
+    if type(files) is str:
+        files = (files,)
 
     for file in files:
         path = os.path.join(get_basedir(), "state_union", file + ".txt")
@@ -94,6 +97,7 @@ def raw(files = items):
         text = f.read()
         for t in tokenize.wordpunct(text):
             yield t
+
 
 def demo():
     from en.parser.nltk_lite.corpora import state_union

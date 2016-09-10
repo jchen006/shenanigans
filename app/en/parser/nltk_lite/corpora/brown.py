@@ -33,7 +33,7 @@ m: fiction: science
 n: fiction: adventure
 p. fiction: romance
 r. humor
-"""       
+"""
 
 from en.parser.nltk_lite.corpora import get_basedir
 from en.parser.nltk_lite import tokenize
@@ -58,10 +58,12 @@ item_name = {
     'n': 'fiction: adventure',
     'p': 'fiction: romance',
     'r': 'humor'
-    }
+}
+
 
 def _read(files, conversion_function):
-    if type(files) is str: files = (files,)
+    if type(files) is str:
+        files = (files,)
 
     for file in files:
         path = os.path.join(get_basedir(), "brown", file)
@@ -69,11 +71,14 @@ def _read(files, conversion_function):
         for sent in tokenize.blankline(f):
             yield conversion_function(sent)
 
-def raw(files = items):
+
+def raw(files=items):
     return _read(files, string2words)
 
-def tagged(files = items):
+
+def tagged(files=items):
     return _read(files, string2tags)
+
 
 def demo():
     from en.parser.nltk_lite.corpora import brown
@@ -86,4 +91,3 @@ def demo():
 
 if __name__ == '__main__':
     demo()
-

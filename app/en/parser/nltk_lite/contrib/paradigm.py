@@ -7,7 +7,7 @@
 
 # Front end to a Python implementation of David
 # Penton's paradigm visualisation model.
-# Author: 
+# Author:
 #
 # Run: To run, first load a paradigm using
 #      >>> a = paradigm('paradigm.xml')
@@ -23,22 +23,24 @@
 
 from xml.dom.ext.reader import Sax2
 from paradigmquery import ParadigmQuery
-import re, os
+import re
+import os
+
 
 class Paradigm(object):
     """
     Paradigm visualisation class
 
     *Usage*
-    
+
     Simple usage of the system would be:
       >>> from paradigm import Paradigm
       >>> p = Paradigm('german.xml')
       >>> p.show('table(case, gender/number, content)')
-    
+
     Here, a table is generated in HTML format and sent to the file ``output.html``.
     The table can be viewed in a browser, and is updated for every new query. 
-    
+
     A more advanced usage of the system is show below.
     The user simply creates a paradigm p, changes the output format and location, 
     and calls a dedicated prompt to enter the query:
@@ -49,7 +51,7 @@ class Paradigm(object):
       >>> p.setCSS('simple.css')
       >>> p.prompt()
       > table(case, gender/number, content)
-    
+
     Please note, however, that plain text tables have not yet been implemented.
     """
 
@@ -73,7 +75,8 @@ class Paradigm(object):
         s = ""
         while s != "exit":
             s = "exit"
-            try: s = raw_input(">")
+            try:
+                s = raw_input(">")
             except EOFError:
                 print s
             if s == "exit":
@@ -81,7 +84,8 @@ class Paradigm(object):
             if s == "quit":
                 return
             if s:
-                while s[-1] in "!.": s = s[:-1]
+                while s[-1] in "!.":
+                    s = s[:-1]
                 self.show(s)
 
     def show(self, p_string):
@@ -89,39 +93,39 @@ class Paradigm(object):
         Process and display the given query
         """
 
-        try:  
-          # parse the query
-          parse = ParadigmQuery(p_string)
+        try:
+            # parse the query
+            parse = ParadigmQuery(p_string)
         except:
-          print "Could not parse query."
-          return
+            print "Could not parse query."
+            return
 
-        try:  
-          # Fetch the parsed tree and make presentation
-          result = Sentence(self, parse.getTree())
-          # Check that a presentation actually exists
-          if result == None:
-            raise Error
+        try:
+            # Fetch the parsed tree and make presentation
+            result = Sentence(self, parse.getTree())
+            # Check that a presentation actually exists
+            if result == None:
+                raise Error
         except:
             print "Sorry, no result can be returned"
             return
 
-        try:  
-        # Print HTML output if format is set, otherwise plain text
-          if self.format == "html":
-            output = '<html>\n'
-            # Include CSS if we need to
-            if self.css <> None:
-                output += '<link rel="stylesheet" href="' 
-                output += self.css
-                output += '" type="text/css" media="screen" />\n'
-            output += '<body>'
-            output += "<table cellspacing=\"0\" cellpadding=\"0\">"
-            output += result.getHTML()
-            output += "</table>\n"
-            output += '</body></html>\n'
-          else:
-            output = result.getText()
+        try:
+            # Print HTML output if format is set, otherwise plain text
+            if self.format == "html":
+                output = '<html>\n'
+                # Include CSS if we need to
+                if self.css <> None:
+                    output += '<link rel="stylesheet" href="'
+                    output += self.css
+                    output += '" type="text/css" media="screen" />\n'
+                output += '<body>'
+                output += "<table cellspacing=\"0\" cellpadding=\"0\">"
+                output += result.getHTML()
+                output += "</table>\n"
+                output += '</body></html>\n'
+            else:
+                output = result.getText()
         except:
             output = None
             print "--no output--"
@@ -179,13 +183,12 @@ class Paradigm(object):
             print "Directing output to file:", p_string
         self.output = p_string
 
-
-    def loadParadigm(self, p_filename ):
+    def loadParadigm(self, p_filename):
         """
         Load the given paradigm (XML file)
         Attributes are stored in self.attributes
         Data are stored in self.data
-    
+
         They can be accessed as follows:
         self.attributes['gender']   # list of genders
         self.data[6]['gender']      # gender for the sixth data object
@@ -228,7 +231,6 @@ class Paradigm(object):
             # Store list of values in dictionary
             self.attributes[name.getAttribute('name')] = tmp_list
 
-
         # Cycle through data objects and add them to self.data
         # for <form> in <paradigm>
         forms = doc.getElementsByTagName('paradigm')[0]
@@ -236,21 +238,23 @@ class Paradigm(object):
             # Initialise a temporary dictionary
             tmp_dict = {}
             for value in form.getElementsByTagName('attribute'):
-                tmp_dict[value.getAttribute('name')] = value.getAttribute('value')
+                tmp_dict[value.getAttribute(
+                    'name')] = value.getAttribute('value')
             # Add the new dictionary to the data list
             self.data.append(tmp_dict)
 
         # Talk to the user
         print "Paradigm information successfully loaded from file:", p_filename
         # State the number and print out a list of attributes
-        print " "*4 + str(len(self.attributes)) + " attributes imported:",
+        print " " * 4 + str(len(self.attributes)) + " attributes imported:",
         for att in self.attributes:
             print att,
         print
         # State the number of paradigm objects imported
-        print " "*4 + str(len(self.data)) + " paradigm objects imported."
+        print " " * 4 + str(len(self.data)) + " paradigm objects imported."
 
         return
+
 
 class Sentence(object):
     """
@@ -292,7 +296,7 @@ class Sentence(object):
         """
         return self.item.getHTML()
 
-    def getHorizontalHTML(self,p_parentSpan=1):
+    def getHorizontalHTML(self, p_parentSpan=1):
         """
         Returns values in html (table) form
         """
@@ -338,12 +342,14 @@ class Sentence(object):
         # This is in the second character of the string representation
         return str(p_tree)[1:2]
 
+
 class Domain(Sentence):
     """
     Manages a domain operation
-    
+
     Provides: Domain(paradigm,tree)
     """
+
     def __init__(self, p_paradigm, p_tree):
         """
         p_paradigm is the given paradigm (attributes and data)
@@ -380,15 +386,14 @@ class Domain(Sentence):
             ret_string += "<tr><td>" + item + "</td></tr>"
         return ret_string
 
-    def getHorizontalHTML(self,p_parentSpan=1):
+    def getHorizontalHTML(self, p_parentSpan=1):
         """
         Return a horizontal html table
         """
         ret_string = ""
         for item in self.getList():
             ret_string += "<td>" + item + "</td>"
-        return "<tr>" + ret_string*p_parentSpan + "</tr>"
-
+        return "<tr>" + ret_string * p_parentSpan + "</tr>"
 
     def getText(self):
         """
@@ -430,14 +435,16 @@ class Domain(Sentence):
         """
         Get the depth of this domain (always one!)
         """
-        return 1 
+        return 1
+
 
 class Hierarchy(Sentence):
     """
     Manages a hierarchy operation
-    
+
     Provides: Hierarchy(paradigm,tree)
     """
+
     def __init__(self, p_paradigm, p_tree):
         """
         p_paradigm is the given paradigm (attributes and data)
@@ -451,10 +458,9 @@ class Hierarchy(Sentence):
         assert self.getType(p_tree) == 'H'
         # Validate that the root is a Domain
         assert self.getType(p_tree[0]) == 'D'
-        # Set the root and the leaf 
+        # Set the root and the leaf
         self.root = Domain(self.paradigm, p_tree[0])
         self.leaf = Sentence(self.paradigm, p_tree[1])
-
 
     def getList(self):
         """
@@ -463,12 +469,12 @@ class Hierarchy(Sentence):
         # Get child lists
         rootList = self.root.getList()
         leafList = self.leaf.getList()
-        
+
         # Combine lists into an array
         ret_val = []
         for item_root in rootList:
             for item_leaf in leafList:
-                ret_val.append([item_root,item_leaf])
+                ret_val.append([item_root, item_leaf])
 
         return ret_val
 
@@ -480,10 +486,10 @@ class Hierarchy(Sentence):
         for index in range(len(self.root.getList())):
             leafCells = self.leaf.getHTML()[4:]
             ret_string += "<tr><td rowspan=\"" + str(self.leaf.getSpan()) + "\">" + self.root[index] \
-                             + "</td>" + leafCells
+                + "</td>" + leafCells
         return ret_string
 
-    def getHorizontalHTML(self,p_parentSpan=1):
+    def getHorizontalHTML(self, p_parentSpan=1):
         """
         Return a horizontal html table
         """
@@ -491,11 +497,12 @@ class Hierarchy(Sentence):
         # Add a new cell for each root item
         for index in range(len(self.root.getList())):
             ret_string += "<td colspan=\"" + str(self.leaf.getSpan()) + "\">" \
-                             + self.root[index] + "</td>" 
+                + self.root[index] + "</td>"
         # Recusively get the horizontalHTML from the leaf children
-        leafCells = self.leaf.getHorizontalHTML(p_parentSpan*len(self.root.getList()))
+        leafCells = self.leaf.getHorizontalHTML(
+            p_parentSpan * len(self.root.getList()))
         # Return the new row and the leaf cells
-        return "<tr>" + ret_string*p_parentSpan + "</tr>" + leafCells 
+        return "<tr>" + ret_string * p_parentSpan + "</tr>" + leafCells
 
     def getText(self):
         """
@@ -509,11 +516,11 @@ class Hierarchy(Sentence):
         # (newlines in the leaf node need to have whitespace added)
         for index in range(len(self.root.getList())):
             ret_string += self.root[index].ljust(max_width_root) + " " \
-              + self.leaf.getText().ljust(max_width_leaf).replace('\n',"\n" \
-              + " "*(max_width_root+1)) + "\n"
+                + self.leaf.getText().ljust(max_width_leaf).replace('\n', "\n"
+                                                                    + " " * (max_width_root + 1)) + "\n"
         # Remove any blank lines and return the string
         re_blank = re.compile('\n[ ]+\n')
-        return re_blank.sub('\n',ret_string)
+        return re_blank.sub('\n', ret_string)
 
     def getConditions(self):
         """
@@ -526,7 +533,7 @@ class Hierarchy(Sentence):
             for cond_l in self.leaf.getConditions():
                 # Add the root node's condition
                 cond_l[self.root.attribute] = item_r
-                # Append this to the return list of conditions 
+                # Append this to the return list of conditions
                 ret_conds.append(cond_l)
         # Return our list
         return ret_conds
@@ -541,20 +548,22 @@ class Hierarchy(Sentence):
         """
         Get the depth of this hierarchy
         """
-        return 1 + self.leaf.getDepth() 
-        
+        return 1 + self.leaf.getDepth()
+
     def getSpan(self):
         """
         Get the span (for HTML tables) of this hierarchy
         """
-        return self.root.getSpan() * self.leaf.getSpan() 
+        return self.root.getSpan() * self.leaf.getSpan()
+
 
 class Table(Sentence):
     """
     Manages a table operation
-    
+
     Provides: Table(paradigm,tree)
     """
+
     def __init__(self, p_paradigm, p_tree):
         """
         p_paradigm is the given paradigm (attributes and data)
@@ -571,7 +580,6 @@ class Table(Sentence):
         self.vertical = Sentence(self.paradigm, p_tree[1])
         self.cells = Sentence(self.paradigm, p_tree[2])
 
-
     def getList(self):
         """
         Return the table (cells) in list form
@@ -585,13 +593,14 @@ class Table(Sentence):
         """
         # Start with the dead cell
         dead_cell = "<tr><td colspan=\"" + str(self.vertical.getDepth()) \
-                        + "\" rowspan=\"" + str(self.horizontal.getDepth()) \
-                        + "\"></td>"
+            + "\" rowspan=\"" + str(self.horizontal.getDepth()) \
+            + "\"></td>"
         # Insert horizintal header
-        horizontal_header = self.horizontal.getHorizontalHTML()[4:].replace('td','th')
+        horizontal_header = self.horizontal.getHorizontalHTML()[
+            4:].replace('td', 'th')
         #horizontal_header = self.horizontal.getHorizontalHTML().replace('td','th')
         # Get the vertical header
-        vertical_header = self.vertical.getHTML().replace('td','th')
+        vertical_header = self.vertical.getHTML().replace('td', 'th')
         str_cells = ""
         # Reset conditions
         conditions = {}
@@ -604,28 +613,30 @@ class Table(Sentence):
             conditions_h = self.horizontal.getConditions()
             # For each column
             for cond_h in conditions_h:
-                # Get the data for this cell, given the hori and vert conditions
-                cell_data = self.getData(self.cells.tree, dictJoin(cond_v,cond_h))
+                # Get the data for this cell, given the hori and vert
+                # conditions
+                cell_data = self.getData(
+                    self.cells.tree, dictJoin(cond_v, cond_h))
                 # Add the cell
                 str_cells += "<td>" + cell_data + "</td>"
             # End the row
             str_cells += "</tr>"
-        
+
         # VERTICAL HEADER INCLUSION
         # Split rows into a list
         vertical_header_rows = vertical_header.split('</tr>')
-        cell_rows = str_cells.replace('<tr>','').split('</tr>')
+        cell_rows = str_cells.replace('<tr>', '').split('</tr>')
         # Join two lists
         zipped = zip(vertical_header_rows, cell_rows)
         str_zipped = ""
-        for (header,cells) in zipped:
+        for (header, cells) in zipped:
             if header <> '':
                 str_zipped += header + cells + "</tr>\n"
 
         # Return all the elements
         return dead_cell + horizontal_header + str_zipped
 
-    def getHorizontalHTML(self,p_parentSpan=1):
+    def getHorizontalHTML(self, p_parentSpan=1):
         """
         Return a horizontal html table (?)
         """
@@ -638,8 +649,8 @@ class Table(Sentence):
         """
         print "?: getText() for a table? HAHAHAHAHA"
         print "call setFormat('html') if you want to run queries like that"
-        return 
-    
+        return
+
     def getConditions(self):
         """
         Return conditions for this table (?)
@@ -665,7 +676,7 @@ class Table(Sentence):
         """
         Retrieve data that matches the given list of attributes
         Returns (an HTML) string of values that match.
-    
+
         p_return is a tree pointing to the key of the value to include in the return
         p_attDict is a dictionary of conditions.
         """
@@ -698,7 +709,7 @@ class Table(Sentence):
             return ret_str
 
 
-def dictJoin(dict1,dict2):
+def dictJoin(dict1, dict2):
     """
     A handy function to join two dictionaries
     If there is any key overlap, dict1 wins!
@@ -707,6 +718,7 @@ def dictJoin(dict1,dict2):
     for key in dict1.keys():
         dict2[key] = dict1[key]
     return dict2
+
 
 def demo():
 
@@ -718,15 +730,15 @@ Load: Paradigm(file)
 """
     print
     print ">>> a = Paradigm('german.xml')"
-    print 
+    print
     a = Paradigm('german.xml')
-    print 
+    print
     print ">>> a.setOutput('term')"
-    print 
+    print
     a.setOutput('term')
-    print 
+    print
     print ">>> a.setFormat('text')"
-    print 
+    print
     a.setFormat('text')
 
     # Print a domain
@@ -735,9 +747,9 @@ Load: Paradigm(file)
 Domain: case
 ================================================================================
 """
-    print 
+    print
     print ">>> a.show('case')"
-    print 
+    print
     a.show('case')
 
     # Print a hierarchy
@@ -746,9 +758,9 @@ Domain: case
 Hierarchy: case/gender
 ================================================================================
 """
-    print 
+    print
     print ">>> a.show('case/gender')"
-    print 
+    print
     a.show('case/gender')
 
     # Print a table
@@ -757,21 +769,21 @@ Hierarchy: case/gender
 Table: table(case/number,gender,content)
 ================================================================================
 """
-    print 
+    print
     print ">>> a.setOutput('demo.html')"
-    print 
+    print
     a.setOutput('demo.html')
-    print 
+    print
     print ">>> a.setFormat('html')"
-    print 
+    print
     a.setFormat('html')
-    print 
+    print
     print ">>> a.show('table(case/number,gender,content)')"
-    print 
+    print
     a.show('table(case/number,gender,content)')
 
     # Some space
-    print 
+    print
 
 if __name__ == '__main__':
-    demo()    
+    demo()

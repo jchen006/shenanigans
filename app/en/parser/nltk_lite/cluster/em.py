@@ -8,6 +8,7 @@
 
 from en.parser.nltk_lite.cluster import *
 
+
 class EM(VectorSpace):
     """
     The Gaussian EM clusterer models the vectors as being produced by
@@ -24,8 +25,8 @@ class EM(VectorSpace):
     """
 
     def __init__(self, initial_means, priors=None, covariance_matrices=None,
-                       conv_threshold=1e-6, bias=0.1, normalise=False,
-                       svd_dimensions=None):
+                 conv_threshold=1e-6, bias=0.1, normalise=False,
+                 svd_dimensions=None):
         """
         Creates an EM clusterer with the given starting parameters,
         convergence threshold and vector mangling parameters.
@@ -58,7 +59,7 @@ class EM(VectorSpace):
 
     def num_clusters(self):
         return self._num_clusters
-        
+
     def cluster_vectorspace(self, vectors, trace=False):
         assert len(vectors) > 0
 
@@ -68,41 +69,42 @@ class EM(VectorSpace):
         priors = self._priors
         if not priors:
             priors = self._priors = numpy.ones(self._num_clusters,
-                                        numpy.float64) / self._num_clusters
-        covariances = self._covariance_matrices 
+                                               numpy.float64) / self._num_clusters
+        covariances = self._covariance_matrices
         if not covariances:
             covariances = self._covariance_matrices = \
-                [ numpy.identity(dimensions, numpy.float64) 
-                  for i in range(self._num_clusters) ]
-            
+                [numpy.identity(dimensions, numpy.float64)
+                 for i in range(self._num_clusters)]
+
         # do the E and M steps until the likelihood plateaus
         lastl = self._loglikelihood(vectors, priors, means, covariances)
         converged = False
 
         while not converged:
-            if trace: print 'iteration; loglikelihood', lastl
+            if trace:
+                print 'iteration; loglikelihood', lastl
             # E-step, calculate hidden variables, h[i,j]
             h = numpy.zeros((len(vectors), self._num_clusters),
-                numpy.float64)
+                            numpy.float64)
             for i in range(len(vectors)):
                 for j in range(self._num_clusters):
-                    h[i,j] = priors[j] * self._gaussian(means[j],
-                                               covariances[j], vectors[i])
-                h[i,:] /= sum(h[i,:])
+                    h[i, j] = priors[j] * self._gaussian(means[j],
+                                                         covariances[j], vectors[i])
+                h[i, :] /= sum(h[i, :])
 
             # M-step, update parameters - cvm, p, mean
             for j in range(self._num_clusters):
                 covariance_before = covariances[j]
                 new_covariance = numpy.zeros((dimensions, dimensions),
-                            numpy.float64)
+                                             numpy.float64)
                 new_mean = numpy.zeros(dimensions, numpy.float64)
                 sum_hj = 0.0
                 for i in range(len(vectors)):
                     delta = vectors[i] - means[j]
-                    new_covariance += h[i,j] * \
+                    new_covariance += h[i, j] * \
                         numpy.multiply.outer(delta, delta)
-                    sum_hj += h[i,j]
-                    new_mean += h[i,j] * vectors[i]
+                    sum_hj += h[i, j]
+                    new_mean += h[i, j] * vectors[i]
                 covariances[j] = new_covariance / sum_hj
                 means[j] = new_mean / sum_hj
                 priors[j] = sum_hj / len(vectors)
@@ -123,7 +125,7 @@ class EM(VectorSpace):
         best = None
         for j in range(self._num_clusters):
             p = self._priors[j] * self._gaussian(self._means[j],
-                                    self._covariance_matrices[j], vector)
+                                                 self._covariance_matrices[j], vector)
             if not best or p > best[0]:
                 best = (p, j)
         return best[1]
@@ -131,7 +133,7 @@ class EM(VectorSpace):
     def likelihood_vectorspace(self, vector, cluster):
         cid = self.cluster_names().index(cluster)
         return self._priors[cluster] * self._gaussian(self._means[cluster],
-                                self._covariance_matrices[cluster], vector)
+                                                      self._covariance_matrices[cluster], vector)
 
     def _gaussian(self, mean, cvm, x):
         m = len(mean)
@@ -140,11 +142,11 @@ class EM(VectorSpace):
         try:
             det = linalg.det(cvm)
             inv = linalg.inv(cvm)
-            a = det ** -0.5 * (2 * numpy.pi) ** (-m / 2.0) 
+            a = det ** -0.5 * (2 * numpy.pi) ** (-m / 2.0)
             dx = x - mean
-            b = -0.5 * numpy.matrixmultiply( \
-                    numpy.matrixmultiply(dx, inv), dx)
-            return a * numpy.exp(b) 
+            b = -0.5 * numpy.matrixmultiply(
+                numpy.matrixmultiply(dx, inv), dx)
+            return a * numpy.exp(b)
         except OverflowError:
             # happens when the exponent is negative infinity - i.e. b = 0
             # i.e. the inverse of cvm is huge (cvm is almost zero)
@@ -156,12 +158,13 @@ class EM(VectorSpace):
             p = 0
             for j in range(len(priors)):
                 p += priors[j] * \
-                         self._gaussian(means[j], covariances[j], vector)
+                    self._gaussian(means[j], covariances[j], vector)
             llh += numpy.log(p)
         return llh
 
     def __repr__(self):
         return '<EM Clusterer means=%s>' % list(self._means)
+
 
 def euclidean_distance(u, v):
     """
@@ -171,12 +174,14 @@ def euclidean_distance(u, v):
     diff = u - v
     return math.sqrt(numpy.dot(diff, diff))
 
+
 def cosine_distance(u, v):
     """
     Returns the cosine of the angle between vectors v and u. This is equal to
     u.v / |u||v|.
     """
     return numpy.dot(u, v) / (math.sqrt(numpy.dot(u, u)) * math.sqrt(numpy.dot(v, v)))
+
 
 def demo():
     """
@@ -196,7 +201,7 @@ def demo():
     print 'Clustered:', vectors
     print 'As:       ', clusters
     print
-    
+
     for c in range(2):
         print 'Cluster:', c
         print 'Prior:  ', clusterer._priors[c]
@@ -215,14 +220,14 @@ def demo():
     pdist = clusterer.classification_probdist(vector)
     for sample in pdist.samples():
         print '%s => %.0f%%' % (sample,
-                    pdist.prob(sample) *100)
+                                pdist.prob(sample) * 100)
 
 #
 #     The following demo code is broken.
 #
 #     # use a set of tokens with 2D indices
 #     vectors = [array(f) for f in [[3, 3], [1, 2], [4, 2], [4, 0], [2, 3], [3, 1]]]
-    
+
 #     # test the EM clusterer with means given by k-means (2) and
 #     # dimensionality reduction
 #     clusterer = cluster.KMeans(2, euclidean_distance, svd_dimensions=1)

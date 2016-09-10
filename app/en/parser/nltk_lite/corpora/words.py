@@ -8,7 +8,7 @@
 
 """
 Read tokens from the Wordlist Corpus.
-"""       
+"""
 
 from en.parser.nltk_lite.corpora import get_basedir
 import os
@@ -17,15 +17,18 @@ items = ['en']
 
 item_name = {
     'en': 'English Wordlist',
-    }
+}
 
-def raw(files = items):
-    if type(files) is str: files = (files,)
+
+def raw(files=items):
+    if type(files) is str:
+        files = (files,)
 
     for file in files:
         path = os.path.join(get_basedir(), "words", file)
         for word in open(path).readlines():
             yield word.strip()
+
 
 def demo():
     from en.parser.nltk_lite.corpora import words
@@ -36,4 +39,3 @@ def demo():
 
 if __name__ == '__main__':
     demo()
-

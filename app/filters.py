@@ -1,6 +1,8 @@
 # coding: utf-8
-#Python built in 
-import re, unicodedata, sys
+# Python built in
+import re
+import unicodedata
+import sys
 from constants import *
 from settings import *
 from filter_helper import *
@@ -20,12 +22,13 @@ pink peppercorn -> (pink, peppercorn)
 ", or"
 """
 
+
 class Filter():
 
     def __init__(self):
         self.wnl = WordNetLemmatizer()
         self.master_list = {}
-    
+
     def parse_master_text_files(self):
         src = os.path.join(APP_ROOT, 'ingredient_labels')
         for i in os.listdir(src):
@@ -47,18 +50,19 @@ class Filter():
         before_ind = line.find(query) - 1
         after_ind = before_ind + len(query) + 1
 
-        if (before_ind >= 0 and line[before_ind].isspace()) or (after_ind <= len(line)-1 and line[after_ind].isspace()):
+        if (before_ind >= 0 and line[before_ind].isspace()) or (after_ind <= len(line) - 1 and line[after_ind].isspace()):
             return True
         return False
 
-    def filter_key_ingred(self, line): 
+    def filter_key_ingred(self, line):
         """Filters for the key ingredient"""
         size = len(line.split())
-        if len(line.split()) == 0: 
-                return 
+        if len(line.split()) == 0:
+            return
         else:
-            #TODO: RIGHT NOW WE DON'T LOOK AT VARIANTS BEFORE GENERAL CASES
-            # E.g. 'raspberry liquer' becomes 'raspberry' if 'raspberry' is parsed first
+            # TODO: RIGHT NOW WE DON'T LOOK AT VARIANTS BEFORE GENERAL CASES
+            # E.g. 'raspberry liquer' becomes 'raspberry' if 'raspberry' is
+            # parsed first
             for key_ing in self.master_list.keys():
                 if key_ing in line:
                     if self.check_word_not_in_word(key_ing, line):
@@ -68,7 +72,7 @@ class Filter():
             else:
 
                 updated_line = such_as_cases(line)
-                #Need to check if only one token 
+                # Need to check if only one token
                 updated_line = x_of_something(updated_line)
                 updated_line = remove_first_comma(updated_line)
                 updated_line = remove_parantheses(updated_line)
@@ -80,45 +84,46 @@ class Filter():
                 updated_line = remove_temperature(updated_line)
                 updated_line = remove_misc(updated_line)
                 updated_line = for_something(updated_line)
-                if " from " in updated_line: 
+                if " from " in updated_line:
                     return from_cases(updated_line)
-                if " in " in updated_line: 
+                if " in " in updated_line:
                     return in_cases(updated_line)
-                if " or " in updated_line: 
+                if " or " in updated_line:
                     return or_cases(updated_line)
-                if "and" in updated_line: 
-                    #Handle standalone conjunction cases 
+                if "and" in updated_line:
+                    # Handle standalone conjunction cases
                     return and_cases(updated_line)
                 updated_line = remove_conjunctions(conjunctions, updated_line)
                 updated_line = last_cleanups(updated_line, self.wnl)
                 return updated_line
 
-    def map_descriptor(self, key_ingred, phrase): 
+    def map_descriptor(self, key_ingred, phrase):
         token = phrase.split()
-        if key_ingred in token: 
+        if key_ingred in token:
             token.remove(key_ingred)
         if len(token) == 1:
             descriptor = token[0]
-        else: 
+        else:
             descriptor = " ".join(token)
         return descriptor, key_ingred
 
     """Splits on commas and then filters each subphrase"""
+
     def comma_splits(self, line):
         results = ""
         splits = check_commas(line)
-        for s in splits: 
+        for s in splits:
             sub_result = self.filter_key_ingred(s)
-            if type(sub_result) is tuple: 
+            if type(sub_result) is tuple:
                 results = sub_result
                 break
-            elif isinstance(sub_result, str): 
+            elif isinstance(sub_result, str):
                 results = results + " " + sub_result
-        if isinstance(results, str): 
+        if isinstance(results, str):
             return results.strip()
         return results
 
-if __name__=="__main__": 
+if __name__ == "__main__":
     # filter_key_ingred("1 x 500g/1lb 2oz bag fresh gnocchi")
     # filter_key_ingred("350g/1214oz cold, cooked leftover turkey meat, sliced into strips")
     # filter_key_ingred("1 tbsp strattu or 2 tbsp tomato puree")
@@ -135,16 +140,14 @@ if __name__=="__main__":
     print F.filter_key_ingred("1 tbsp strattu or 2 tbsp tomato puree")
     print F.filter_key_ingred("fuji apples")
     # Failed Cases:  4 tbsp chopped, fresh mint or coriander
-    #1 tbsp pomace oil or good quality olive oi
-     # 1 tbsp strattu or 2 tbsp tomato puree
-    # 
-    #small handful red or natural (uncoloured) glace cherries
+    # 1 tbsp pomace oil or good quality olive oi
+    # 1 tbsp strattu or 2 tbsp tomato puree
     #
-    #trimmings and skin from the pumpkin (see below)
-    #1 x 400g/7oz tin peach slices in syrup, drained
+    # small handful red or natural (uncoloured) glace cherries
+    #
+    # trimmings and skin from the pumpkin (see below)
+    # 1 x 400g/7oz tin peach slices in syrup, drained
     # 2 x 320g/11oz ready-made all-butter puff pastry sheets (about 35cm x 23cm/14in x 9in)
     #
-            
-            # the leaves from 4 or 5 mint sprigs, chopped
 
-
+    # the leaves from 4 or 5 mint sprigs, chopped

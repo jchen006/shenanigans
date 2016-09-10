@@ -115,23 +115,26 @@ The 4 functions are as follows.
   Play the given audio samples. The audio samples can be obtained from the
   timit.audiodata function.
 
-"""       
+"""
 
 from en.parser.nltk_lite.corpora import get_basedir
 from en.parser.nltk_lite import tokenize
 from itertools import islice
-import ossaudiodev, time
-import sys, os, re
+import ossaudiodev
+import time
+import sys
+import os
+import re
 
 if sys.platform.startswith('linux') or sys.platform.startswith('freebsd'):
     PLAY_ENABLED = True
 else:
     PLAY_ENABLED = False
-    
+
 __all__ = ["items", "raw", "phonetic", "speakers", "dictionary", "spkrinfo",
            "audiodata", "play"]
 
-PREFIX = os.path.join(get_basedir(),"timit")
+PREFIX = os.path.join(get_basedir(), "timit")
 
 speakers = []
 items = []
@@ -141,41 +144,46 @@ spkrinfo = {}
 for f in os.listdir(PREFIX):
     if re.match("^dr[0-9]-[a-z]{4}[0-9]$", f):
         speakers.append(f)
-        for g in os.listdir(os.path.join(PREFIX,f)):
+        for g in os.listdir(os.path.join(PREFIX, f)):
             if g.endswith(".txt"):
-                items.append(f+':'+g[:-4])
+                items.append(f + ':' + g[:-4])
 speakers.sort()
 items.sort()
 
 # read dictionary
-for l in open(os.path.join(PREFIX,"timitdic.txt")):
-    if l[0] == ';': continue
+for l in open(os.path.join(PREFIX, "timitdic.txt")):
+    if l[0] == ';':
+        continue
     a = l.strip().split('  ')
     dictionary[a[0]] = a[1].strip('/').split()
 
 # read spkrinfo
-header = ['id','sex','dr','use','recdate','birthdate','ht','race','edu',
+header = ['id', 'sex', 'dr', 'use', 'recdate', 'birthdate', 'ht', 'race', 'edu',
           'comments']
-for l in open(os.path.join(PREFIX,"spkrinfo.txt")):
-    if l[0] == ';': continue
+for l in open(os.path.join(PREFIX, "spkrinfo.txt")):
+    if l[0] == ';':
+        continue
     rec = l[:54].split() + [l[54:].strip()]
-    key = "dr%s-%s%s" % (rec[2],rec[1].lower(),rec[0].lower())
-    spkrinfo[key] = dict([(header[i],rec[i]) for i in range(10)])
-    
+    key = "dr%s-%s%s" % (rec[2], rec[1].lower(), rec[0].lower())
+    spkrinfo[key] = dict([(header[i], rec[i]) for i in range(10)])
+
+
 def _prim(ext, sentences=items, offset=False):
-    if isinstance(sentences,str):
+    if isinstance(sentences, str):
         sentences = [sentences]
     for sent in sentences:
         fnam = os.path.sep.join([PREFIX] + sent.split(':')) + ext
         r = []
         for l in open(fnam):
-            if not l.strip(): continue
+            if not l.strip():
+                continue
             a = l.split()
             if offset:
-                r.append((a[2],int(a[0]),int(a[1])))
+                r.append((a[2], int(a[0]), int(a[1])))
             else:
                 r.append(a[2])
         yield r
+
 
 def raw(sentences=items, offset=False):
     """
@@ -183,7 +191,7 @@ def raw(sentences=items, offset=False):
     each of which corresponds to an item (sentence).  If offset is set to True,
     each element of the word list is a tuple of word(string), start offset and
     end offset, where offset is represented as a number of 16kHz samples.
-    
+
     @param sentences: List of items (sentences) for which tokenized word list
     will be returned.  In case there is only one item, it is possible to
     pass the item id as a string.
@@ -197,14 +205,14 @@ def raw(sentences=items, offset=False):
     """
     return _prim(".wrd", sentences, offset)
 
-    
+
 def phonetic(sentences=items, offset=False):
     """
     Given a list of items, returns an iterator of a list of phoneme lists,
     each of which corresponds to an item (sentence).  If offset is set to True,
     each element of the phoneme list is a tuple of word(string), start offset
     and end offset, where offset is represented as a number of 16kHz samples.
-    
+
     @param sentences: List of items (sentences) for which phoneme list
     will be returned.  In case there is only one item, it is possible to
     pass the item id as a string.
@@ -218,13 +226,14 @@ def phonetic(sentences=items, offset=False):
     """
     return _prim(".phn", sentences, offset)
 
+
 def audiodata(item, start=0, end=None):
     """
     Given an item, returns a chunk of audio samples formatted into a string.
     When the fuction is called, if start and end are omitted, the entire
     samples of the recording will be returned.  If only end is omitted,
     samples from the start offset to the end of the recording will be returned.
-    
+
     @param start: start offset
     @type start: integer (number of 16kHz frames)
     @param end: end offset
@@ -234,17 +243,18 @@ def audiodata(item, start=0, end=None):
     """
     assert(end is None or end > start)
     headersize = 44
-    fnam = os.path.join(PREFIX,item.replace(':',os.path.sep)) + '.wav'
+    fnam = os.path.join(PREFIX, item.replace(':', os.path.sep)) + '.wav'
     if end is None:
         data = open(fnam).read()
     else:
-        data = open(fnam).read(headersize+end*2)
-    return data[headersize+start*2:]
+        data = open(fnam).read(headersize + end * 2)
+    return data[headersize + start * 2:]
+
 
 def play(data):
     """
     Play the given audio samples.
-    
+
     @param data: audio samples
     @type data: string of bytes of audio samples
     """
@@ -258,13 +268,14 @@ def play(data):
         print >>sys.stderr, "can't acquire the audio device; please activate your audio device."
         print >>sys.stderr, "system error message:", str(e)
         return
-    
+
     dsp.setfmt(ossaudiodev.AFMT_S16_LE)
     dsp.channels(1)
     dsp.speed(16000)
     dsp.write(data)
     dsp.close()
-    
+
+
 def demo():
     from en.parser.nltk_lite.corpora import timit
 
@@ -297,25 +308,24 @@ def demo():
     print "  words of the sentence with offsets (first 3):"
     print "   ", timit.raw(sentences=itemid, offset=True).next()[:3]
     print
-    
+
     print "  phonemes of the sentence (first 10):"
     print "   ", timit.phonetic(sentences=itemid).next()[:10]
     print
-    
+
     print "  phonemes of the sentence with offsets (first 3):"
     print "   ", timit.phonetic(sentences=itemid, offset=True).next()[:3]
     print
-    
+
     print "  looking up dictionary for words of the sentence..."
     words = timit.raw(sentences=itemid).next()
     for word in words:
         print "    %-5s:" % word, timit.dictionary[word]
     print
 
-
     print "audio playback:"
     print "---------------"
-    print "  playing sentence", sentid, "by speaker", spkrid, "(a.k.a. %s)"%record["id"], "..."
+    print "  playing sentence", sentid, "by speaker", spkrid, "(a.k.a. %s)" % record["id"], "..."
     data = timit.audiodata(itemid)
     timit.play(data)
     print
@@ -335,7 +345,7 @@ def demo():
         data = timit.audiodata(itemid, start, end)
         timit.play(data)
     print
-    
+
     # play sentence sa1 of all female speakers
     sentid = 'sa1'
     for spkr in timit.speakers:
@@ -345,7 +355,6 @@ def demo():
             data = timit.audiodata(itemid)
             timit.play(data)
     print
-    
+
 if __name__ == '__main__':
     demo()
-

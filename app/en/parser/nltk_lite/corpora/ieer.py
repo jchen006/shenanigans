@@ -35,10 +35,12 @@ item_name = {
     'NYT_19980315': 'New York Times, 15 March 1998',
     'NYT_19980403': 'New York Times, 3 April 1998',
     'NYT_19980407': 'New York Times, 7 April 1998',
-    }
+}
 
-def raw(files = items):
-    if type(files) is str: files = (files,)
+
+def raw(files=items):
+    if type(files) is str:
+        files = (files,)
 
     for file in files:
         path = os.path.join(get_basedir(), "ieer", file)
@@ -47,9 +49,11 @@ def raw(files = items):
             if len(doc) == 2:
                 yield "<DOC>" + doc[1] + "</DOC>\n"
 
-def dictionary(files = items):
+
+def dictionary(files=items):
     for doc in raw(files):
         yield ieer_chunk(doc)
+
 
 def demo():
     from en.parser.nltk_lite.corpora import ieer
@@ -61,4 +65,3 @@ def demo():
 
 if __name__ == '__main__':
     demo()
-

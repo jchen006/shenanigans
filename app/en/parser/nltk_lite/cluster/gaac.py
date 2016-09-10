@@ -8,6 +8,7 @@
 
 from en.parser.nltk_lite.cluster import *
 
+
 class GroupAverageAgglomerative(VectorSpace):
     """
     The GAAC clusterer starts with each of the N vectors as singleton
@@ -47,15 +48,16 @@ class GroupAverageAgglomerative(VectorSpace):
             for i in range(len(clusters)):
                 for j in range(i + 1, len(clusters)):
                     sim = self._average_similarity(
-                                vector_sum[i], len(clusters[i]),
-                                vector_sum[j], len(clusters[j]))
+                        vector_sum[i], len(clusters[i]),
+                        vector_sum[j], len(clusters[j]))
                     if not best or sim > best[0]:
                         best = (sim, i, j)
 
             # merge them and replace in cluster list
             i, j = best[1:]
             sum = clusters[i] + clusters[j]
-            if trace: print 'merging %d and %d' % (i, j)
+            if trace:
+                print 'merging %d and %d' % (i, j)
 
             clusters[i] = sum
             del clusters[j]
@@ -111,6 +113,7 @@ class GroupAverageAgglomerative(VectorSpace):
     def __repr__(self):
         return '<GroupAverageAgglomerative Clusterer n=%d>' % self._num_clusters
 
+
 def demo():
     """
     Non-interactive demonstration of the clusterers with simple 2-D data.
@@ -119,8 +122,9 @@ def demo():
     from en.parser.nltk_lite import cluster
 
     # use a set of tokens with 2D indices
-    vectors = [array(f) for f in [[3, 3], [1, 2], [4, 2], [4, 0], [2, 3], [3, 1]]]
-    
+    vectors = [array(f)
+               for f in [[3, 3], [1, 2], [4, 2], [4, 0], [2, 3], [3, 1]]]
+
     # test the GAAC clusterer with 4 clusters
     clusterer = cluster.GroupAverageAgglomerative(4)
     clusters = clusterer.cluster(vectors, True)
@@ -129,7 +133,7 @@ def demo():
     print 'Clustered:', vectors
     print 'As:', clusters
     print
-    
+
     # show the dendogram
     clusterer.dendogram().show()
 

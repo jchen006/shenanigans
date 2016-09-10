@@ -155,11 +155,13 @@ RegexpChunk
 from en.parser.nltk_lite.parse import ParseI, AbstractParse
 from tree import Tree
 from en.parser.nltk_lite import tokenize
-import types, re
+import types
+import re
 
-##//////////////////////////////////////////////////////
-##  Chunk Parser Interface
-##//////////////////////////////////////////////////////
+# //////////////////////////////////////////////////////
+# Chunk Parser Interface
+# //////////////////////////////////////////////////////
+
 
 class ChunkParseI(ParseI):
     """
@@ -168,13 +170,14 @@ class ChunkParseI(ParseI):
     syntactic constituants, such as base noun phrases.  Unlike
     L{ParseI}, C{ChunkParseI} guarantees that the C{parse} method
     will always generate a parse.
-    
+
     """
+
     def parse(self, tokens):
         """
         Find the best chunk structure for the given tokens
         and return a tree
-        
+
         @param tokens: The list of (word, tag) tokens to be chunked.
         @type tokens: L{list} of L{tuple}
         """
@@ -186,7 +189,7 @@ class ChunkParseI(ParseI):
         tokens, and return a tree.  If there are fewer than C{n}
         chunk structures, then find them all.  The chunk structures
         should be stored in descending order of estimated likelihood.
-        
+
         @type n: C{int}
         @param n: The number of chunk structures to generate.  At most
            C{n} chunk structures will be generated.  If C{n} is not
@@ -195,13 +198,14 @@ class ChunkParseI(ParseI):
         @param tokens: The list of (word, tag) tokens to be chunked.
         """
         assert 0, "ChunkParseI is an abstract interface"
-        
-##//////////////////////////////////////////////////////
-##  Evaluation Helper
-##//////////////////////////////////////////////////////
+
+# //////////////////////////////////////////////////////
+# Evaluation Helper
+# //////////////////////////////////////////////////////
 
 # Patched for increased performance by Yoav Goldberg <yoavg@cs.bgu.ac.il>, 2006-01-13
 #  -- statistics are evaluated only on demand, instead of at every sentence evaluation
+
 
 class ChunkScore(object):
     """
@@ -239,7 +243,7 @@ class ChunkScore(object):
           C{guessed} will not return more than this number of true
           positive examples.  This does *not* affect any of the
           numerical metrics (precision, recall, or f-measure)
-        
+
         - max_fn_examples: The maximum number actual examples of false
           negatives to record.  This affects the C{missed} member
           function and the C{correct} member function: C{missed}
@@ -247,14 +251,14 @@ class ChunkScore(object):
           C{correct} will not return more than this number of true
           negative examples.  This does *not* affect any of the
           numerical metrics (precision, recall, or f-measure)
-        
+
     @type _tp: C{list} of C{Token}
     @ivar _tp: List of true positives
     @type _fp: C{list} of C{Token}
     @ivar _fp: List of false positives
     @type _fn: C{list} of C{Token}
     @ivar _fn: List of false negatives
-    
+
     @type _tp_num: C{int}
     @ivar _tp_num: Number of true positives
     @type _fp_num: C{int}
@@ -262,6 +266,7 @@ class ChunkScore(object):
     @type _fn_num: C{int}
     @ivar _fn_num: Number of false negatives.
     """
+
     def __init__(self, **kwargs):
         self._correct = set()
         self._guessed = set()
@@ -280,26 +285,26 @@ class ChunkScore(object):
 
     def _updateMeasures(self):
         if (self._measuresNeedUpdate):
-           self._tp = self._guessed & self._correct
-           self._fn = self._correct - self._guessed
-           self._fp = self._guessed - self._correct
-           self._tp_num = len(self._tp)
-           self._fp_num = len(self._fp)
-           self._fn_num = len(self._fn)
-           self._measuresNeedUpdate = False
+            self._tp = self._guessed & self._correct
+            self._fn = self._correct - self._guessed
+            self._fp = self._guessed - self._correct
+            self._tp_num = len(self._tp)
+            self._fp_num = len(self._fp)
+            self._fn_num = len(self._fn)
+            self._measuresNeedUpdate = False
 
     def score(self, correct, guessed):
         """
         Given a correctly chunked sentence, score another chunked
         version of the same sentence.
-        
+
         @type correct: chunk structure
         @param correct: The known-correct ("gold standard") chunked
             sentence.
         @type guessed: chunk structure
         @param guessed: The chunked sentence to be scored.
         """
-	     
+
         self._correct |= _chunksets(correct, self._count)
         self._guessed |= _chunksets(guessed, self._count)
         self._count += 1
@@ -313,9 +318,11 @@ class ChunkScore(object):
         """
         self._updateMeasures()
         div = self._tp_num + self._fp_num
-        if div == 0: return 0
-        else: return float(self._tp_num) / div
-    
+        if div == 0:
+            return 0
+        else:
+            return float(self._tp_num) / div
+
     def recall(self):
         """
         @return: the overall recall for all texts that have been
@@ -324,15 +331,17 @@ class ChunkScore(object):
         """
         self._updateMeasures()
         div = self._tp_num + self._fn_num
-        if div == 0: return 0
-        else: return float(self._tp_num) / div
-    
+        if div == 0:
+            return 0
+        else:
+            return float(self._tp_num) / div
+
     def f_measure(self, alpha=0.5):
         """
         @return: the overall F measure for all texts that have been
             scored by this C{ChunkScore}.
         @rtype: C{float}
-        
+
         @param alpha: the relative weighting of precision and recall.
             Larger alpha biases the score towards the precision value,
             while smaller alpha biases the score towards the recall
@@ -344,8 +353,8 @@ class ChunkScore(object):
         r = self.recall()
         if p == 0 or r == 0:    # what if alpha is 0 or 1?
             return 0
-        return 1/(alpha/p + (1-alpha)/r)
-    
+        return 1 / (alpha / p + (1 - alpha) / r)
+
     def missed(self):
         """
         @rtype: C{list} of chunks
@@ -356,7 +365,7 @@ class ChunkScore(object):
         self._updateMeasures()
         chunks = list(self._fn)
         return [c[1] for c in chunks]  # discard position information
-    
+
     def incorrect(self):
         """
         @rtype: C{list} of chunks
@@ -367,7 +376,7 @@ class ChunkScore(object):
         self._updateMeasures()
         chunks = list(self._fp)
         return [c[1] for c in chunks]  # discard position information
-    
+
     def correct(self):
         """
         @rtype: C{list} of chunks
@@ -389,13 +398,13 @@ class ChunkScore(object):
     def __len__(self):
         self._updateMeasures()
         return self._tp_num + self._fn_num
-    
+
     def __repr__(self):
         """
         @rtype: C{String}
         @return: a concise representation of this C{ChunkScoring}.
         """
-        return '<ChunkScoring of '+`len(self)`+' chunks>'
+        return '<ChunkScoring of ' + `len(self)`+' chunks>'
 
     def __str__(self):
         """
@@ -407,10 +416,10 @@ class ChunkScore(object):
             C{incorrect()}). 
         """
         return ("ChunkParse score:\n" +
-                ("    Precision: %5.1f%%\n" % (self.precision()*100)) +
-                ("    Recall:    %5.1f%%\n" % (self.recall()*100))+
-                ("    F-Measure: %5.1f%%" % (self.f_measure()*100)))
-        
+                ("    Precision: %5.1f%%\n" % (self.precision() * 100)) +
+                ("    Recall:    %5.1f%%\n" % (self.recall() * 100)) +
+                ("    F-Measure: %5.1f%%" % (self.f_measure() * 100)))
+
     def _chunk_toks(self, text):
         """
         @return: The list of tokens contained in C{text}.
@@ -419,6 +428,8 @@ class ChunkScore(object):
 
 # extract chunks, and assign unique id, the absolute position of
 # the first word of the chunk
+
+
 def _chunksets(t, count):
     pos = 0
     chunks = []
@@ -430,9 +441,9 @@ def _chunksets(t, count):
             pos += 1
     return set(chunks)
 
-##//////////////////////////////////////////////////////
-##  Precompiled regular expressions
-##//////////////////////////////////////////////////////
+# //////////////////////////////////////////////////////
+# Precompiled regular expressions
+# //////////////////////////////////////////////////////
 
 _TAGCHAR = r'[^\{\}<>]'
 _TAG = r'(<%s+?>)' % _TAGCHAR
@@ -440,9 +451,10 @@ _VALID_TAG_PATTERN = re.compile(r'^((%s|<%s>)*)$' %
                                 ('[^\{\}<>]+',
                                  '[^\{\}<>]+'))
 
-##//////////////////////////////////////////////////////
-##  ChunkString
-##//////////////////////////////////////////////////////
+# //////////////////////////////////////////////////////
+# ChunkString
+# //////////////////////////////////////////////////////
+
 
 class ChunkString(object):
     """
@@ -457,7 +469,7 @@ class ChunkString(object):
     C{ChunkString} are created from tagged texts (i.e., C{list}s of
     C{tokens} whose type is C{TaggedType}).  Initially, nothing is
     chunked.
-    
+
     The chunking of a C{ChunkString} can be modified with the C{xform}
     method, which uses a regular expression to transform the string
     representation.  These transformations should only add and remove
@@ -475,7 +487,7 @@ class ChunkString(object):
     @type _pieces: C{list} of pieces (tagged tokens and chunks)
     @ivar _pieces: The tagged tokens and chunks encoded by this C{ChunkString}.
     @ivar _debug: The debug level.  See the constructor docs.
-               
+
     @cvar IN_CHUNK_PATTERN: A zero-width regexp pattern string that
         will only match positions that are in chunks.
     @cvar IN_CHINK_PATTERN: A zero-width regexp pattern string that
@@ -490,7 +502,7 @@ class ChunkString(object):
     _VALID = re.compile(r'(\{?%s\}?)*?' % _TAG)
     _BRACKETS = re.compile('[^\{\}]+')
     _BALANCED_BRACKETS = re.compile(r'(\{\})*$')
-    
+
     def __init__(self, chunk_struct, debug_level=3):
         """
         Construct a new C{ChunkString} that encodes the chunking of
@@ -525,7 +537,7 @@ class ChunkString(object):
             return tok.node
         else:
             raise ValueError, 'chunk structures must contain tokens and trees'
-                      
+
     def _verify(self, verify_tags):
         """
         Check to make sure that C{_str} still corresponds to some chunked
@@ -538,29 +550,33 @@ class ChunkString(object):
             list of tokens.  If this is true, then C{_verify} will
             check to make sure that the tags in C{_str} match those in
             C{_pieces}.
-        
+
         @raise ValueError: if this C{ChunkString}'s internal string
             representation is invalid or not consistent with _pieces.
         """
         # Check overall form
         if not ChunkString._VALID.match(self._str):
-            raise ValueError('Transformation generated invalid chunkstring: %s' % self._str)
+            raise ValueError(
+                'Transformation generated invalid chunkstring: %s' % self._str)
 
         # Check that parens are balanced.  If the string is long, we
         # have to do this in pieces, to avoid a maximum recursion
         # depth limit for regular expressions.
         brackets = ChunkString._BRACKETS.sub('', self._str)
-        for i in range(1+len(brackets)/5000):
-            substr = brackets[i*5000:i*5000+5000]
+        for i in range(1 + len(brackets) / 5000):
+            substr = brackets[i * 5000:i * 5000 + 5000]
             if not ChunkString._BALANCED_BRACKETS.match(substr):
-                raise ValueError('Transformation generated invalid chunkstring: %s' % substr)
+                raise ValueError(
+                    'Transformation generated invalid chunkstring: %s' % substr)
 
-        if verify_tags<=0: return
-        
+        if verify_tags <= 0:
+            return
+
         tags1 = (re.split(r'[\{\}<>]+', self._str))[1:-1]
         tags2 = [self._tag(piece) for piece in self._pieces]
         if tags1 != tags2:
-            raise ValueError('Transformation generated invalid chunkstring: %s / %s' % (tags1,tags2))
+            raise ValueError(
+                'Transformation generated invalid chunkstring: %s / %s' % (tags1, tags2))
 
     def to_chunkstruct(self, chunk_node='CHUNK'):
         """
@@ -569,8 +585,9 @@ class ChunkString(object):
         @raise ValueError: If a transformation has generated an
             invalid chunkstring.
         """
-        if self._debug > 0: self._verify(1)
-            
+        if self._debug > 0:
+            self._verify(1)
+
         # Use this alternating list to create the chunkstruct.
         pieces = []
         index = 0
@@ -579,7 +596,7 @@ class ChunkString(object):
 
             # Find the list of tokens contained in this piece.
             length = piece.count('<')
-            subsequence = self._pieces[index:index+length]
+            subsequence = self._pieces[index:index + length]
 
             # Add this list of tokens to our pieces.
             if piece_in_chunk:
@@ -592,7 +609,7 @@ class ChunkString(object):
             piece_in_chunk = not piece_in_chunk
 
         return Tree(self._top_node, pieces)
-                
+
     def xform(self, regexp, repl):
         """
         Apply the given transformation to this C{ChunkString}'s string
@@ -628,7 +645,8 @@ class ChunkString(object):
         self._str = re.sub('\{\}', '', self._str)
 
         # Make sure that the transformation was legal.
-        if self._debug > 1: self._verify(self._debug-2)
+        if self._debug > 1:
+            self._verify(self._debug - 2)
 
     def xform_chunk(self, pattern, repl):
         # Docstring adopted from xform's docstring.
@@ -656,8 +674,9 @@ class ChunkString(object):
         @raise ValueError: If this transformation generated an
             invalid chunkstring.
         """
-        if type(pattern).__name__ == 'SRE_Pattern': pattern = pattern.pattern
-        self.xform(pattern+ChunkString.IN_CHUNK_PATTERN, repl)
+        if type(pattern).__name__ == 'SRE_Pattern':
+            pattern = pattern.pattern
+        self.xform(pattern + ChunkString.IN_CHUNK_PATTERN, repl)
 
     def xform_chink(self, pattern, repl):
         # Docstring adopted from xform's docstring.
@@ -685,17 +704,18 @@ class ChunkString(object):
         @raise ValueError: If this transformation generated an
             invalid chunkstring.
         """
-        if type(pattern).__name__ == 'SRE_Pattern': pattern = pattern.pattern
-        self.xform(pattern+ChunkString.IN_CHINK_PATTERN, repl)
+        if type(pattern).__name__ == 'SRE_Pattern':
+            pattern = pattern.pattern
+        self.xform(pattern + ChunkString.IN_CHINK_PATTERN, repl)
 
     def __repr__(self):
         """
         @rtype: C{string}
         @return: A string representation of this C{ChunkString}.  This
             string representation has the form::
-            
+
                 <ChunkString: '{<DT><JJ><NN>}<VBN><IN>{<DT><NN>}'>
-        
+
         """
         return '<ChunkString: %s>' % `self._str`
 
@@ -711,12 +731,14 @@ class ChunkString(object):
         # Add spaces to make everything line up.
         str = re.sub(r'>(?!\})', r'> ', self._str)
         str = re.sub(r'([^\{])<', r'\1 <', str)
-        if str[0] == '<': str = ' ' + str
+        if str[0] == '<':
+            str = ' ' + str
         return str
 
-##//////////////////////////////////////////////////////
-##  Rules
-##//////////////////////////////////////////////////////
+# //////////////////////////////////////////////////////
+# Rules
+# //////////////////////////////////////////////////////
+
 
 def tag_pattern2re_pattern(tag_pattern):
     """
@@ -780,6 +802,7 @@ def tag_pattern2re_pattern(tag_pattern):
 
     return tag_pattern
 
+
 class RegexpChunkRule(object):
     """
     A rule specifying how to modify the chunking in a C{ChunkString},
@@ -799,16 +822,17 @@ class RegexpChunkRule(object):
     Each C{RegexpChunkRule} also has a description string, which
     gives a short (typically less than 75 characters) description of
     the purpose of the rule.
-    
+
     This transformation defined by this C{RegexpChunkRule} should
     only add and remove braces; it should I{not} modify the sequence
     of angle-bracket delimited tags.  Furthermore, this transformation
     may not result in nested or mismatched bracketing.
     """
+
     def __init__(self, regexp, repl, descr):
         """
         Construct a new RegexpChunkRule.
-        
+
         @type regexp: C{regexp} or C{string}
         @param regexp: This C{RegexpChunkRule}'s regular expression.
             When this rule is applied to a C{ChunkString}, any
@@ -824,7 +848,8 @@ class RegexpChunkRule(object):
         @param descr: A short description of the purpose and/or effect
             of this rule.
         """
-        if type(regexp).__name__ == 'SRE_Pattern': regexp = regexp.pattern
+        if type(regexp).__name__ == 'SRE_Pattern':
+            regexp = regexp.pattern
         self._repl = repl
         self._descr = descr
         if type(regexp) == types.StringType:
@@ -838,7 +863,7 @@ class RegexpChunkRule(object):
         Apply this rule to the given C{ChunkString}.  See the
         class reference documentation for a description of what it
         means to apply a rule.
-        
+
         @type chunkstr: C{ChunkString}
         @param chunkstr: The chunkstring to which this rule is
             applied. 
@@ -868,9 +893,10 @@ class RegexpChunkRule(object):
              description string; that string can be accessed
              separately with the C{descr} method.
         """
-        return ('<RegexpChunkRule: '+`self._regexp.pattern`+
-                '->'+`self._repl`+'>')
-        
+        return ('<RegexpChunkRule: ' + `self._regexp.pattern`+
+                '->' + `self._repl`+'>')
+
+
 class ChunkRule(RegexpChunkRule):
     """
     A rule specifying how to add chunks to a C{ChunkString}, using a
@@ -879,11 +905,11 @@ class ChunkRule(RegexpChunkRule):
     already part of a chunk, and create a new chunk containing that
     substring.
     """
-    def __init__(self, tag_pattern, descr):
 
+    def __init__(self, tag_pattern, descr):
         """
         Construct a new C{ChunkRule}.
-        
+
         @type tag_pattern: C{string}
         @param tag_pattern: This rule's tag pattern.  When
             applied to a C{ChunkString}, this rule will
@@ -911,7 +937,8 @@ class ChunkRule(RegexpChunkRule):
              description string; that string can be accessed
              separately with the C{descr} method.
         """
-        return '<ChunkRule: '+`self._pattern`+'>'
+        return '<ChunkRule: ' + `self._pattern`+'>'
+
 
 class ChinkRule(RegexpChunkRule):
     """
@@ -921,10 +948,11 @@ class ChinkRule(RegexpChunkRule):
     tag pattern and that is contained in a chunk, and remove it
     from that chunk, thus creating two new chunks.
     """
+
     def __init__(self, tag_pattern, descr):
         """
         Construct a new C{ChinkRule}.
-        
+
         @type tag_pattern: C{string}
         @param tag_pattern: This rule's tag pattern.  When
             applied to a C{ChunkString}, this rule will
@@ -953,7 +981,8 @@ class ChinkRule(RegexpChunkRule):
              description string; that string can be accessed
              separately with the C{descr} method.
         """
-        return '<ChinkRule: '+`self._pattern`+'>'
+        return '<ChinkRule: ' + `self._pattern`+'>'
+
 
 class UnChunkRule(RegexpChunkRule):
     """
@@ -962,10 +991,11 @@ class UnChunkRule(RegexpChunkRule):
     C{ChunkString}, it will find any complete chunk that matches this
     tag pattern, and un-chunk it.
     """
+
     def __init__(self, tag_pattern, descr):
         """
         Construct a new C{UnChunkRule}.
-        
+
         @type tag_pattern: C{string}
         @param tag_pattern: This rule's tag pattern.  When
             applied to a C{ChunkString}, this rule will
@@ -992,7 +1022,8 @@ class UnChunkRule(RegexpChunkRule):
              description string; that string can be accessed
              separately with the C{descr} method.
         """
-        return '<UnChunkRule: '+`self._pattern`+'>'
+        return '<UnChunkRule: ' + `self._pattern`+'>'
+
 
 class MergeRule(RegexpChunkRule):
     """
@@ -1003,6 +1034,7 @@ class MergeRule(RegexpChunkRule):
     beginning matches right pattern.  It will then merge those two
     chunks into a single chunk.
     """
+
     def __init__(self, left_tag_pattern, right_tag_pattern, descr):
         """
         Construct a new C{MergeRule}.
@@ -1021,7 +1053,7 @@ class MergeRule(RegexpChunkRule):
             this pattern, and immediately followed by a chunk
             whose beginning matches C{right_tag_pattern}.  It will
             then merge those two chunks into a single chunk.
-            
+
         @type descr: C{string}
         @param descr: A short description of the purpose and/or effect
             of this rule.
@@ -1045,8 +1077,9 @@ class MergeRule(RegexpChunkRule):
              description string; that string can be accessed
              separately with the C{descr} method.
         """
-        return ('<MergeRule: '+`self._left_tag_pattern`+', '+
+        return ('<MergeRule: ' + `self._left_tag_pattern`+', ' +
                 `self._right_tag_pattern`+'>')
+
 
 class SplitRule(RegexpChunkRule):
     """
@@ -1057,10 +1090,11 @@ class SplitRule(RegexpChunkRule):
     then split the chunk into two new chunks, at the point between the
     two pattern matches.
     """
+
     def __init__(self, left_tag_pattern, right_tag_pattern, descr):
         """
         Construct a new C{SplitRule}.
-        
+
         @type right_tag_pattern: C{string}
         @param right_tag_pattern: This rule's right tag
             pattern.  When applied to a C{ChunkString}, this rule will
@@ -1081,7 +1115,7 @@ class SplitRule(RegexpChunkRule):
         """
         self._left_tag_pattern = left_tag_pattern
         self._right_tag_pattern = right_tag_pattern
-        regexp = re.compile('(?P<left>%s)(?=%s)' % 
+        regexp = re.compile('(?P<left>%s)(?=%s)' %
                             (tag_pattern2re_pattern(left_tag_pattern),
                              tag_pattern2re_pattern(right_tag_pattern)))
         RegexpChunkRule.__init__(self, regexp, r'\g<left>}{', descr)
@@ -1098,8 +1132,9 @@ class SplitRule(RegexpChunkRule):
              description string; that string can be accessed
              separately with the C{descr} method.
         """
-        return ('<SplitRule: '+`self._left_tag_pattern`+', '+
+        return ('<SplitRule: ' + `self._left_tag_pattern`+', ' +
                 `self._right_tag_pattern`+'>')
+
 
 class ExpandLeftRule(RegexpChunkRule):
     """
@@ -1110,6 +1145,7 @@ class ExpandLeftRule(RegexpChunkRule):
     end matches left pattern.  It will then expand the chunk to incorporate
     the new material on the left.
     """
+
     def __init__(self, left_tag_pattern, right_tag_pattern, descr):
         """
         Construct a new C{ExpandRightRule}.
@@ -1128,7 +1164,7 @@ class ExpandLeftRule(RegexpChunkRule):
             this pattern, and immediately preceded by a chink
             whose end matches C{left_tag_pattern}.  It will
             then expand the chunk to incorporate the new material on the left.
-            
+
         @type descr: C{string}
         @param descr: A short description of the purpose and/or effect
             of this rule.
@@ -1152,8 +1188,9 @@ class ExpandLeftRule(RegexpChunkRule):
              description string; that string can be accessed
              separately with the C{descr} method.
         """
-        return ('<ExpandLeftRule: '+`self._left_tag_pattern`+', '+
+        return ('<ExpandLeftRule: ' + `self._left_tag_pattern`+', ' +
                 `self._right_tag_pattern`+'>')
+
 
 class ExpandRightRule(RegexpChunkRule):
     """
@@ -1164,6 +1201,7 @@ class ExpandRightRule(RegexpChunkRule):
     beginning matches right pattern.  It will then expand the chunk to incorporate
     the new material on the right.
     """
+
     def __init__(self, left_tag_pattern, right_tag_pattern, descr):
         """
         Construct a new C{ExpandRightRule}.
@@ -1182,7 +1220,7 @@ class ExpandRightRule(RegexpChunkRule):
             this pattern, and immediately followed by a chink
             whose beginning matches C{right_tag_pattern}.  It will
             then expand the chunk to incorporate the new material on the right.
-            
+
         @type descr: C{string}
         @param descr: A short description of the purpose and/or effect
             of this rule.
@@ -1206,12 +1244,13 @@ class ExpandRightRule(RegexpChunkRule):
              description string; that string can be accessed
              separately with the C{descr} method.
         """
-        return ('<ExpandRightRule: '+`self._left_tag_pattern`+', '+
+        return ('<ExpandRightRule: ' + `self._left_tag_pattern`+', ' +
                 `self._right_tag_pattern`+'>')
 
-##//////////////////////////////////////////////////////
-##  RegexpChunk
-##//////////////////////////////////////////////////////
+# //////////////////////////////////////////////////////
+# RegexpChunk
+# //////////////////////////////////////////////////////
+
 
 class RegexpChunk(ChunkParseI, AbstractParse):
     """
@@ -1231,12 +1270,13 @@ class RegexpChunk(ChunkParseI, AbstractParse):
     @ivar _rules: The list of rules that should be applied to a text.
     @type _trace: C{int}
     @ivar _trace: The default level of tracing.
-        
+
     """
+
     def __init__(self, rules, chunk_node='CHUNK', top_node='TEXT', trace=0):
         """
         Construct a new C{RegexpChunk}.
-        
+
         @type rules: C{list} of C{RegexpChunkRule}
         @param rules: The sequence of rules that should be used to
             generate the chunking for a tagged text.
@@ -1273,18 +1313,18 @@ class RegexpChunk(ChunkParseI, AbstractParse):
         @param verbose: Whether output should be verbose.
         @rtype: C{None}
         """
-        indent = ' '*(35-len(str(chunkstr))/2)
-        
+        indent = ' ' * (35 - len(str(chunkstr)) / 2)
+
         print 'Input:'
         print indent, chunkstr
         for rule in self._rules:
             rule.apply(chunkstr)
             if verbose:
-                print rule.descr()+' ('+`rule`+'):'
+                print rule.descr() + ' (' + `rule`+'):'
             else:
-                print rule.descr()+':'
+                print rule.descr() + ':'
             print indent, chunkstr
-        
+
     def _notrace_apply(self, chunkstr):
         """
         Apply each of this C{RegexpChunk}'s rules to C{chunkstr}, in
@@ -1295,10 +1335,10 @@ class RegexpChunk(ChunkParseI, AbstractParse):
         @type chunkstr: C{ChunkString}
         @rtype: C{None}
         """
-        
+
         for rule in self._rules:
             rule.apply(chunkstr)
-        
+
     def parse(self, tokens, trace=None):
         """
         @type chunk_struct: C{Tree}
@@ -1320,16 +1360,17 @@ class RegexpChunk(ChunkParseI, AbstractParse):
         if len(tokens) == 0:
             print 'Warning: parsing empty text'
             return Tree(self._top_node, [])
-        
+
         # Use the default trace value?
-        if trace == None: trace = self._trace
+        if trace == None:
+            trace = self._trace
 
         # Create the chunkstring, using the same properties as the parser
         chunkstr = ChunkString(tokens)
 
         # Apply the sequence of rules to the chunkstring.
         if trace:
-            verbose = (trace>1)
+            verbose = (trace > 1)
             self._trace_apply(chunkstr, verbose)
         else:
             self._notrace_apply(chunkstr)
@@ -1363,16 +1404,17 @@ class RegexpChunk(ChunkParseI, AbstractParse):
         for rule in self._rules:
             margin = max(margin, len(rule.descr()))
         if margin < 35:
-            format = "    %" + `-(margin+3)` + "s%s\n"
+            format = "    %" + `-(margin + 3)` + "s%s\n"
         else:
             format = "    %s\n      %s\n"
         for rule in self._rules:
             s += format % (rule.descr(), `rule`)
         return s[:-1]
-            
-##//////////////////////////////////////////////////////
-##  Demonstration code
-##//////////////////////////////////////////////////////
+
+# //////////////////////////////////////////////////////
+# Demonstration code
+# //////////////////////////////////////////////////////
+
 
 def demo_eval(chunkparser, text):
     """
@@ -1391,28 +1433,28 @@ def demo_eval(chunkparser, text):
         evaluation.
     @type text: C{string}
     """
-    
+
     # Evaluate our chunk parser.
     chunkscore = ChunkScore()
 
     from en.parser.nltk_lite.parse import tree
-    
+
     for sentence in text.split('\n'):
         print sentence
         sentence = sentence.strip()
-        if not sentence: continue
+        if not sentence:
+            continue
         gold = tree.chunk(sentence)
         tokens = gold.leaves()
         test = chunkparser.parse(tree.Tree('S', tokens))
         chunkscore.score(gold, test)
 
-    print '/'+('='*75)+'\\'
+    print '/' + ('=' * 75) + '\\'
     print 'Scoring', chunkparser
-    print ('-'*77)
-    print 'Precision: %5.1f%%' % (chunkscore.precision()*100), ' '*4,
-    print 'Recall: %5.1f%%' % (chunkscore.recall()*100), ' '*6,
-    print 'F-Measure: %5.1f%%' % (chunkscore.f_measure()*100)
-    
+    print ('-' * 77)
+    print 'Precision: %5.1f%%' % (chunkscore.precision() * 100), ' ' * 4,
+    print 'Recall: %5.1f%%' % (chunkscore.recall() * 100), ' ' * 6,
+    print 'F-Measure: %5.1f%%' % (chunkscore.f_measure() * 100)
 
     # Missed chunks.
     if chunkscore.missed():
@@ -1421,7 +1463,7 @@ def demo_eval(chunkparser, text):
         for chunk in missed[:10]:
             print '  ', chunk
         if len(chunkscore.missed()) > 10:
-               print '  ...'
+            print '  ...'
 
     # Incorrect chunks.
     if chunkscore.incorrect():
@@ -1430,9 +1472,10 @@ def demo_eval(chunkparser, text):
         for chunk in incorrect[:10]:
             print '  ', chunk
         if len(chunkscore.incorrect()) > 10:
-               print '  ...'
-    
-    print '\\'+('='*75)+'/'
+            print '  ...'
+
+    print '\\' + ('=' * 75) + '/'
+
 
 def demo_cascade(chunkparsers, text):
     """
@@ -1443,19 +1486,21 @@ def demo_cascade(chunkparsers, text):
     @param text: The chunked tagged text that should be used for evaluation.
     @type text: C{string}
     """
-    
+
     from en.parser.nltk_lite.parse.tree import Tree
-    
+
     for sentence in text.split('\n'):
         print sentence
         sentence = sentence.strip()
-        if not sentence: continue
+        if not sentence:
+            continue
         gold = tree.chunk(sentence)
         pieces = gold.leaves()
         for chunkparser in chunkparsers:
             pieces = chunkparser.parse(Tree('S', pieces))
             print pieces
         print
+
 
 def demo():
     """
@@ -1474,10 +1519,10 @@ def demo():
     [ John/NNP ] saw/VBD [the/DT cat/NN] [the/DT dog/NN] liked/VBD ./.
     [ John/NNP ] saw/VBD [the/DT cat/NN] the/DT cat/NN liked/VBD ./."""
 
-    print '*'*75
+    print '*' * 75
     print 'Evaluation text:'
     print text
-    print '*'*75
+    print '*' * 75
 
     # Use a simple regexp to define regular expressions.
     r1 = parse.ChunkRule(r'<DT>?<JJ>*<NN.*>', 'Chunk NPs')
@@ -1496,25 +1541,28 @@ def demo():
     r1 = parse.ChunkRule(r'(<.*>)', 'Chunk each tag')
     r2 = parse.UnChunkRule(r'<VB.*>|<IN>|<.>', 'Unchunk VB? and IN and .')
     r3 = parse.MergeRule(r'<DT|JJ|NN.*>', r'<DT|JJ|NN.*>', 'Merge NPs')
-    cp = parse.RegexpChunk([r1,r2,r3], chunk_node='NP', trace=1)
+    cp = parse.RegexpChunk([r1, r2, r3], chunk_node='NP', trace=1)
     parse.demo_eval(cp, text)
     print
 
     # Chunk sequences of NP words, and split them at determiners
     r1 = parse.ChunkRule(r'(<DT|JJ|NN.*>+)', 'Chunk sequences of DT&JJ&NN')
     r2 = parse.SplitRule('', r'<DT>', 'Split before DT')
-    cp = parse.RegexpChunk([r1,r2], chunk_node='NP', trace=1)
+    cp = parse.RegexpChunk([r1, r2], chunk_node='NP', trace=1)
     parse.demo_eval(cp, text)
     print
 
     print "============== Cascaded Chunking =============="
     print
 
-    np_chunk = parse.ChunkRule(r'<DT|JJ|NN.*>+', 'Chunk sequences of DT, JJ, NN')
+    np_chunk = parse.ChunkRule(
+        r'<DT|JJ|NN.*>+', 'Chunk sequences of DT, JJ, NN')
     np_parse = parse.RegexpChunk([np_chunk], chunk_node='NP')
-    pp_chunk = parse.ChunkRule(r'<IN><NP>', 'Chunk prepositions followed by NP')
+    pp_chunk = parse.ChunkRule(
+        r'<IN><NP>', 'Chunk prepositions followed by NP')
     pp_parse = parse.RegexpChunk([pp_chunk], chunk_node='PP')
-    vp_chunk = parse.ChunkRule(r'<VB.*><NP|PP|S>+$', 'Chunk verbs and arguments/adjuncts')
+    vp_chunk = parse.ChunkRule(
+        r'<VB.*><NP|PP|S>+$', 'Chunk verbs and arguments/adjuncts')
     vp_parse = parse.RegexpChunk([vp_chunk], chunk_node='VP')
     s_chunk = parse.ChunkRule(r'<NP><VP>$', 'Chunk NP, VP')
     s_parse = parse.RegexpChunk([s_chunk], chunk_node='S')
@@ -1530,4 +1578,3 @@ def demo():
 
 if __name__ == '__main__':
     demo()
-

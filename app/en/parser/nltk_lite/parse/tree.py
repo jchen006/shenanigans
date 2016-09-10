@@ -11,14 +11,16 @@ Class for representing hierarchical language structures, such as
 syntax trees and morphological trees.
 """
 
-import re, types
+import re
+import types
 from en.parser.nltk_lite import tokenize
 from en.parser.nltk_lite.parse import cfg
 from en.parser.nltk_lite.probability import ProbabilisticMixIn
 
 ######################################################################
-## Trees
+# Trees
 ######################################################################
+
 
 class Tree(list):
     """
@@ -46,12 +48,13 @@ class Tree(list):
       - The tree position C{()} specifies the C{Tree} itself.
       - If C{M{p}} is the tree position of descendant M{d}, then
         C{M{p}+(M{i})} specifies the C{M{i}}th child of M{d}.
-    
+
     I.e., every tree position is either a single index C{M{i}},
     specifying C{self[M{i}]}; or a sequence C{(M{i1}, M{i2}, ...,
     M{iN})}, specifying
     C{self[M{i1}][M{i2}]...[M{iN}]}.
     """
+
     def __init__(self, node, children):
         """
         Construct a new tree.
@@ -67,32 +70,44 @@ class Tree(list):
 
     def __cmp__(self, other):
         c = cmp(self.node, other.node)
-        if c != 0: return c
-        else: return list.__cmp__(self, other)
+        if c != 0:
+            return c
+        else:
+            return list.__cmp__(self, other)
+
     def __eq__(self, other):
-        if not isinstance(other, Tree): return False
+        if not isinstance(other, Tree):
+            return False
         return self.node == other.node and list.__eq__(self, other)
+
     def __ne__(self, other):
         return not (self == other)
+
     def __lt__(self, other):
         return cmp(self, other) < 0
+
     def __le__(self, other):
         return cmp(self, other) <= 0
+
     def __gt__(self, other):
         return cmp(self, other) > 0
+
     def __ge__(self, other):
         return cmp(self, other) >= 0
-    
+
     #////////////////////////////////////////////////////////////
     # Disabled list operations
     #////////////////////////////////////////////////////////////
 
     def __mul__(self, v):
         raise TypeError('Tree does not support multiplication')
+
     def __rmul__(self, v):
         raise TypeError('Tree does not support multiplication')
+
     def __add__(self, v):
         raise TypeError('Tree does not support addition')
+
     def __radd__(self, v):
         raise TypeError('Tree does not support addition')
 
@@ -110,7 +125,7 @@ class Tree(list):
                 return self[int(index[0])]
             else:
                 return self[int(index[0])][index[1:]]
-    
+
     def __setitem__(self, index, value):
         if isinstance(index, int):
             return list.__setitem__(self, index, value)
@@ -122,7 +137,7 @@ class Tree(list):
                 self[index[0]] = value
             else:
                 self[index[0]][index[1:]] = value
-    
+
     def __delitem__(self, index):
         if isinstance(index, int):
             return list.__delitem__(self, index)
@@ -133,11 +148,11 @@ class Tree(list):
                 del self[index[0]]
             else:
                 del self[index[0]][index[1:]]
-    
+
     #////////////////////////////////////////////////////////////
     # Basic tree operations
     #////////////////////////////////////////////////////////////
-    
+
     def leaves(self):
         """
         @return: a list containing this tree's leaves.  The
@@ -184,14 +199,16 @@ class Tree(list):
             C{leaves}.
         """
         positions = []
-        if order in ('preorder', 'bothorder'): positions.append( () )
+        if order in ('preorder', 'bothorder'):
+            positions.append(())
         for i, child in enumerate(self):
             if isinstance(child, Tree):
                 childpos = child.treepositions(order)
-                positions.extend([(i,)+p for p in childpos])
+                positions.extend([(i,) + p for p in childpos])
             else:
-                positions.append( (i,) )
-        if order in ('postorder', 'bothorder'): positions.append( () )
+                positions.append((i,))
+        if order in ('postorder', 'bothorder'):
+            positions.append(())
         return positions
 
     def subtrees(self, filter=None):
@@ -220,7 +237,8 @@ class Tree(list):
         if not isinstance(self.node, str):
             raise TypeError, 'Productions can only be generated from trees having node labels that are strings'
 
-        prods = [cfg.Production(cfg.Nonterminal(self.node), _child_names(self))]
+        prods = [cfg.Production(cfg.Nonterminal(
+            self.node), _child_names(self))]
         for child in self:
             if isinstance(child, Tree):
                 prods += child.productions()
@@ -248,10 +266,13 @@ class Tree(list):
     convert = classmethod(convert)
 
     def copy(self, deep=False):
-        if not deep: return self.__class__(self.node, self)
-        else: return self.__class__.convert(self)
+        if not deep:
+            return self.__class__(self.node, self)
+        else:
+            return self.__class__.convert(self)
 
     def _frozen_class(self): return ImmutableTree
+
     def freeze(self, leaf_freezer=None):
         frozen_class = self._frozen_class()
         if leaf_freezer is None:
@@ -261,13 +282,13 @@ class Tree(list):
             for pos in newcopy.treepositions('leaves'):
                 newcopy[pos] = leaf_freezer(newcopy[pos])
             newcopy = frozen_class.convert(newcopy)
-        hash(newcopy) # Make sure the leaves are hashable.
+        hash(newcopy)  # Make sure the leaves are hashable.
         return newcopy
 
     #////////////////////////////////////////////////////////////
     # Visualization & String Representation
     #////////////////////////////////////////////////////////////
-    
+
     def draw(self):
         """
         Open a new window containing a graphical diagram of this tree.
@@ -291,7 +312,7 @@ class Tree(list):
                 childstrs.append('%s' % child)
             else:
                 childstrs.append('%s' % child.__repr__())
-        return '%s%s%s %s%s' % (parens[0], self.node, nodesep, 
+        return '%s%s%s %s%s' % (parens[0], self.node, nodesep,
                                 ' '.join(childstrs), parens[1])
 
     def pp(self, margin=70, indent=0, nodesep=':', parens='()', quotes=True):
@@ -311,18 +332,18 @@ class Tree(list):
 
         # Try writing it on one line.
         s = self._ppflat(nodesep, parens, quotes)
-        if len(s)+indent < margin:
+        if len(s) + indent < margin:
             return s
 
         # If it doesn't fit on one line, then write it on multi-lines.
         s = '%s%s%s' % (parens[0], self.node, nodesep)
         for child in self:
             if isinstance(child, Tree):
-                s += '\n'+' '*(indent+2)+child.pp(margin, indent+2,
-                                                  nodesep, parens, quotes)
+                s += '\n' + ' ' * (indent + 2) + child.pp(margin, indent + 2,
+                                                          nodesep, parens, quotes)
             else:
-                s += '\n'+' '*(indent+2)+repr(child)
-        return s+parens[1]
+                s += '\n' + ' ' * (indent + 2) + repr(child)
+        return s + parens[1]
 
     def pp_treebank(self, margin=70, indent=0):
         return self.pp(margin, indent, nodesep='', quotes=False)
@@ -346,61 +367,85 @@ class Tree(list):
         @rtype: C{string}
         """
         return r'\Tree ' + self.pp(indent=6, nodesep='', parens=('[.', ' ]'))
-    
+
 
 class ImmutableTree(Tree):
+
     def __setitem__(self):
         raise ValueError, 'ImmutableTrees may not be modified'
+
     def __setslice__(self):
         raise ValueError, 'ImmutableTrees may not be modified'
+
     def __delitem__(self):
         raise ValueError, 'ImmutableTrees may not be modified'
+
     def __delslice__(self):
         raise ValueError, 'ImmutableTrees may not be modified'
+
     def __iadd__(self):
         raise ValueError, 'ImmutableTrees may not be modified'
+
     def __imul__(self):
         raise ValueError, 'ImmutableTrees may not be modified'
+
     def append(self, v):
         raise ValueError, 'ImmutableTrees may not be modified'
+
     def extend(self, v):
         raise ValueError, 'ImmutableTrees may not be modified'
+
     def pop(self, v=None):
         raise ValueError, 'ImmutableTrees may not be modified'
+
     def remove(self, v):
         raise ValueError, 'ImmutableTrees may not be modified'
+
     def reverse(self):
         raise ValueError, 'ImmutableTrees may not be modified'
+
     def sort(self):
         raise ValueError, 'ImmutableTrees may not be modified'
+
     def __hash__(self):
-        return hash( (self.node, tuple(self)) )
+        return hash((self.node, tuple(self)))
 
 
 ######################################################################
-## Probabilistic trees
+# Probabilistic trees
 ######################################################################
 class ProbabilisticTree(Tree, ProbabilisticMixIn):
+
     def __init__(self, node, children, **prob_kwargs):
         ProbabilisticMixIn.__init__(self, **prob_kwargs)
         Tree.__init__(self, node, children)
 
     # We have to patch up these methods to make them work right:
     def _frozen_class(self): return ImmutableProbabilisticTree
+
     def __repr__(self):
         return '%s (p=%s)' % (Tree.__repr__(self), self.prob())
+
     def __str__(self):
         return '%s (p=%s)' % (self.pp(margin=60), self.prob())
+
     def __cmp__(self, other):
         c = Tree.__cmp__(self, other)
-        if c != 0: return c
+        if c != 0:
+            return c
         return cmp(self.prob(), other.prob())
+
     def __eq__(self, other):
-        if not isinstance(other, Tree): return False
-        return Tree.__eq__(self, other) and self.prob()==other.prob()
+        if not isinstance(other, Tree):
+            return False
+        return Tree.__eq__(self, other) and self.prob() == other.prob()
+
     def copy(self, deep=False):
-        if not deep: return self.__class__(self.node, self, prob=self.prob())
-        else: return self.__class__.convert(self)
+        if not deep:
+            return self.__class__(self.node, self, prob=self.prob())
+        else:
+            return self.__class__.convert(self)
+
     def convert(cls, val):
         if isinstance(val, Tree):
             children = [cls.convert(child) for child in val]
@@ -412,27 +457,39 @@ class ProbabilisticTree(Tree, ProbabilisticMixIn):
             return val
     convert = classmethod(convert)
 
+
 class ImmutableProbabilisticTree(ImmutableTree, ProbabilisticMixIn):
+
     def __init__(self, node, children, **prob_kwargs):
         ProbabilisticMixIn.__init__(self, **prob_kwargs)
         ImmutableTree.__init__(self, node, children)
 
     # We have to patch up these methods to make them work right:
     def _frozen_class(self): return ImmutableProbabilisticTree
+
     def __repr__(self):
         return '%s (p=%s)' % (Tree.__repr__(self), self.prob())
+
     def __str__(self):
         return '%s (p=%s)' % (self.pp(margin=60), self.prob())
+
     def __cmp__(self, other):
         c = Tree.__cmp__(self, other)
-        if c != 0: return c
+        if c != 0:
+            return c
         return cmp(self.prob(), other.prob())
+
     def __eq__(self, other):
-        if not isinstance(other, Tree): return False
-        return Tree.__eq__(self, other) and self.prob()==other.prob()
+        if not isinstance(other, Tree):
+            return False
+        return Tree.__eq__(self, other) and self.prob() == other.prob()
+
     def copy(self, deep=False):
-        if not deep: return self.__class__(self.node, self, prob=self.prob())
-        else: return self.__class__.convert(self)
+        if not deep:
+            return self.__class__(self.node, self, prob=self.prob())
+        else:
+            return self.__class__.convert(self)
+
     def convert(cls, val):
         if isinstance(val, Tree):
             children = [cls.convert(child) for child in val]
@@ -455,9 +512,10 @@ def _child_names(tree):
     return names
 
 ######################################################################
-## Parsing
+# Parsing
 ######################################################################
-    
+
+
 def bracket_parse(s):
     """
     Parse a treebank string and return a tree.  Trees are represented
@@ -479,15 +537,16 @@ def bracket_parse(s):
     while pos < len(s):
         # Beginning of a tree/subtree.
         if s[pos] == '(':
-            match = WORD.match(s, pos+1)
+            match = WORD.match(s, pos + 1)
             stack.append(Tree(match.group(1), []))
             pos = match.end()
 
         # End of a tree/subtree.
         elif s[pos] == ')':
-            pos = SPACE.match(s, pos+1).end()
+            pos = SPACE.match(s, pos + 1).end()
             if len(stack) == 1:
-                if pos != len(s): raise ValueError
+                if pos != len(s):
+                    raise ValueError
                 tree = stack[0]
                 # If the tree has an extra level with node='', then get
                 # rid of it.  (E.g., "((S (NP ...) (VP ...)))")
@@ -505,6 +564,7 @@ def bracket_parse(s):
             pos = match.end()
 
     raise ValueError, 'mismatched parens'
+
 
 def chunk(s, chunk_node="NP", top_node="S"):
     """
@@ -530,7 +590,7 @@ def chunk(s, chunk_node="NP", top_node="S"):
 
     if not VALID.match(s):
         raise ValueError, 'Invalid token string (bad brackets)'
-        
+
     stack = [Tree(top_node, [])]
     for match in WORD_OR_BRACKET.finditer(s):
         text = match.group()
@@ -543,16 +603,18 @@ def chunk(s, chunk_node="NP", top_node="S"):
         else:
             slash = text.rfind('/')
             if slash >= 0:
-                tok = (text[:slash], text[slash+1:])
+                tok = (text[:slash], text[slash + 1:])
             else:
                 tok = (text, None)
             stack[-1].append(tok)
 
     return stack[0]
 
-### CONLL
+# CONLL
 
 _LINE_RE = re.compile('(\S+)\s+(\S+)\s+([IOB])-?(\S+)?')
+
+
 def conll_chunk(s, chunk_types=("NP",), top_node="S"):
     """
     @return: A chunk structure for a single sentence
@@ -572,14 +634,15 @@ def conll_chunk(s, chunk_types=("NP",), top_node="S"):
 
         # If it's a chunk type we don't care about, treat it as O.
         if (chunk_types is not None and
-            chunk_type not in chunk_types):
+                chunk_type not in chunk_types):
             state = 'O'
 
         # For "Begin"/"Outside", finish any completed chunks -
         # also do so for "Inside" which don't match the previous token.
         mismatch_I = state == 'I' and chunk_type != stack[-1].node
         if state in 'BO' or mismatch_I:
-            if len(stack) == 2: stack.pop()
+            if len(stack) == 2:
+                stack.pop()
 
         # For "Begin", start a new chunk.
         if state == 'B' or mismatch_I:
@@ -592,7 +655,7 @@ def conll_chunk(s, chunk_types=("NP",), top_node="S"):
 
     return stack[0]
 
-### IEER
+# IEER
 
 _IEER_DOC_RE = re.compile(r'<DOC>\s*'
                           r'(<DOCNO>\s*(?P<docno>.+?)\s*</DOCNO>\s*)?'
@@ -605,6 +668,7 @@ _IEER_DOC_RE = re.compile(r'<DOC>\s*'
 
 _IEER_TYPE_RE = re.compile('<b_\w+\s+[^>]*?type="(?P<type>\w+)"')
 
+
 def _ieer_read_text(s, top_node):
     stack = [Tree(top_node, [])]
     for piece_m in re.finditer('<[^>]+>|[^\s<]+', s):
@@ -612,7 +676,8 @@ def _ieer_read_text(s, top_node):
         try:
             if piece.startswith('<b_'):
                 m = _IEER_TYPE_RE.match(piece)
-                if m is None: print 'XXXX', piece
+                if m is None:
+                    print 'XXXX', piece
                 chunk = Tree(m.group('type'), [])
                 stack[-1].append(chunk)
                 stack.append(chunk)
@@ -630,8 +695,9 @@ def _ieer_read_text(s, top_node):
         raise ValueError('Bad IEER string')
     return stack[0]
 
-def ieer_chunk(s, chunk_types = ['LOCATION', 'ORGANIZATION', 'PERSON', 'DURATION',
-               'DATE', 'CARDINAL', 'PERCENT', 'MONEY', 'MEASURE'], top_node="S"):
+
+def ieer_chunk(s, chunk_types=['LOCATION', 'ORGANIZATION', 'PERSON', 'DURATION',
+                               'DATE', 'CARDINAL', 'PERCENT', 'MONEY', 'MEASURE'], top_node="S"):
     """
     Convert a string of chunked tagged text in the IEER named
     entity format into a chunk structure.  Chunks are of several
@@ -653,15 +719,15 @@ def ieer_chunk(s, chunk_types = ['LOCATION', 'ORGANIZATION', 'PERSON', 'DURATION
             'doctype': m.group('doctype'),
             'date_time': m.group('date_time'),
             'headline': m.group('headline')
-            }
+        }
     else:
         return _ieer_read_text(s, top_node)
 
 
 ######################################################################
-## Demonstration
+# Demonstration
 ######################################################################
-        
+
 def demo():
     """
     A demonstration showing how C{Tree}s and C{Tree}s can be
@@ -669,7 +735,7 @@ def demo():
     C{Tree} from the L{treebank<nltk.corpus.treebank>} corpus,
     and shows the results of calling several of their methods.
     """
-    
+
     from en.parser.nltk_lite.parse import tree
 
     # Demonstrate tree parsing.
@@ -685,15 +751,15 @@ def demo():
     print t.height()
     print t.leaves()
     print t[1]
-    print t[1,1]
-    print t[1,1,0]
+    print t[1, 1]
+    print t[1, 1, 0]
 
     # Demonstrate tree modification.
     the_cat = t[0]
     the_cat.insert(1, tree.bracket_parse('(JJ big)'))
     print "Tree modification:"
     print t
-    t[1,1,1] = tree.bracket_parse('(NN cake)')
+    t[1, 1, 1] = tree.bracket_parse('(NN cake)')
     print t
     print
 

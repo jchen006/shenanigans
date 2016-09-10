@@ -1,6 +1,8 @@
 # New lambda system (Steven Bird)
 
+
 class Lambda:
+
     def __init__(self, *args):
         if isinstance(args[0], str):
             if len(args) == 1:
@@ -14,7 +16,7 @@ class Lambda:
             self._f = args[0]
             self._arg = args[1]
             self._type = 'f'
-            
+
     def equals(self, other):
         if self.__class__ is not other.__class__:
             return False
@@ -58,11 +60,11 @@ class Lambda:
             else:
                 return self
         elif self._type == 'l':
-            return Lambda(self._var,\
-                                self._term.replace(variable, expression))
+            return Lambda(self._var,
+                          self._term.replace(variable, expression))
         elif self._type == 'f':
-            return Lambda(self._f.replace(variable, expression),\
-                                     self._arg.replace(variable, expression))
+            return Lambda(self._f.replace(variable, expression),
+                          self._arg.replace(variable, expression))
 
     def simplify(self):
         if self._type == 'v':
@@ -102,6 +104,7 @@ class Lambda:
             return "Lambda('%s', '%s')" % (self._var, self._term)
         elif self._type == 'f':
             return "Lambda('%s', '%s')" % (self._f, self._arg)
+
 
 def expressions():
     """Return a sequence of test expressions."""

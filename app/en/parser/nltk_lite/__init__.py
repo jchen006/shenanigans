@@ -27,9 +27,9 @@ students to use a large set of specialized classes.
 
 """
 
-##//////////////////////////////////////////////////////
-##  Metadata
-##//////////////////////////////////////////////////////
+# //////////////////////////////////////////////////////
+# Metadata
+# //////////////////////////////////////////////////////
 
 # Version.  For each new release, the version number should be updated
 # here and in the Epydoc comment (above).
@@ -60,5 +60,3 @@ __maintainer__ = "Steven Bird"
 __maintainer_email__ = "sb@csse.unimelb.edu.au"
 __author__ = __maintainer__
 __author_email__ = __maintainer_email__
-
-

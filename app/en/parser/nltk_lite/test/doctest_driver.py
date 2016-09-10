@@ -24,7 +24,15 @@ A number of other flags can be given; call the driver with the
 `--help` option for a complete list.
 """
 
-import os, os.path, sys, unittest, pdb, bdb, re, tempfile, traceback
+import os
+import os.path
+import sys
+import unittest
+import pdb
+import bdb
+import re
+import tempfile
+import traceback
 from doctest import *
 from doctest import DocTestCase
 from optparse import OptionParser, OptionGroup, Option
@@ -38,7 +46,9 @@ __version__ = '0.1'
 # These are copied from doctest; I don't import them because they're
 # private.  See the versions in doctest for docstrings, etc.
 
+
 class _OutputRedirectingPdb(pdb.Pdb):
+
     def __init__(self, out):
         self.__out = out
         pdb.Pdb.__init__(self)
@@ -49,13 +59,16 @@ class _OutputRedirectingPdb(pdb.Pdb):
         pdb.Pdb.trace_dispatch(self, *args)
         sys.stdout = save_stdout
 
+
 def _exception_traceback(exc_info):
     excout = StringIO()
     exc_type, exc_val, exc_tb = exc_info
     traceback.print_exception(exc_type, exc_val, exc_tb, file=excout)
     return excout.getvalue()
 
+
 class _SpoofOut(StringIO):
+
     def getvalue(self):
         result = StringIO.getvalue(self)
         if result and not result.endswith("\n"):
@@ -73,6 +86,7 @@ class _SpoofOut(StringIO):
 # Update Runner
 ###########################################################################
 
+
 class UpdateRunner(DocTestRunner):
     """
     A subclass of `DocTestRunner` that checks the output of each
@@ -86,13 +100,14 @@ class UpdateRunner(DocTestRunner):
     However, care must be taken not to update an example's expected
     output with an incorrect value.
     """
+
     def __init__(self, verbose=False, mark_updates=False):
         self._mark_updates = mark_updates
         DocTestRunner.__init__(self, verbose=verbose)
 
     def run(self, test, compileflags=None, out=None, clear_globs=True):
         self._new_want = {}
-        (f,t) = DocTestRunner.run(self, test, compileflags, out, clear_globs)
+        (f, t) = DocTestRunner.run(self, test, compileflags, out, clear_globs)
 
         # Update the test's docstring, and the lineno's of the
         # examples, by breaking it into lines and replacing the old
@@ -112,20 +127,20 @@ class UpdateRunner(DocTestRunner):
             # (In particular, check that the example's expected output
             # appears in old_lines where we expect it to appear.)
             if example.want:
-                assert (example.want.split('\n')[0] == 
+                assert (example.want.split('\n')[0] ==
                         old_lines[lineno][example.indent:]), \
-                        'Line number mismatch at %d' % lineno
+                    'Line number mismatch at %d' % lineno
             # Skip over the old expected output.
             old_len = example.want.count('\n')
             lineno += old_len
             # Mark any changes we make.
             if self._mark_updates and example in self._new_want:
-                new_lines.append(' '*example.indent + '... ' + 
+                new_lines.append(' ' * example.indent + '... ' +
                                  '# [!!] OUTPUT AUTOMATICALLY UPDATED [!!]')
             # Add the new expected output.
             new_want = self._new_want.get(example, example.want)
             if new_want:
-                new_want = '\n'.join([' '*example.indent+l
+                new_want = '\n'.join([' ' * example.indent + l
                                       for l in new_want[:-1].split('\n')])
                 new_lines.append(new_want)
             # Update the example's want & lieno fields
@@ -139,7 +154,7 @@ class UpdateRunner(DocTestRunner):
         test.docstring = '\n'.join(new_lines)
 
         # Return failures & tries
-        return (f,t)
+        return (f, t)
 
     def report_start(self, out, test, example):
         pass
@@ -159,8 +174,8 @@ class UpdateRunner(DocTestRunner):
             self._report_replacement(out, test, example, got)
 
     def _report_replacement(self, out, test, example, replacement):
-        want = '\n'.join(['    '+l for l in example.want.split('\n')[:-1]])
-        repl = '\n'.join(['    '+l for l in replacement.split('\n')[:-1]])
+        want = '\n'.join(['    ' + l for l in example.want.split('\n')[:-1]])
+        repl = '\n'.join(['    ' + l for l in replacement.split('\n')[:-1]])
         if want and repl:
             diff = 'Replacing:\n%s\nWith:\n%s\n' % (want, repl)
         elif want:
@@ -169,16 +184,17 @@ class UpdateRunner(DocTestRunner):
             diff = 'Adding:\n%s\n' % repl
         out(self._header(test, example) + diff)
 
-    DIVIDER = '-'*70
+    DIVIDER = '-' * 70
+
     def _header(self, test, example):
         if test.filename is None:
             tag = ("On line #%s of %s" %
-                   (example.lineno+1, test.name))
+                   (example.lineno + 1, test.name))
         elif test.lineno is None:
             tag = ("On line #%s of %s in %s" %
-                   (example.lineno+1, test.name, test.filename))
+                   (example.lineno + 1, test.name, test.filename))
         else:
-            lineno = test.lineno+example.lineno+1
+            lineno = test.lineno + example.lineno + 1
             tag = ("On line #%s of %s (%s)" %
                    (lineno, test.filename, test.name))
         source_lines = example.source.rstrip().split('\n')
@@ -190,10 +206,15 @@ class UpdateRunner(DocTestRunner):
 # Debugger
 ###########################################################################
 
-def _indent(s, indent=4):
-    return re.sub('(?m)^(?!$)', indent*' ', s)
 
-import keyword, token, tokenize
+def _indent(s, indent=4):
+    return re.sub('(?m)^(?!$)', indent * ' ', s)
+
+import keyword
+import token
+import tokenize
+
+
 class Debugger:
     # Just using this for reporting:
     runner = DocTestRunner()
@@ -212,7 +233,7 @@ class Debugger:
         got = sys.stdout.getvalue()
         sys.stdout.truncate(0)
         if not self.checker.check_output(want, got, optionflags):
-            self.runner.report_failure(self.save_stdout.write, 
+            self.runner.report_failure(self.save_stdout.write,
                                        self.test, example, got)
             return False
         else:
@@ -238,13 +259,13 @@ class Debugger:
         elif len(args) == 1:
             print `args[0]`
         else:
-            print `args` # not quite right: >>> 1,
+            print `args`  # not quite right: >>> 1,
 
     def _comment_line(self, line):
         "Return a commented form of the given line"
         line = line.rstrip()
         if line:
-            return '# '+line
+            return '# ' + line
         else:
             return '#'
 
@@ -274,17 +295,18 @@ class Debugger:
         else:
             output.append('try:')
             output.append(_indent(source))
-            output.append('    '+self._CHK_OUT % i)
+            output.append('    ' + self._CHK_OUT % i)
             output.append('except:')
-            output.append('    '+self._CHK_EXC % i)
+            output.append('    ' + self._CHK_EXC % i)
 
     def _simulate_compile_singlemode(self, s):
         # Calculate line offsets
         lines = [0, 0]
         pos = 0
         while 1:
-            pos = s.find('\n', pos)+1
-            if not pos: break
+            pos = s.find('\n', pos) + 1
+            if not pos:
+                break
             lines.append(pos)
         lines.append(len(s))
 
@@ -296,7 +318,7 @@ class Debugger:
 
         text = StringIO(s)
         tok_gen = tokenize.generate_tokens(text.readline)
-        for toktype, tok, (srow,scol), (erow,ecol), line in tok_gen:
+        for toktype, tok, (srow, scol), (erow, ecol), line in tok_gen:
             newpos = lines[srow] + scol
             stmt.append(s[oldpos:newpos])
             if tok != '':
@@ -319,7 +341,7 @@ class Debugger:
             # Are we starting a statement?
             if ((toktype in (token.NEWLINE, tokenize.NL, tokenize.COMMENT,
                              token.INDENT, token.ENDMARKER) or
-                 tok==':') and parenlevel == 0):
+                 tok == ':') and parenlevel == 0):
                 if deflevel == 0 and self._is_expr(stmt[1:-2]):
                     output += stmt[0]
                     output.append('__print__((')
@@ -340,11 +362,13 @@ class Debugger:
         # appears inside of parens (eg, ``f(x=1)``.)
         parenlevel = 0
         for tok in stmt:
-            if tok in '([{': parenlevel += 1
-            if tok in '}])': parenlevel -= 1
-            if (parenlevel == 0 and 
+            if tok in '([{':
+                parenlevel += 1
+            if tok in '}])':
+                parenlevel -= 1
+            if (parenlevel == 0 and
                 tok in ('=', '+=', '-=', '*=', '/=', '%=', '&=', '+=',
-                       '^=', '<<=', '>>=', '**=', '//=')):
+                        '^=', '<<=', '>>=', '**=', '//=')):
                 return False
 
         # Any keywords *except* "not", "or", "and", "lambda", "in", "is"
@@ -415,7 +439,7 @@ class Debugger:
                         exc_info = sys.exc_info()
                         exc_msg = traceback.format_exception_only(
                             exc_info[0], exc_info[1])[-1]
-                        self.save_stdout.write(self.runner.DIVIDER+'\n')
+                        self.save_stdout.write(self.runner.DIVIDER + '\n')
                         self.save_stdout.write('Unexpected exception:\n' +
                                                _indent(exc_msg))
                         raise
@@ -442,6 +466,8 @@ class Debugger:
 #   - The dotted name of a python module
 
 # Return a list of test!
+
+
 def find(name):
     # Check for test names
     if ':' in name:
@@ -482,6 +508,7 @@ def find(name):
             raise ValueError("test not found")
     return tests
 
+
 def import_from_name(name):
     try:
         return __import__(name, globals(), locals(), ['*'])
@@ -489,6 +516,7 @@ def import_from_name(name):
         raise ValueError, str(e)
     except:
         raise ValueError, 'Error importing %r' % name
+
 
 def find_module_from_filename(filename):
     """
@@ -508,20 +536,22 @@ def find_module_from_filename(filename):
     # If it's contained inside a package, then find the base dir.
     if (os.path.exists(os.path.join(basedir, '__init__.py')) or
         os.path.exists(os.path.join(basedir, '__init__.pyc')) or
-        os.path.exists(os.path.join(basedir, '__init__.pyw'))):
+            os.path.exists(os.path.join(basedir, '__init__.pyw'))):
         package = []
         while os.path.exists(os.path.join(basedir, '__init__.py')):
-            (basedir,dir) = os.path.split(basedir)
-            if dir == '': break
+            (basedir, dir) = os.path.split(basedir)
+            if dir == '':
+                break
             package.append(dir)
         package.reverse()
-        module_name = '.'.join(package+[module_name])
+        module_name = '.'.join(package + [module_name])
 
     return (basedir, module_name)
 
 ###########################################################################
 # Basic Actions
 ###########################################################################
+
 
 def run(names, optionflags, verbosity):
     suite = unittest.TestSuite()
@@ -534,6 +564,7 @@ def run(names, optionflags, verbosity):
                                  (sys.argv[0], name, e))
     unittest.TextTestRunner(verbosity=verbosity).run(suite)
 
+
 def debug(names, optionflags, verbosity, pm=True):
     debugger = Debugger()
     for name in names:
@@ -544,6 +575,7 @@ def debug(names, optionflags, verbosity, pm=True):
             raise
             print >>sys.stderr, ('%s: Error processing %s -- %s' %
                                  (sys.argv[0], name, e))
+
 
 def update(names, optionflags, verbosity):
     parser = DocTestParser()
@@ -563,14 +595,14 @@ def update(names, optionflags, verbosity):
             if failures == 0:
                 print 'No updates needed!'
             else:
-                print '*'*70
+                print '*' * 70
                 print '%d examples updated.' % failures
-                print '-'*70
+                print '-' * 70
                 sys.stdout.write('Accept updates? [y/N] ')
                 sys.stdout.flush()
                 if sys.stdin.readline().lower().strip() in ('y', 'yes'):
                     # Make a backup of the original contents.
-                    backup = test.filename+'.bak'
+                    backup = test.filename + '.bak'
                     print 'Renaming %s -> %s' % (name, backup)
                     os.rename(test.filename, backup)
                     # Write the new contents.
@@ -590,15 +622,15 @@ def update(names, optionflags, verbosity):
 ###########################################################################
 
 # Action options
-CHECK_OPT    = Option("--check",
-               action="store_const", dest="action", const="check", 
-               default="check",
-               help="Verify the output of the doctest examples in the "
-                    "given files.")
+CHECK_OPT = Option("--check",
+                   action="store_const", dest="action", const="check",
+                   default="check",
+                   help="Verify the output of the doctest examples in the "
+                   "given files.")
 
-UPDATE_OPT   = Option("--update", "-u",
-               action="store_const", dest="action", const="update",
-               help="Update the expected output for new or out-of-date "
+UPDATE_OPT = Option("--update", "-u",
+                    action="store_const", dest="action", const="update",
+                    help="Update the expected output for new or out-of-date "
                     "doctest examples in the given files.  In "
                     "particular, find every example whose actual output "
                     "does not match its expected output; and replace its "
@@ -608,42 +640,43 @@ UPDATE_OPT   = Option("--update", "-u",
                     "carefully, to ensure that you don't accidentally "
                     "create broken test cases.")
 
-DEBUG_OPT    = Option("--debug", 
-               action="store_const", dest="action", const="debug",
-               help="Verify the output of the doctest examples in the "
-                    "given files.  If any example fails, then enter the "
-                    "python debugger.")
+DEBUG_OPT = Option("--debug",
+                   action="store_const", dest="action", const="debug",
+                   help="Verify the output of the doctest examples in the "
+                   "given files.  If any example fails, then enter the "
+                   "python debugger.")
 
 # Reporting options
-VERBOSE_OPT  = Option("-v", "--verbose", 
-               action="count", dest="verbosity", default=1,
-               help="Increase verbosity.")
+VERBOSE_OPT = Option("-v", "--verbose",
+                     action="count", dest="verbosity", default=1,
+                     help="Increase verbosity.")
 
-QUIET_OPT    = Option("-q", "--quiet",
-               action="store_const", dest="verbosity", const=0,
-               help="Decrease verbosity.")
+QUIET_OPT = Option("-q", "--quiet",
+                   action="store_const", dest="verbosity", const=0,
+                   help="Decrease verbosity.")
 
-UDIFF_OPT    = Option("--udiff", '-d',
-               action="store_const", dest="udiff", const=1, default=0,
-               help="Display test failures using unified diffs.")
+UDIFF_OPT = Option("--udiff", '-d',
+                   action="store_const", dest="udiff", const=1, default=0,
+                   help="Display test failures using unified diffs.")
 
-CDIFF_OPT    = Option("--cdiff",
-               action="store_const", dest="cdiff", const=1, default=0,
-               help="Display test failures using context diffs.")
+CDIFF_OPT = Option("--cdiff",
+                   action="store_const", dest="cdiff", const=1, default=0,
+                   help="Display test failures using context diffs.")
 
-NDIFF_OPT    = Option("--ndiff",
-               action="store_const", dest="ndiff", const=1, default=0,
-               help="Display test failures using ndiffs.")
+NDIFF_OPT = Option("--ndiff",
+                   action="store_const", dest="ndiff", const=1, default=0,
+                   help="Display test failures using ndiffs.")
 
 # Output Comparison options
 ELLIPSIS_OPT = Option("--ellipsis",
-               action="store_const", dest="ellipsis", const=1, default=0,
-               help="Allow \"...\" to be used for ellipsis in the "
-                    "expected output.")
-NORMWS_OPT   = Option("--normalize_whitespace",
-               action="store_const", dest="normws", const=1, default=0,
-               help="Ignore whitespace differences between "
+                      action="store_const", dest="ellipsis", const=1, default=0,
+                      help="Allow \"...\" to be used for ellipsis in the "
+                      "expected output.")
+NORMWS_OPT = Option("--normalize_whitespace",
+                    action="store_const", dest="normws", const=1, default=0,
+                    help="Ignore whitespace differences between "
                     "the expected output and the actual output.")
+
 
 def main():
     # Create the option parser.
@@ -683,4 +716,5 @@ def main():
     else:
         optparser.error('INTERNAL ERROR: Bad action %s' % optionvals.action)
 
-if __name__ == '__main__': main()
+if __name__ == '__main__':
+    main()

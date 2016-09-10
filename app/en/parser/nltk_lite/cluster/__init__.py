@@ -77,12 +77,18 @@ efficiency when required.
 """
 
 from en.parser.nltk_lite.probability import DictionaryProbDist
-import copy, numpy, math, random, sys, types
+import copy
+import numpy
+import math
+import random
+import sys
+import types
 from numpy import array, linalg
 
 #======================================================================
 # Generic interfaces
 #======================================================================
+
 
 class ClusterI:
     """
@@ -122,7 +128,7 @@ class ClusterI:
         sum = 0.0
         for cluster in self.cluster_names():
             likelihoods[cluster] = self.likelihood(vector, cluster)
-            sum += likelihoods[cluster] 
+            sum += likelihoods[cluster]
         for cluster in self.cluster_names():
             likelihoods[cluster] /= sum
         return DictionaryProbDist(likelihoods)
@@ -145,12 +151,14 @@ class ClusterI:
         """
         return index
 
+
 class VectorSpace(ClusterI):
     """
     Abstract clusterer which takes tokens and maps them into a vector space.
     Optionally performs singular value decomposition to reduce the
     dimensionality.
     """
+
     def __init__(self, normalise=False, svd_dimensions=None):
         """
         @param normalise:       should vectors be normalised to length 1
@@ -162,7 +170,7 @@ class VectorSpace(ClusterI):
         self._Tt = None
         self._should_normalise = normalise
         self._svd_dimensions = svd_dimensions
-    
+
     def cluster(self, vectors, assign_clusters=False, trace=False):
         assert len(vectors) > 0
 
@@ -175,11 +183,11 @@ class VectorSpace(ClusterI):
             [u, d, vt] = linalg.svd(numpy.transpose(array(vectors)))
             S = d[:self._svd_dimensions] * \
                 numpy.identity(self._svd_dimensions, numpy.Float64)
-            T = u[:,:self._svd_dimensions]
-            Dt = vt[:self._svd_dimensions,:]
+            T = u[:, :self._svd_dimensions]
+            Dt = vt[:self._svd_dimensions, :]
             vectors = numpy.transpose(numpy.matrixmultiply(S, Dt))
             self._Tt = numpy.transpose(T)
-            
+
         # call abstract method to cluster the vectors
         self.cluster_vectorspace(vectors, trace)
 
@@ -220,8 +228,10 @@ class VectorSpace(ClusterI):
         Returns the likelihood of the vector belonging to the cluster.
         """
         predicted = self.classify_vectorspace(vector)
-        if cluster == predicted: return 1.0
-        else:                    return 0.0
+        if cluster == predicted:
+            return 1.0
+        else:
+            return 0.0
 
     def vector(self, vector):
         """
@@ -238,6 +248,7 @@ class VectorSpace(ClusterI):
         Normalises the vector to unit length.
         """
         return vector / math.sqrt(numpy.dot(vector, vector))
+
 
 class _DendogramNode:
     """ Tree node of a dendogram. """
@@ -277,6 +288,7 @@ class _DendogramNode:
         for priority, node in queue:
             groups.append(node.leaves())
         return groups
+
 
 class Dendogram:
     """
@@ -337,7 +349,7 @@ class Dendogram:
         else:
             root = self._items[0]
         leaves = self._original_items
-        
+
         # find the bottom row and the best cell width
         last_row = [str(leaf._value) for leaf in leaves]
         width = max(map(len, last_row)) + 1
@@ -346,13 +358,14 @@ class Dendogram:
 
         # display functions
         def format(centre, left=' ', right=' '):
-            return '%s%s%s' % (lhalf*left, centre, right*rhalf)
+            return '%s%s%s' % (lhalf * left, centre, right * rhalf)
+
         def display(str):
             sys.stdout.write(str)
 
         # for each merge, top down
         queue = [(root._value, root)]
-        verticals = [ format(' ') for leaf in leaves ]
+        verticals = [format(' ') for leaf in leaves]
         while queue:
             priority, node = queue.pop()
             child_left_leaf = map(lambda c: c.leaves(False)[0], node._children)
@@ -362,9 +375,12 @@ class Dendogram:
                 max_idx = max(indices)
             for i in range(len(leaves)):
                 if leaves[i] in child_left_leaf:
-                    if i == min_idx:    display(format(JOIN, ' ', HLINK))
-                    elif i == max_idx:  display(format(JOIN, HLINK, ' '))
-                    else:               display(format(JOIN, HLINK, HLINK))
+                    if i == min_idx:
+                        display(format(JOIN, ' ', HLINK))
+                    elif i == max_idx:
+                        display(format(JOIN, HLINK, ' '))
+                    else:
+                        display(format(JOIN, HLINK, HLINK))
                     verticals[i] = format(VLINK)
                 elif min_idx <= i <= max_idx:
                     display(format(HLINK, HLINK, HLINK))
@@ -383,7 +399,7 @@ class Dendogram:
         # finally, display the last line
         display(''.join([item.center(width) for item in last_row]))
         display('\n')
-        
+
     def __repr__(self):
         if len(self._items) > 1:
             root = _DendogramNode(self._merge, *self._items)
