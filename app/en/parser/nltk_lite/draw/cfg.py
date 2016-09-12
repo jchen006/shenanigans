@@ -64,7 +64,7 @@ from en.parser.nltk_lite.draw.tree import *
 
 class ProductionList(ColorizedList):
     ARROW = SymbolWidget.SYMBOLS['rightarrow']
-    
+
     def _init_colortags(self, textwidget, options):
         textwidget.tag_config('terminal', foreground='#006000')
         textwidget.tag_config('arrow', font='symbol', underline='0')
@@ -129,6 +129,7 @@ the CFG:
 
 """
 
+
 class CFGEditor(object):
     """
     A dialog window for creating and editing context free grammars.
@@ -142,18 +143,20 @@ class CFGEditor(object):
     # Regular expressions used by _analyze_line.  Precompile them, so
     # we can process the text faster.
     ARROW = SymbolWidget.SYMBOLS['rightarrow']
-    _LHS_RE = re.compile(r"(^\s*\w+\s*)(->|("+ARROW+"))")
-    _ARROW_RE = re.compile("\s*(->|("+ARROW+"))\s*")
+    _LHS_RE = re.compile(r"(^\s*\w+\s*)(->|(" + ARROW + "))")
+    _ARROW_RE = re.compile("\s*(->|(" + ARROW + "))\s*")
     _PRODUCTION_RE = re.compile(r"(^\s*\w+\s*)" +              # LHS
-                                "(->|("+ARROW+"))\s*" +        # arrow
-                                r"((\w+|'[\w ]*'|\"[\w ]*\"|\|)\s*)*$") # RHS
-    _TOKEN_RE = re.compile("\\w+|->|'[\\w ]+'|\"[\\w ]+\"|("+ARROW+")")
+                                "(->|(" + ARROW + "))\s*" +        # arrow
+                                r"((\w+|'[\w ]*'|\"[\w ]*\"|\|)\s*)*$")  # RHS
+    _TOKEN_RE = re.compile("\\w+|->|'[\\w ]+'|\"[\\w ]+\"|(" + ARROW + ")")
     _BOLD = ('helvetica', -12, 'bold')
-    
+
     def __init__(self, parent, cfg=None, set_cfg_callback=None):
         self._parent = parent
-        if cfg is not None: self._cfg = cfg
-        else: self._cfg = Grammar(Nonterminal('S'), [])
+        if cfg is not None:
+            self._cfg = cfg
+        else:
+            self._cfg = Grammar(Nonterminal('S'), [])
         self._set_cfg_callback = set_cfg_callback
 
         self._highlight_matching_nonterminals = 1
@@ -202,7 +205,7 @@ class CFGEditor(object):
         self._top.bind('<Escape>', self._cancel)
         #self._top.bind('<Control-c>', self._cancel)
         self._top.bind('<Alt-c>', self._cancel)
-        
+
         self._top.bind('<Control-o>', self._ok)
         self._top.bind('<Alt-o>', self._ok)
         self._top.bind('<Control-a>', self._apply)
@@ -221,13 +224,13 @@ class CFGEditor(object):
                                 exportselection=1)
         self._textscroll = Scrollbar(self._prodframe, takefocus=0,
                                      orient='vertical')
-        self._textwidget.config(yscrollcommand = self._textscroll.set)
+        self._textwidget.config(yscrollcommand=self._textscroll.set)
         self._textscroll.config(command=self._textwidget.yview)
         self._textscroll.pack(side='right', fill='y')
         self._textwidget.pack(expand=1, fill='both', side='left')
-        
+
         # Initialize the colorization tags.  Each nonterminal gets its
-        # own tag, so they aren't listed here.  
+        # own tag, so they aren't listed here.
         self._textwidget.tag_config('terminal', foreground='#006000')
         self._textwidget.tag_config('arrow', font='symbol')
         self._textwidget.tag_config('error', background='red')
@@ -249,14 +252,16 @@ class CFGEditor(object):
             textwidget.tk_focusNext().focus()
         self._textwidget.bind('<Tab>', cycle)
 
-        prod_tuples = [(p.lhs(),[p.rhs()]) for p in self._cfg.productions()]
-        for i in range(len(prod_tuples)-1,0,-1):
-            if (prod_tuples[i][0] == prod_tuples[i-1][0]):
-                if () in prod_tuples[i][1]: continue
-                if () in prod_tuples[i-1][1]: continue
-                print prod_tuples[i-1][1]
+        prod_tuples = [(p.lhs(), [p.rhs()]) for p in self._cfg.productions()]
+        for i in range(len(prod_tuples) - 1, 0, -1):
+            if (prod_tuples[i][0] == prod_tuples[i - 1][0]):
+                if () in prod_tuples[i][1]:
+                    continue
+                if () in prod_tuples[i - 1][1]:
+                    continue
+                print prod_tuples[i - 1][1]
                 print prod_tuples[i][1]
-                prod_tuples[i-1][1].extend(prod_tuples[i][1])
+                prod_tuples[i - 1][1].extend(prod_tuples[i][1])
                 del prod_tuples[i]
 
         for lhs, rhss in prod_tuples:
@@ -264,14 +269,16 @@ class CFGEditor(object):
             s = '%s ->' % lhs
             for rhs in rhss:
                 for elt in rhs:
-                    if isinstance(elt, Nonterminal): s += ' %s' % elt
-                    else: s += ' %r' % elt
+                    if isinstance(elt, Nonterminal):
+                        s += ' %s' % elt
+                    else:
+                        s += ' %r' % elt
                 s += ' |'
             s = s[:-2] + '\n'
             self._textwidget.insert('end', s)
-                       
+
         self._analyze()
-            
+
 #         # Add the producitons to the text widget, and colorize them.
 #         prod_by_lhs = {}
 #         for prod in self._cfg.productions():
@@ -302,8 +309,8 @@ class CFGEditor(object):
         Remove all tags (except C{arrow} and C{sel}) from the given
         line of the text widget used for editing the productions.
         """
-        start = '%d.0'%linenum
-        end = '%d.end'%linenum
+        start = '%d.0' % linenum
+        end = '%d.end' % linenum
         for tag in self._textwidget.tag_names():
             if tag not in ('arrow', 'sel'):
                 self._textwidget.tag_remove(tag, start, end)
@@ -329,17 +336,19 @@ class CFGEditor(object):
         arrow = '1.0'
         while 1:
             arrow = self._textwidget.search('->', arrow, 'end+1char')
-            if arrow == '': break
-            self._textwidget.delete(arrow, arrow+'+2char')
+            if arrow == '':
+                break
+            self._textwidget.delete(arrow, arrow + '+2char')
             self._textwidget.insert(arrow, self.ARROW, 'arrow')
             self._textwidget.insert(arrow, '\t')
 
         arrow = '1.0'
         while 1:
-            arrow = self._textwidget.search(self.ARROW, arrow+'+1char',
+            arrow = self._textwidget.search(self.ARROW, arrow + '+1char',
                                             'end+1char')
-            if arrow == '': break
-            self._textwidget.tag_add('arrow', arrow, arrow+'+1char')
+            if arrow == '':
+                break
+            self._textwidget.tag_add('arrow', arrow, arrow + '+1char')
 
     def _analyze_token(self, match, linenum):
         """
@@ -349,13 +358,15 @@ class CFGEditor(object):
         the line).
         """
         # What type of token is it?
-        if match.group()[0] in "'\"": tag = 'terminal'
-        elif match.group() in ('->', self.ARROW): tag = 'arrow'
+        if match.group()[0] in "'\"":
+            tag = 'terminal'
+        elif match.group() in ('->', self.ARROW):
+            tag = 'arrow'
         else:
             # If it's a nonterminal, then set up new bindings, so we
             # can highlight all instances of that nonterminal when we
             # put the mouse over it.
-            tag = 'nonterminal_'+match.group()
+            tag = 'nonterminal_' + match.group()
             if tag not in self._textwidget.tag_names():
                 self._init_nonterminal_tag(tag)
 
@@ -368,8 +379,10 @@ class CFGEditor(object):
                                     font=CFGEditor._BOLD)
         if not self._highlight_matching_nonterminals:
             return
+
         def enter(e, textwidget=self._textwidget, tag=tag):
             textwidget.tag_config(tag, background='#80ff80')
+
         def leave(e, textwidget=self._textwidget, tag=tag):
             textwidget.tag_config(tag, background='')
         self._textwidget.tag_bind(tag, '<Enter>', enter)
@@ -414,7 +427,7 @@ class CFGEditor(object):
             # Otherwise, highlight the RHS.
             start = '%d.%d' % (linenum, arrowmatch.end())
             end = '%d.end' % linenum
-            
+
         # If we're highlighting 0 chars, highlight the whole line.
         if self._textwidget.compare(start, '==', end):
             start = '%d.0' % linenum
@@ -427,7 +440,7 @@ class CFGEditor(object):
         """
         self._replace_arrows()
         numlines = int(self._textwidget.index('end').split('.')[0])
-        for linenum in range(1, numlines+1):  # line numbers start at 1.
+        for linenum in range(1, numlines + 1):  # line numbers start at 1.
             self._analyze_line(linenum)
 
     def _parse_productions(self):
@@ -446,16 +459,17 @@ class CFGEditor(object):
         # Convert each line to a CFG production
         for line in lines:
             line = line.strip()
-            if line=='': continue
+            if line == '':
+                continue
             productions += parse_production(line)
-            #if line.strip() == '': continue
-            #if not CFGEditor._PRODUCTION_RE.match(line):
+            # if line.strip() == '': continue
+            # if not CFGEditor._PRODUCTION_RE.match(line):
             #    raise ValueError('Bad production string %r' % line)
             #
             #(lhs_str, rhs_str) = line.split('->')
             #lhs = Nonterminal(lhs_str.strip())
             #rhs = []
-            #def parse_token(match, rhs=rhs):
+            # def parse_token(match, rhs=rhs):
             #    token = match.group()
             #    if token[0] in "'\"": rhs.append(token[1:-1])
             #    else: rhs.append(Nonterminal(token))
@@ -467,21 +481,22 @@ class CFGEditor(object):
         return productions
 
     def _destroy(self, *e):
-        if self._top is None: return
+        if self._top is None:
+            return
         self._top.destroy()
         self._top = None
 
     def _ok(self, *e):
         self._apply()
         self._destroy()
-        
+
     def _apply(self, *e):
         productions = self._parse_productions()
         start = Nonterminal(self._start.get())
         cfg = Grammar(start, productions)
         if self._set_cfg_callback is not None:
             self._set_cfg_callback(cfg)
-        
+
     def _reset(self, *e):
         self._textwidget.delete('1.0', 'end')
         for production in self._cfg.productions():
@@ -489,14 +504,16 @@ class CFGEditor(object):
         self._analyze()
         if self._set_cfg_callback is not None:
             self._set_cfg_callback(self._cfg)
-    
+
     def _cancel(self, *e):
-        try: self._reset()
-        except: pass
+        try:
+            self._reset()
+        except:
+            pass
         self._destroy()
 
     def _help(self, *e):
-        # The default font's not very legible; try using 'fixed' instead. 
+        # The default font's not very legible; try using 'fixed' instead.
         try:
             ShowText(self._parent, 'Help: Chart Parser Demo',
                      (_CFGEditor_HELP).strip(), width=75, font='fixed')
@@ -508,7 +525,9 @@ class CFGEditor(object):
 # New Demo (built tree based on cfg)
 ######################################################################
 
+
 class CFGDemo(object):
+
     def __init__(self, grammar, text):
         self._grammar = grammar
         self._text = text
@@ -519,7 +538,7 @@ class CFGDemo(object):
 
         # Base font size
         self._size = IntVar(self._top)
-        self._size.set(12) # = medium
+        self._size.set(12)  # = medium
 
         # Set up the key bindings
         self._init_bindings(self._top)
@@ -539,11 +558,11 @@ class CFGDemo(object):
 
     def _init_bindings(self, top):
         top.bind('<Control-q>', self.destroy)
-    
+
     def _init_menubar(self, parent): pass
-    
+
     def _init_buttons(self, parent): pass
-    
+
     def _init_grammar(self, parent):
         self._prodlist = ProductionList(parent, self._grammar, width=20)
         self._prodlist.pack(side='top', fill='both', expand=1)
@@ -569,9 +588,9 @@ class CFGDemo(object):
     def reset_workspace(self):
         c = self._workspace.canvas()
         fontsize = int(self._size.get())
-        node_font = ('helvetica', -(fontsize+4), 'bold')
-        leaf_font = ('helvetica', -(fontsize+2))
-        
+        node_font = ('helvetica', -(fontsize + 4), 'bold')
+        leaf_font = ('helvetica', -(fontsize + 2))
+
         # Remove the old tree
         if self._tree is not None:
             self._workspace.remove_widget(self._tree)
@@ -583,7 +602,8 @@ class CFGDemo(object):
         # The leaves of the tree.
         leaves = []
         for word in self._text:
-            if isinstance(word, Token): word = word.type()
+            if isinstance(word, Token):
+                word = word.type()
             leaves.append(TextWidget(c, word, font=leaf_font, draggable=1))
 
         # Put it all together into one tree
@@ -594,8 +614,9 @@ class CFGDemo(object):
         self._workspace.add_widget(self._tree)
 
         # Move the leaves to the bottom of the workspace.
-        for leaf in leaves: leaf.move(0,100)
-        
+        for leaf in leaves:
+            leaf.move(0, 100)
+
         #self._nodes = {start:1}
         #self._leaves = dict([(l,1) for l in leaves])
 
@@ -603,46 +624,50 @@ class CFGDemo(object):
         pass
 
     def _markproduction(self, prod, tree=None):
-        if tree is None: tree = self._tree
-        for i in range(len(tree.subtrees())-len(prod.rhs())):
+        if tree is None:
+            tree = self._tree
+        for i in range(len(tree.subtrees()) - len(prod.rhs())):
             if tree['color', i] == 'white':
                 self._markproduction
-            
+
             for j, node in enumerate(prod.rhs()):
-                widget = tree.subtrees()[i+j]
+                widget = tree.subtrees()[i + j]
                 if (isinstance(node, Nonterminal) and
                     isinstance(widget, TreeSegmentWidget) and
-                    node.symbol == widget.node().text()):
-                    pass # matching nonterminal
+                        node.symbol == widget.node().text()):
+                    pass  # matching nonterminal
                 elif (isinstance(node, (str, unicode)) and
                       isinstance(widget, TextWidget) and
                       node == widget.text()):
-                    pass # matching nonterminal
-                else: break
+                    pass  # matching nonterminal
+                else:
+                    break
             else:
                 # Everything matched!
                 print 'MATCH AT', i
 
     #//////////////////////////////////////////////////
-    # Grammar 
+    # Grammar
     #//////////////////////////////////////////////////
 
     def _selectprod_cb(self, production):
         canvas = self._treelet_canvas
-        
+
         self._prodlist.highlight(production)
-        if self._treelet is not None: self._treelet.destroy()
+        if self._treelet is not None:
+            self._treelet.destroy()
 
         # Convert the production to a tree.
         rhs = production.rhs()
         for (i, elt) in enumerate(rhs):
-            if isinstance(elt, Nonterminal): elt = Tree(elt)
+            if isinstance(elt, Nonterminal):
+                elt = Tree(elt)
         tree = Tree(production.lhs().symbol(), *rhs)
 
         # Draw the tree in the treelet area.
         fontsize = int(self._size.get())
-        node_font = ('helvetica', -(fontsize+4), 'bold')
-        leaf_font = ('helvetica', -(fontsize+2))
+        node_font = ('helvetica', -(fontsize + 4), 'bold')
+        leaf_font = ('helvetica', -(fontsize + 2))
         self._treelet = tree_to_treesegment(canvas, tree,
                                             node_font=node_font,
                                             leaf_font=leaf_font)
@@ -651,16 +676,17 @@ class CFGDemo(object):
         # Center the treelet.
         (x1, y1, x2, y2) = self._treelet.bbox()
         w, h = int(canvas['width']), int(canvas['height'])
-        self._treelet.move((w-x1-x2)/2, (h-y1-y2)/2)
+        self._treelet.move((w - x1 - x2) / 2, (h - y1 - y2) / 2)
 
         # Mark the places where we can add it to the workspace.
         self._markproduction(production)
-    
+
     def destroy(self, *args):
         self._top.destroy()
 
     def mainloop(self, *args, **kwargs):
         self._top.mainloop(*args, **kwargs)
+
 
 def demo2():
     from en.parser.nltk_lite.parse import cfg
@@ -679,7 +705,7 @@ def demo2():
         cfg.Production(PP, []),
 
         cfg.Production(PP, ['up', 'over', NP]),
-        
+
         # Lexical Productions
         cfg.Production(NP, ['I']),   cfg.Production(Det, ['the']),
         cfg.Production(Det, ['a']),  cfg.Production(N, ['man']),
@@ -687,23 +713,24 @@ def demo2():
         cfg.Production(P, ['with']), cfg.Production(N, ['park']),
         cfg.Production(N, ['dog']),  cfg.Production(N, ['statue']),
         cfg.Production(Det, ['my']),
-        )
+    )
     grammar = cfg.Grammar(S, productions)
 
     text = 'I saw a man in the park'.split()
-    d=CFGDemo(grammar, text)
+    d = CFGDemo(grammar, text)
     d.mainloop()
 
 ######################################################################
 # Old Demo
 ######################################################################
 
+
 def demo():
     from en.parser.nltk_lite.parse import cfg
     nonterminals = 'S VP NP PP P N Name V Det'
     (S, VP, NP, PP, P, N, Name, V, Det) = [cfg.Nonterminal(s)
                                            for s in nonterminals.split()]
-    
+
     grammar = cfg.parse_grammar("""
     S -> NP VP
     PP -> P NP
@@ -732,11 +759,12 @@ def demo():
     Button(top, text='Quit', command=top.destroy).pack()
     top.mainloop()
 
+
 def demo3():
     from en.parser.nltk_lite.parse import cfg
     (S, VP, NP, PP, P, N, Name, V, Det) = \
         nonterminals('S, VP, NP, PP, P, N, Name, V, Det')
-    
+
     productions = (
         # Syntactic Productions
         cfg.Production(S, [NP, VP]),
@@ -749,7 +777,7 @@ def demo3():
         cfg.Production(PP, []),
 
         cfg.Production(PP, ['up', 'over', NP]),
-        
+
         # Lexical Productions
         cfg.Production(NP, ['I']),   cfg.Production(Det, ['the']),
         cfg.Production(Det, ['a']),  cfg.Production(N, ['man']),
@@ -757,9 +785,10 @@ def demo3():
         cfg.Production(P, ['with']), cfg.Production(N, ['park']),
         cfg.Production(N, ['dog']),  cfg.Production(N, ['statue']),
         cfg.Production(Det, ['my']),
-        )
-    
+    )
+
     t = Tk()
+
     def destroy(e, t=t): t.destroy()
     t.bind('q', destroy)
     p = ProductionList(t, productions)
@@ -770,4 +799,5 @@ def demo3():
     p.mark(productions[2])
     p.mark(productions[8])
 
-if __name__ == '__main__': demo()
+if __name__ == '__main__':
+    demo()

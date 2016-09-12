@@ -21,23 +21,25 @@ import re
 import random
 
 reflections = {
-  "am"     : "are",
-  "was"    : "were",
-  "i"      : "you",
-  "i'd"    : "you would",
-  "i've"   : "you have",
-  "i'll"   : "you will",
-  "my"     : "your",
-  "are"    : "am",
-  "you've" : "I have",
-  "you'll" : "I will",
-  "your"   : "my",
-  "yours"  : "mine",
-  "you"    : "me",
-  "me"     : "you"
+    "am": "are",
+    "was": "were",
+    "i": "you",
+    "i'd": "you would",
+    "i've": "you have",
+    "i'll": "you will",
+    "my": "your",
+    "are": "am",
+    "you've": "I have",
+    "you'll": "I will",
+    "your": "my",
+    "yours": "mine",
+    "you": "me",
+    "me": "you"
 }
 
+
 class Chat(object):
+
     def __init__(self, pairs, reflections={}):
         """
         Initialize the chatbot.  Pairs is a list of patterns and responses.  Each
@@ -54,7 +56,7 @@ class Chat(object):
         @rtype: C{None}
         """
 
-        self._pairs = [(re.compile(x, re.IGNORECASE),y) for (x,y) in pairs]
+        self._pairs = [(re.compile(x, re.IGNORECASE), y) for (x, y) in pairs]
         self._reflections = reflections
 
     # bug: only permits single word expressions to be mapped
@@ -62,7 +64,7 @@ class Chat(object):
         """
         Substitute words in the string, according to the specified reflections,
         e.g. "I'm" -> "you are"
-        
+
         @type str: C{string}
         @param str: The string to be mapped
         @rtype: C{string}
@@ -76,19 +78,19 @@ class Chat(object):
         return words
 
     def _wildcards(self, response, match):
-        pos = string.find(response,'%')
+        pos = string.find(response, '%')
         while pos >= 0:
-            num = string.atoi(response[pos+1:pos+2])
+            num = string.atoi(response[pos + 1:pos + 2])
             response = response[:pos] + \
                 self._substitute(match.group(num)) + \
-                response[pos+2:]
-            pos = string.find(response,'%')
+                response[pos + 2:]
+            pos = string.find(response, '%')
         return response
 
     def respond(self, str):
         """
         Generate a response to the user input.
-        
+
         @type str: C{string}
         @param str: The string to be mapped
         @rtype: C{string}
@@ -101,22 +103,27 @@ class Chat(object):
             # did the pattern match?
             if match:
                 resp = random.choice(response)    # pick a random response
-                resp = self._wildcards(resp, match) # process wildcards
+                resp = self._wildcards(resp, match)  # process wildcards
 
                 # fix munged punctuation at the end
-                if resp[-2:] == '?.': resp = resp[:-2] + '.'
-                if resp[-2:] == '??': resp = resp[:-2] + '?'
+                if resp[-2:] == '?.':
+                    resp = resp[:-2] + '.'
+                if resp[-2:] == '??':
+                    resp = resp[:-2] + '?'
                 return resp
 
 # Hold a conversation with a chatbot
+
 
 def converse(bot, quit="quit"):
     input = ""
     while input != quit:
         input = quit
-        try: input = raw_input(">")
+        try:
+            input = raw_input(">")
         except EOFError:
             print input
         if input:
-            while input[-1] in "!.": input = input[:-1]
+            while input[-1] in "!.":
+                input = input[:-1]
             print bot.respond(input)

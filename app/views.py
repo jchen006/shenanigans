@@ -5,20 +5,23 @@ from mongo_helper import *
 from API import parser
 import mongo_helper as mh
 
-#Adding form components here
+# Adding form components here
 #from components import *
 
 
 p = Page(parser)
 m = MongoHelper()
 
+
 @shenanigans.route('/')
 def index():
-  return render_template('index.html')
+    return render_template('index.html')
+
 
 @shenanigans.route('/home')
 def home():
-  return render_template('home.html')
+    return render_template('home.html')
+
 
 @shenanigans.route('/recipes')
 def recipes():
@@ -30,6 +33,7 @@ def recipes():
         recipes[t] = url
     return render_template('recipes.html', titles=titles, recipes=recipes)
 
+
 @shenanigans.route('/recipe_card/<recipe>')
 def recipe_card(recipe):
     """Takes in the file_name and runs it through the recipePage
@@ -40,9 +44,11 @@ def recipe_card(recipe):
     title, url, chef, ingredients = p.create_recipe_page(recipe)
     return render_template('recipe_card.html', title=title, url=url, chef=chef, ingredients=ingredients)
 
+
 @shenanigans.route('/ingredients')
 def ingredients():
     pass
+
 
 @shenanigans.route('/js-sandbox')
 def js_sandbox():

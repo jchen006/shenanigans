@@ -11,6 +11,7 @@ import re
 from en.parser.nltk_lite.parse import cfg
 from en.parser.nltk_lite.probability import ImmutableProbabilisticMixIn
 
+
 class Production(cfg.Production, ImmutableProbabilisticMixIn):
     """
     A probabilistic context free grammar production.
@@ -23,6 +24,7 @@ class Production(cfg.Production, ImmutableProbabilisticMixIn):
 
     @see: L{cfg.Production}
     """
+
     def __init__(self, lhs, rhs, **prob_kwarg):
         """
         Construct a new C{Production}.
@@ -47,6 +49,7 @@ class Production(cfg.Production, ImmutableProbabilisticMixIn):
 
     def __hash__(self):
         return hash((self._lhs, self._rhs, self.prob()))
+
 
 class Grammar(cfg.Grammar):
     """
@@ -89,8 +92,10 @@ class Grammar(cfg.Grammar):
             probs[production.lhs()] = (probs.get(production.lhs(), 0) +
                                        production.prob())
         for (lhs, p) in probs.items():
-            if not ((1-Grammar.EPSILON) < p < (1+Grammar.EPSILON)):
-                raise ValueError("cfg.Productions for %r do not sum to 1" % lhs)
+            if not ((1 - Grammar.EPSILON) < p < (1 + Grammar.EPSILON)):
+                raise ValueError(
+                    "cfg.Productions for %r do not sum to 1" % lhs)
+
 
 def induce(start, productions):
     """
@@ -108,14 +113,14 @@ def induce(start, productions):
     @type productions: C{list} of L{Production}
     """
 
-    pcount = {} # Production count: the number of times a given production occurs
-    lcount = {} # LHS-count: counts the number of times a given lhs occurs
+    pcount = {}  # Production count: the number of times a given production occurs
+    lcount = {}  # LHS-count: counts the number of times a given lhs occurs
 
     for prod in productions:
         lcount[prod.lhs()] = lcount.get(prod.lhs(), 0) + 1
-        pcount[prod]       = pcount.get(prod,       0) + 1
+        pcount[prod] = pcount.get(prod,       0) + 1
 
-    prods = [Production(p.lhs(), p.rhs(), prob=float(pcount[p]) / lcount[p.lhs()])\
+    prods = [Production(p.lhs(), p.rhs(), prob=float(pcount[p]) / lcount[p.lhs()])
              for p in pcount]
     return Grammar(start, prods)
 
@@ -175,6 +180,7 @@ toy2 = Grammar(_S, [
 # Demonstration
 #################################################################
 
+
 def demo():
     """
     A demonstration showing how PCFG C{Grammar}s can be created and used.
@@ -206,14 +212,14 @@ def demo():
     print '    grammar.start()       =>', `grammar.start()`
     print '    grammar.productions() =>',
     # Use string.replace(...) is to line-wrap the output.
-    print `grammar.productions()`.replace(',', ',\n'+' '*26)
+    print `grammar.productions()`.replace(',', ',\n' + ' ' * 26)
     print
 
     # extract productions from three trees and induce the PCFG
     print "Induce PCFG grammar from treebank data:"
 
     productions = []
-    for tree in islice(treebank.parsed(),3):
+    for tree in islice(treebank.parsed(), 3):
         # perform optional in-place tree transformations, e.g.:
         # treetransforms.collapseUnary(tree, collapsePOS = False)
         # treetransforms.chomskyNormalForm(tree, horzMarkov = 2)
@@ -234,4 +240,5 @@ def demo():
     for parse in parser.get_parse_list(sent):
         print parse
 
-if __name__ == '__main__': demo()
+if __name__ == '__main__':
+    demo()

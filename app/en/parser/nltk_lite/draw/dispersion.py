@@ -11,6 +11,7 @@ A utility for displaying lexical dispersion.
 
 from Tkinter import Canvas
 
+
 def plot(text, words, rowheight=15, rowwidth=800):
     """
     Generate a lexical dispersion plot.
@@ -25,16 +26,16 @@ def plot(text, words, rowheight=15, rowwidth=800):
     @type rowwidth: C{int}
 
     """
-    canvas = Canvas(width=rowwidth, height=rowheight*len(words))
+    canvas = Canvas(width=rowwidth, height=rowheight * len(words))
     text = list(text)
-    scale = float(rowwidth)/len(text)
+    scale = float(rowwidth) / len(text)
     position = 0
     for word in text:
         for i in range(len(words)):
             x = position * scale
             if word == words[i]:
                 y = i * rowheight
-                canvas.create_line(x, y, x, y+rowheight-1)
+                canvas.create_line(x, y, x, y + rowheight - 1)
         position += 1
     canvas.pack()
     canvas.mainloop()

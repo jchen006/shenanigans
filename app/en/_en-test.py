@@ -9,7 +9,7 @@ except:
     # the library is not located in /Application Support
     en = ximport("__init__")
 
-# LEXICAL CATEGORIZATION ############################################################
+# LEXICAL CATEGORIZATION #################################################
 
 # Returns True when the given value is a number.
 print 1, en.is_number(12)
@@ -27,7 +27,7 @@ print 4, en.is_tag("</a>")
 # for example <a> or <body>.
 print 5, en.is_html_tag("</person>")
 
-# COMMONSENSE #######################################################################
+# COMMONSENSE ############################################################
 
 # Returns True if the given word expresses a basic emotion:
 # anger, disgust, fear, joy, sadness, surprise.
@@ -42,7 +42,7 @@ print 7, en.is_persuasive("money")
 # and words like I, the, own, him which have little semantical value.
 print 8, en.is_connective("but")
 
-# NUMBERS ###########################################################################
+# NUMBERS ################################################################
 
 # Returns the ordinal of the given number,
 # 100 -> 100th, 3 -> 3rd
@@ -54,7 +54,7 @@ print 10, en.number.ordinal("twenty-one")
 # 25 -> twenty-five
 print 11, en.number.spoken(25)
 
-# QUANTIFICATION ####################################################################
+# QUANTIFICATION #########################################################
 
 # Quantifies the given word:
 # 10 and chickens -> a number of chickens
@@ -68,15 +68,15 @@ print 13, en.list.conjunction(["goose", "goose", "duck", "chicken", "chicken", "
 
 # Quantifies the types of things in the given list:
 # several integers
-print 14, en.list.conjunction((1,2,3,4,5), generalize=True)
-# You can also quantify a library: 
+print 14, en.list.conjunction((1, 2, 3, 4, 5), generalize=True)
+# You can also quantify a library:
 # en.list.conjunction(en, generalize=True) ->
-# a number of modules, a number of functions, a number of strings, 
-# a pair of lists, a pair of dictionaries, an en verb, an en sentence, 
-# an en number, an en noun, an en list, an en content, an en adverb, 
+# a number of modules, a number of functions, a number of strings,
+# a pair of lists, a pair of dictionaries, an en verb, an en sentence,
+# an en number, an en noun, an en list, an en content, an en adverb,
 # an en adjective, a None type and a DrawingPrimitives Context
 
-# INDEFINITE ARTICLE ################################################################
+# INDEFINITE ARTICLE #####################################################
 
 # Returns the noun with its indefinite article
 # university -> a university
@@ -84,7 +84,7 @@ print 14, en.list.conjunction((1,2,3,4,5), generalize=True)
 # hour -> an hour
 print 15, en.noun.article("university")
 
-# PLURALIZATION #####################################################################
+# PLURALIZATION ##########################################################
 
 # Pluralizes the given noun:
 # kitchen knife -> kitchen knives
@@ -94,7 +94,7 @@ print 15, en.noun.article("university")
 # You can also do en.adjective.plural().
 print 16, en.noun.plural("dog")
 
-# EMOTIONAL VALUE ###################################################################
+# EMOTIONAL VALUE ########################################################
 
 # Guesses whether the given noun expresses an emotion,
 # by checking if there are synonyms of the word that
@@ -106,10 +106,11 @@ print 17, en.noun.is_emotion("anger")
 # anxious -> fear
 # An additional optional parameter shallow=True
 # speeds up the lookup process but doesn't check as many synonyms.
-# You can also use verb.is_emotion(), adjective.is_emotion() and adverb.is_emotion()
+# You can also use verb.is_emotion(), adjective.is_emotion() and
+# adverb.is_emotion()
 print 18, en.adjective.is_emotion("anxious", boolean=False)
 
-# WORDNET ###########################################################################
+# WORDNET ################################################################
 
 # WordNet describes semantic relations between synonym sets.
 # Returns the dictionary description:
@@ -140,7 +141,8 @@ print 26, en.noun.hypernym("earth", sense=1)
 
 # You can also execute a deep query on hypernyms and hyponyms.
 # Notice how returned values become more and more abstract:
-# vehicle -> transport -> intrumentation -> artifact -> unit -> physical object -> entity
+# vehicle -> transport -> intrumentation -> artifact -> unit -> physical
+# object -> entity
 print 27, en.noun.hypernyms("vehicle", sense=0)
 
 # Return components of the given word:
@@ -175,9 +177,10 @@ print 33, en.list.flatten(en.noun.senses("tree"))
 print 34, len(en.wordnet.all_nouns())
 
 # All of the commands shown here for nouns are also available for verbs, adjectives and adverbs,
-# en.verbs.hypernyms("run"), en.adjective.gloss("beautiful") etc. are valid commands.
+# en.verbs.hypernyms("run"), en.adjective.gloss("beautiful") etc. are
+# valid commands.
 
-# VERB CONJUGATION ##################################################################
+# VERB CONJUGATION #######################################################
 
 # NodeBox English Linguistics knows the verb tenses for about 10000 English verbs.
 # Return the infinitive:
@@ -219,7 +222,7 @@ print 45, en.verb.is_present("does", person=1)
 print 46, en.verb.is_present_participle("doing")
 print 47, en.verb.is_past_participle("done")
 
-# SHALLOW PARSING ###################################################################
+# SHALLOW PARSING ########################################################
 
 # NodeBox English Linguistics is able to do sentence structure analysis using a
 # combination of Jason Wiener's tagger and NLTK's chunker.
@@ -254,16 +257,20 @@ print 49, en.sentence.tag_description("NN")
 # SP is a subject structure: a noun phrase which is the executor of a verb phrase
 # or verb/argument structure.
 from pprint import pprint
-print 50 
-pprint( en.sentence.chunk("he is always trying to feed her with lies") )
+print 50
+pprint(en.sentence.chunk("he is always trying to feed her with lies"))
 
 # A handy traverse(sentence, cmd) command lets you feed a chunked sentence
 # to your own command chunk by chunk:
 print 51
 s = "we are going to school"
+
+
 def callback(chunk, token, tag):
-    if chunk != None : print en.sentence.tag_description(chunk)[0].upper()
-    if chunk == None : print token, "("+en.sentence.tag_description(tag)[0]+")"
+    if chunk != None:
+        print en.sentence.tag_description(chunk)[0].upper()
+    if chunk == None:
+        print token, "(" + en.sentence.tag_description(tag)[0] + ")"
 print ""
 en.sentence.traverse(s, callback)
 print ""
@@ -278,10 +285,11 @@ print 57, en.sentence.find("Wildcards are pretty wild.", "wild*", chunked=False)
 print 58, en.sentence.find("Hamsters, hairy hamsters, funny hairy hamsters!", "(JJ) (JJ) NN", chunked=False)
 
 # If you want you could feed this command with a list of your own
-# regular expression units to chunk, mine are pretty basic as I'm not a linguist.
+# regular expression units to chunk, mine are pretty basic as I'm not a
+# linguist.
 print 59, en.sentence.chunk_rules()
 
-# SUMMARISATION #####################################################################
+# SUMMARISATION ##########################################################
 
 # NodeBox English Linguistics is able to strip keywords from a given text.
 
@@ -308,7 +316,8 @@ print 60, en.content.keywords(txt, top=10, nouns=True, singularize=True, filters
 # When nouns is True, returns only nouns. The command also ignores connectives,
 # numbers and tags.
 # When singularize is True, attempts to singularize nouns in the text.
-# The optional filters parameter is a list of words which the command should ignore.
+# The optional filters parameter is a list of words which the command
+# should ignore.
 
 # Assuming you would want to summarise web content you can use en.content.strip_tags()
 # to strip out HTML and keep only textual content:
@@ -319,10 +328,10 @@ print 61, en.content.strip_tags("<a href='http://nodebox.net'>NodeBox</a>")
 # html = urlopen("http://news.bbc.co.uk/").read()
 # meta = ["news", "health", "uk", "version", "weather", "video", "sport", "return", "read", "help"]
 # print sentence_keywords(html, filters=meta)
-# -> [(6, 'funeral'), (5, 'beirut'), (3, 'war'), (3, 'service'), (3, 'radio'), (3, 'mull'), 
+# -> [(6, 'funeral'), (5, 'beirut'), (3, 'war'), (3, 'service'), (3, 'radio'), (3, 'mull'),
 #     (3, 'lebanon'), (3, 'islamist'), (3, 'function'), (3, 'female')]
 
-# SPELLING CORRECTION ###############################################################
+# SPELLING CORRECTION ####################################################
 
 print 62, en.spelling.suggest("elehpant")
 print 63, en.spelling.correct("kebyoard")

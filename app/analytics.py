@@ -1,5 +1,8 @@
 import collections as c
-import pickle, os, itertools, json
+import pickle
+import os
+import itertools
+import json
 from settings import *
 from recipe_parser import *
 from ingredient import *
@@ -18,8 +21,10 @@ from sklearn.neighbors import NearestNeighbors
 
 #Data = c.namedtuple("Data", "url chef ingredients")
 
-class BagOfIngredients: 
-    def __init__(self, parser_obj): 
+
+class BagOfIngredients:
+
+    def __init__(self, parser_obj):
         self.bag = {}
         self.ordered_ingrediends = None
         self.ordered_recipes = None
@@ -31,24 +36,26 @@ class BagOfIngredients:
         all_ingreds = self.parser.all_ingredients
         for ing in all_ingreds:
             self.bag[ing] = 0
-            
+
         for recipe_name, recipe_value in recipes.iteritems():
             for ing in recipe_value.ingredients:
                 self.bag[ing] += 1
-        
+
         self.ordered_recipes = sorted(recipes.values(), key=lambda x: x.name)
         self.ordered_ingredients = self.bag.keys()
         self.ordered_ingredients.sort()
         return
 
     def generate_recipe_vectors(self):
-        # TODO: RECIPES ALSO NEEDS TO BE ORDERED SINCE recipes.values() returns in random order
-        self.recipe_vects = np.zeros((len(self.ordered_recipes), len(self.ordered_ingredients)))
+        # TODO: RECIPES ALSO NEEDS TO BE ORDERED SINCE recipes.values() returns
+        # in random order
+        self.recipe_vects = np.zeros(
+            (len(self.ordered_recipes), len(self.ordered_ingredients)))
 
         for i in range(len(self.ordered_recipes)):
             for j in range(len(self.ordered_ingredients)):
                 if self.ordered_ingredients[j] in self.ordered_recipes[i].ingredients:
-                    self.recipe_vects[i,j] = 1
+                    self.recipe_vects[i, j] = 1
         return
 
     def get_ingredient_frequencies(self):
@@ -60,33 +67,39 @@ class BagOfIngredients:
         top_ingreds = np.array(self.ordered_ingredients)[top_N_indices]
         top_freqs = freqs[top_N_indices]
         return top_ingreds.tolist(), top_freqs.tolist()
-    
+
     def get_top_N_ingredients_json(self, N, MAX_FONT=120):
         top_ingreds, top_freqs = self.get_top_N_ingredient_frequencies(N)
-        MULT_FONT_SCALE = MAX_FONT / (1.0*max(top_freqs))
-        js = [{"text": x, "size": int(y*MULT_FONT_SCALE)} for x, y in zip(top_ingreds, top_freqs)]
+        MULT_FONT_SCALE = MAX_FONT / (1.0 * max(top_freqs))
+        js = [{"text": x, "size": int(y * MULT_FONT_SCALE)}
+              for x, y in zip(top_ingreds, top_freqs)]
         return json.dumps(js)
 
+
 class PCAModel:
+
     def __init__(self, bag_of_ingredients_matrix, K=2):
         self.model = PCA(K)
         self.BOI = bag_of_ingredients_matrix
         self.fit_data = self.model.fit_transform(self.BOI)
 
+
 class LDAModel:
 
     LDA_MONGO_NAME = 'lda_model'
+
     def __init__(self, bag_of_ingredients_matrix, ingredients, recipes, K=10):
-        self.model = LDA(K) 
+        self.model = LDA(K)
         self.K = K
         self.BOI = bag_of_ingredients_matrix
         self.ingredients = ingredients
         self.recipes = recipes
 
-        self.mongoHelper = MongoHelper()       
+        self.mongoHelper = MongoHelper()
 
         print "Looking for LDA object in Mongo..."
-        tmp_model_obj_from_mongo = self.mongoHelper.findObj(self.LDA_MONGO_NAME)
+        tmp_model_obj_from_mongo = self.mongoHelper.findObj(
+            self.LDA_MONGO_NAME)
         if tmp_model_obj_from_mongo is not None:
             print "LDA object found!"
             self.model = tmp_model_obj_from_mongo
@@ -95,7 +108,7 @@ class LDAModel:
             self.model.fit(self.BOI.astype('int64'))
             print "Storing LDA object in mongo"
             self.mongoHelper.insertObj(self.LDA_MONGO_NAME, self.model)
-        
+
         self.doc_topic = self.model.doc_topic_
         self.topic_assignments = self.doc_topic.argmax(axis=1)
         self.clustered_recipes = {}
@@ -103,8 +116,9 @@ class LDAModel:
             self.clustered_recipes[i] = []
 
         for i in range(len(self.topic_assignments)):
-            self.clustered_recipes[self.topic_assignments[i]].append(self.recipes[i].name)
-    
+            self.clustered_recipes[self.topic_assignments[i]].append(self.recipes[
+                                                                     i].name)
+
         self.d3_json = self.get_d3_json()
         self.mds_json = self.plot_mds()
         print "Finished LDA init"
@@ -112,7 +126,8 @@ class LDAModel:
     def get_K_topic_words(self, K):
         topic_words_arr = []
         for i, topic_dist in enumerate(self.model.topic_word_):
-            topic_words = np.array(self.ingredients)[np.argsort(topic_dist)][:-(K+1):-1]
+            topic_words = np.array(self.ingredients)[
+                np.argsort(topic_dist)][:-(K + 1):-1]
             topic_words_arr.append(topic_words)
         return np.array(topic_words_arr)
 
@@ -128,10 +143,10 @@ class LDAModel:
             temp_cluster_json["children"] = []
             children = temp_cluster_json["children"]
             for r in cluster:
-                children.append({"name": r,"size":1})
-            
+                children.append({"name": r, "size": 1})
+
             json_clusters.append(temp_cluster_json)
-    
+
         return json.dumps(temp_json)
 
     def get_ordered_recipes_json(self):
@@ -143,62 +158,67 @@ class LDAModel:
         prob_table = self.doc_topic
 
         rec_idx1, rec_idx2 = int(rec_idx1), int(rec_idx2)
-    	vec1, vec2 = prob_table[rec_idx1], prob_table[rec_idx2]
+        vec1, vec2 = prob_table[rec_idx1], prob_table[rec_idx2]
         temp_json = {}
         temp_json["dists"] = []
 
         for rec_i in [rec_idx1, rec_idx2]:
-           temp_list = []
-           vec = prob_table[rec_i]
-           for j in range(len(vec)):
-               temp_list.append({"axis":"cluster " + str(j), "value": "{0:.5f}".format(vec[j]) })
-               temp_json["dists"].append(temp_list)
+            temp_list = []
+            vec = prob_table[rec_i]
+            for j in range(len(vec)):
+                temp_list.append({"axis": "cluster " + str(j),
+                                  "value": "{0:.5f}".format(vec[j])})
+                temp_json["dists"].append(temp_list)
 
         return json.dumps(temp_json)
 
     def get_mds_json(self):
         return json.dumps(self.mds_json)
-    
+
     def plot_mds(self, DEBUG=False):
-    	X_true = self.doc_topic
+        X_true = self.doc_topic
         seed = np.random.RandomState(seed=3)
 
-	similarities = euclidean_distances(X_true)
+        similarities = euclidean_distances(X_true)
 
-	mds = manifold.MDS(n_components=2, max_iter = 3000, eps=1e-9, random_state=seed, dissimilarity="precomputed", n_jobs=1)
-	pos = mds.fit(similarities).embedding_
+        mds = manifold.MDS(n_components=2, max_iter=3000, eps=1e-9,
+                           random_state=seed, dissimilarity="precomputed", n_jobs=1)
+        pos = mds.fit(similarities).embedding_
 
-	mds = manifold.MDS(n_components=2, metric=False, max_iter = 3000, eps=1e-12, random_state=seed, dissimilarity="precomputed", n_jobs=1, n_init=1)
+        mds = manifold.MDS(n_components=2, metric=False, max_iter=3000, eps=1e-12,
+                           random_state=seed, dissimilarity="precomputed", n_jobs=1, n_init=1)
 
-	npos = mds.fit_transform(similarities, init=pos)
-	
-	#pos *= np.sqrt((X_true ** 2).sum()) / np.sqrt((pos ** 2).sum())
-	npos *= np.sqrt((X_true ** 2).sum()) / np.sqrt((npos ** 2).sum())
+        npos = mds.fit_transform(similarities, init=pos)
 
-	clf = PCA(n_components=2)
-	X_true = clf.fit_transform(X_true)
+        #pos *= np.sqrt((X_true ** 2).sum()) / np.sqrt((pos ** 2).sum())
+        npos *= np.sqrt((X_true ** 2).sum()) / np.sqrt((npos ** 2).sum())
 
-	#pos = clf.fit_transform(pos)
-	npos = clf.fit_transform(npos)
+        clf = PCA(n_components=2)
+        X_true = clf.fit_transform(X_true)
+
+        #pos = clf.fit_transform(pos)
+        npos = clf.fit_transform(npos)
 
         temp_json = {"mds_json": []}
 
-        xs = npos[:,0]
-        ys = npos[:,1]
+        xs = npos[:, 0]
+        ys = npos[:, 1]
         for ind in range(len(ys)):
-            temp_json["mds_json"].append({"x":str(xs[ind]), "y":str(ys[ind]), "name":self.recipes[ind].name, "cluster":str(self.topic_assignments[ind])})
+            temp_json["mds_json"].append({"x": str(xs[ind]), "y": str(ys[ind]), "name": self.recipes[
+                                         ind].name, "cluster": str(self.topic_assignments[ind])})
 
-	if DEBUG:
+        if DEBUG:
             fig = plt.figure(1)
             ax = plt.axes([0., 0., 1., 1.])
             colors = cm.rainbow(np.linspace(0, 1, self.K))
 
             #plt.scatter(X_true[:, 0], X_true[:, 1], c='r', s=20)
             #plt.scatter(pos[:, 0], pos[:, 1], c='g', s=20)
-            xs = npos[:,0]
-            ys = npos[:,1]
+            xs = npos[:, 0]
+            ys = npos[:, 1]
             for ind in range(len(ys)):
-                plt.scatter(xs[ind], ys[ind], c=colors[self.topic_assignments[ind]], s=20)
+                plt.scatter(xs[ind], ys[ind], c=colors[
+                            self.topic_assignments[ind]], s=20)
             plt.legend('NMDS', loc='best')
 
             similarities = similarities.max() / similarities * 100
@@ -206,14 +226,14 @@ class LDAModel:
 
             # Plot the edges
             start_idx, end_idx = np.where(pos)
-            #a sequence of (*line0*, *line1*, *line2*), where::
+            # a sequence of (*line0*, *line1*, *line2*), where::
             #            linen = (x0, y0), (x1, y1), ... (xm, ym)
             segments = [[X_true[i, :], X_true[j, :]]
-                     for i in range(len(pos)) for j in range(len(pos))]
+                        for i in range(len(pos)) for j in range(len(pos))]
             values = np.abs(similarities)
             lc = LineCollection(segments,
-                             zorder=0, cmap=plt.cm.hot_r,
-                             norm=plt.Normalize(0, values.max()))
+                                zorder=0, cmap=plt.cm.hot_r,
+                                norm=plt.Normalize(0, values.max()))
             lc.set_array(similarities.flatten())
             lc.set_linewidths(0.5 * np.ones(len(segments)))
             ax.add_collection(lc)
@@ -222,15 +242,15 @@ class LDAModel:
 
         return temp_json
 
-    	
 
 class NearestNeighborsModel:
+
     def __init__(self, bag_of_ingredients_matrix):
         self.model = NearestNeighbors()
         self.BOI = bag_of_ingredients_matrix
         self.model.fit(bag_of_ingredients_matrix)
 
-if __name__=='__main__':
+if __name__ == '__main__':
     b = BagOfIngredients()
     b.generate_bag_of_ingredients()
     b.generate_recipe_vectors()
@@ -243,5 +263,6 @@ if __name__=='__main__':
     clusters = L.clustered_recipes
     lda_json = L.d3_json
     L.plot_mds(True)
-    import pdb; pdb.set_trace()
+    import pdb
+    pdb.set_trace()
     # g.make_graph_from_tuple()

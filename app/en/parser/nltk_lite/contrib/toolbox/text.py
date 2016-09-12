@@ -27,10 +27,10 @@ class Word:
     """
 
     def __init__(self,
-                 form         = None,
-                 gloss        = None,
-                 morphemes    = None,
-                 partOfSpeech = None):
+                 form=None,
+                 gloss=None,
+                 morphemes=None,
+                 partOfSpeech=None):
         """Constructor that initializes Word object.
 
         @param form: the surface form for a word
@@ -42,12 +42,12 @@ class Word:
         @param partOfSpeech: the part of speech for a word
         @type partOfSpeech: string
         """
-        self._form            = form
-        self._gloss           = gloss
-        self._morphemes       = morphemes
-        self._partOfSpeech    = partOfSpeech
-        self._rawGloss        = None
-        self._rawMorphemes    = None
+        self._form = form
+        self._gloss = gloss
+        self._morphemes = morphemes
+        self._partOfSpeech = partOfSpeech
+        self._rawGloss = None
+        self._rawMorphemes = None
         self._rawPartOfSpeech = None
         return
 
@@ -84,7 +84,7 @@ class Word:
         self._partOfSpeech = partOfSpeech
 
     def get_raw_gloss(self):
-      return self._rawGloss
+        return self._rawGloss
 
     def set_raw_gloss(self, rawGloss):
         self._rawGloss = rawGloss
@@ -113,12 +113,12 @@ class Morpheme:
     of attributes: a surface form, an underlying form, a gloss, and a
     part of speech.
     """
-  
+
     def __init__(self,
-                 form         = None,
-                 gloss        = None,
-                 partOfSpeech = None):
-        """Constructor that creates Morpheme object."""        
+                 form=None,
+                 gloss=None,
+                 partOfSpeech=None):
+        """Constructor that creates Morpheme object."""
         self._form = form
         self._gloss = gloss
         self._partOfSpeech = partOfSpeech
@@ -133,15 +133,15 @@ class Morpheme:
         self._form = form
 
     def get_gloss(self):
-        """Returns gloss for morpheme."""        
+        """Returns gloss for morpheme."""
         return self._gloss
 
     def set_gloss(self, gloss):
-        """Change gloss for morpheme."""        
+        """Change gloss for morpheme."""
         self._gloss = gloss
 
     def get_part_of_speech(self):
-        """Returns part of speech for morpheme."""        
+        """Returns part of speech for morpheme."""
         return self._partOfSpeech
 
     def set_part_of_speech(self, partOfSpeech):
@@ -169,7 +169,7 @@ class Line:
     The tiers of a line are saved as a sequential dictionary with
     all of its associated fields. Identified by the field marker \\ref
     by default."""
-    
+
     def __init__(self,
                  label=None):
         """Constructor that initializes Line object."""
@@ -193,7 +193,7 @@ class Line:
         """
         This method returns a particular field given a field marker.
         Returns a blank string if field is not found.
-        
+
         @param field_marker: marker of desired field
         @type  field_marker: string
         @param join_string: string used to join field values (default to blank string)
@@ -221,7 +221,7 @@ class Line:
   #       return self._fields[field_marker]
   #     except:
   #       return None
-      
+
     def get_field_values(self):
         """Obtain list of field values for the line."""
         return self._fields.values()
@@ -250,38 +250,43 @@ class Line:
         morphemeFormField = self.getFieldValueByFieldMarker("m")
         morphemeGlossField = self.getFieldValueByFieldMarker("g")
         morphemeFormSlices = get_slices_by_indices(morphemeFormField, indices)
-        morphemeGlossSlices = get_slices_by_indices(morphemeGlossField, indices)
+        morphemeGlossSlices = get_slices_by_indices(
+            morphemeGlossField, indices)
         for i in range(0, len(morphemeFormSlices)):
             m = Morpheme()
             m.set_form(morphemeFormSlices[i].strip(" ").strip("-"))
             m.set_gloss(morphemeGlossSlices[i].strip(" ").strip("-"))
             morphemes.append(m)
         return morphemes
-      
+
     def get_words(self, flagParseMorphemes=True):
         """Obtain a list of word objects for the line."""
         words = []
 
         # Obtain raw field values
-        lineWordFormField      = self.get_field_values_by_field_marker("t")
-        lineMorphemeFormField  = self.get_field_values_by_field_marker("m")
+        lineWordFormField = self.get_field_values_by_field_marker("t")
+        lineMorphemeFormField = self.get_field_values_by_field_marker("m")
         lineMorphemeGlossField = self.get_field_values_by_field_marker("g")
-        linePOSField           = self.get_field_values_by_field_marker("p")
+        linePOSField = self.get_field_values_by_field_marker("p")
 
         wordIndices = get_indices(lineWordFormField)
-      
+
         # Slice raw field values by indices
-        lineWordFormSlices      = get_slices_by_indices(lineWordFormField,      wordIndices)
-        lineMorphemeFormSlices  = get_slices_by_indices(lineMorphemeFormField,  wordIndices)
-        lineMorphemeGlossSlices = get_slices_by_indices(lineMorphemeGlossField, wordIndices)
-        linePOSSlices           = get_slices_by_indices(linePOSField,           wordIndices)
-          
+        lineWordFormSlices = get_slices_by_indices(
+            lineWordFormField,      wordIndices)
+        lineMorphemeFormSlices = get_slices_by_indices(
+            lineMorphemeFormField,  wordIndices)
+        lineMorphemeGlossSlices = get_slices_by_indices(
+            lineMorphemeGlossField, wordIndices)
+        linePOSSlices = get_slices_by_indices(
+            linePOSField,           wordIndices)
+
         # Go through each slice
         for i in range(0, len(lineWordFormSlices)):
-            wordForm            = lineWordFormSlices[i]
-            wordMorphemeForms   = lineMorphemeFormSlices[i]
+            wordForm = lineWordFormSlices[i]
+            wordMorphemeForms = lineMorphemeFormSlices[i]
             wordMorphemeGlosses = lineMorphemeGlossSlices[i]
-            wordPOS             = linePOSSlices[i]
+            wordPOS = linePOSSlices[i]
 
             # Initialize word object and set raw fields
             w = Word()
@@ -295,24 +300,28 @@ class Line:
             if flagParseMorphemes:
                 morphemes = []
 
-                # Get indices from morpheme-breakdown line in order to make slices
-                morphemeIndices     = get_indices(wordMorphemeForms)
-                morphemeFormSlices  = get_slices_by_indices(wordMorphemeForms,   morphemeIndices)
-                morphemeGlossSlices = get_slices_by_indices(wordMorphemeGlosses, morphemeIndices)
-                morphemePOSSlices   = get_slices_by_indices(wordPOS,             morphemeIndices)
+                # Get indices from morpheme-breakdown line in order to make
+                # slices
+                morphemeIndices = get_indices(wordMorphemeForms)
+                morphemeFormSlices = get_slices_by_indices(
+                    wordMorphemeForms,   morphemeIndices)
+                morphemeGlossSlices = get_slices_by_indices(
+                    wordMorphemeGlosses, morphemeIndices)
+                morphemePOSSlices = get_slices_by_indices(
+                    wordPOS,             morphemeIndices)
 
                 # Go through each morpheme
                 for i in range(0, len(morphemeFormSlices)):
-                    morphemeForm  = morphemeFormSlices[i].strip(" ")
+                    morphemeForm = morphemeFormSlices[i].strip(" ")
                     morphemeGloss = morphemeGlossSlices[i].strip(" ")
-                    morphemePOS   = morphemePOSSlices[i].strip(" ")
+                    morphemePOS = morphemePOSSlices[i].strip(" ")
 
                     # Construct morpheme object from slices
                     m = Morpheme()
                     m.set_form(morphemeForm)
                     m.set_gloss(morphemeGloss)
                     m.set_part_of_speech(morphemePOS)
-                    
+
                     # Add cooked morpheme to temporary collection for word
                     morphemes.append(m)
 
@@ -326,10 +335,10 @@ class Line:
         """Get values for line, given a field and column index."""
         fv = self.getFieldValueByFieldMarker(field_marker)
         field_markers = self.getFieldMarkers()
-        sliceFieldMarker = field_markers[columnIndex-1]    
+        sliceFieldMarker = field_markers[columnIndex - 1]
         indices = getIndices(self.getFieldValueByFieldMarker(field_marker))
         slices = get_slices_by_indices(fv, indices)
-        return slices[columnIndex-1]
+        return slices[columnIndex - 1]
 
 
 # --------------------------------------------------------
@@ -363,7 +372,7 @@ class Paragraph:
     def get_lines(self):
         """Get list of line objects for paragraph."""
         return self._lines
-    
+
     def set_label(self, label):
         """Set identifier for paragraph."""
         self._label = label
@@ -376,18 +385,18 @@ class Paragraph:
 #         manipulation.
 # --------------------------------------------------------
 
-class Text(ShoeboxFile) :
+class Text(ShoeboxFile):
     """
     This class defines an interlinearized text, which consists of a collection of Paragraph objects.
     """
-  
+
     def __init__(self,
-                 file              = None,
-                 fm_line           = "ref",
-                 fm_paragraph      = "id",
-                 fm_morpheme       = "m",
-                 fm_morpheme_gloss = "g",
-                 fm_word           = "w"
+                 file=None,
+                 fm_line="ref",
+                 fm_paragraph="id",
+                 fm_morpheme="m",
+                 fm_morpheme_gloss="g",
+                 fm_word="w"
                  ):
         """Constructor for Text object. All arguments are optional. By default,
         the fields used to parse the Shoebox file are the following:
@@ -404,14 +413,14 @@ class Text(ShoeboxFile) :
         @param fm_word: field marker identifying word tier (???)
         @type fm_word: str 
         """
-        self._file              = file
-        self._fm_line           = fm_line
-        self._fm_paragraph      = fm_paragraph
-        self._fm_morpheme       = "m"
+        self._file = file
+        self._fm_line = fm_line
+        self._fm_paragraph = fm_paragraph
+        self._fm_morpheme = "m"
         self._fm_morpheme_gloss = "g"
-        self._fm_word           = "w"
+        self._fm_word = "w"
         #self._rawtext = rawtext
-        self._paragraphs        = []
+        self._paragraphs = []
         return
 
     def get_lines(self):
@@ -421,7 +430,7 @@ class Text(ShoeboxFile) :
             for l in p.get_lines():
                 lines.append(l)
         return lines
-        
+
     def get_paragraphs(self):
         """Obtain a list of paragraph objects."""
         return self._paragraphs
@@ -435,7 +444,7 @@ class Text(ShoeboxFile) :
         @type paragraph: Paragraph
         """
         self._paragraphs.append(paragraph)
-      
+
 #     def getRawText(self):
 #       return self._rawtext
 
@@ -453,7 +462,7 @@ class Text(ShoeboxFile) :
     def getParagraphFM(self):
         """Get field marker that identifies a new paragraph."""
         return self._fm_paragraph
-  
+
     def setParagraphFM(self, paragraphHeadFieldMarker):
         """Change default field marker that identifies new paragraph."""
         self._fm_paragraph = paragraphHeadFieldMarker
@@ -480,7 +489,7 @@ class Text(ShoeboxFile) :
 
     def setMorphemeGlossFM(self, morphemeGlossFieldMarker):
         """Change default field marker that identifies morpheme gloss tier."""
-        self._morphemeGlossFieldMarker = morphemeGlossFieldMarker    
+        self._morphemeGlossFieldMarker = morphemeGlossFieldMarker
 
     def get_file(self):
         """Get file path as string."""
@@ -490,23 +499,23 @@ class Text(ShoeboxFile) :
         """Change file path set upon initialization."""
         self._file = file
 
-    def parse(self) :
+    def parse(self):
         """Parse specified Shoebox file into Text object."""
         # Use low-level functionality to get raw fields and walk through them
         self.open(self._file)
         p, l = None, None
-        for f in self.raw_fields() :
+        for f in self.raw_fields():
             fmarker, fvalue = f
-            if fmarker == self.getParagraphFM() :
-                if p :
+            if fmarker == self.getParagraphFM():
+                if p:
                     self.add_paragraph(p)
                 p = Paragraph(fvalue)
-            elif fmarker == self.getLineFM() :
-                if l :
+            elif fmarker == self.getLineFM():
+                if l:
                     p.add_line(l)
                 l = Line(fvalue)
-            else :
-                if l :
+            else:
+                if l:
                     l.add_field(Field(fmarker, fvalue))
         p.add_line(l)
         self.add_paragraph(p)
@@ -533,7 +542,7 @@ def get_indices(str):
         \ft This is a good explanation. <- free translation
 
     The function walks through the line char by char::
-  
+
         c   flag.before  flag.after  index?
         --  -----------  ----------  ------
         0   1            0           yes
@@ -578,10 +587,10 @@ def get_slices_by_indices(str, indices):
     for i in range(0, len(indices)):
         slice = None
         start = indices[i]
-        if i == len(indices)-1:
-            slice = str[start: ]
+        if i == len(indices) - 1:
+            slice = str[start:]
         else:
-            finish = indices[i+1]
+            finish = indices[i + 1]
             slice = str[start: finish]
         slices.append(slice)
     return slices

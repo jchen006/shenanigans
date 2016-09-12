@@ -19,11 +19,15 @@ epsilon = None
 # some helper functions
 
 # inserting and deleting elements from sets stored in hashes
+
+
 def _hashed_set_insert(hash, key, item):
     if hash.has_key(key):
         hash[key].add(item)
     else:
         hash[key] = set([item])
+
+
 def _hashed_set_delete(hash, key, item):
     new = hash[key].difference(set([item]))
     if len(new) > 0:
@@ -35,8 +39,10 @@ def _hashed_set_delete(hash, key, item):
 # TODO - change parser to limit scope of unary operators
 # to the most recent symbol
 
+
 class FSA:
     # default fsa accepts the empty language
+
     def __init__(self, sigma):
         self._num = -1
         self._forward = {}  # forward transitions
@@ -44,19 +50,20 @@ class FSA:
         self._labels = {}
         self._finals = set()
         self._sigma = sigma
-        
+
     # the fsa accepts the empty string
     # only call this right after initializing
     def empty(self):
         self._num = 0
         self._finals = set([0])
-        
+
     def sigma(self):
         return self._sigma
 
     def check_in_sigma(self, label):
         if label and label not in self._sigma:
-            raise ValueError('Label "%s" not in alphabet: %s' % (label, str(self._sigma)))
+            raise ValueError('Label "%s" not in alphabet: %s' %
+                             (label, str(self._sigma)))
 
     def new_state(self):
         self._num += 1
@@ -69,7 +76,7 @@ class FSA:
         return tuple(self._finals)
 
     def states(self):
-        return range(self._num+1)
+        return range(self._num + 1)
 
     def add_final(self, state):
         self._finals.add(state)
@@ -89,8 +96,8 @@ class FSA:
         self.check_in_sigma(label)
         _hashed_set_insert(self._forward, s1, s2)
         _hashed_set_insert(self._reverse, s2, s1)
-        _hashed_set_insert(self._labels, (s1,s2), label)
-        
+        _hashed_set_insert(self._labels, (s1, s2), label)
+
     def inserts(self, state_set, label, s2):
         for s1 in tuple(state_set):
             self.add(s1, label, s2)
@@ -98,15 +105,15 @@ class FSA:
     def delete(self, s1, label, s2):
         _hashed_set_delete(self._forward, s1, s2)
         _hashed_set_delete(self._reverse, s2, s1)
-        _hashed_set_delete(self._labels, (s1,s2), label)
+        _hashed_set_delete(self._labels, (s1, s2), label)
 
     def delete_all(self, s1, s2):
         _hashed_set_delete(self._forward, s1, s2)
         _hashed_set_delete(self._reverse, s2, s1)
-        del self._labels[(s1,s2)]
+        del self._labels[(s1, s2)]
 
     def delete_state(self, state):
-        for (s1,label,s2) in self.incident_transitions(state):
+        for (s1, label, s2) in self.incident_transitions(state):
             self.delete_all(s1, s2)
         self._relabel_state(self._num, state)
         self._num -= 1
@@ -117,27 +124,27 @@ class FSA:
             _hashed_set_insert(self._forward, new, forward)
             _hashed_set_delete(self._reverse, forward, orig)
             _hashed_set_insert(self._reverse, forward, new)
-            self._labels[(new,forward)] = self._labels[(orig,forward)]
-            del self._labels[(orig,forward)]
+            self._labels[(new, forward)] = self._labels[(orig, forward)]
+            del self._labels[(orig, forward)]
         for reverse in self.reverse_traverse(orig):
             _hashed_set_delete(self._reverse, orig, reverse)
             _hashed_set_insert(self._reverse, new, reverse)
             _hashed_set_delete(self._forward, reverse, orig)
             _hashed_set_insert(self._forward, reverse, new)
-            self._labels[(reverse,new)] = self._labels[(reverse,orig)]
-            del self._labels[(reverse,orig)]
+            self._labels[(reverse, new)] = self._labels[(reverse, orig)]
+            del self._labels[(reverse, orig)]
         if orig in self.finals():
             self.delete_final(orig)
             self.add_final(new)
 
     def incident_transitions(self, state):
-        return [(s1,label,s2)
-                for (s1,label,s2) in self.transitions()
+        return [(s1, label, s2)
+                for (s1, label, s2) in self.transitions()
                 if s1 == state or s2 == state]
 
     def transitions(self):
-        return [(s1,label,s2)
-                for ((s1,s2),label) in self._labels.items()]
+        return [(s1, label, s2)
+                for ((s1, s2), label) in self._labels.items()]
 
     def forward_traverse(self, state):
         if self._forward.has_key(state):
@@ -154,7 +161,7 @@ class FSA:
     def next(self, s1, label):
         states = []
         for s2 in self.forward_traverse(s1):
-            if label in self._labels[(s1,s2)]:
+            if label in self._labels[(s1, s2)]:
                 states.append(s2)
         return tuple(states)
 
@@ -173,10 +180,10 @@ class FSA:
         transitions = []
         if self._forward.has_key(s1):
             s2 = self._forward[s1]
-            label = self._labels((s1,s2))
+            label = self._labels((s1, s2))
             transitions.append((s1, labels, s2))
         return transitions
-            
+
 #        return [(s1,labels,s2)
 #                for (s1, labels, s2) in self.transitions()
 #                if s1 == state]
@@ -185,8 +192,8 @@ class FSA:
     def prune(self):
         acc = self.accessible()
         for state in self.states():
-           if state not in acc:
-               self.delete_state(state)
+            if state not in acc:
+                self.delete_state(state)
 
     # mark accessible nodes
     def accessible(self):
@@ -207,6 +214,7 @@ class FSA:
             if not s2 in visited:
                 visited.add(s2)
                 self.forward_accessible(s2, visited)
+
     def reverse_accessible(self, s1, visited):
         for s2 in self.reverse_traverse(s1):
             if not s2 in visited:
@@ -257,7 +265,7 @@ class FSA:
                     unmarked.append(dfa_next)
                 dfa.insert(dfa_state, label, dfa_next)
         return dfa
-        
+
 #    # add num to every state identifier
 #    def add(self, num):
 #        newtable = {}
@@ -280,7 +288,7 @@ class FSA:
                 print prefix
             for (s1, labels, s2) in self.outgoing_transitions(state):
                 for label in labels():
-                    self.generate(maxlen-1, s2, prefix+label)
+                    self.generate(maxlen - 1, s2, prefix + label)
 
     def pp(self):
         t = self.transitions()
@@ -289,11 +297,12 @@ class FSA:
             print s1, ':', label, '->', s2
         print "Final:", self._finals
 
-### FUNCTIONS TO BUILD FSA FROM REGEXP
+# FUNCTIONS TO BUILD FSA FROM REGEXP
 
 # the grammar of regular expressions
 # (probabilities ensure that unary operators
 # have stronger associativity than juxtaposition)
+
 
 def grammar(terminals):
     (S, Star, Plus, Qmk, Paren) = [cfg.Nonterminal(s) for s in 'S*+?(']
@@ -307,7 +316,7 @@ def grammar(terminals):
              pcfg.Production(Qmk, [S, '?'], prob=1),
              pcfg.Production(Paren, ['(', S, ')'], prob=1)]
 
-    prob_term = 0.1/len(terminals) # divide remaining pr. mass
+    prob_term = 0.1 / len(terminals)  # divide remaining pr. mass
     for terminal in terminals:
         rules.append(pcfg.Production(S, [terminal], prob=prob_term))
 
@@ -318,13 +327,16 @@ _parser = pchart.InsideParse(grammar('abcde'))
 # create NFA from regexp (Thompson's construction)
 # assumes unique start and final states
 
+
 def re2nfa(fsa, re):
     tokens = tokenize.regexp(re, pattern=r'.')
     tree = _parser.parse(tokens)
-    if tree is None: raise ValueError('Bad Regexp')
+    if tree is None:
+        raise ValueError('Bad Regexp')
     state = re2nfa_build(fsa, fsa.start(), tree)
     fsa.set_final([state])
 #        fsa.minimize()
+
 
 def re2nfa_build(fsa, node, tree):
     # Terminals.
@@ -334,17 +346,22 @@ def re2nfa_build(fsa, node, tree):
         return re2nfa_build(fsa, node, tree[0])
     elif tree.node == '(':
         return re2nfa_build(fsa, node, tree[1])
-    elif tree.node == '*': return re2nfa_star(fsa, node, tree[0])
-    elif tree.node == '+': return re2nfa_plus(fsa, node, tree[0])
-    elif tree.node == '?': return re2nfa_qmk(fsa, node, tree[0])
+    elif tree.node == '*':
+        return re2nfa_star(fsa, node, tree[0])
+    elif tree.node == '+':
+        return re2nfa_plus(fsa, node, tree[0])
+    elif tree.node == '?':
+        return re2nfa_qmk(fsa, node, tree[0])
     else:
         node = re2nfa_build(fsa, node, tree[0])
         return re2nfa_build(fsa, node, tree[1])
+
 
 def re2nfa_char(fsa, node, char):
     new = fsa.new_state()
     fsa.add(node, char, new)
     return new
+
 
 def re2nfa_qmk(fsa, node, tree):
     node1 = fsa.new_state()
@@ -355,10 +372,12 @@ def re2nfa_qmk(fsa, node, tree):
     fsa.add(node2, epsilon, node3)
     return node3
 
+
 def re2nfa_plus(fsa, node, tree):
     node1 = re2nfa_build(fsa, node, tree[0])
     fsa.add(node1, epsilon, node)
     return node1
+
 
 def re2nfa_star(fsa, node, tree):
     node1 = fsa.new_state()
@@ -374,6 +393,7 @@ def re2nfa_star(fsa, node, tree):
 # Demonstration
 #################################################################
 
+
 def demo():
     """
     A demonstration showing how FSAs can be created and used.
@@ -384,7 +404,7 @@ def demo():
 
     # Create a new FSA.
     fsa = FSA(alphabet)
-    
+
     # Use a regular expression to initialize the FSA.
     re = 'ab*'
     print 'Regular Expression:', re
@@ -405,6 +425,7 @@ def demo():
 
     # Use the FSA to generate all strings of length less than 3
     # (broken)
-    #fsa.generate(3)
+    # fsa.generate(3)
 
-if __name__ == '__main__': demo()
+if __name__ == '__main__':
+    demo()

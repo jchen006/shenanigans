@@ -5,9 +5,10 @@
 # Based on the Ruby Linguistics module by Michael Granger:
 # http://www.deveiate.org/projects/Linguistics/wiki/English
 
-article_rules = [        
+article_rules = [
 
-    ["euler|hour(?!i)|heir|honest|hono", "an"],       # exceptions: an hour, an honor
+    # exceptions: an hour, an honor
+    ["euler|hour(?!i)|heir|honest|hono", "an"],
 
     # Abbreviations
     # Strings of capitals starting with a vowel-sound consonant
@@ -18,22 +19,25 @@ article_rules = [
     ["^[a-z][.-]", "a"],
 
     ["^[^aeiouy]", "a"],                              # consonants: a bear
-    ["^e[uw]", "a"],                                  # eu like "you": a european
+    # eu like "you": a european
+    ["^e[uw]", "a"],
     ["^onc?e", "a"],                                  # o like "wa": a one-liner
-    ["uni([^nmd]|mo)", "a"],                          # u like "you": a university
+    # u like "you": a university
+    ["uni([^nmd]|mo)", "a"],
     ["^u[bcfhjkqrst][aeiou]", "a"],                   # u like "you": a uterus
     ["^[aeiou]", "an"],                               # vowels: an owl
-    ["y(b[lor]|cl[ea]|fere|gg|p[ios]|rou|tt)", "an"], # y like "i": an yclept, a year
+    # y like "i": an yclept, a year
+    ["y(b[lor]|cl[ea]|fere|gg|p[ios]|rou|tt)", "an"],
     ["", "a"]                                         # guess "a"
 
 ]
 
+
 def article(word):
-    
     """ Returns the indefinite article for a given word.
-    
+
     For example: university -> a university.
-    
+
     """
 
     import re
@@ -42,19 +46,21 @@ def article(word):
         if re.search(pattern, word) is not None:
             return article + " " + word
 
-def a(word): 
+
+def a(word):
     return article(word)
+
 
 def an(word):
     return article(word)
 
-#print article("hour")        
-#print article("FBI")
-#print article("bear")
-#print article("one-liner")
-#print article("european")
-#print article("university")
-#print article("uterus")
-#print article("owl")
-#print article("yclept")
-#print article("year")
+# print article("hour")
+# print article("FBI")
+# print article("bear")
+# print article("one-liner")
+# print article("european")
+# print article("university")
+# print article("uterus")
+# print article("owl")
+# print article("yclept")
+# print article("year")

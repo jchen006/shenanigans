@@ -13,12 +13,14 @@ synset tag.  This task, which is known as X{tagging}, is defined by
 the L{TagI} interface.
 """
 
+
 class TagI(object):
     """
     A processing interface for assigning a tag to each token in a list.
     Tags are case sensitive strings that identify some property of each
     token, such as its part of speech or its sense.
     """
+
     def tag(self, tokens):
         """
         Assign a tag to each token in C{tokens}, and yield a tagged token
@@ -26,10 +28,12 @@ class TagI(object):
         """
         raise NotImplementedError()
 
+
 class SequentialBackoff(TagI):
     """
     A tagger that tags words sequentially, left to right.
     """
+
     def tag(self, tokens, verbose=False):
         for token in tokens:
             if isinstance(token, list):
@@ -51,11 +55,13 @@ class SequentialBackoff(TagI):
             return self._backoff.tag_one(token, history)
         else:
             return None
-    
+
+
 class Default(SequentialBackoff):
     """
     A tagger that assigns the same tag to every token.
     """
+
     def __init__(self, tag):
         """
         Construct a new default tagger.
@@ -64,9 +70,9 @@ class Default(SequentialBackoff):
         @param tag: The tag that should be assigned to every token.
         """
         self._tag = tag
-        self._backoff = None # cannot have a backoff tagger!
+        self._backoff = None  # cannot have a backoff tagger!
         self._history = None
-        
+
     def tag_one(self, token, history=None):
         return self._tag  # ignore token and history
 
@@ -80,21 +86,26 @@ class Default(SequentialBackoff):
 
 from en.parser.nltk_lite import tokenize
 
+
 def tag2tuple(s, sep='/'):
     loc = s.rfind(sep)
     if loc >= 0:
-        return (s[:loc], s[loc+1:])
+        return (s[:loc], s[loc + 1:])
     else:
         return (s, None)
+
 
 def untag(tagged_sentence):
     return (w for (w, t) in tagged_sentence)
 
+
 def string2tags(s, sep='/'):
     return [tag2tuple(t, sep) for t in tokenize.whitespace(s)]
 
+
 def tags2string(t, sep='/'):
     return " ".join([token + sep + str(tag) for (token, tag) in t])
+
 
 def string2words(s, sep='/'):
     return [tag2tuple(t, sep)[0] for t in tokenize.whitespace(s)]
@@ -104,6 +115,8 @@ def string2words(s, sep='/'):
 ##################################################################
 
 from en.parser.nltk_lite import evaluate
+
+
 def accuracy(tagger, gold):
     """
     Score the accuracy of the tagger against the gold standard.

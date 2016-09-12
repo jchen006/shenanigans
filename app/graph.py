@@ -1,5 +1,8 @@
 import collections as c
-import pickle, os, itertools, json
+import pickle
+import os
+import itertools
+import json
 import numpy as np
 from settings import *
 from recipe_parser import *
@@ -7,8 +10,10 @@ from ingredient import *
 
 #Data = c.namedtuple("Data", "url chef ingredients")
 
-class Graph: 
-    def __init__(self, parser_obj): 
+
+class Graph:
+
+    def __init__(self, parser_obj):
         self.graph = {}
         self.d3_json = None
         self.recipes = None
@@ -22,9 +27,10 @@ class Graph:
     def insert_ingred_obj(self, ingred_name, recipe_name):
         if ingred_name not in self.graph:
             new_list = []
-            self.graph[ingred_name] = Ingredient(ingred_name, recipes = new_list)
+            self.graph[ingred_name] = Ingredient(ingred_name, recipes=new_list)
         ingred_obj = self.graph[ingred_name]
-        ingred_obj.recipes.append(recipe_name) # we need to append Recipe ID instead of the name
+        # we need to append Recipe ID instead of the name
+        ingred_obj.recipes.append(recipe_name)
         return
 
     ####
@@ -45,9 +51,10 @@ class Graph:
         # NODES WITH NO LINKS ARE DUE TO LISTS
         for ing_name, ing_value in self.graph.items():
             if(ing_value.name != "" and ing_value.name is not None):
-                graph_d3_json["nodes"].append({"name":ing_value.name, "count":0})
-                temp_node_to_idx[ing_value.name] = len(graph_d3_json["nodes"]) - 1
-                
+                graph_d3_json["nodes"].append(
+                    {"name": ing_value.name, "count": 0})
+                temp_node_to_idx[ing_value.name] = len(
+                    graph_d3_json["nodes"]) - 1
 
         # CHANGE recipe_parser.py's retrieve_data() method to get fewer results
         # TODO: we have duplicate links! need to fix
@@ -64,7 +71,8 @@ class Graph:
                             continue
                         elif idx1 != idx2:
                             temp_links_dict[idx1] = idx2
-                            graph_d3_json["links"].append({"source":idx1, "target":idx2, "value":1})
+                            graph_d3_json["links"].append(
+                                {"source": idx1, "target": idx2, "value": 1})
                             continue
 
         self.d3_json = graph_d3_json
@@ -75,8 +83,8 @@ class Graph:
             return json.dumps(self.d3_json)
         else:
             return ""
-    
-    #TODO: 
+
+    # TODO:
     # args for intersection radial graph
     # maxThresh: the percentage overlap required to be in connection with a node
     # minThresh: the minimum percentage overlap required to be in the graph at all
@@ -85,32 +93,33 @@ class Graph:
     def percent_intersect_recipe_sets(self, recipe_ing_sets):
         smallest_set_idx = np.argmin([len(x) for x in recipe_ing_sets])
         len_smallest_recipe_set = len(recipe_ing_sets[smallest_set_idx])
-        return (1.0*len(self.intersect_recipe_sets(recipe_ing_sets)))/(1.0*len_smallest_recipe_set)
+        return (1.0 * len(self.intersect_recipe_sets(recipe_ing_sets))) / (1.0 * len_smallest_recipe_set)
 
     def intersect_recipe_sets(self, recipe_ing_sets):
         return set.intersection(*recipe_ing_sets)
 
-    ### Returns a List of source,dest tuples where Source and Dest are Ingredient ID's
+    # Returns a List of source,dest tuples where Source and Dest are
+    # Ingredient ID's
     def find_d3_links(self):
         pass
 
     def find_common_recipe(self, ingred1, ingred2):
         pass
 
-    def make_graph_from_mongo(self): 
+    def make_graph_from_mongo(self):
         self.recipes = self.parser.recipes
         self.ingredients = self.parser.all_ingredients
-        for recipe_name in self.recipes.keys(): 
+        for recipe_name in self.recipes.keys():
             self.add_node(self.recipes[recipe_name], recipe_name)
         return
-    
+
     def get_ingredients(self):
         return self.graph.keys()
 
     def to_json(self):
         return str(self)
 
-if __name__=='__main__':
+if __name__ == '__main__':
     g = Graph()
     g.make_graph_from_mongo()
     g.make_d3()

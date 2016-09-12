@@ -5,6 +5,7 @@
 # URL: <http://nltk.sf.net>
 # For license information, see LICENSE.TXT
 
+
 class ModelI(object):
     """
     A processing interface for assigning a probability to the next word.
@@ -30,4 +31,3 @@ class ModelI(object):
         '''Evaluate the total entropy of a message with respect to the model.
         This is the sum of the log probability of each word in the message.'''
         raise NotImplementedError()
-

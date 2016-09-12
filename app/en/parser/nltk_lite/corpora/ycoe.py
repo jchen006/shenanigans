@@ -181,7 +181,7 @@ item_name = {
     'covinsal': 'Vindicta Salvatoris',
     'cowsgosp.o3': 'West-Saxon Gospels',
     'cowulf.o34': 'Wulfstan''s Homilies'
-    }
+}
 
 items = item_name.keys()
 
@@ -189,8 +189,11 @@ items = item_name.keys()
 Reads files from a given list, and converts them via the conversion_function.
 Can return raw or tagged read files.
 """
+
+
 def _read(files, conversion_function):
-    if type(files) is str: files = (files,)
+    if type(files) is str:
+        files = (files,)
 
     for file in files:
         path = os.path.join(get_basedir(), "ycoe/pos", file)
@@ -198,30 +201,37 @@ def _read(files, conversion_function):
         rx_pattern = re.compile(r"""
                 <.*>_CODE
                 |\s.*_ID
-        """, re.VERBOSE|re.UNICODE)
+        """, re.VERBOSE | re.UNICODE)
         mySents = tokenize.blankline(f)
         for sent in mySents:
-            sent= re.sub(rx_pattern, '', sent)
+            sent = re.sub(rx_pattern, '', sent)
             if sent != "":
                 yield conversion_function(sent, sep="_")
 
 """
 Returns the raw data without any tags.
 """
-def raw(files = items):
+
+
+def raw(files=items):
     return _read(files, string2words)
 
 """
 Returns the tagged corpus data.
 """
-def tagged(files = items):
+
+
+def tagged(files=items):
     return _read(files, string2tags)
 
-def chunked(files = items, chunk_types=('NP',), top_node="S", partial_match=False, collapse_partials=True, cascade=False):
+
+def chunked(files=items, chunk_types=('NP',), top_node="S", partial_match=False, collapse_partials=True, cascade=False):
     return _chunk_parse(files, chunk_types, top_node, partial_match, collapse_partials, cascade)
 
-def bracket_parse(files = items):
-    if type(files) is str: files = (files,)
+
+def bracket_parse(files=items):
+    if type(files) is str:
+        files = (files,)
     for file in files:
         path = os.path.join(get_basedir(), "ycoe/psd", file + ".psd")
         s = open(path).read()
@@ -232,11 +242,13 @@ def bracket_parse(files = items):
 """
 Rudimentary parsing, used by bracket parser to obtained parsed raw data
 """
+
+
 def _parse(s):
     rx_pattern = re.compile(r"""
         \(CODE .*\)
         |\(ID .*\d\)
-    """, re.VERBOSE|re.UNICODE)
+    """, re.VERBOSE | re.UNICODE)
     s = re.sub(rx_pattern, '', s)
     s = split(s, '\n')
     fullPhrase = ""
@@ -244,7 +256,7 @@ def _parse(s):
     # every time a new sentence marker is found
     for sent in s:
         if list(tokenize.regexp(sent, r'^\(')) != []:
-            fullPhrase = _strip_spaces(fullPhrase)               
+            fullPhrase = _strip_spaces(fullPhrase)
             if fullPhrase != "":
                 yield fullPhrase
             fullPhrase = sent
@@ -261,6 +273,7 @@ Helper function, strips tabs, extra spaces, and an erroneous leading
 and ending bracket.
 """
 
+
 def _strip_spaces(s):
     s = re.sub(r'^\(', '', s)
     s = re.sub(r'\)\s*$', '', s)
@@ -268,20 +281,23 @@ def _strip_spaces(s):
     s = re.sub(r'\s*$', '', s)
     s = re.sub(r'\t+', ' ', s)
     s = re.sub(r'\s+', ' ', s)
-  
+
     return s
 
 """
 Parses the files to return chunks of type chunk_types.  Partial matching, collapsed
 partials, and cascading are all supported.
-"""          
+"""
+
+
 def _chunk_parse(files, chunk_types, top_node, partial_match, collapse_partials, cascade):
     # allow any kind of bracketing for flexibility
 
     L_BRACKET = re.compile(r'[\(\[\{<]')
     R_BRACKET = re.compile(r'[\)\]\}>]')
 
-    if type(files) is str: files = (files,)
+    if type(files) is str:
+        files = (files,)
     for file in files:
         path = os.path.join(get_basedir(), "ycoe/psd", file + ".psd")
         s = open(path).read()
@@ -298,16 +314,16 @@ def _chunk_parse(files, chunk_types, top_node, partial_match, collapse_partials,
                     matched = False
                     if partial_match == True:
                         for eachItm in chunk_types:
-                           if (len(eachItm) <= len(itm) and 
-                               eachItm == itm[:len(eachItm)]):
-                               matched = True
-                               if collapse_partials == True:
-                                   itm = eachItm
+                            if (len(eachItm) <= len(itm) and
+                                    eachItm == itm[:len(eachItm)]):
+                                matched = True
+                                if collapse_partials == True:
+                                    itm = eachItm
                     else:
                         if (chunk_types is not None and
-                            itm in chunk_types):
+                                itm in chunk_types):
                             matched = True
-                    if matched == True: # and inTag == 0:
+                    if matched == True:  # and inTag == 0:
                         chunk = tree.Tree(itm, [])
                         if cascade == True:
                             stack.append(chunk)
@@ -316,24 +332,25 @@ def _chunk_parse(files, chunk_types, top_node, partial_match, collapse_partials,
                             if len(inTag) == 0:
                                 stack[-1].append(chunk)
                                 inTag += [bracket]
-                    itmType=itm
+                    itmType = itm
                 if R_BRACKET.match(itm[-1]):
                     tmpItm = split(itm, itm[-1])
                     if tmpItm != "":
-                        if len(inTag) > 0 and inTag[-1] <= bracket: #inTag <= bracket:
+                        # inTag <= bracket:
+                        if len(inTag) > 0 and inTag[-1] <= bracket:
                             if cascade == True:
-                                stack[-1].append( (itmType, tmpItm[0]) )
+                                stack[-1].append((itmType, tmpItm[0]))
                             else:
-                                stack[-1][-1].append( (itmType, tmpItm[0]) )
+                                stack[-1][-1].append((itmType, tmpItm[0]))
                         else:
                             if cascade == True:
                                 if len(stack) > 1:
                                     stack[-2].append(stack[-1])
                                     stack = stack[:-1]
-                            stack[-1].append( (itmType, tmpItm[0]) )
+                            stack[-1].append((itmType, tmpItm[0]))
                             inTag = [] + inTag[:-2]
-                    bracket -= (len(tmpItm)-1)
-                    while( len(inTag) > 0 and bracket < inTag[-1] ):
+                    bracket -= (len(tmpItm) - 1)
+                    while(len(inTag) > 0 and bracket < inTag[-1]):
                         if cascade == True:
                             if len(stack) > 1:
                                 stack[-2].append(stack[-1])
@@ -344,6 +361,8 @@ def _chunk_parse(files, chunk_types, top_node, partial_match, collapse_partials,
 """ 
 Demonstrates the functionality available in the corpus reader.
 """
+
+
 def demo():
     from en.parser.nltk_lite.corpora import ycoe
     from itertools import islice
@@ -362,13 +381,12 @@ def demo():
     pprint(list(ycoe.chunked('cocuraC', chunk_types=('NP', 'PP')))[:4])
 
     print '\nChunk Parse (partials, cascaded):'
-    pprint(list(ycoe.chunked('cocuraC', chunk_types=('NP', 'PP'), \
-        partial_match=True, collapse_partials=False, cascade=True))[:2])
+    pprint(list(ycoe.chunked('cocuraC', chunk_types=('NP', 'PP'),
+                             partial_match=True, collapse_partials=False, cascade=True))[:2])
 
     print '\nChunk Parse (partials, cascaded, collapsed):'
-    pprint(list(ycoe.chunked('cocuraC', chunk_types=('NP', 'PP'), \
-        partial_match=True, collapse_partials=True, cascade=True))[:2])
+    pprint(list(ycoe.chunked('cocuraC', chunk_types=('NP', 'PP'),
+                             partial_match=True, collapse_partials=True, cascade=True))[:2])
 
 if __name__ == '__main__':
     demo()
-

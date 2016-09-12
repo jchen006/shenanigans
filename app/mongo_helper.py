@@ -4,6 +4,7 @@ from bson.objectid import ObjectId
 import json
 import cPickle as pickle
 
+
 class MongoHelper:
     uri = "mongodb://recipe_user:dinneriscoming@ds035543.mongolab.com:35543/recipes"
 
@@ -15,11 +16,12 @@ class MongoHelper:
 
     def insertObj(self, mongo_name, python_obj):
         pickeled_obj = pickle.dumps(python_obj)
-        self.binary_collection.insert({mongo_name : Binary(pickeled_obj)})
+        self.binary_collection.insert({mongo_name: Binary(pickeled_obj)})
 
     def findObj(self, mongo_name):
         objs = []
-        for p in self.binary_collection.find({ mongo_name : { '$exists': True } }): # ASSUME ONLY 1 OBJECT RETURNED!!
+        # ASSUME ONLY 1 OBJECT RETURNED!!
+        for p in self.binary_collection.find({mongo_name: {'$exists': True}}):
             objs.append(p)
         if len(objs) != 0:
             return pickle.loads(objs[0][mongo_name])
@@ -52,28 +54,29 @@ class MongoHelper:
 if __name__ == "__main__":
     x = MongoHelper()
     ids = []
-    ids += x.insertToRemote({"foo1":"bar1"})
-    ids += x.insertToRemote({"foo2":"bar2"})
-    ids += x.insertToRemote([{"one":"fish"}, {"two":"fish"}, {"red":"fish"}, {"blue":"fish"}])
-    ids += x.insertToRemote({"name":"bob", "chef":"gordon", "url":"youtube.com", "ingredients":["fish", "onions", "garlic"]})
-
+    ids += x.insertToRemote({"foo1": "bar1"})
+    ids += x.insertToRemote({"foo2": "bar2"})
+    ids += x.insertToRemote([{"one": "fish"}, {"two": "fish"},
+                             {"red": "fish"}, {"blue": "fish"}])
+    ids += x.insertToRemote({"name": "bob", "chef": "gordon",
+                             "url": "youtube.com", "ingredients": ["fish", "onions", "garlic"]})
 
     for id in ids:
-        print "id added: "+ str(id)
+        print "id added: " + str(id)
         print x.findById(str(id))
 
     print "Finding all in database..."
     print x.findAll()
 
     print "Query for {\"foo\":\"bar\"}"
-    print x.findByJson({"foo":"bar"})[:]
+    print x.findByJson({"foo": "bar"})[:]
     print "Query for {\"foo1\":\"bar1\"}"
-    print x.findByJson({"foo1":"bar1"})
+    print x.findByJson({"foo1": "bar1"})
     print "Query for {\"foo\":\"fish\"}"
-    print x.findByJson({"foo":"fish"})
+    print x.findByJson({"foo": "fish"})
     print "Query for {\"one\":\"fish\"}"
-    print x.findByJson({"one":"fish"})
+    print x.findByJson({"one": "fish"})
     print "Query for {\"name\":\"bob\"}"
-    print x.findByJson({"name":"bob"})
+    print x.findByJson({"name": "bob"})
     print "Query for {\"name\":\"bob\", \"url\":\"youtube.com\"}"
-    print x.findByJson({"name":"bob", "url":"youtube.com"})
+    print x.findByJson({"name": "bob", "url": "youtube.com"})

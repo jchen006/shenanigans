@@ -14,12 +14,14 @@
 Module for reading, writing and manipulating Toolbox databases.
 """
 
-import os, re
+import os
+import re
 from en.parser.nltk_lite.corpora import get_basedir
 from string import split
 from itertools import imap
 from StringIO import StringIO
 from en.parser.nltk_lite.etree.ElementTree import TreeBuilder, Element
+
 
 class StandardFormat(object):
     """
@@ -28,7 +30,7 @@ class StandardFormat(object):
 
     def open(self, sfm_file):
         """Open a standard format marker file for sequential reading. 
-        
+
         @param sfm_file: name of the standard format marker input file
         @type sfm_file: string
         """
@@ -36,7 +38,7 @@ class StandardFormat(object):
 
     def open_string(self, s):
         """Open a standard format marker string for sequential reading. 
-        
+
         @param s: string to parse as a standard format marker input file
         @type s: string
         """
@@ -45,7 +47,7 @@ class StandardFormat(object):
     def raw_fields(self):
         """Return an iterator for the fields in the standard format marker
         file.
-        
+
         @return: an iterator that returns the next field in a (marker, value) 
             tuple. Linebreaks and trailing white space are preserved except 
             for the final newline in each field.
@@ -59,7 +61,7 @@ class StandardFormat(object):
         line = file_iter.next()
         mobj = re.match(line_pat, line)
         mkr, line_value = mobj.groups()
-        value_lines = [line_value,]
+        value_lines = [line_value, ]
         self.line_num = 0
         for line in file_iter:
             self.line_num += 1
@@ -68,7 +70,7 @@ class StandardFormat(object):
             if line_mkr:
                 yield (mkr, join_string.join(value_lines))
                 mkr = line_mkr
-                value_lines = [line_value,]
+                value_lines = [line_value, ]
             else:
                 value_lines.append(line_value)
         self.line_num += 1
@@ -76,7 +78,7 @@ class StandardFormat(object):
 
     def fields(self, strip=True, unwrap=True, encoding=None, errors='strict', unicode_fields=None):
         """Return an iterator for the fields in the standard format marker file.
-        
+
         @param strip: strip trailing whitespace from the last line of each field
         @type strip: boolean
         @param unwrap: Convert newlines in a field to spaces.
@@ -123,7 +125,9 @@ class StandardFormat(object):
         except AttributeError:
             pass
 
+
 class ToolboxData(StandardFormat):
+
     def __init__(self):
         super(ToolboxData, self).__init__()
 
@@ -134,16 +138,16 @@ class ToolboxData(StandardFormat):
         """
         Returns an element tree structure corresponding to a toolbox data file with
         all markers at the same level.
-       
+
         Thus the following Toolbox database::
             \_sh v3.0  400  Rotokas Dictionary
             \_DateStampHasFourDigitYear
-            
+
             \lx kaa
             \ps V.A
             \ge gag
             \gp nek i pas
-            
+
             \lx kaa
             \ps V.B
             \ge strangle
@@ -157,14 +161,14 @@ class ToolboxData(StandardFormat):
                     <_sh>v3.0  400  Rotokas Dictionary</_sh>
                     <_DateStampHasFourDigitYear/>
                 </header>
-    
+
                 <record>
                     <lx>kaa</lx>
                     <ps>V.A</ps>
                     <ge>gag</ge>
                     <gp>nek i pas</gp>
                 </record>
-                
+
                 <record>
                     <lx>kaa</lx>
                     <ps>V.B</ps>
@@ -210,7 +214,7 @@ class ToolboxData(StandardFormat):
 def parse_corpus(file_name, key=None, **kwargs):
     """
     Return an element tree resulting from parsing the toolbox datafile.
-    
+
     A convenience function that creates a C{ToolboxData} object, opens and 
     parses the toolbox data file. The data file is assumed to be in the toolbox 
     subdirectory of the directory where NLTK looks for corpora, 
@@ -223,7 +227,7 @@ def parse_corpus(file_name, key=None, **kwargs):
     @type kwargs: keyword arguments dictionary
     @rtype:   ElementTree._ElementInterface
     @return:  contents of toolbox data divided into header and records
-    """ 
+    """
     db = ToolboxData()
     db.open(os.path.join(get_basedir(), 'toolbox', file_name))
     return db.parse(key, **kwargs)
@@ -232,10 +236,11 @@ import re
 
 _is_value = re.compile(r"\S")
 
+
 def to_sfm_string(tree, encoding=None, errors='strict', unicode_fields=None):
     """Return a string with a standard format representation of the toolbox
     data in tree (tree can be a toolbox database or a single record).
-    
+
     @param tree: flat representation of toolbox data (whole database or single record)
     @type tree: ElementTree._ElementInterface
     @param encoding: Name of an encoding to use.
@@ -270,9 +275,11 @@ def to_sfm_string(tree, encoding=None, errors='strict', unicode_fields=None):
                 else:
                     cur_encoding = encoding
                 if re.search(_is_value, value):
-                    l.append((u"\\%s %s\n" % (mkr, value)).encode(cur_encoding, errors))
+                    l.append((u"\\%s %s\n" % (mkr, value)).encode(
+                        cur_encoding, errors))
                 else:
-                    l.append((u"\\%s%s\n" % (mkr, value)).encode(cur_encoding, errors))
+                    l.append((u"\\%s%s\n" % (mkr, value)).encode(
+                        cur_encoding, errors))
             else:
                 if re.search(_is_value, value):
                     l.append("\\%s %s\n" % (mkr, value))
@@ -280,29 +287,34 @@ def to_sfm_string(tree, encoding=None, errors='strict', unicode_fields=None):
                     l.append("\\%s%s\n" % (mkr, value))
     return ''.join(l[1:])
 
+
 def _parse_record(s):
     """
     Deprecated: use C{StandardFormat.fields()}
-    
+
     @param s: toolbox record as a string
     @type  s: L{string}
     @rtype: iterator over L{list(string)}
     """
 
-    s = "\n" + s                                         # Fields (even first) must start w/ a carriage return 
-    if s.endswith("\n") : s = s[:-1]                     # Remove single extra carriage return
-    for field in split(s, sep="\n\\")[1:] :              # Parse by carriage return followed by backslash
-        parsed_field = split(field, sep=" ", maxsplit=1) # Split properly delineated field
-        try :
+    # Fields (even first) must start w/ a carriage return
+    s = "\n" + s
+    if s.endswith("\n"):
+        s = s[:-1]                     # Remove single extra carriage return
+    # Parse by carriage return followed by backslash
+    for field in split(s, sep="\n\\")[1:]:
+        # Split properly delineated field
+        parsed_field = split(field, sep=" ", maxsplit=1)
+        try:
             yield (parsed_field[0], parsed_field[1])
-        except IndexError :
+        except IndexError:
             yield (parsed_field[0], '')
 
 
 def raw(files='rotokas.dic', include_header=False, head_field_marker=None):
     """
     Deprecated: use C{StandardFormat.fields()}
-    
+
     @param files: One or more toolbox files to be processed
     @type files: L{string} or L{tuple(string)}
     @param include_header: flag that determines whether to treat header as record (default is no)
@@ -312,45 +324,52 @@ def raw(files='rotokas.dic', include_header=False, head_field_marker=None):
                               the first field of the first record)
     @type head_field_marker: string
     @rtype: iterator over L{list(string)}
-    """       
+    """
 
     # Just one file to process?  If so convert to a tuple so we can iterate
-    if type(files) is str : files = (files,)
+    if type(files) is str:
+        files = (files,)
 
     for file in files:
         path = os.path.join(get_basedir(), "toolbox", file)
         fc = open(path, "U").read()
-        if fc.strip().startswith(r"\_") :
+        if fc.strip().startswith(r"\_"):
             (header, body) = split(fc, sep="\n\n", maxsplit=1)
             if include_header:
                 yield list(_parse_record(header))
-        else :
+        else:
             body = fc
-            
+
         # Deal with head field marker
-        if head_field_marker :
+        if head_field_marker:
             hfm_with_backslash = "\\" + hfm
-        else :
-            ff = split(body, sep="\n", maxsplit=1)[0]                # first field
-            hfm_with_backslash = split(ff, sep=" ", maxsplit=1)[0]   # raw marker of first field
-        recordsep = "\n\n"+hfm_with_backslash                        # separates records from one another
-        
+        else:
+            ff = split(body, sep="\n", maxsplit=1)[
+                0]                # first field
+            hfm_with_backslash = split(ff, sep=" ", maxsplit=1)[
+                0]   # raw marker of first field
+        # separates records from one another
+        recordsep = "\n\n" + hfm_with_backslash
+
         # Parse records
-        for r in split("\n\n"+body, sep=recordsep)[1:] : 
+        for r in split("\n\n" + body, sep=recordsep)[1:]:
             yield list(_parse_record(hfm_with_backslash + r))
 
 # assumes headwords are unique
-def dictionary(files='rotokas.dic', include_header=False) :
+
+
+def dictionary(files='rotokas.dic', include_header=False):
     """
     Deprecated: use C{ToolboxData.parse()}
-    
+
     @param files: One or more toolbox files to be processed
     @type files: L{string} or L{tuple(string)}
     @param include_header: treat header as entry?
     @type include_header: boolean
     @rtype: iterator over L{dict}
-    """       
+    """
     return imap(dict, raw(files, include_header))
+
 
 def _dict_list_entry(entry):
     d = {}
@@ -363,22 +382,26 @@ def _dict_list_entry(entry):
     return d
 
 # if two entries have the same headword this key maps to a list of entries
-def dict_list(files='rotokas.dic', include_header=False) :
+
+
+def dict_list(files='rotokas.dic', include_header=False):
     """
     Deprecated: use C{ToolboxData.parse()}
-    
+
     @param files: One or more toolbox files to be processed
     @type files: L{string} or L{tuple(string)}
     @param include_header: treat header as entry?
     @type include_header: boolean
     @rtype: iterator over L{dict}
-    """       
+    """
 
     # Just one file to process?  If so convert to a tuple so we can iterate
-    if type(files) is str : files = (files,)
+    if type(files) is str:
+        files = (files,)
 
-    for entry in raw(files, include_header) :
+    for entry in raw(files, include_header):
         yield _dict_list_entry(entry)
+
 
 def demo():
     from en.parser.nltk_lite.corpora import toolbox

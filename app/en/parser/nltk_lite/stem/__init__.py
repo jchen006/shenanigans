@@ -21,16 +21,18 @@ C{StemI} defines a standard interface for stemmers.
 
 import re
 
-##//////////////////////////////////////////////////////
-##  Stemmer Interface
-##//////////////////////////////////////////////////////
+# //////////////////////////////////////////////////////
+# Stemmer Interface
+# //////////////////////////////////////////////////////
+
 
 class StemI(object):
     """
     A processing interface for removing morphological affixes from
     words.  This process is known as X{stemming}.
-    
+
     """
+
     def stem(self, token):
         """
         Strip affixes from the token and return the stem.

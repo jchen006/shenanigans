@@ -29,6 +29,7 @@ displayed textually or graphically.
 # 4. the search space when plugging (search tree)
 #
 
+
 class HoleSemantics:
     """
     This class holds the broken-down components of a hole semantics, i.e. it
@@ -37,6 +38,7 @@ class HoleSemantics:
     then provides some operations on the semantics dealing with holes, labels
     and finding legal ways to plug holes with labels.
     """
+
     def __init__(self, usr):
         """
         Constructor.  `usr' is a tree of nodes that can take the forms:
@@ -55,7 +57,7 @@ class HoleSemantics:
         self.holes = set()      # set of variables which were asserted hole(x)
         self.labels = set()     # set of variables which were asserted label(x)
         self.fragments = {}     # mapping of label -> formula fragment
-        self.constraints = set() # set of Constraints
+        self.constraints = set()  # set of Constraints
         self._break_down(usr)
         self.top_most_labels = self._find_top_most_labels()
         self.top_hole = self._find_top_hole()
@@ -81,7 +83,7 @@ class HoleSemantics:
         semantics underspecified representation (USR).
         """
         assert isinstance(usr, Tree)
-        
+
         # (and X Y)
         if usr.node == 'and':
             self._break_down(usr[0])
@@ -279,18 +281,23 @@ class Constraint:
     This class represents a constraint of the form (L =< N),
     where L is a label and N is a node (a label or a hole).
     """
+
     def __init__(self, lhs, rhs):
         self.lhs = lhs
         self.rhs = rhs
+
     def __eq__(self, other):
         if self.__class__ == other.__class__:
             return self.lhs == other.lhs and self.rhs == other.rhs
         else:
             return False
+
     def __ne__(self, other):
         return not (self == other)
+
     def __hash__(self):
         return hash(repr(self))
+
     def __repr__(self):
         return '(%s =< %s)' % (self.lhs, self.rhs)
 
@@ -301,6 +308,7 @@ class FOLTree(Tree):
     operator names are printed in infix.  Nodes which have unrecognised names
     are assumed to be predicates.
     """
+
     def __str__(self):
         if self.node == 'ALL':
             var = self[0]
@@ -328,17 +336,17 @@ def main():
 
     opts = OptionParser(usage=usage)
     opts.add_option("-c", "--components",
-	action="store_true", dest="show_components", default=0,
-	help="show hole semantics components")
+                    action="store_true", dest="show_components", default=0,
+                    help="show hole semantics components")
     opts.add_option("-r", "--raw",
-	action="store_true", dest="show_raw", default=0,
-	help="show the raw hole semantics expression")
+                    action="store_true", dest="show_raw", default=0,
+                    help="show the raw hole semantics expression")
     opts.add_option("-d", "--drawtrees",
-	action="store_true", dest="draw_trees", default=0,
-	help="show formula trees in a GUI window")
+                    action="store_true", dest="draw_trees", default=0,
+                    help="show formula trees in a GUI window")
     opts.add_option("-v", "--verbose",
-	action="count", dest="verbosity", default=0,
-	help="show more information during parse")
+                    action="count", dest="verbosity", default=0,
+                    help="show more information during parse")
 
     (options, args) = opts.parse_args()
 
@@ -391,7 +399,7 @@ def main():
             print 'Top hole:    ', hole_sem.top_hole
             print 'Top labels:  ', hole_sem.top_most_labels
             print 'Fragments:'
-            for (l,f) in hole_sem.fragments.items():
+            for (l, f) in hole_sem.fragments.items():
                 print '\t%s: %s' % (l, f)
 
         # Find all the possible ways to plug the formulas together.
@@ -416,4 +424,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

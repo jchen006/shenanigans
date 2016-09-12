@@ -20,49 +20,51 @@ This corpus contains selected texts from Project Gutenberg:
 * John Milton
 * William Shakespeare (3)
 * Walt Whitman
-"""       
+"""
 
 from en.parser.nltk_lite.corpora import get_basedir
 from en.parser.nltk_lite import tokenize
-import os, re
+import os
+import re
 
 items = [
-  'austen-emma',
-  'austen-persuasion',
-  'austen-sense',
-  'bible-kjv',
-  'blake-poems',
-  'blake-songs',
-  'chesterton-ball',
-  'chesterton-brown',
-  'chesterton-thursday',
-  'milton-paradise',
-  'shakespeare-caesar',
-  'shakespeare-hamlet',
-  'shakespeare-macbeth',
-  'whitman-leaves'
-]    
+    'austen-emma',
+    'austen-persuasion',
+    'austen-sense',
+    'bible-kjv',
+    'blake-poems',
+    'blake-songs',
+    'chesterton-ball',
+    'chesterton-brown',
+    'chesterton-thursday',
+    'milton-paradise',
+    'shakespeare-caesar',
+    'shakespeare-hamlet',
+    'shakespeare-macbeth',
+    'whitman-leaves'
+]
 
 item_name = {
-  'austen-emma':         'Jane Austen: Emma',
-  'austen-persuasion':   'Jane Austen: Persuasion',
-  'austen-sense':        'Jane Austen: Sense and Sensibility',
-  'bible-kjv':           'King James Bible',
-  'blake-poems':         'William Blake: Poems',
-  'blake-songs':         'Willian Blake: Songs of Innocence and Experience',
-  'chesterton-ball':     'G.K. Chesterton: The Ball and The Cross',
-  'chesterton-brown':    'G.K. Chesterton: The Wisdom of Father Brown',
-  'chesterton-thursday': 'G.K. Chesterton: The Man Who Was Thursday',
-  'milton-paradise':     'John Milton: Paradise Lost',
-  'shakespeare-caesar':  'William Shakespeare: Julius Caesar',
-  'shakespeare-hamlet':  'William Shakespeare: Hamlet',
-  'shakespeare-macbeth': 'William Shakespeare: Macbeth',
-  'whitman-leaves':      'Walt Whitman: Leaves of Grass',
+    'austen-emma':         'Jane Austen: Emma',
+    'austen-persuasion':   'Jane Austen: Persuasion',
+    'austen-sense':        'Jane Austen: Sense and Sensibility',
+    'bible-kjv':           'King James Bible',
+    'blake-poems':         'William Blake: Poems',
+    'blake-songs':         'Willian Blake: Songs of Innocence and Experience',
+    'chesterton-ball':     'G.K. Chesterton: The Ball and The Cross',
+    'chesterton-brown':    'G.K. Chesterton: The Wisdom of Father Brown',
+    'chesterton-thursday': 'G.K. Chesterton: The Man Who Was Thursday',
+    'milton-paradise':     'John Milton: Paradise Lost',
+    'shakespeare-caesar':  'William Shakespeare: Julius Caesar',
+    'shakespeare-hamlet':  'William Shakespeare: Hamlet',
+    'shakespeare-macbeth': 'William Shakespeare: Macbeth',
+    'whitman-leaves':      'Walt Whitman: Leaves of Grass',
 }
 
 
-def raw(files = items):
-    if type(files) is str: files = (files,)
+def raw(files=items):
+    if type(files) is str:
+        files = (files,)
 
     for file in files:
         path = os.path.join(get_basedir(), "gutenberg", file + ".txt")
@@ -74,6 +76,7 @@ def raw(files = items):
                     yield t
             if line[:5] == '*END*':
                 preamble = False
+
 
 def demo():
     from en.parser.nltk_lite.corpora import gutenberg

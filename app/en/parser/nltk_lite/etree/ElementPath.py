@@ -55,13 +55,15 @@ import re
 
 xpath_tokenizer = re.compile(
     "(::|\.\.|\(\)|[/.*:\[\]\(\)@=])|((?:\{[^}]+\})?[^/:\[\]\(\)@=\s]+)|\s+"
-    ).findall
+).findall
+
 
 class xpath_descendant_or_self:
     pass
 
 ##
 # Wrapper for a compiled XPath.
+
 
 class Path:
 
@@ -91,7 +93,7 @@ class Path:
                 if op != "/":
                     raise SyntaxError(
                         "expected path separator (%s)" % (op or tag)
-                        )
+                    )
         if self.path and isinstance(self.path[-1], xpath_descendant_or_self):
             raise SyntaxError("path cannot end with //")
         if len(self.path) == 1 and isinstance(self.path[0], type("")):
@@ -148,7 +150,7 @@ class Path:
                     else:
                         index = index + 1
                 except IndexError:
-                    tag = None # invalid path
+                    tag = None  # invalid path
                 for node in nodeset:
                     new = list(node.getiterator(tag))
                     if new and new[0] is node:
@@ -169,6 +171,7 @@ _cache = {}
 ##
 # (Internal) Compile path.
 
+
 def _compile(path):
     p = _cache.get(path)
     if p is not None:
@@ -182,17 +185,20 @@ def _compile(path):
 ##
 # Find first matching object.
 
+
 def find(element, path):
     return _compile(path).find(element)
 
 ##
 # Find text for first matching object.
 
+
 def findtext(element, path, default=None):
     return _compile(path).findtext(element, default)
 
 ##
 # Find all matching objects.
+
 
 def findall(element, path):
     return _compile(path).findall(element)

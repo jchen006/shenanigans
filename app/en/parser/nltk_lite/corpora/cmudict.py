@@ -55,21 +55,24 @@ item_name = {
     'cmudict': 'CMU Pronunciation Dictionary, Version 0.6, 1998',
 }
 
-def raw(files = 'cmudict'):
+
+def raw(files='cmudict'):
     """
     @param files: One or more cmudict files to be processed
     @type files: L{string} or L{tuple(string)}
     @rtype: iterator over L{tree}
-    """       
+    """
 
     # Just one file to process?  If so convert to a tuple so we can iterate
-    if type(files) is str: files = (files,)
+    if type(files) is str:
+        files = (files,)
 
     for file in files:
         path = os.path.join(get_basedir(), "cmudict", file)
         for line in open(path).readlines():
             fields = line.strip().split(' ')
             yield (fields[0], int(fields[1]), tuple(fields[2:]))
+
 
 def dictionary(files='cmudict'):
     d = {}
@@ -79,6 +82,7 @@ def dictionary(files='cmudict'):
         else:
             d[word] += (pron,)
     return d
+
 
 def demo():
     from en.parser.nltk_lite.corpora import cmudict
@@ -98,4 +102,3 @@ def demo():
 
 if __name__ == '__main__':
     demo()
-

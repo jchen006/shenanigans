@@ -41,21 +41,24 @@ item_name = {
     'finnish': 'Genesis, Suomen evankelis-luterilaisen kirkon kirkolliskokouksen vuonna 1992 käyttöön ottama suomennos'
 }
 
-def raw(files = 'english-kjv'):
+
+def raw(files='english-kjv'):
     """
     @param files: One or more treebank files to be processed
     @type files: L{string} or L{tuple(string)}
     @rtype: iterator over L{tree}
-    """       
+    """
 
     # Just one file to process?  If so convert to a tuple so we can iterate
-    if type(files) is str: files = (files,)
+    if type(files) is str:
+        files = (files,)
 
     for file in files:
-        path = os.path.join(get_basedir(), "genesis", file+".txt")
+        path = os.path.join(get_basedir(), "genesis", file + ".txt")
         s = open(path).read()
         for t in tokenize.whitespace(s):
             yield t
+
 
 def demo():
     from en.parser.nltk_lite.corpora import genesis
@@ -73,4 +76,3 @@ def demo():
 
 if __name__ == '__main__':
     demo()
-

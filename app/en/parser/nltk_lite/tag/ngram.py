@@ -13,7 +13,8 @@ synset tag.  This task, which is known as X{tagging}, is defined by
 the L{TagI} interface.
 """
 
-import types, re
+import types
+import re
 from collections import deque
 from en.parser.nltk_lite.probability import FreqDist, ConditionalFreqDist
 from en.parser.nltk_lite.tag import *
@@ -22,16 +23,21 @@ from en.parser.nltk_lite.tag import *
 # N-GRAM TAGGERS: these make use of history
 ##############################################################
 
+
 class Window(deque):
+
     def __init__(self, width):
         deque.__init__(self, (None,) * width)
         self._width = width
+
     def clear(self):
         deque.clear(self)
         self.extend((None,) * self._width)
+
     def append(self, item):
         self.rotate(-1)
         self[-1] = item
+
     def set(self, items):
         deque.clear(self)
         if len(items) >= self._width:
@@ -40,6 +46,7 @@ class Window(deque):
         else:
             # pad to required width
             self.extend(items + (None,) * (self._width - 1 - len(items)))
+
 
 class Ngram(SequentialBackoff):
     """
@@ -54,11 +61,12 @@ class Ngram(SequentialBackoff):
     context.  If the C{tagger.Ngram} encounters a word in a context
     for which it has no data, it will assign it the tag C{None}.
     """
+
     def __init__(self, n, cutoff=1, backoff=None):
         """
         Construct an I{n}-gram stochastic tagger.  The tagger must be trained
         using the L{train()} method before being used to tag data.
-        
+
         @param n: The order of the new C{tagger.Ngram}.
         @type n: int
         @type cutoff: C{int}
@@ -67,17 +75,18 @@ class Ngram(SequentialBackoff):
             C{cutoff} examples of a given context in training,
             then it will return a tag of C{None} for that context.
         """
-        if n < 2: raise ValueError('n must be greater than 1')
+        if n < 2:
+            raise ValueError('n must be greater than 1')
         self._model = {}
         self._n = n
         self._cutoff = cutoff
-        self._history = Window(n-1)
+        self._history = Window(n - 1)
         self._backoff = backoff
 
     def train(self, tagged_corpus, verbose=False):
         """
         Train this C{tagger.Ngram} using the given training data.
-        
+
         @param tagged_corpus: A tagged corpus.  Each item should be
             a C{list} of tagged tokens, where each consists of
             C{text} and a C{tag}.
@@ -110,7 +119,7 @@ class Ngram(SequentialBackoff):
         # generate stats
         if verbose:
             size = len(self._model)
-            backoff = 100 - (hit_count * 100.0)/ token_count
+            backoff = 100 - (hit_count * 100.0) / token_count
             pruning = 100 - (size * 100.0) / len(fd.conditions())
             print "[Trained %d-gram tagger:" % self._n,
             print "size=%d, backoff=%.2f%%, pruning=%.2f%%]" % (
@@ -120,7 +129,7 @@ class Ngram(SequentialBackoff):
         if self.size() == 0:
             raise ValueError, 'Tagger is not trained'
         if history:
-            self._history.set(history) # NB this may truncate history
+            self._history.set(history)  # NB this may truncate history
         history = tuple(self._history)
         context = (history, token)
 
@@ -137,11 +146,15 @@ class Ngram(SequentialBackoff):
         return '<%d-gram Tagger: size=%d, cutoff=%d>' % (
             self._n, self.size(), self._cutoff)
 
+
 class Bigram(Ngram):
+
     def __init__(self, cutoff=1, backoff=None):
         Ngram.__init__(self, 2, cutoff, backoff)
 
+
 class Trigram(Ngram):
+
     def __init__(self, cutoff=1, backoff=None):
         Ngram.__init__(self, 3, cutoff, backoff)
 
@@ -159,15 +172,16 @@ class Trigram(Ngram):
 #    def __repr__(self):
 #        return '<BackoffTagger: %s>' % self._taggers
 ###
-    
-##//////////////////////////////////////////////////////
-##  Demonstration
-##//////////////////////////////////////////////////////
+
+# //////////////////////////////////////////////////////
+# Demonstration
+# //////////////////////////////////////////////////////
 
 def _demo_tagger(tagger, gold):
     from en.parser.nltk_lite.tag import accuracy
     acc = accuracy(tagger, gold)
     print 'Accuracy = %4.1f%%' % (100.0 * acc)
+
 
 def demo():
     """
@@ -204,7 +218,7 @@ def demo():
     # None, then they will generate an output of None, and so all
     # words will get tagged a None.
 
-    print '='*75
+    print '=' * 75
     print 'Running the taggers on test data...'
     print '  Default (nn) tagger: ',
     sys.stdout.flush()
@@ -228,4 +242,3 @@ def demo():
 
 if __name__ == '__main__':
     demo()
-

@@ -1,6 +1,5 @@
-#https://en.wikipedia.org/wiki/List_of_vegetables
-#http://vegetablesfruitsgrains.com/list-of-vegetables/
-
+# https://en.wikipedia.org/wiki/List_of_vegetables
+# http://vegetablesfruitsgrains.com/list-of-vegetables/
 
 
 """"Scraping sets on the following categories
@@ -61,8 +60,8 @@ Parse all ingredients labels and generate a massive table that maps
 ingredient to the particular label
 """
 
-class masterListGenerator: 
 
+class masterListGenerator:
 
-	def _init_(self, list): 
-		self.list = list
+    def _init_(self, list):
+        self.list = list

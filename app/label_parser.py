@@ -8,13 +8,16 @@ Label Parser:
     E.g. "chopped garlic freshly washed" contains 'garlic', which is in our master labels file
     and thus we parse this to have the consolidated ingredient label 'garlic'
 '''
+
+
 class LabelParser():
 
     def __init__(self, food_label):
-        self.file_path = os.path.join(APP_ROOT, "ingredient_labels/" + food_label + ".txt")
+        self.file_path = os.path.join(
+            APP_ROOT, "ingredient_labels/" + food_label + ".txt")
 
         self.ingred_set = set()
-        with open(self.file_path,'r') as ingred_labels:
+        with open(self.file_path, 'r') as ingred_labels:
             for i in ingred_labels:
                 self.ingred_set.add(i[:-1])
 
@@ -24,8 +27,6 @@ class LabelParser():
                 return mi
 
         return None
-
-
 
 
 if __name__ == "__main__":

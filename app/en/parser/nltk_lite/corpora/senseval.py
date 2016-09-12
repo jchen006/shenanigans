@@ -20,13 +20,16 @@ Distributed with permission.
 The NLTK version of the Senseval 2 files uses well-formed XML.
 Each instance of the ambiguous words "hard", "interest", "line", and "serve"
 is tagged with a sense identifier, and supplied with context.
-"""       
+"""
 
 from en.parser.nltk_lite.corpora import get_basedir
 from en.parser.nltk_lite import tokenize
-import os, re, xml.sax
+import os
+import re
+import xml.sax
 
 items = ["hard", "interest", "line", "serve"]
+
 
 class SensevalParser(xml.sax.ContentHandler):
 
@@ -43,7 +46,7 @@ class SensevalParser(xml.sax.ContentHandler):
         parser.setContentHandler(self)
         current = 0
         while current < len(text):
-            buffer = text[current : current + self._buffer_size]
+            buffer = text[current: current + self._buffer_size]
             parser.feed(buffer)
             for instance in self._instances:
                 yield instance
@@ -61,14 +64,14 @@ class SensevalParser(xml.sax.ContentHandler):
             instance_id = _to_ascii(attr.getValueByQName('instance'))
             self._senses.append(_to_ascii(attr.getValueByQName('senseid')))
             self._iloc = instance_id
-            
+
         elif tag == 'context':
             self._data = ''
         elif tag == 'lexelt':
             self._lemma = _to_ascii(attr.getValueByQName('item'))
         elif tag == 'head':
             self._head = self._wnum - 1
-        
+
     def endElement(self, tag):
         if tag == 'wf':
             text = self._data.strip()
@@ -77,7 +80,8 @@ class SensevalParser(xml.sax.ContentHandler):
             self._wnum += 1
             self._data = ''
         elif tag == 'context':
-            self._instances.append((tuple(self._senses), self._head, self._tokens))
+            self._instances.append(
+                (tuple(self._senses), self._head, self._tokens))
             self.reset(False)
 
     def instances(self):
@@ -95,31 +99,34 @@ class SensevalParser(xml.sax.ContentHandler):
             self._tokens = []
             self._pos = None
 
+
 def _to_ascii(text):
     return text.encode('Latin-1')
 
 
-def raw(files = items):
+def raw(files=items):
     """
     @param files: One or more Senseval files to be processed
     @type files: L{string} or L{tuple(string)}
     @rtype: iterator over L{tuple}
-    """       
+    """
 
-    if type(files) is str: files = (files,)
+    if type(files) is str:
+        files = (files,)
     parser = SensevalParser()
     for file in files:
-        path = os.path.join(get_basedir(), "senseval", file+".pos")
+        path = os.path.join(get_basedir(), "senseval", file + ".pos")
         f = open(path).read()
         for entry in parser.parse(f):
             yield entry
+
 
 def demo():
     from en.parser.nltk_lite.corpora import senseval
     from itertools import islice
 
     # Print one example of each sense
-    
+
     seen = set()
     for (senses, position, context) in senseval.raw('line'):
         if senses not in seen:
@@ -128,7 +135,6 @@ def demo():
             print "position:", position
             print "context:", ' '.join(['%s/%s' % ttok for ttok in context])
             print
-        
+
 if __name__ == '__main__':
     demo()
-

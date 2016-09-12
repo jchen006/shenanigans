@@ -8,7 +8,7 @@
 
 """
 Read chunk structures from the CONLL-2000 Corpus
-"""       
+"""
 
 from en.parser.nltk_lite.corpora import get_basedir
 from en.parser.nltk_lite import tokenize
@@ -20,41 +20,49 @@ items = ['train', 'test']
 item_name = {
     'train': 'training set',
     'test':  'test set'
-    }
+}
+
 
 def _list_sent(sent):
     return [tokenize.whitespace(line) for line in tokenize.line(sent)]
 
-def raw(files = items):
-    if type(files) is str: files = (files,)
+
+def raw(files=items):
+    if type(files) is str:
+        files = (files,)
     for file in files:
         path = os.path.join(get_basedir(), "conll2000", file + ".txt")
         s = open(path).read()
         for sent in tokenize.blankline(s):
             yield [word for (word, tag, chunk) in _list_sent(sent)]
 
-def tagged(files = items):
-    if type(files) is str: files = (files,)
+
+def tagged(files=items):
+    if type(files) is str:
+        files = (files,)
     for file in files:
         path = os.path.join(get_basedir(), "conll2000", file + ".txt")
         s = open(path).read()
         for sent in tokenize.blankline(s):
             yield [(word, tag) for (word, tag, chunk) in _list_sent(sent)]
 
-def chunked(files = items, chunk_types=('NP',)):
-    if type(files) is str: files = (files,)
+
+def chunked(files=items, chunk_types=('NP',)):
+    if type(files) is str:
+        files = (files,)
     for file in files:
         path = os.path.join(get_basedir(), "conll2000", file + ".txt")
         s = open(path).read()
         for sent in tokenize.blankline(s):
             yield tree.conll_chunk(sent, chunk_types)
 
+
 def demo():
     from en.parser.nltk_lite.corpora import conll2000
     from itertools import islice
 
     print "CONLL Chunked data\n"
-    
+
     print "Raw text:"
     for sent in islice(conll2000.raw(), 0, 5):
         print sent
@@ -73,4 +81,3 @@ def demo():
 
 if __name__ == '__main__':
     demo()
-
