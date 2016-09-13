@@ -2,10 +2,30 @@
 <!--Add functionality to CRUD the files -->
 
 {% block content %}
+
+<!-- Will i get a multiple heads conflict? -->
+<head>
+		<meta charset="utf-8" /> 
+		<!-- Adding back the charset -->
+    <title>Admin DashBoard</title>
+    <script src="https://unpkg.com/react@15.3.1/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15.3.1/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
+    <script src="https://unpkg.com/jquery@3.1.0/dist/jquery.min.js"></script>
+    <script src="https://unpkg.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+
 <body>
 
-<a type="button" href="{{url_for('admin.logout')}}"> Logout </a>
 
+<h1> React Ice Box Components </h1>
+<div id="content"></div>
+<script type="text/babel" src="../../static/js/react/adminPanel.js"></script>
+<!-- What could have fixed them are removing the errant div, and the extra script tag -->
+
+
+
+<a type="button" href="{{url_for('admin.logout')}}"> Logout </a>
 <h1> Pending Items </h1>
 <table id="icebox" class="table">
   <thead>
@@ -36,7 +56,6 @@
 
 
 <h1> Analytics </h1>
-
 
 
 </body>
