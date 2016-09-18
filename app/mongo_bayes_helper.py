@@ -1,15 +1,16 @@
 from pymongo import MongoClient
 import json
 import cPickle as pickle
+import mongo_helper
 
 
-class MongoBayesHelper:
+class MongoBayesHelper(mongo_helper.MongoHelper):
     uri = "mongodb://recipe_user:dinneriscoming@ds017736.mlab.com:17736/bayesian_training"
 
-    def __init__(self, debug=False):
-        self.client = MongoClient(MongoBayesHelper.uri)
-        self.db = self.client['bayesian_training']
-        self.collection = self.db['training_data']
+    def __init__(self,  debug=False):
+	mongo_helper.MongoHelper.__init__(self, uri_str=MongoBayesHelper.uri,
+									  db_str='bayesian_training',
+									  collection_str='training_data')
 
     def insertToRemote(self, json):
         post_id = None
@@ -18,9 +19,3 @@ class MongoBayesHelper:
         elif isinstance(json, list):
             post_id = self.collection.insert_many(json).inserted_ids
         return post_id
-
-    def findAll(self):
-        posts = []
-        for post in self.collection.find():
-            posts.append(post)
-        return posts

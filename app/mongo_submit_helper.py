@@ -2,18 +2,14 @@ from pymongo import MongoClient
 from bson.binary import Binary
 from bson.objectid import ObjectId
 import json
+import mongo_helper
 
-# 153735
 
-
-class SubmitMongoHelper:
-    uri = "mongodb://recipe_user:dinneriscoming@ds035543.mongolab.com:35543/recipes"
+class SubmitMongoHelper(mongo_helper.MongoHelper):
 
     def __init__(self, collection, debug=False):
-        self.client = MongoClient(SubmitMongoHelper.uri)
-        self.db = self.client['recipes']
-        self.collection = self.db[collection]
-        self.binary_collection = self.db['bin-data']
+	mongo_helper.MongoHelper.__init__(self, db_str='recipes', 
+					  collection_str=collection)
 
     def insertToRemote(self, json):
         post_id = None
@@ -22,12 +18,6 @@ class SubmitMongoHelper:
         elif isinstance(json, list):
             post_id = self.collection.insert_many(json).inserted_ids
         return post_id
-
-    def findAll(self):
-        posts = []
-        for post in self.collection.find():
-            posts.append(post)
-        return posts
 
     def findById(self, post_id):
         if isinstance(post_id, str):
