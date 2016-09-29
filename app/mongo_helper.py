@@ -6,22 +6,24 @@ import cPickle as pickle
 
 
 class MongoHelper:
-    uri = "mongodb://recipe_user:dinneriscoming@ds035543.mlab.com:35543/recipes"
 
-    def __init__(self, uri_str=MongoHelper.uri, db_str, collection_str, debug=False):
-	self.uri = uri
+    def __init__(self, db_str='recipes', 
+                 collection_str='recipe_collection',
+                 uri_str="mongodb://recipe_user:dinneriscoming@ds035543.mlab.com:35543/recipes",
+                 debug=False):
+        self.uri = uri_str
         self.client = MongoClient(uri_str)
         self.db = self.client[db_str]
         self.collection = self.db[collection_str]
         self.binary_collection = self.db['bin-data']
 
     def insertPythonObj(self, mongo_key, python_obj):
-	raise NotImplementedError
+        raise NotImplementedError
         pickeled_obj = pickle.dumps(python_obj)
         self.binary_collection.insert({mongo_key: Binary(pickeled_obj)})
 
     def findObj(self, mongo_name):
-	raise NotImplementedError
+        raise NotImplementedError
         objs = []
         # ASSUME ONLY 1 OBJECT RETURNED!!
         for p in self.binary_collection.find({mongo_name: {'$exists': True}}):
@@ -32,7 +34,7 @@ class MongoHelper:
             return None
 
     def insertToRemote(self, json):
-	raise NotImplementedError
+        raise NotImplementedError
         post_id = None
         if isinstance(json, dict):
             post_id = [self.collection.insert_one(json).inserted_id]
@@ -41,11 +43,11 @@ class MongoHelper:
         return post_id
 
     def findByJson(self, json):
-	raise NotImplementedError
+        raise NotImplementedError
         return list(self.collection.find(json))
 
     def findById(self, post_id):
-	raise NotImplementedError
+        raise NotImplementedError
         if isinstance(post_id, str):
             post_id = ObjectId(post_id)
         return self.collection.find_one({"_id": post_id})

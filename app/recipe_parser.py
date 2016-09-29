@@ -1,5 +1,5 @@
 from filters import *
-from mongo_helper import *
+import mongo_data_helper as mh
 import collections as c
 import pickle
 import os
@@ -66,7 +66,7 @@ class Parser:
         self.all_ingredients = set()
         self.recipe_path = "../recipes/"
         self.data_path = "../data/"
-        self.mongo = MongoHelper()
+        self.mongo = mh.MongoDataHelper()
 
     def picking(self):
         print "Picking"

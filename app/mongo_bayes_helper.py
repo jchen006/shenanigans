@@ -5,12 +5,13 @@ import mongo_helper
 
 
 class MongoBayesHelper(mongo_helper.MongoHelper):
-    uri = "mongodb://recipe_user:dinneriscoming@ds017736.mlab.com:17736/bayesian_training"
 
     def __init__(self,  debug=False):
-	mongo_helper.MongoHelper.__init__(self, uri_str=MongoBayesHelper.uri,
-									  db_str='bayesian_training',
-									  collection_str='training_data')
+        URI = "mongodb://recipe_user:dinneriscoming@ds017736.mlab.com:17736/bayesian_training"
+        mongo_helper.MongoHelper.__init__(self, 
+                                          db_str='bayesian_training',
+                                          collection_str='training_data',
+                                          uri_str=URI)
 
     def insertToRemote(self, json):
         post_id = None

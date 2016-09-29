@@ -3,6 +3,7 @@ import pickle
 import os
 import itertools
 import json
+import mongo_data_helper as mh
 from settings import *
 from recipe_parser import *
 from ingredient import *
@@ -95,7 +96,7 @@ class LDAModel:
         self.ingredients = ingredients
         self.recipes = recipes
 
-        self.mongoHelper = MongoHelper()
+        self.mongoHelper = mh.MongoDataHelper()
 
         print "Looking for LDA object in Mongo..."
         tmp_model_obj_from_mongo = self.mongoHelper.findObj(

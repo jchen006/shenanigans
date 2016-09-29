@@ -43,7 +43,7 @@ class MongoDataHelper(mongo_helper.MongoHelper):
 
 
 if __name__ == "__main__":
-    x = MongoHelper()
+    x = MongoDataHelper()
     ids = []
     ids += x.insertToRemote({"foo1": "bar1"})
     ids += x.insertToRemote({"foo2": "bar2"})
