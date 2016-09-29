@@ -3,13 +3,13 @@ from app import lm
 from flask import Blueprint, render_template, request, redirect, url_for
 admin = Blueprint('admin', __name__)
 import mongo_admin_helper as mah
-import mongo_helper as mh
+import mongo_data_helper as mh
 from flask.ext.login import UserMixin, login_required, login_user, logout_user, UserMixin
 
 # Ah! My issues is that i need to instant the admin helper object
 # I need to call it on the the class of the file
 mongo_admin = mah.AdminMongoHelper('admin')
-mongo_recipe = mh.MongoHelper()
+mongo_recipe = mh.MongoDataHelper()
 
 
 @admin.route('/admin_signin')

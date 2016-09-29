@@ -1,11 +1,11 @@
 from flask import Blueprint, request, jsonify, abort
-import mongo_helper as mh
+import mongo_data_helper as mh
 import mongo_submit_helper as msh
 
 db = Blueprint('db', __name__)
 
 mongo_recipe = msh.SubmitMongoHelper('pending_recipe_collection')
-mongo_main = mh.MongoHelper()
+mongo_main = mh.MongoDataHelper()
 
 """Updates the recipe 
 """
