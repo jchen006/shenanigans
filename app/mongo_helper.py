@@ -7,7 +7,7 @@ import cPickle as pickle
 
 class MongoHelper:
 
-    def __init__(self, db_str='recipes', 
+    def __init__(self, db_str='recipes',
                  collection_str='recipe_collection',
                  uri_str="mongodb://recipe_user:dinneriscoming@ds035543.mlab.com:35543/recipes",
                  debug=False):

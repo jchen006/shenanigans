@@ -8,8 +8,8 @@ import mongo_helper
 class AdminMongoHelper(mongo_helper.MongoHelper):
 
     def __init__(self, collection, debug=False):
-	mongo_helper.MongoHelper.__init__(self, db_str='recipes',
-                                      collection_str=collection)
+        mongo_helper.MongoHelper.__init__(self, db_str='recipes',
+                                          collection_str=collection)
 
     def getUser(self, userId):
         # Chaning from findOne to Find allowed me to use this query pattern

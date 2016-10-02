@@ -59,8 +59,6 @@ class Recipe:
 
 class Parser:
 
-    # with open(url_for('static', filename='bmidata.txt')) as f:
-
     def __init__(self):
         self.recipes = {}
         self.all_ingredients = set()
@@ -103,18 +101,6 @@ class Parser:
                 self.all_ingredients = self.all_ingredients.union(
                     r.ingredients)
 
-                # Check for duplicates right now
-                # for ing_str in r.ingredients:
-                #    for stored_ing in self.all_ingredients.keys():
-                #        if ing_str in stored_ing:
-                #            # if the ingredient to add is a substring of a stored ingredient then we replace that stored ingredient
-                #            # TODO: THIS ELIMINTES LABELS FOR INGREDIENTS e.g. FUJI APPLE AND GREEN APPLE BECOME APPLE
-                #            # Consider having the Dictionary of All Ingredients have Keys as the singularized, consolodiated form
-                #            #and the values as a list of variants e.g. all_ingredients["apple"] = ["fuji", "green", "granny smith"]
-                #            # TODO: WE ALSO NEED TO CHECK THE ORDER OF THE ADDITIONS e.g. if "lemon" is parsed first, "lemon zest" won't be a substring of "lemon" (but the inverse is true)
-                #            #self.all_ingredients[stored_ing] = ing_str
-                #            self.all_ingredients[]
-
                 self.recipes[r.name] = r.data
 
                 temp_json = {"name": r.name, "url": r.url,
@@ -144,9 +130,7 @@ class Parser:
 
 def main():
     p = Parser()
-    # p.convert_data()
     p.retrieve_data()
-    # p.pickle_data()
 
 if __name__ == "__main__":
     main()

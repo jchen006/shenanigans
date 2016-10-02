@@ -99,8 +99,8 @@ class LDAModel:
 
         self.mongoHelper = mh.MongoDataHelper()
 
-	m = hashlib.md5()
-	m.update("".join(sorted(ingredients)))
+        m = hashlib.md5()
+        m.update("".join(sorted(ingredients)))
         print "Looking for LDA object {} in Mongo...".format(m.hexdigest())
         tmp_model_obj_from_mongo = self.mongoHelper.findObj(
             self.LDA_MONGO_NAME + "_" + m.hexdigest())
@@ -111,7 +111,8 @@ class LDAModel:
             print "No LDA object found, rerunning..."
             self.model.fit(self.BOI.astype('int64'))
             print "Storing LDA object in mongo"
-            self.mongoHelper.insertObj(self.LDA_MONGO_NAME + "_" + m.hexdigest(), self.model)
+            self.mongoHelper.insertObj(
+                self.LDA_MONGO_NAME + "_" + m.hexdigest(), self.model)
 
         self.doc_topic = self.model.doc_topic_
         self.topic_assignments = self.doc_topic.argmax(axis=1)

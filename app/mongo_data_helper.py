@@ -9,7 +9,7 @@ import mongo_helper
 class MongoDataHelper(mongo_helper.MongoHelper):
 
     def __init__(self, debug=False):
-	mongo_helper.MongoHelper.__init__(self)
+        mongo_helper.MongoHelper.__init__(self)
 
     def insertObj(self, mongo_name, python_obj):
         pickeled_obj = pickle.dumps(python_obj)
