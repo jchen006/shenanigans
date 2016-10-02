@@ -65,7 +65,8 @@ class Parser:
         self.recipe_path = "../recipes/"
         self.data_path = "../data/"
         self.mongo = mh.MongoDataHelper()
-
+	self.stashed_mongo = mh.MongoDataHelper(collection_str="recipe_snapshots")
+recipe_snapshots
     def picking(self):
         print "Picking"
 
@@ -120,7 +121,12 @@ class Parser:
     # CHANGE for j in jsons[:20] to only get 20 recipes
     def retrieve_data(self):
         print "Retrieving from Mongo"
-        jsons = self.mongo.findAll()
+	#jsons = self.stashed_mongo.findObj("recipe_stash")
+	#if jsons is None or lookup_timedout:
+	#    # TODO: Look at local cache
+	#elif local_cache is None:
+	#    jsons = self.mongo.findAll()
+	jsons = self.mongo.findAll()
         for j in jsons:  # [:20]:
             self.recipes[j["name"]] = self.json_to_recipe(j)
         for r_name, r_val in self.recipes.iteritems():
