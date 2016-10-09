@@ -12,7 +12,6 @@ mongo_main = mh.MongoHelper()
 """Updates the recipe 
 """
 
-
 @db.route("/update_pending", methods=['POST'])
 def update_mongo_recipe():
     id = request.json['_id'].encode("ascii", "ignore")
@@ -23,7 +22,6 @@ def update_mongo_recipe():
 
 """Remove the recipe route
 """
-
 
 @db.route("/remove", methods=['POST'])
 def remove_mongo_recipe():
@@ -38,7 +36,6 @@ def remove_mongo_recipe():
 
 """Removes the recipe from icebox to main route
 """
-
 
 @db.route("/approve", methods=['POST'])
 def approve_mongo_recipe():
@@ -59,8 +56,13 @@ def approve_mongo_recipe():
     else:
         return jsonify({'action': 'ITEM_NOT_FOUND'}), 200
 
-#Might need methods to modify the Database?
+#Methods to modify the Main Database - No remote edit method
+@db.route("/addToRemote", methods=['POST'])
+def insert_to_remote(self, json):
 
+
+@db.route("/deleteFromRemote", methods=['POST'])
+def delete_from_remote(self, json):
 
 
 #Get methods to retrieve from the Database

@@ -6,7 +6,7 @@ var URL_BASE = 'localhost:5000'
 	REMOVE_URL = URL_BASE + "db/remove";
 
 var IceBox = React.createClass({
-    loadDataFromServer: function() { //Mispelling caused server to not be recognized
+    loadDataFromServer: function() {
 	    $.ajax({
 		    url: this.props.pendingListUrl,
 		    dataType: 'json',
@@ -62,7 +62,7 @@ var IceBoxRecipeList = React.createClass({
 	render: function() {
 		var self = this;
 		var recipeListNodes = this.props.pendingRecipes.map(function(recipe) {
-			//I need to check to see if this scopin is correct
+			console.log("this is the self object", self)
 			return (
 				<div className="iceBoxIngredientList">
 					<IceBoxIngredientsList 
@@ -90,7 +90,9 @@ var IceBoxIngredientsList = React.createClass({
 		return {recipeName: this.props.name, ingredientList: this.props.ingredients, displayIngredients: false}
 	},
 	toggleDisplayIngredients: function() {
-		{this.state.displayIngredients = !this.state.displayIngredients}		
+		this.setState({
+			this.state.displayIngredients = !this.state.displayIngredients
+		})
 	},
 	handleRecipeApprove: function() {
 
@@ -100,7 +102,7 @@ var IceBoxIngredientsList = React.createClass({
 	},
 	render: function() {
 		var self = this;
-		var ingredientsNodes = this.props.pendingRecipeIngredients.map(function(ingredient) {
+		var ingredientsNodes = this.props.ingredients.map(function(ingredient) {
 			return (
 				<div className="ingredientList">
 					<IceBoxItem 
