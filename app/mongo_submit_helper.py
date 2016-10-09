@@ -2,9 +2,8 @@ from pymongo import MongoClient
 from bson.binary import Binary
 from bson.objectid import ObjectId
 import json
-
+import cPickle as pickle
 # 153735
-
 
 class SubmitMongoHelper:
     uri = "mongodb://recipe_user:dinneriscoming@ds035543.mongolab.com:35543/recipes"
@@ -28,6 +27,16 @@ class SubmitMongoHelper:
         for post in self.collection.find():
             posts.append(post)
         return posts
+
+    def findObj(self, mongo_name):
+        objs = []
+        # ASSUME ONLY 1 OBJECT RETURNED!!
+        for p in self.binary_collection.find({mongo_name: {'$exists': True}}):
+            objs.append(p)
+        if len(objs) != 0:
+            return pickle.loads(objs[0][mongo_name])
+        else:
+            return None
 
     def findById(self, post_id):
         if isinstance(post_id, str):

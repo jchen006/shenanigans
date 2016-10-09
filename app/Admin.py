@@ -49,9 +49,8 @@ def logout():
 @admin.route('/control_panel')
 @login_required
 def control_panel():
-    pendingItems = mongo_recipe.findAll()
-    print pendingItems
-    return render_template('admin/control_panel.html', pendingItems=pendingItems)
+    return render_template('admin/control_panel.html')
+
 
 # 4) Script to create admin user
 

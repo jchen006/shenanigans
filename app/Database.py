@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify, abort
 import mongo_helper as mh
 import mongo_submit_helper as msh
+from bson import json_util, ObjectId
+import json
 
 db = Blueprint('db', __name__)
 
@@ -56,3 +58,35 @@ def approve_mongo_recipe():
         return jsonify({'action': 'MOVED'}), 200
     else:
         return jsonify({'action': 'ITEM_NOT_FOUND'}), 200
+
+#Might need methods to modify the Database?
+
+
+
+#Get methods to retrieve from the Database
+"""Returns Recipe from the PendingList
+"""
+@db.route("/getPendingEntries", methods=['GET'])
+def retrieve_mongo_icebox_recipes():
+    dataBaseItems = msh.findAll();
+    filteredRecipes = [];
+    keyCounter = 0
+    for recipe in dataBaseItems:
+        recipe = (recipe['name'], recipe['ingredients'], keyCounter)
+        filteredRecipes.append(recipe)
+        keyCounter += 1
+    return json.dumps(filteredRecipes)
+
+"""Returns Recipe from the Database
+"""
+@db.route("/getDatabaseEntries", methods=['GET'])
+def retrieve_mongo_recipes():
+    dataBaseItems = mongo_main.findAll();
+    filteredRecipes = [];
+    keyCounter = 0
+    for recipe in dataBaseItems:
+        recipe = (recipe['name'], recipe['ingredients'], keyCounter)
+        filteredRecipes.append(recipe)
+        keyCounter += 1
+    return json.dumps(filteredRecipes)
+

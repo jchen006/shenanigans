@@ -1,6 +1,6 @@
-from flask import Flask
+from flask import Flask, request, send_from_directory
 from flask.ext.login import LoginManager
-shenanigans = Flask(__name__)
+shenanigans = Flask(__name__) #no static_url_Path
 lm = LoginManager()
 lm.init_app(shenanigans)
 
@@ -14,7 +14,6 @@ from TestSandbox import test
 from Database import db
 from BayesFilter import bayes
 
-
 shenanigans.register_blueprint(api, url_prefix="/api")
 shenanigans.register_blueprint(admin, url_prefix="/admin")
 shenanigans.register_blueprint(submit, url_prefix="/submit")
@@ -23,3 +22,8 @@ shenanigans.register_blueprint(experiments, url_prefix="/experiments")
 shenanigans.register_blueprint(test, url_prefix="/test")
 shenanigans.register_blueprint(db, url_prefix="/db")
 shenanigans.register_blueprint(bayes, url_prefix="/bayes")
+
+#Code to server static files -> remove code fro mapp
+@shenanigans.route('/<path:path>')
+def static_file(path):
+	return shenanigans.send_static_file(path)
