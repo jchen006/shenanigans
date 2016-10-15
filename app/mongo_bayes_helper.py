@@ -12,11 +12,3 @@ class MongoBayesHelper(mongo_helper.MongoHelper):
                                           db_str='bayesian_training',
                                           collection_str='training_data',
                                           uri_str=URI)
-
-    #def insertToRemote(self, json):
-    #    post_id = None
-    #    if isinstance(json, dict):
-    #        post_id = [self.collection.insert_one(json).inserted_id]
-    #    elif isinstance(json, list):
-    #        post_id = self.collection.insert_many(json).inserted_ids
-    #    return post_id
