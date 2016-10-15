@@ -17,13 +17,11 @@ class MongoHelper:
         self.collection = self.db[collection_str]
         self.binary_collection = self.db['bin-data']
 
-    def insertPythonObj(self, mongo_key, python_obj):
-        raise NotImplementedError
+    def insertPickleObj(self, mongo_key, python_obj):
         pickeled_obj = pickle.dumps(python_obj)
         self.binary_collection.insert({mongo_key: Binary(pickeled_obj)})
 
-    def findObj(self, mongo_name):
-        raise NotImplementedError
+    def findPickleObj(self, mongo_name):
         objs = []
         # ASSUME ONLY 1 OBJECT RETURNED!!
         for p in self.binary_collection.find({mongo_name: {'$exists': True}}):
@@ -34,7 +32,6 @@ class MongoHelper:
             return None
 
     def insertToRemote(self, json):
-        raise NotImplementedError
         post_id = None
         if isinstance(json, dict):
             post_id = [self.collection.insert_one(json).inserted_id]
@@ -43,14 +40,18 @@ class MongoHelper:
         return post_id
 
     def findByJson(self, json):
-        raise NotImplementedError
         return list(self.collection.find(json))
 
     def findById(self, post_id):
-        raise NotImplementedError
         if isinstance(post_id, str):
             post_id = ObjectId(post_id)
         return self.collection.find_one({"_id": post_id})
+
+    def removeById(self, post_id):
+        if isinstance(post_id, str):
+            post_id = ObjectId(post_id)
+        result = self.collection.delete_one({"_id": post_id})
+        return result.deleted_count
 
     def findAll(self):
         posts = []

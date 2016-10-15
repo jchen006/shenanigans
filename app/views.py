@@ -1,16 +1,16 @@
 from app import shenanigans
 from flask import render_template, request
 from pages import *
-from mongo_helper import *
+#from mongo_helper import *
 from API import parser
-import mongo_data_helper as mh
+import mongo_helper as mh
 
 # Adding form components here
 #from components import *
 
 
 p = Page(parser)
-m = mh.MongoDataHelper()
+m = mh.MongoHelper()
 
 
 @shenanigans.route('/')

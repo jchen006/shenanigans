@@ -1,5 +1,5 @@
 from filters import *
-import mongo_data_helper as mh
+import mongo_helper as mh
 import collections as c
 import pickle
 import os
@@ -64,54 +64,9 @@ class Parser:
         self.all_ingredients = set()
         self.recipe_path = "../recipes/"
         self.data_path = "../data/"
-        self.mongo = mh.MongoDataHelper()
-	self.stashed_mongo = mh.MongoDataHelper(collection_str="recipe_snapshots")
-recipe_snapshots
-    def picking(self):
-        print "Picking"
-
-        num_files = len([f for f in os.listdir(self.recipe_path)
-                         if os.path.isfile(os.path.join(self.recipe_path, f))])
-        logging.info("Total number of recipes: " + str(num_files))
-
-        if DATA_SET:
-
-            logging.info("Using dataset of " +
-                         str(DATA_SET) + " to convert to graph")
-
-            for i in range(0, DATA_SIZE):
-                file_name = random.choice(os.listdir(self.recipe_path))
-                r = Recipe(self.recipe_path + file_name, ingredients=[])
-                r.parse_ingredients()
-                self.recipes[r.name] = Recipe(None, r.name)
-        else:
-
-            logging.info("Using dataset of " +
-                         str(num_files) + " to convert to graph")
-            self.convert_data()
-
-    def convert_data(self):
-        print "Converting data"
-        src = os.path.join(APP_ROOT, 'tmp')
-        for i in os.listdir(src):
-            if i.endswith(".txt"):
-                temp = src + "/" + i
-                new_list = []
-                r = Recipe(temp, ingredients=new_list)
-                r.parse_ingredients()
-                self.all_ingredients = self.all_ingredients.union(
-                    r.ingredients)
-
-                self.recipes[r.name] = r.data
-
-                temp_json = {"name": r.name, "url": r.url,
-                             "chef": r.chef, "ingredients": r.ingredients}
-                # TODO: REMOVE THESE COMMENTS TO ENABLE JSON INSERTION TO
-                # MONGO!
-                res = self.mongo.findByJson(
-                    {"name": r.name, "url": r.url, "chef": r.chef})
-                if len(res) == 0:
-                    self.mongo.insertToRemote(temp_json)
+        self.mongo = mh.MongoHelper()
+        self.stashed_mongo = mh.MongoHelper(collection_str="recipe_snapshots")
+        #recipe_snapshots
 
     def json_to_recipe(self, mongo_json_dict):
         rp = Recipe(None, mongo_json_dict["name"], mongo_json_dict[
