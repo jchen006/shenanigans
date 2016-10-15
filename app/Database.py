@@ -1,11 +1,11 @@
 from flask import Blueprint, request, jsonify, abort
-import mongo_data_helper as mh
+import mongo_helper as mh
 import mongo_submit_helper as msh
 
 db = Blueprint('db', __name__)
 
 mongo_recipe = msh.SubmitMongoHelper('pending_recipe_collection')
-mongo_main = mh.MongoDataHelper()
+mongo_main = mh.MongoHelper()
 
 """Updates the recipe 
 """
@@ -28,7 +28,7 @@ def remove_mongo_recipe():
     if not request.json:
         abort(400)
     name = request.json['name']
-    result = mongo_recipe.removeOne(name)
+    result = mongo_recipe.removeOneRecipe(name)
     if result == 1:
         return jsonify({'action': 'REMOVED'}), 200
     else:
