@@ -2,54 +2,16 @@ from pymongo import MongoClient
 from bson.binary import Binary
 from bson.objectid import ObjectId
 import json
-import cPickle as pickle
-# 153735
+import mongo_helper
 
-class SubmitMongoHelper:
-    uri = "mongodb://recipe_user:dinneriscoming@ds035543.mongolab.com:35543/recipes"
+
+class SubmitMongoHelper(mongo_helper.MongoHelper):
 
     def __init__(self, collection, debug=False):
-        self.client = MongoClient(SubmitMongoHelper.uri)
-        self.db = self.client['recipes']
-        self.collection = self.db[collection]
-        self.binary_collection = self.db['bin-data']
+        mongo_helper.MongoHelper.__init__(self, db_str='recipes',
+                                          collection_str=collection)
 
-    def insertToRemote(self, json):
-        post_id = None
-        if isinstance(json, dict):
-            post_id = [self.collection.insert_one(json).inserted_id]
-        elif isinstance(json, list):
-            post_id = self.collection.insert_many(json).inserted_ids
-        return post_id
-
-    def findAll(self):
-        posts = []
-        for post in self.collection.find():
-            posts.append(post)
-        return posts
-
-    def findObj(self, mongo_name):
-        objs = []
-        # ASSUME ONLY 1 OBJECT RETURNED!!
-        for p in self.binary_collection.find({mongo_name: {'$exists': True}}):
-            objs.append(p)
-        if len(objs) != 0:
-            return pickle.loads(objs[0][mongo_name])
-        else:
-            return None
-
-    def findById(self, post_id):
-        if isinstance(post_id, str):
-            post_id = ObjectId(post_id)
-        return self.collection.find_one({"_id": post_id})
-
-    def removeById(self, post_id):
-        if isinstance(post_id, str):
-            post_id = ObjectId(post_id)
-        result = self.collection.delete_one({"_id": post_id})
-        return result.deleted_count
-
-    def removeOne(self, item):
+    def removeOneRecipe(self, item):
         removal_json = {"recipe_name": item}
         result = self.collection.delete_one(removal_json)
         return result.deleted_count

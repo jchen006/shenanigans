@@ -1,8 +1,10 @@
 import collections as c
 import pickle
 import os
+import hashlib
 import itertools
 import json
+import mongo_helper as mh
 from settings import *
 from recipe_parser import *
 from ingredient import *
@@ -95,11 +97,13 @@ class LDAModel:
         self.ingredients = ingredients
         self.recipes = recipes
 
-        self.mongoHelper = MongoHelper()
+        self.mongoHelper = mh.MongoHelper()
 
-        print "Looking for LDA object in Mongo..."
-        tmp_model_obj_from_mongo = self.mongoHelper.findObj(
-            self.LDA_MONGO_NAME)
+        m = hashlib.md5()
+        m.update("".join(sorted(ingredients)))
+        print "Looking for LDA object {} in Mongo...".format(m.hexdigest())
+        tmp_model_obj_from_mongo = self.mongoHelper.findPickleObj(
+            self.LDA_MONGO_NAME + "_" + m.hexdigest())
         if tmp_model_obj_from_mongo is not None:
             print "LDA object found!"
             self.model = tmp_model_obj_from_mongo
@@ -107,7 +111,8 @@ class LDAModel:
             print "No LDA object found, rerunning..."
             self.model.fit(self.BOI.astype('int64'))
             print "Storing LDA object in mongo"
-            self.mongoHelper.insertObj(self.LDA_MONGO_NAME, self.model)
+            self.mongoHelper.insertPickleObj(
+                self.LDA_MONGO_NAME + "_" + m.hexdigest(), self.model)
 
         self.doc_topic = self.model.doc_topic_
         self.topic_assignments = self.doc_topic.argmax(axis=1)

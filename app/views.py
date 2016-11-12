@@ -1,7 +1,7 @@
 from app import shenanigans
 from flask import render_template, request
 from pages import *
-from mongo_helper import *
+#from mongo_helper import *
 from API import parser
 import mongo_helper as mh
 
@@ -10,7 +10,7 @@ import mongo_helper as mh
 
 
 p = Page(parser)
-m = MongoHelper()
+m = mh.MongoHelper()
 
 
 @shenanigans.route('/')
