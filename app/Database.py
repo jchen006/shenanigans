@@ -4,31 +4,40 @@ import mongo_submit_helper as msh
 
 db = Blueprint('db', __name__)
 
-mongo_recipe = msh.SubmitMongoHelper('pending_recipe_collection')
+pending_recipe = msh.SubmitMongoHelper('pending_recipe_collection')
 mongo_main = mh.MongoHelper()
 
 """Updates the recipe 
 """
-
-
 @db.route("/update_pending", methods=['POST'])
 def update_mongo_recipe():
     id = request.json['_id'].encode("ascii", "ignore")
     field = request.json['field'].encode("ascii", "ignore")
     content = request.json['content'].encode("ascii", "ignore")
-    result = mongo_recipe.updateFields(id, field, content)
+    database = request.json['database'].encode("ascii", "ignore")
+    if(database == "PENDING"):
+    	result = pending_recipe.updateFields(id, field, content)
+    elif(database == "MAIN"): 
+    	result = mongo_main.updateFields(id, field, content)
+    else: 
+    	abort(400, {"Database not recognized"})
     return jsonify({"action": "ITEM_UPDATED"}), 200
 
 """Remove the recipe route
 """
-
-
 @db.route("/remove", methods=['POST'])
 def remove_mongo_recipe():
     if not request.json:
         abort(400)
-    name = request.json['name']
-    result = mongo_recipe.removeOneRecipe(name)
+    name = request.json['name'].encode("ascii", "ignore")
+    database = request.json['database'].encode("ascii", "ignore")
+    if(database == "PENDING"): 
+    	result = pending_recipe.removeOneRecipe(name)
+    elif(database == "MAIN"):
+    	result = mongo_main.removeOneRecipe(name)
+    else: 
+    	abort(400, {"Database not recognized"})
+
     if result == 1:
         return jsonify({'action': 'REMOVED'}), 200
     else:
@@ -36,8 +45,6 @@ def remove_mongo_recipe():
 
 """Removes the recipe from icebox to main route
 """
-
-
 @db.route("/approve", methods=['POST'])
 def approve_mongo_recipe():
     if not request.json:

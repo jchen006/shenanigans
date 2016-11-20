@@ -59,6 +59,25 @@ class MongoHelper:
             posts.append(post)
         return posts
 
+    def removeOneRecipe(self, item):
+        removal_json = {"recipe_name": item}
+        result = self.collection.delete_one(removal_json)
+        return result.deleted_count
+
+    def updateField(self, post_id, field, content):
+        if isinstance(post_id, str):
+            post_id = ObjectId(post_id)
+        result = self.collection.update_one(
+            {"_id": post_id},
+            {
+                "$set": {
+                    field: content
+                }
+            },
+            {"$currentDate": {"lastModified": True}}
+        )
+        return result
+
 
 if __name__ == "__main__":
     x = MongoHelper()
