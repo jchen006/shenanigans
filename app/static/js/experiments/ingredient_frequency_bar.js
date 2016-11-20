@@ -22,7 +22,7 @@ var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
-    return "<strong>Frequency:</strong> <span style='color:red'>" + d.frequency + "</span>";
+    return "<strong>Frequency:</strong> <span style='color:red'>" + d.size + "</span>";
   })
 
 var svg = d3.select("#graph1").append("svg")
@@ -35,8 +35,8 @@ svg.call(tip);
 
 d3.json("/api/ingredient_frequency", function(error, data) {
   console.log(data);
-  x.domain(data.map(function(d) { return d.ingredient; }));
-  y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+  x.domain(data.map(function(d) { return d.text; }));
+  y.domain([0, d3.max(data, function(d) { return d.size; })]);
 
   svg.append("g")
       .attr("class", "x axis")
@@ -63,16 +63,16 @@ d3.json("/api/ingredient_frequency", function(error, data) {
       .data(data)
       .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return x(d.ingredient); })
+      .attr("x", function(d) { return x(d.text); })
       .attr("width", x.rangeBand())
-      .attr("y", function(d) { return y(d.frequency); })
-      .attr("height", function(d) { return height - y(d.frequency); })
+      .attr("y", function(d) { return y(d.size); })
+      .attr("height", function(d) { return height - y(d.size); })
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide)
 
 });
 
 function type(d) {
-  d.frequency = +d.frequency;
+  d.size = +d.size;
   return d;
 }
