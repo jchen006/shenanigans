@@ -69,11 +69,11 @@ def approve_mongo_recipe():
 #Methods to modify the Main Database - No remote edit method
 @db.route("/addToRemote", methods=['POST'])
 def insert_to_remote(self, json):
-
+    pass;
 
 @db.route("/deleteFromRemote", methods=['POST'])
 def delete_from_remote(self, json):
-
+    pass;
 
 #Get methods to retrieve from the Database
 """Returns Recipe from the PendingList

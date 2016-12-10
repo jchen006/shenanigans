@@ -1,11 +1,46 @@
 /* IceBox List */
 var URL_BASE = 'localhost:5000'
-	PENDING_LIST_URL = URL_BASE + "db/getIceboxEntries";
-	CURRENT_LIST_URL = URL_BASE +"db/getMainEntries";
-	APPROVE_URL = URL_BASE + "db/approve";
+	PENDING_LIST_URL = URL_BASE + "db/getIceboxEntries",
+	CURRENT_LIST_URL = URL_BASE +"db/getMainEntries",
+	APPROVE_URL = URL_BASE + "db/approve",
 	REMOVE_URL = URL_BASE + "db/remove";
 
+//recipe = (recipe['name'], recipe['ingredients'], keyCounter);
+
+var approveRecipe = function(argument) {
+    $.ajax({
+	    url: APPROVE_URL,
+	    type: 'POST',
+	    data: {}
+	}).done(function(data) {
+		    this.setState({data: data});
+	    }.bind(this),
+	    error: function(xhr, status, err) {
+		    console.error(this.props.pendingListUrl, status, err.toString());
+	    }.bind(this)
+    });
+}	
+
+var removeRecipe = function(argument) {
+    $.ajax({
+	    url: REMOVE_URL,
+	    dataType: 'json',
+	    cache: false,
+	    success: function(data) {
+		    this.setState({data: data});
+	    }.bind(this),
+	    error: function(xhr, status, err) {
+		    console.error(this.props.pendingListUrl, status, err.toString());
+	    }.bind(this)
+    });
+}
+
+//recipe = (recipe['name'], recipe['ingredients'], keyCounter);
 var IceBox = React.createClass({
+	getInitialState() {
+		mainIngredients: [],
+		pendingIngredients: []
+	},
     loadDataFromServer: function() {
 	    $.ajax({
 		    url: this.props.pendingListUrl,
@@ -26,43 +61,126 @@ var IceBox = React.createClass({
         this.loadDataFromServer();
         setInterval(this.loadDataFromServer, this.props.pollInterval)
     },
-    //Remeber to send an ajax request, and modify state at the same time
-    approveRecipe: function(recipeName) {
-
-    },
-    removeRecipe: function(recipeName) {
-
-    },
-    approveIngredient: function(recipeName, ingredientName) {
-
-    },
-    removeIngredient: function(recipeName, ingredientName) {
-
-    },
 	render: function() {
+		var mainIngredients = this.state.mainIngredients;
+		var pendingIngredients = this.state.pendingIngredients;
+
 		return (
 			<div className="iceBox">
 				Pending Items List
 				<div className="iceBoxListWrapper">
-					<IceBoxRecipeList 
-						pendingRecipes={this.state.data}
-						onRecipeApprove={this.approveRecipe}
-						onRecipeRemove={this.removeRecipe}
-						onIngredientApprove={this.approveIngredient}
-						onIngredientRemove={this.removeIngredient}
-					/>
+					<IceBoxRecipeList
+
+
+					 />
 				</div>
 			</div>
 		)
 	}
 });
 
+var PendingRecipeList = React.createClass({
+	render: function() {
+		var pendingRecipes = this.props.pendingRecipe;
+		var pendingRecipeNodes = pendingRecipes.map(function(pendingRecipe, i) {
+			return (
+				<PendingRecipe pendingRecipe={pendingRecipe} key={i} index={i} />
+			)
+		})
+	}
+
+	return (
+		<div className="pendingRecipeList">
+			{pendingRecipeNodes}
+		</div>
+	)
+})
+
+
+var MainRecipeList = React.createClass({
+	render: function() {
+		var mainRecipeList = this.props.mainIngredients;
+		var mainRecipeNodes = mainRecipeList.map(function(mainRecipe, i) {
+			return (
+				<MainRecipe mainRecipe = {mainRecipe} key={i} index={i} />
+			)
+		})
+	return (
+		<div className="mainRecipeList">
+			{mainRecipeNodes}
+		</div>
+	)
+})
+
+
+var MainRecipe = React.createClass({
+	getInitialState: function() {
+		recipeData: this.props.mainRecipe,
+		newIngredientField: "";
+	}
+	handleChange: function(e) {
+		this.setState({
+			newIngredientField: e.target.value;
+		})
+	}
+	handleAddIngredientClick: function() {
+
+	}
+	render: function() {
+		return (
+			<div className="mainRecipe"
+				<IngredientsList />
+			</div>
+		)
+	}
+})
+
+var IceBoxRecipe = React.createClass({
+	getInitialState: function() {
+		recipeData = this.props.mainRecipe,
+		newRecipeField = "";
+	}
+	handleChange: function(e) {
+		this.setState({
+			newIngredientField: e.target.value;
+		})
+	}
+	handleAddIngredientClick: function() {
+
+	}
+	render: function() {
+		return (
+			<div className="iceBoxRecipe"
+				<IngredientsList />
+			</div>
+		)
+	}
+})
+
+var ingredientList = React.createClass({
+	getInitialState: function() {
+		textField: "";
+	}
+	handleEditClick: function() {
+
+	}
+	handleDeleteClick: function() {
+
+	}
+	return: function() {
+		return (
+
+		)
+	}
+
+})
+
+
 //I need to pass down the function
 var IceBoxRecipeList = React.createClass({
 	render: function() {
 		var self = this;
 		var recipeListNodes = this.props.pendingRecipes.map(function(recipe) {
-			console.log("this is the self object", self)
 			return (
 				<div className="iceBoxIngredientList">
 					<IceBoxIngredientsList 
@@ -71,8 +189,6 @@ var IceBoxRecipeList = React.createClass({
 						key={recipe[0]}
 						onRecipeApprove={self.props.onRecipeApprove}
 						onRecipeRemove={self.props.onRecipeRemove}
-						onIngredientApprove={self.props.onIngredientApprove}
-						onIngredientRemove={self.props.onIngredientRemove}
 					/> 
 				</div>
 			)
@@ -94,12 +210,6 @@ var IceBoxIngredientsList = React.createClass({
 			this.state.displayIngredients = !this.state.displayIngredients
 		})
 	},
-	handleRecipeApprove: function() {
-
-	},
-	handleRecipeRemove: function() {
-
-	},
 	render: function() {
 		var self = this;
 		var ingredientsNodes = this.props.ingredients.map(function(ingredient) {
@@ -107,8 +217,9 @@ var IceBoxIngredientsList = React.createClass({
 				<div className="ingredientList">
 					<IceBoxItem 
 						name={ingredient} 
-						onIngredientApprove={self.props.onIngredientApprove} 
-						onIngredientRemove={self.this.props.onIngredientRemove}
+
+
+
 					/>
 				</div>
 			)
