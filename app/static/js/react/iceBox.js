@@ -1,3 +1,5 @@
+import {Component} from 'react';
+
 /* IceBox List */
 var URL_BASE = 'localhost:5000'
 	PENDING_LIST_URL = URL_BASE + "db/getIceboxEntries",
@@ -38,8 +40,8 @@ var removeRecipe = function(argument) {
 //recipe = (recipe['name'], recipe['ingredients'], keyCounter);
 var IceBox = React.createClass({
 	getInitialState() {
-		mainIngredients: [],
-		pendingIngredients: []
+		mainRecipes: [],
+		pendingRecipes: []
 	},
     loadDataFromServer: function() {
 	    $.ajax({
@@ -64,16 +66,20 @@ var IceBox = React.createClass({
 	render: function() {
 		var mainIngredients = this.state.mainIngredients;
 		var pendingIngredients = this.state.pendingIngredients;
-
 		return (
 			<div className="iceBox">
 				Pending Items List
 				<div className="iceBoxListWrapper">
-					<IceBoxRecipeList
-
-
-					 />
+					<PendingRecipeList
+						pendingRecipes={this.state.pendingRecipes};
+					/>
 				</div>
+				<div className="mainListWrapper">
+					<MainRecipeList
+						mainRecipes={this.state.mainRecipes};
+					/>
+				</div>
+
 			</div>
 		)
 	}
@@ -87,13 +93,12 @@ var PendingRecipeList = React.createClass({
 				<PendingRecipe pendingRecipe={pendingRecipe} key={i} index={i} />
 			)
 		})
+		return (
+			<div className="pendingRecipeList">
+				{pendingRecipeNodes}
+			</div>
+		)
 	}
-
-	return (
-		<div className="pendingRecipeList">
-			{pendingRecipeNodes}
-		</div>
-	)
 })
 
 
@@ -110,25 +115,30 @@ var MainRecipeList = React.createClass({
 			{mainRecipeNodes}
 		</div>
 	)
-})
-
+}});
 
 var MainRecipe = React.createClass({
 	getInitialState: function() {
 		recipeData: this.props.mainRecipe,
 		newIngredientField: "";
-	}
-	handleChange: function(e) {
+	},
+	handleFieldChange: function(e) {
 		this.setState({
 			newIngredientField: e.target.value;
 		})
-	}
-	handleAddIngredientClick: function() {
+	},
+	handleClickSave: function() {
+		//Call the save
+	},
+	handleAddClick: function() {
+		//Call the add function
+	},
+	handleDeleteClick: function() {
 
-	}
+	},
 	render: function() {
 		return (
-			<div className="mainRecipe"
+			<div className="mainRecipe">
 				<IngredientsList />
 			</div>
 		)
@@ -139,141 +149,82 @@ var IceBoxRecipe = React.createClass({
 	getInitialState: function() {
 		recipeData = this.props.mainRecipe,
 		newRecipeField = "";
-	}
-	handleChange: function(e) {
+	},
+	handleFieldChange: function(e) {
 		this.setState({
 			newIngredientField: e.target.value;
 		})
-	}
-	handleAddIngredientClick: function() {
+	},
+	handleClickSave: function() {
+		//Call the save
+	},
+	handleAddClick: function() {
+		//Call the add function
+	},
+	handleDeleteClick: function() {
 
-	}
+	},
 	render: function() {
 		return (
-			<div className="iceBoxRecipe"
+			<div className="iceBoxRecipe">
 				<IngredientsList />
 			</div>
 		)
 	}
 })
 
-var ingredientList = React.createClass({
+var IngredientList = React.createClass({
 	getInitialState: function() {
+		recipeData = this.props.mainRecipe,
 		textField: "";
-	}
-	handleEditClick: function() {
-
-	}
-	handleDeleteClick: function() {
-
-	}
-	return: function() {
-		return (
-
-		)
-	}
-
-})
-
-
-//I need to pass down the function
-var IceBoxRecipeList = React.createClass({
+	},
+	handleClickSave: function() {
+		//Send field to endpoint
+	},
 	render: function() {
-		var self = this;
-		var recipeListNodes = this.props.pendingRecipes.map(function(recipe) {
+		ingredientNodes = this.props.recipeData.map(function(ingredient, i) {
 			return (
-				<div className="iceBoxIngredientList">
-					<IceBoxIngredientsList 
-						name={recipe[0]} 
-						ingredients={recipe[1]}
-						key={recipe[0]}
-						onRecipeApprove={self.props.onRecipeApprove}
-						onRecipeRemove={self.props.onRecipeRemove}
-					/> 
-				</div>
+				<Ingredient ingredient={ingredient} index={i}/>
 			)
 		})
-		return (
-			<div className="iceBoxRecipeList">
-				{recipeListNodes}
-			</div>
-		)
-	}
-});
-
-var IceBoxIngredientsList = React.createClass({
-	getInitialState: function() {
-		return {recipeName: this.props.name, ingredientList: this.props.ingredients, displayIngredients: false}
-	},
-	toggleDisplayIngredients: function() {
-		this.setState({
-			this.state.displayIngredients = !this.state.displayIngredients
-		})
-	},
-	render: function() {
-		var self = this;
-		var ingredientsNodes = this.props.ingredients.map(function(ingredient) {
+		return: function() {
 			return (
 				<div className="ingredientList">
-					<IceBoxItem 
-						name={ingredient} 
-
-
-
-					/>
-				</div>
-			)
-		})
-		/*Render Logic can it be implemented like this? */
-		if (this.displayIngredients) {
-			return (
-				<div className="recipeContainer">
-					Recipe Name: {this.props.name}
-					<button onClick={this.toggleDisplayIngredients}> Collapse Recipe </button>
-					<button onClick={this.handleRecipeApprove}> Approve Recipe </button>
-					<button onClick={this.handleRecipeRemove}> Remove Recipe </button>
-					{ingredientsNodes}
+					{ingredientNode}
 				</div>
 			)
 		}
-		return (
-			<div className="recipeContainer">
-				Recipe Name: {this.props.name}
-				<button onClick={this.toggleDisplayIngredients}> Expand Recipe </button>
-				<button onClick={this.handleRecipeApprove}> Approve Recipe </button>
-				<button onClick={this.handleRecipeRemove}> Remove Recipe </button>
-			</div>
-		)
 	}
-});
+})
 
-//Might want to mod this to also have ingredients, in their own separate list and render them separately
-var IceBoxItem = React.createClass({
+//Add an additional field if it is in the icebox
+var Ingredient = React.createClass({
 	getInitialState: function() {
-		return {pendingItem: this.props.name}
+		textField: this.props.ingredient
 	},
-	updateItem: function(e) {
+	handleFieldChange: function(e) {
 		this.setState({
-			pendingItem: e.target.value
+			textField: e.target.value;
 		})
 	},
-	handleApprove: function() {
-		this.props.onItemApprove(this.state.pendingItem)
+	handleClickSave: function() {
+
 	},
-	handleRemove: function() {
-		this.props.onItemRemove(this.state.pendingItem)
+	handleDeleteClick: function() {
+
 	},
 	render: function() {
-		return (
-			<div className="pendingItem">
-				<input type="text" value={this.state.pendingItem} onChange={this.updateItem}/>
-				<button onClick={this.handleApprove}> Approve Item </button>
-				<button onClick={this.handleRemove}> Remove Item </button>
+		return function() {
+			<div className={"ingredient" + this.props.index } >
+				<form className="ingredientForm">
+					<input className="ingredientField" type="text" value={this.state.textField} />
+					<button className="saveButton" type="button" value="save" onClick={this.handleClickSave}/>
+					<button className="saveButton" type="button" value="delete" onClick{this.handleDeleteClick}/>
+				</form>
 			</div>
-		)
+		}
 	}
-});
-
+})
 
 //React Driver Attach and render #mainEntries, easier than pending
 //Add US to guard against messing up data fast, have buttons or something
