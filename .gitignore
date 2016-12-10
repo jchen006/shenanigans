@@ -1,5 +1,6 @@
 # Files specific to this repo #
 ###############################
+app/node_modules
 
 # Compiled source #
 ###################
