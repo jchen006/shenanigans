@@ -14,7 +14,6 @@ parser.retrieve_data()
 g = Graph(parser)
 g.make_graph_from_mongo()
 g.make_d3()
-
 rg = RadialGraph(parser)
 rg.init_graph_from_mongo()
 
@@ -29,6 +28,10 @@ L.plot_mds()
 NN = NearestNeighborsModel(X)
 clusters = L.clustered_recipes
 lda_json = L.d3_json
+
+@api.route('/listOfIngredients')
+def listOfIngredients(): 
+    return json.dumps(b.ordered_ingredients)
 
 
 @api.route('/graph')

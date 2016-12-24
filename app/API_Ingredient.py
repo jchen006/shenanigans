@@ -6,15 +6,17 @@ api_ingredient = Blueprint('ingredients', __name__)
 """This will act as means to search for specific ingredients
 and return back specific data as needed"""
 
-# db = ingredientDB()
+# db = IngredientDB()
+# db.generateDB()
+
 
 @api_ingredient.route("/search", methods=['POST'])
-"""Does a search for a specific ingredient and returns all data regarding it. 
-Will not support recipes as part of the data returned."""
 def search_db(): 
 	if not request.json: 
 		abort(400)
 	ingredient = request.json['ingredient'].encode("ascii", "ignore")
+	result = db.searchDB(ingredient)
+
 
 
 @api_ingredient.route("/seasonality", methods=['POST'])

@@ -1,3 +1,5 @@
+from Seasons_Parser import Seasons_Parser
+
 class Ingredient:
 
     def __init__(self, name, group_name=None, info=None, classification=None, types=None, timeframe=None, recipes=None):
@@ -20,6 +22,50 @@ class Ingredient:
 
         # recipes = list of strings for the names of the recipes
         self.recipes = recipes
+
+
+class IngredientDB: 
+
+    def generateDB(self, order_ingredients): 
+        pass 
+
+    def searchDB(ingredient): 
+        pass
+
+    def checkSeasonality(time): 
+        pass
+
+    def checkLabels(ingredient): 
+        pass
+
+    months_mappsings = {
+        "January" : 1,
+        "Feburary" : 2,
+        "March" : 3, 
+        "April" : 4, 
+        "May" : 5, 
+        "June" : 6, 
+        "July" : 7, 
+        "August": 8, 
+        "September": 9, 
+        "October": 10, 
+        "November": 11, 
+        "December" : 12
+    }
+
+
+
+
+    def pullFromMongo(): 
+        """Pulls from Mongo first 
+        Starts taking all the recipes and keeping a dictionary of ingredients mapped to recipes they are in 
+        Will also do the same with seasonality lists 
+        Will also do the same with the ingredinets labels 
+        """ 
+        pass
+
+
+
 
 if __name__ == "__main__":
     x = Ingredient("buttercake crackers")
