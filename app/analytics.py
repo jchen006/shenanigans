@@ -60,6 +60,9 @@ class BagOfIngredients:
                     self.recipe_vects[i, j] = 1
         return
 
+    def create_recipe_string_from_vec(self, vec):
+        return [self.ordered_ingredients[i] for i, ingred_one_hot in enumerate(vec) if ingred_one_hot == 1]
+
     def get_ingredient_frequencies(self):
         return np.sum(self.recipe_vects, axis=0)
 
@@ -256,18 +259,19 @@ class NearestNeighborsModel:
         self.model.fit(bag_of_ingredients_matrix)
 
 if __name__ == '__main__':
-    b = BagOfIngredients()
+    parser = Parser()
+    parser.retrieve_data()
+    b = BagOfIngredients(parser)
     b.generate_bag_of_ingredients()
     b.generate_recipe_vectors()
     top_ingreds, top_freqs = b.get_top_N_ingredient_frequencies(20)
     top_js = b.get_top_N_ingredients_json(10)
     X = b.recipe_vects
+    import pdb; pdb.set_trace()
     P = PCAModel(X)
     L = LDAModel(X, b.ordered_ingredients, b.ordered_recipes, K=10)
     NN = NearestNeighborsModel(X)
     clusters = L.clustered_recipes
     lda_json = L.d3_json
     L.plot_mds(True)
-    import pdb
-    pdb.set_trace()
     # g.make_graph_from_tuple()

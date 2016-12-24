@@ -36,7 +36,7 @@ network_architecture = \
          n_hidden_gener_1=500, # 1st layer decoder neurons
          n_hidden_gener_2=500, # 2nd layer decoder neurons
          n_input=1099, # MNIST data input (img shape: 28*28)
-         n_z=2)  # dimensionality of latent space
+         n_z=10)  # dimensionality of latent space
 
 def train(network_architecture, learning_rate=0.001,
           batch_size=50, training_epochs=10000, display_step=5):
@@ -69,9 +69,19 @@ def train(network_architecture, learning_rate=0.001,
                   "cost=", "{:.9f}".format(avg_cost)
     return VAE
 
+def generate_recipe_from_vae(bag_of_ingred, vae):
+    recipe_vec = vae.generate()[0]
+    recipe_vec[recipe_vec < 0.5] = 0
+    recipe_vec[recipe_vec >= 0.5] = 1
+    recipe_string = b.create_recipe_string_from_vec(recipe_vec)
+    print "recipe_vec exists in recipes?:", recipe_vec in X
+    print "generated recipe:", recipe_string
+    return recipe_string
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Train a Variational Autoencoder given a network architecture")
-    vae = train(network_architecture, training_epochs=300)
+    vae = train(network_architecture, training_epochs=216)
+    generate_recipe_from_vae(b, vae)
+    
     import pdb; pdb.set_trace()
-
 

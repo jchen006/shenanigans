@@ -172,7 +172,9 @@ class VariationalAutoencoder(object):
         space.        
         """
         if z_mu is None:
-            z_mu = np.random.normal(size=self.network_architecture["n_z"])
+            x_reconstr_mean_dim = self.x_reconstr_mean.get_shape()[0].value
+            z_mu = np.random.normal(size=(x_reconstr_mean_dim,
+                self.network_architecture["n_z"]))
         # Note: This maps to mean of distribution, we could alternatively
         # sample from Gaussian distribution
         return self.sess.run(self.x_reconstr_mean, 
