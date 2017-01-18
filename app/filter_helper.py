@@ -7,7 +7,7 @@ from constants import *
 from string import digits
 # Internal Libraries
 from constants import *
-from settings import *
+# from app.common.settings import *
 from nltk.stem import WordNetLemmatizer
 
 
