@@ -7,7 +7,7 @@ import tempfile
 import random
 import logging
 import json
-from settings import *
+from app.common import *
 
 
 Data = c.namedtuple("Data", "url chef ingredients")

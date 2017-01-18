@@ -5,7 +5,7 @@ import hashlib
 import itertools
 import json
 import mongo_helper as mh
-from settings import *
+from app.common import *
 from recipe_parser import *
 from ingredient import *
 import numpy as np
