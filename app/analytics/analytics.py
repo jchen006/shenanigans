@@ -4,10 +4,10 @@ import os
 import hashlib
 import itertools
 import json
-import mongo_helper as mh
+import app.mongo.mongo_helper as mh
 from app.common import *
-from recipe_parser import *
-from ingredient import *
+from app.util.data.recipe_parser import *
+from app.models.ingredient import *
 import numpy as np
 import json
 from sklearn.ensemble import RandomForestClassifier

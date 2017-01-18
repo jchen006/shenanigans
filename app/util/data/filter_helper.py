@@ -3,10 +3,8 @@
 import re
 import unicodedata
 import sys
-from constants import *
+from app.common.constants import *
 from string import digits
-# Internal Libraries
-from constants import *
 # from app.common.settings import *
 from nltk.stem import WordNetLemmatizer
 

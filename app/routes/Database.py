@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, abort
-import mongo_helper as mh
-import mongo_submit_helper as msh
+import app.mongo.mongo_helper as mh
+import app.mongo.mongo_submit_helper as msh
 
 db = Blueprint('db', __name__)
 
