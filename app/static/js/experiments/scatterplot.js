@@ -63,7 +63,7 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
   svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
-    .append("text")
+      .append("text")
       .attr("class", "label")
       .attr("transform", "rotate(-90)")
       .attr("y", 6)
@@ -73,9 +73,10 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
 
   svg.selectAll(".dot")
       .data(mds)
-    .enter().append("circle")
-      .attr("class", "dot")
-      .attr("r", 3.5)
+      .enter().append("circle")
+      .attr("class", function(d) {
+        return "dot cluster-" + d.cluster;
+      }).attr("r", 3.5)
       .attr("cx", function(d) { return x(d.x); })
       .attr("cy", function(d) { return y(d.y); })
       .style("fill", function(d) { return color(d.cluster); })
@@ -106,5 +107,14 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
       .style("text-anchor", "end")
       .text(function(d) { return d; });
 
+  legend.on("click", function(d) {
+    console.log(d);
+    highlightNodes(d);  
+  });
+
+  var highlightNodes = function(d) {
+    var nodes = d3.selectAll(".dot.cluster-" + d);
+    nodes.attr("r", 5);
+  }
 
 });
