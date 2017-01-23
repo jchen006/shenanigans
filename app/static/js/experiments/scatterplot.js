@@ -30,14 +30,6 @@ var svg = d3.select("#scatterplot").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  var show_recipe_name = function(name) {
-    document.getElementById("recipe_name").innerHTML = name;
-  }
-
-  var clear_recipe_name = function(name) {
-    document.getElementById("recipe_name").innerHTML = "";
-  }
-
 d3.json("/api/recipe_scatterplot", function(error, data) {
   if (error) throw error;
 
@@ -75,18 +67,16 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
   svg.selectAll(".dot")
       .data(mds)
       .enter().append("circle")
-      .attr("class", function(d) {
+      .attr("name", function(d) {return d.name;})
+      .attr("id", function(d) { 
+        var id_name = d.name.replace(/\s/g,'').toLowerCase();
+        return id_name + "-node";
+      }).attr("class", function(d) {
         return "dot cluster-" + d.cluster;
       }).attr("r", 3.5)
       .attr("cx", function(d) { return x(d.x); })
       .attr("cy", function(d) { return y(d.y); })
-      .style("fill", function(d) { return color(d.cluster); })
-      .on("mouseover", function(d) {        
-            show_recipe_name(d.name);
-            })
-      .on("mouseout", function(d) {       
-            clear_recipe_name();   
-        });
+      .style("fill", function(d) { return color(d.cluster); });
 
   var legend = svg.selectAll(".legend")
       .data(color.domain().sort())
@@ -121,8 +111,8 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
     allNodes.style("opacity", .2);
     var clusterNodes = d3.selectAll(".dot.cluster-" + d);
     clusterNodes.style("opacity", 1.2);
-
-    // nodes.attr("r", 5);
+    console.log(clusterNodes);
+    populateTable(clusterNodes[0]);
   }
 
   var highlightLegend = function(d) {
@@ -130,6 +120,32 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
     allLegend.style("opacity", .2);
     var clusterLegend = d3.selectAll(".legend.cluster-" + d);
     clusterLegend.style("opacity", 1.2);
+  }
+
+  var reset = function() {
+
+  }
+
+
+  var populateTable = function(recipes) {
+    var recipe_table = document.getElementById("recipe_names");
+    recipe_table.innerHTML = "";
+    console.log(recipes.length);
+    for(var i = 0; i < recipes.length; i++) {
+      console.log(recipes[i]);
+      var node = document.getElementById(recipes[i].id);
+      var name = node.getAttribute("name");
+      var color = node.style.fill;
+      var entry = document.createElement('li');
+      entry.className = "list-group-item";
+      entry.style.backgroundColor = color;
+      entry.appendChild(document.createTextNode(name));
+      recipe_table.appendChild(entry);
+    }
+  }
+
+  var highlightFromTable = function() {
+
   }
 
 });
