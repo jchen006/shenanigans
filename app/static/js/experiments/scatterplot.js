@@ -1,3 +1,4 @@
+var highlight = false;
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
@@ -90,11 +91,13 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
   var legend = svg.selectAll(".legend")
       .data(color.domain().sort())
       .enter().append("g")
-      .attr("class", "legend")
-      .attr("transform", function(d, i) { 
-        return "translate(0," + i * 20 + ")"; });
+      .attr("class", function(d) {
+        return "legend cluster-" + d;
+      }).attr("transform", function(d, i) { 
+        return "translate(0," + i * 20 + ")"; 
+      });
 
-  legend.append("rect")
+  var legendRect = legend.append("rect")
       .attr("x", width - 18)
       .attr("width", 18)
       .attr("height", 18)
@@ -108,13 +111,25 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
       .text(function(d) { return d; });
 
   legend.on("click", function(d) {
-    console.log(d);
     highlightNodes(d);  
+    highlightLegend(d);
+    highlight = true;
   });
 
   var highlightNodes = function(d) {
-    var nodes = d3.selectAll(".dot.cluster-" + d);
-    nodes.attr("r", 5);
+    var allNodes = d3.selectAll(".dot");
+    allNodes.style("opacity", .2);
+    var clusterNodes = d3.selectAll(".dot.cluster-" + d);
+    clusterNodes.style("opacity", 1.2);
+
+    // nodes.attr("r", 5);
+  }
+
+  var highlightLegend = function(d) {
+    var allLegend = d3.selectAll(".legend");
+    allLegend.style("opacity", .2);
+    var clusterLegend = d3.selectAll(".legend.cluster-" + d);
+    clusterLegend.style("opacity", 1.2);
   }
 
 });
