@@ -111,7 +111,6 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
     allNodes.style("opacity", .2);
     var clusterNodes = d3.selectAll(".dot.cluster-" + d);
     clusterNodes.style("opacity", 1.2);
-    console.log(clusterNodes);
     populateTable(clusterNodes[0]);
   }
 
@@ -123,29 +122,58 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
   }
 
   var reset = function() {
-
+    if(highlight) {
+      console.log("highlighted");
+    }
   }
-
 
   var populateTable = function(recipes) {
     var recipe_table = document.getElementById("recipe_names");
     recipe_table.innerHTML = "";
-    console.log(recipes.length);
     for(var i = 0; i < recipes.length; i++) {
-      console.log(recipes[i]);
       var node = document.getElementById(recipes[i].id);
       var name = node.getAttribute("name");
       var color = node.style.fill;
       var entry = document.createElement('li');
       entry.className = "list-group-item";
       entry.style.backgroundColor = color;
+      entry.style.opacity = "0.8"
       entry.appendChild(document.createTextNode(name));
       recipe_table.appendChild(entry);
     }
+
+    var recipe_list = recipe_table.getElementsByTagName("li");
+
+    for(var i = 0; i < recipe_list.length; i++) {
+      var clicked = false;
+      recipe_list[i].onmouseover = function() {
+        if(!clicked) {
+          this.style.opacity = "1";
+        }      
+      }
+
+      recipe_list[i].onmouseleave = function() {
+        if(!clicked) {
+          this.style.opacity = "0.8";
+        }     
+      }
+
+      recipe_list[i].onclick = function() {
+        if(clicked) {
+          for(var i = 0; i < recipe_list.length; i++) {
+            recipe_list[i].style.opacity = "0.8";
+          }
+        }
+        clicked = true;
+        this.style.opacity = "1";
+        var name = this.innerHTML;
+        var id_name = name.replace(/\s/g,'').toLowerCase();
+        id_name = "#" + id_name + "-node";
+        var node = d3.select(id_name);
+        var allNodes = d3.selectAll(".dot");
+        allNodes.style("opacity", .2);
+        node.style("opacity", 1);
+      }
   }
-
-  var highlightFromTable = function() {
-
   }
-
 });
