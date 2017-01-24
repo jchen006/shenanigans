@@ -69,14 +69,32 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
       .enter().append("circle")
       .attr("name", function(d) {return d.name;})
       .attr("id", function(d) { 
-        var id_name = d.name.replace(/\s/g,'').toLowerCase();
+        var id_name = d.name.replace(/\s/g,'').replace(/[^\w\s]/gi, '').toLowerCase();
         return id_name + "-node";
       }).attr("class", function(d) {
         return "dot cluster-" + d.cluster;
       }).attr("r", 3.5)
       .attr("cx", function(d) { return x(d.x); })
       .attr("cy", function(d) { return y(d.y); })
-      .style("fill", function(d) { return color(d.cluster); });
+      .style("fill", function(d) { return color(d.cluster); })
+      .on("mouseover", function(d) {
+        if(highlight && this.style.opacity == "1") {
+          var id = d.name.replace(/\s/g,'').replace(/[^\w\s]/gi, '').toLowerCase() + "-item";
+          console.log(id);
+          var item = document.getElementById(id);
+          item.style.opacity = "1";
+        }
+      }).on("mouseout", function(d) {
+          if(this.style.opacity == "1") {
+            var id = d.name.replace(/\s/g,'').replace(/[^\w\s]/gi, '').toLowerCase();
+            var item = document.getElementById(id + "-item");
+            item.style.opacity = "0.8";
+          }
+      }).on("click", function(d) {
+          //put focus on that specific points 
+          //highlight on table 
+          //display all stats 
+      });
 
   var legend = svg.selectAll(".legend")
       .data(color.domain().sort())
@@ -110,7 +128,7 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
     var allNodes = d3.selectAll(".dot");
     allNodes.style("opacity", .2);
     var clusterNodes = d3.selectAll(".dot.cluster-" + d);
-    clusterNodes.style("opacity", 1.2);
+    clusterNodes.style("opacity", 1);
     populateTable(clusterNodes[0]);
   }
 
@@ -118,7 +136,7 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
     var allLegend = d3.selectAll(".legend");
     allLegend.style("opacity", .2);
     var clusterLegend = d3.selectAll(".legend.cluster-" + d);
-    clusterLegend.style("opacity", 1.2);
+    clusterLegend.style("opacity", 1);
   }
 
   var reset = function() {
@@ -138,6 +156,7 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
       entry.className = "list-group-item";
       entry.style.backgroundColor = color;
       entry.style.opacity = "0.8"
+      entry.id = name.replace(/\s/g,'').replace(/[^\w\s]/gi, '').toLowerCase() + "-item";
       entry.appendChild(document.createTextNode(name));
       recipe_table.appendChild(entry);
     }
@@ -167,7 +186,7 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
         clicked = true;
         this.style.opacity = "1";
         var name = this.innerHTML;
-        var id_name = name.replace(/\s/g,'').toLowerCase();
+        var id_name = name.replace(/\s/g,'').replace(/[^\w\s]/gi, '').toLowerCase();
         id_name = "#" + id_name + "-node";
         var node = d3.select(id_name);
         var allNodes = d3.selectAll(".dot");
