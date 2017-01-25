@@ -1,4 +1,5 @@
 var highlight = false;
+var clicked = false;
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
@@ -80,20 +81,30 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
       .on("mouseover", function(d) {
         if(highlight && this.style.opacity == "1") {
           var id = d.name.replace(/\s/g,'').replace(/[^\w\s]/gi, '').toLowerCase() + "-item";
-          console.log(id);
           var item = document.getElementById(id);
           item.style.opacity = "1";
         }
       }).on("mouseout", function(d) {
-          if(this.style.opacity == "1") {
+          if(this.style.opacity == "1" && !clicked) {
             var id = d.name.replace(/\s/g,'').replace(/[^\w\s]/gi, '').toLowerCase();
             var item = document.getElementById(id + "-item");
             item.style.opacity = "0.8";
           }
       }).on("click", function(d) {
-          //put focus on that specific points 
-          //highlight on table 
-          //display all stats 
+          console.log(d.name);
+          if(this.style.opacity == "1") {
+            //override mouse out 
+            var id = d.name.replace(/\s/g,'').replace(/[^\w\s]/gi, '').toLowerCase() + "-item";
+            console.log(id);
+            var item = document.getElementById(id);
+            console.log(item);
+            item.style.opacity == "1";
+            var recipe_heading = document.getElementById("recipe_info_header");
+            recipe_heading.innerHTML = d.name;
+            var recipe_panel = document.getElementById("recipe_info_heading");
+            recipe_panel.style.color = "black";
+            clicked = true;
+          } 
       });
 
   var legend = svg.selectAll(".legend")
@@ -147,11 +158,12 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
 
   var populateTable = function(recipes) {
     var recipe_table = document.getElementById("recipe_names");
+    var color;
     recipe_table.innerHTML = "";
     for(var i = 0; i < recipes.length; i++) {
       var node = document.getElementById(recipes[i].id);
       var name = node.getAttribute("name");
-      var color = node.style.fill;
+      color = node.style.fill;
       var entry = document.createElement('li');
       entry.className = "list-group-item";
       entry.style.backgroundColor = color;
@@ -192,7 +204,10 @@ d3.json("/api/recipe_scatterplot", function(error, data) {
         var allNodes = d3.selectAll(".dot");
         allNodes.style("opacity", .2);
         node.style("opacity", 1);
+
       }
+      var recipe_panel = document.getElementById("recipe_info_heading");
+      recipe_panel.style.backgroundColor = color;
   }
   }
 });
