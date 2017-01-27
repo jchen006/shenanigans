@@ -3,7 +3,7 @@ var margin = 50,
 
 var color = d3.scale.linear()
     .domain([1, 5])
-    .range([d3.rgb("#d4ebf2"), d3.rgb("#7997a1")])
+    .range([d3.rgb("#caebf2"), d3.rgb("#a9a9a9")])
     .interpolate(d3.interpolateHcl);
 
 var pack = d3.layout.pack()
@@ -66,13 +66,12 @@ d3.json("/api/lda_graph", function(error, root) {
             })
         .each("start", function(d) { 
             if (d.parent === focus)
-              clearList("ingred"); 
-              // this.style.display = "inline"; 
+              clearList("ingred");
             })
         .each("end", function(d) { 
+          console.log(d);
           if (d.parent !== focus) 
-            updateList("ingred", focus.children);
-            // this.style.display = "none"; 
+            updateList("ingred", focus.children, d);
           });
   }
 
