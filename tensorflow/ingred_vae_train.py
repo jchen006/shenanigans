@@ -8,10 +8,6 @@ import numpy as np
 from utils import weight_variable, bias_variable, montage_batch
 from vae import VariationalAutoencoder
 
-#mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
-
-#n_samples = mnist.train.num_examples
-
 import inspect
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 app_dir = os.path.join(os.path.dirname(currentdir), 'app')
@@ -82,6 +78,3 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Train a Variational Autoencoder given a network architecture")
     vae = train(network_architecture, training_epochs=216)
     generate_recipe_from_vae(b, vae)
-    
-    import pdb; pdb.set_trace()
-
