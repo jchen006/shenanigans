@@ -5,7 +5,6 @@ import unicodedata
 import sys
 from app.common.constants import *
 from string import digits
-# from app.common.settings import *
 from nltk.stem import WordNetLemmatizer
 
 
