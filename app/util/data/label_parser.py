@@ -1,5 +1,5 @@
 import os
-from settings import *
+from common.settings import *
 
 '''
 Label Parser:

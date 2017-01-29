@@ -2,8 +2,8 @@ from app import lm
 # I did not import the request library
 from flask import Blueprint, render_template, request, redirect, url_for
 admin = Blueprint('admin', __name__)
-import mongo_admin_helper as mah
-import mongo_helper as mh
+import app.mongo.mongo_admin_helper as mah
+import app.mongo.mongo_helper as mh
 from flask.ext.login import UserMixin, login_required, login_user, logout_user, UserMixin
 
 # Ah! My issues is that i need to instant the admin helper object
