@@ -1,10 +1,10 @@
 from flask import Blueprint
-from graph import *
-from radial_graph import *
-from analytics import *
+from app.graph import *
+from app.radial_graph import *
+from app.analytics.analytics import *
 import json
 from flask import request
-import mongo_helper as mh
+import app.mongo.mongo_helper as mh
 
 api = Blueprint('api', __name__)
 

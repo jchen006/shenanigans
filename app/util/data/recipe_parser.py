@@ -1,5 +1,5 @@
 from filters import *
-import mongo_helper as mh
+import app.mongo.mongo_helper as mh
 import collections as c
 import pickle
 import os
@@ -7,7 +7,7 @@ import tempfile
 import random
 import logging
 import json
-from settings import *
+from app.common import *
 
 
 Data = c.namedtuple("Data", "url chef ingredients")
