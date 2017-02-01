@@ -1,6 +1,6 @@
 from textblob.classifiers import NaiveBayesClassifier
 from flask import Blueprint, jsonify, request, abort
-import mongo_bayes_helper as mbh
+import app.mongo.mongo_bayes_helper as mbh
 
 bayes = Blueprint('bayes', __name__)
 training = mbh.MongoBayesHelper()

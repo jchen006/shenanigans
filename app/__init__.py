@@ -4,15 +4,15 @@ shenanigans = Flask(__name__)
 lm = LoginManager()
 lm.init_app(shenanigans)
 
-from app import views
-from API import api
-from Admin import admin
-from Submit import submit
-from About import about
-from Experiments import experiments
-from TestSandbox import test
-from Database import db
-from BayesFilter import bayes
+from app.routes import views
+from app.routes.API import api
+from app.routes.Admin import admin
+from app.routes.Submit import submit
+from app.routes.About import about
+from app.routes.Experiments import experiments
+from app.routes.TestSandbox import test
+from app.routes.Database import db
+from app.routes.BayesFilter import bayes
 
 
 shenanigans.register_blueprint(api, url_prefix="/api")

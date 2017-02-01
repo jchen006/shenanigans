@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request
-import mongo_submit_helper as msh
+import app.mongo.mongo_submit_helper as msh
 submit = Blueprint('submit', __name__)
 
 mongo_recipe = msh.SubmitMongoHelper('pending_recipe_collection')

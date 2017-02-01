@@ -3,8 +3,9 @@
 import re
 import unicodedata
 import sys
-from constants import *
-from settings import *
+import os
+from app.common.constants import *
+from app.common.file_paths import APP_ROOT
 from filter_helper import *
 from nltk.stem import WordNetLemmatizer
 

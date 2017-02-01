@@ -4,7 +4,7 @@ import os
 import itertools
 import json
 import numpy as np
-from settings import *
+from app.common import *
 from recipe_parser import *
 from ingredient import Ingredient
 from collections import defaultdict

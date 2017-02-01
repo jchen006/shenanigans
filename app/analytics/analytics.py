@@ -4,10 +4,10 @@ import os
 import hashlib
 import itertools
 import json
-import mongo_helper as mh
-from settings import *
-from recipe_parser import *
-from ingredient import *
+import app.mongo.mongo_helper as mh
+from app.common import *
+from app.util.data.recipe_parser import *
+from app.models.ingredient import *
 import numpy as np
 import json
 from sklearn.ensemble import RandomForestClassifier
@@ -59,6 +59,9 @@ class BagOfIngredients:
                 if self.ordered_ingredients[j] in self.ordered_recipes[i].ingredients:
                     self.recipe_vects[i, j] = 1
         return
+
+    def create_recipe_string_from_vec(self, vec):
+        return [self.ordered_ingredients[i] for i, ingred_one_hot in enumerate(vec) if ingred_one_hot == 1]
 
     def get_ingredient_frequencies(self):
         return np.sum(self.recipe_vects, axis=0)
@@ -256,7 +259,9 @@ class NearestNeighborsModel:
         self.model.fit(bag_of_ingredients_matrix)
 
 if __name__ == '__main__':
-    b = BagOfIngredients()
+    parser = Parser()
+    parser.retrieve_data()
+    b = BagOfIngredients(parser)
     b.generate_bag_of_ingredients()
     b.generate_recipe_vectors()
     top_ingreds, top_freqs = b.get_top_N_ingredient_frequencies(20)
@@ -268,6 +273,3 @@ if __name__ == '__main__':
     clusters = L.clustered_recipes
     lda_json = L.d3_json
     L.plot_mds(True)
-    import pdb
-    pdb.set_trace()
-    # g.make_graph_from_tuple()
