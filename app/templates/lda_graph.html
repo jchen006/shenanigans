@@ -1,42 +1,44 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "layout.html" %} {% block content %}
+<script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+<h1>
+    <center><strong>LDA Graph </strong></center>
+</h1>
+<div class="row">
+    <div class="col-md-7">
+        <div id="lda"></div>
+    </div>
+    <div class="col-md-5">
+        <body-main>
+            <div id="ingredList" style="height: 600px; overflow:scroll;">
+                <h2 id="cluster_name">
+                    </span>
+                </h2>
+                <ul id="ingred" class="list-group">
+                </ul>
+            </div>
+        </body-main>
+    </div>
+</div>
+</br>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Explanation</h3>
+            </div>
+            <div class="panel-body" style="font-size: 15px;">
+                One experiment we wanted to try was a basic clustering of recipes. For our first attempt, we wanted an unsupervised clustering - a way to cluster without manually labeling or providing pre-defined clusters for the recipes. For this goal, Latent Dirichlet
+                Allocation (LDA) seemed a perfect fit, as it assigns “topics” for “documents” consisting of “words”. In our case, it assigns clusters for recipes consisting of ingredients. It does this by building a basic probabilistic model of the relationships
+                (bayesian conditional probabilities) between ingredients and recipe, recipes and cluster, and ingredients and clusters. Although we want to find a cluster for each recipe, in reality LDA assigns each recipe a probability distribution -
+                namely the probability a recipe belongs to each of<span lang="latex">K</span> clusters, where the number <span lang="latex">K</span> is chosen as an input parameter. With this ‘distribution’ over <span lang="latex">K</span>                topics
+            </div>
+            <div class="panel-footer">1 http://www.codecogs.com/latex/integration/htmlequations.php</div>
+        </div>
+    </div>
+</div>
 
-	<h1> 
-		<center><strong>LDA Graph </strong></center>
-	</h1>
-	<div class="row">
-		<div class="col-md-7">
-    			<div id="lda"></div>
-		</div>
-		<div class="col-md-5">
-			<body-main>
-				<div id="ingredList" style="height: 600px; overflow:scroll;">
-				<h2 id="cluster_name"><span id="cluster_total" class="badge"></span></h2>
-				<ul id="ingred" class="list-group">
-				</ul>
-				</div>
-			</body-main>
-		</div>
-	</div>
-	</br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-info">
-  				<div class="panel-heading">
-    				<h3 class="panel-title">Explanation</h3>
-  				</div>
-  				<div class="panel-body">
-    				One experiment we wanted to try was a basic clustering of recipes. For our first attempt, we wanted an unsupervised clustering - a way to cluster without manually labeling or providing pre-defined clusters for the recipes. For this goal, Latent Dirichlet Allocation (LDA) seemed a perfect fit, as it assigns “topics” for “documents” consisting of “words”. In our case, it assigns clusters for recipes consisting of ingredients. It does this by building a basic probabilistic model of the relationships (bayesian conditional probabilities) between ingredients and recipe, recipes and cluster, and ingredients and clusters. Although we want to find a cluster for each recipe, in reality LDA assigns each recipe a probability distribution - namely the probability a recipe belongs to each of K clusters, where the number K is chosen as an input parameter. With this ‘distribution’ over K topics 
-  				</div>
-  				<div class="panel-footer">1 http://www.codecogs.com/latex/integration/htmlequations.php</div>
-			</div>
-		</div>
-	</div>
-  
-	<script src="http://d3js.org/d3.v3.min.js"></script>
-	<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-	<script type="text/javascript" src="/static/js/util/htmllist.js"></script>
-	<script type="text/javascript" src="/static/js/experiments/lda_graph.js"></script>
-	<link rel="stylesheet" link href="/static/css/experiments/lda_graph.css">
-
-{% endblock %}
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script type="text/javascript" src="/static/js/util/htmllist.js"></script>
+<script type="text/javascript" src="/static/js/experiments/lda_graph.js"></script>
+<link rel="stylesheet" link href="/static/css/experiments/lda_graph.css"> {% endblock %}

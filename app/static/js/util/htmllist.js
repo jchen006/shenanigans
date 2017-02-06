@@ -1,44 +1,43 @@
 var listNotCreated = true;
-function updateList(name, list,  cluster_obj) {
-  console.log(cluster_obj);
-  var curr = document.getElementById(name).getElementsByTagName("li");
-  var cluster_name = document.getElementById("cluster_name");
-  cluster_name.innerHTML = cluster_obj.name + " (" + cluster_obj.value + ")";
-  if(curr.length == 0) {
-    createList(name,list);
-  } 
+
+function updateList(name, list, size, title) {
+    var curr = document.getElementById(name).getElementsByTagName("li");
+    var cluster_name = document.getElementById("cluster_name");
+    cluster_name.innerHTML = title + " (" + size + ")";
+    if (curr.length == 0) {
+        createList(name, list);
+    }
 }
 
 function createList(listName, list) {
-  if(listNotCreated) {
-    var name_list = [];
-    for(var i = 0; i < list.length; i++) {
-      name_list.push(list[i].name);
+    if (listNotCreated) {
+        var name_list = [];
+        for (var i = 0; i < list.length; i++) {
+            name_list.push(list[i].name);
+        }
+        alphabetized_list = name_list.sort();
+
+        for (var i = 0; i < alphabetized_list.length; i++) {
+            appendToList(listName, alphabetized_list[i]);
+        }
     }
-    alphabetized_list = name_list.sort();
-    console.log(alphabetized_list);
-  
-    for(var i = 0; i < alphabetized_list.length; i++) {  
-      appendToList(listName, alphabetized_list[i]);
-    }
-  }
-  listNotCreated = false;
+    listNotCreated = false;
 }
 
 function appendToList(name, value) {
-  var list = document.getElementById(name); 
-  var link = document.createElement("a");
+    var list = document.getElementById(name);
+    var link = document.createElement("a");
 
-  var recipe = value.replace(/\b./g, function(m){ return m.toUpperCase(); });
-  recipe = recipe.replace(/ /g, "_");
+    var recipe = value.replace(/\b./g, function(m) { return m.toUpperCase(); });
+    recipe = recipe.replace(/ /g, "_");
 
- 
-  var url = "/recipe_page/" + recipe;
 
-  link.textContent = value;
-  link.className = "list-group-item";
-  link.setAttribute('href', url);
-  list.appendChild(link);
+    var url = "/recipe_page/" + recipe;
+
+    link.textContent = value;
+    link.className = "list-group-item";
+    link.setAttribute('href', url);
+    list.appendChild(link);
 }
 
 Array.prototype.contains = function(obj) {
@@ -52,8 +51,8 @@ Array.prototype.contains = function(obj) {
 }
 
 function clearList(name) {
-  document.getElementById(name).innerHTML = "";
-  var cluster_name = document.getElementById("cluster_name");
-  cluster_name.innerHTML = "";
-  listNotCreated = true;
+    document.getElementById(name).innerHTML = "";
+    var cluster_name = document.getElementById("cluster_name");
+    cluster_name.innerHTML = "";
+    listNotCreated = true;
 }
