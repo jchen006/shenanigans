@@ -1,48 +1,48 @@
-{% extends "layout.html" %}
-{% block content %}
-	<h1> 
-		<center><strong>Recipe Scatterplot</strong></center>
-	</h1>
-	<div class="row">
-		<div  class="col-md-3">
-			<p>Recipes Highlighted</p>
-			<ul id="recipe_names" class="list-group" style="height: 450px; overflow:scroll;">
-			</ul>
-		</div>
-		<div class="col-md-6">
-  			<body>
-    			<div id="scatterplot"></div>
-  			</body>
-		</div>
-	</div>
-	<div class="row">
-		<body-main>
-			<div class="col-md-3">
-				<div class="panel panel-info">
-  					<div id="recipe_info_heading" class="panel-heading">
-    					<h3 id="recipe_info_header" class="panel-title"></h3>
-  					</div>
-  					<div id="recipe_info_body" class="panel-body">
-  					</div>
-  				</div>
-			</div>
-			<div class="col-md-9">
-				<div class="panel panel-info">
-  					<div class="panel-heading">
-    					<h3 class="panel-title">Explanation</h3>
-  					</div>
-  					<div class="panel-body">
-    					Random Test
-  					</div>
-  				</div>
-			</div>
-		</body-main>
-	</div>
-  
-	<script src="http://d3js.org/d3.v3.min.js"></script>
-	<script type="text/javascript" src="/static/js/experiments/scatterplot/scatterplot.js"></script>
-	<script type="text/javascript" src="/static/js/experiments/scatterplot/data.js"></script>
-	<script type="text/javascript" src="/static/js/experiments/scatterplot/events.js"></script>
-	<link rel="stylesheet" href="/static/css/experiments/scatterplot.css">
+{% extends "layout.html" %} {% block content %}
+
+<script type="text/javascript" src="/static/js/experiments/scatterplot/scatterplot.js"></script>
+<link rel="stylesheet" href="/static/css/experiments/scatterplot.css">
+<h1>
+    <center><strong>Recipe Scatterplot</strong></center>
+</h1>
+<div class="row">
+    <div class="col-md-3">
+        <p>Recipes Highlighted</p>
+        <ul id="recipe_names" class="list-group" style="height: 450px; overflow:scroll;">
+        </ul>
+    </div>
+    <div class="col-md-6">
+
+        <body>
+            <div id="scatterplot"></div>
+        </body>
+    </div>
+</div>
+<div class="row">
+    <body-main>
+        <div class="col-md-3">
+            <div class="panel panel-info">
+                <div id="recipe_info_heading" class="panel-heading">
+                    <h3 id="recipe_info_header" class="panel-title"></h3>
+                </div>
+                <div id="recipe_info_body" class="panel-body">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Explanation</h3>
+                </div>
+                <div class="panel-body">
+                    Random Test
+                </div>
+            </div>
+        </div>
+    </body-main>
+</div>
+<script>
+    scatterplot();
+</script>
 
 {% endblock %}
