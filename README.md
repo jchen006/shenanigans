@@ -1,14 +1,5 @@
 # shenanigans
-Food Stuffz 
-
-## Scrapers
-### Food Network 
-```
-$python scrapers/foodnetwork.py 
-```
-
-If you want to change queries, go to "TODO" and change to your own personalized query. 
-Still in debugging for specific pages.
+Using Machine Learning to hack the secrets of food 
 
 ##Environment Settings
 - Add a cfg file in app/config
