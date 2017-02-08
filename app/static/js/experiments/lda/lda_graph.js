@@ -88,3 +88,5 @@ var LDAGraph = function() {
 
     d3.select(self.frameElement).style("height", diameter + "px");
 }
+
+module.exports = LDAGraph();

@@ -1,13 +1,8 @@
 from app import shenanigans
 from flask import render_template, request
 from app.pages import *
-#from mongo_helper import *
 from API import parser
 import app.mongo.mongo_helper as mh
-
-# Adding form components here
-#from components import *
-
 
 p = Page(parser)
 m = mh.MongoHelper()
@@ -16,7 +11,6 @@ m = mh.MongoHelper()
 @shenanigans.route('/')
 def index():
     return render_template('index.html')
-
 
 @shenanigans.route('/home')
 def home():
