@@ -11,6 +11,7 @@ Using Machine Learning to hack the secrets of food
 - pyenchant 
 - pymongo 
 - sci-kit learn 
+- numpy
 - BeautifulSoup
 
 ## Javascript Dependencies 
@@ -21,8 +22,11 @@ Using Machine Learning to hack the secrets of food
 
 ##Local Deployment 
 ```
-$python app/run.py
+$ python app/run.py
 ```
+
+## CICD 
+- Travis CI 
 
 ## License
 
