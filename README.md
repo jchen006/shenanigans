@@ -56,7 +56,7 @@ all CSS, javascript will start with the html pages name
 
 ## License
 
-Copyright (C) 2016  Jeffery Chen and Siddhartho Bhattacharya
+Copyright (C) 2016  Jeffrey Chen and Siddhartho Bhattacharya
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
