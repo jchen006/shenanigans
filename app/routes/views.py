@@ -2,9 +2,10 @@ from app import shenanigans
 from flask import render_template, request
 from app.pages import *
 from API import parser
+from app.util.renderer.recipe_page import RecipePage
 import app.mongo.mongo_helper as mh
 
-p = Page(parser)
+p = RecipePage(parser)
 m = mh.MongoHelper()
 
 

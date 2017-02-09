@@ -5,11 +5,14 @@ from app.analytics.analytics import *
 import json
 from flask import request
 import app.mongo.mongo_helper as mh
+from app.util.data.recipe_parser import Parser
 
 api = Blueprint('api', __name__)
 
 parser = Parser()
 parser.retrieve_data()
+
+print(parser)
 
 # g = Graph(parser)
 # g.make_graph_from_mongo()
