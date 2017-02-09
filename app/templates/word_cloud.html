@@ -8,16 +8,14 @@
 
 <body id="word_cloud">
 </body>
-
-
-
 <div style="width: 40%;">
     <div class="legend">
-        Commonly used words are larger and slightly faded in color. Less common words are smaller and darker.
+        Commonly used foods are larger and slightly faded in color. Less common foods are smaller and darker.
     </div>
 </div>
 <script>
-    word_cloud(50);
+    var wc = wordCloud;
+    wc.word_cloud_generator(100, 2000, 1500);
 </script>
 
 
