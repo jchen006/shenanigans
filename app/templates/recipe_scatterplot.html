@@ -1,6 +1,5 @@
 {% extends "layout.html" %} {% block content %}
-
-<script type="text/javascript" src="/static/js/experiments/scatterplot/scatterplot.js"></script>
+<script src="/static/js/d3/d3.v3.min.js"></script>
 <link rel="stylesheet" href="/static/css/experiments/scatterplot.css">
 <h1>
     <center><strong>Recipe Scatterplot</strong></center>
@@ -41,8 +40,12 @@
         </div>
     </body-main>
 </div>
+<script type="text/javascript" src="/static/js/experiments/scatterplot/events.js"></script>
+<script type="text/javascript" src="/static/js/experiments/scatterplot/scatterplot.js"></script>
 <script>
-    scatterplot();
+    scatterplot.init({
+        elementId: "#scatterplot"
+    });
 </script>
 
 {% endblock %}
