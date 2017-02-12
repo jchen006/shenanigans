@@ -13,6 +13,40 @@ var renderer = (function() {
         return entry;
     }
 
+    var changeInfoPanelColor = function(color) {
+        var recipe_panel = document.getElementById("recipe_info_heading");
+        recipe_panel.style.backgroundColor = color;
+    }
+
+    var recipeTableOnClickEvent = function(clicked) {
+        if (!clicked) {
+            this.style.opacity = "1";
+        }
+    }
+
+    var recipeTableOnMouseLeaveEvent = function(clicked) {
+        if (!clicked) {
+            this.style.opacity = "0.8";
+        }
+    }
+
+    var recipeTableOnMouseClickEvent = function(clicked) {
+        if (clicked) {
+            for (var i = 0; i < recipe_list.length; i++) {
+                recipe_list[i].style.opacity = "0.8";
+            }
+        }
+        clicked = true;
+        this.style.opacity = "1";
+        var name = this.innerHTML;
+        var id_name = cleanName(name);
+        id_name = "#" + id_name + "-node";
+        var node = d3.select(id_name);
+        var allNodes = d3.selectAll(".dot");
+        allNodes.style("opacity", .2);
+        node.style("opacity", 1);
+    }
+
     return {
         changeOpacity: function(element, number) {
             element.style("opacity", number);
@@ -35,36 +69,17 @@ var renderer = (function() {
             for (var i = 0; i < recipe_list.length; i++) {
                 var clicked = false;
                 recipe_list[i].onmouseover = function() {
-                    if (!clicked) {
-                        this.style.opacity = "1";
-                    }
+                    recipeTableOnClickEvent(clicked);
                 }
 
                 recipe_list[i].onmouseleave = function() {
-                    if (!clicked) {
-                        this.style.opacity = "0.8";
-                    }
+                    recipeTableOnMouseLeaveEvent(clicked);
                 }
 
                 recipe_list[i].onclick = function() {
-                    if (clicked) {
-                        for (var i = 0; i < recipe_list.length; i++) {
-                            recipe_list[i].style.opacity = "0.8";
-                        }
-                    }
-                    clicked = true;
-                    this.style.opacity = "1";
-                    var name = this.innerHTML;
-                    var id_name = cleanName(anme);
-                    id_name = "#" + id_name + "-node";
-                    var node = d3.select(id_name);
-                    var allNodes = d3.selectAll(".dot");
-                    allNodes.style("opacity", .2);
-                    node.style("opacity", 1);
-
+                    recipeTableOnMouseClickEvent();
                 }
-                var recipe_panel = document.getElementById("recipe_info_heading");
-                recipe_panel.style.backgroundColor = color;
+                changeInfoPanelColor(color);
             }
         }
     }
