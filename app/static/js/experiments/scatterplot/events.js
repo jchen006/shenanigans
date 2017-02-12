@@ -13,6 +13,5 @@
               var clusterLegend = d3.selectAll(".legend.cluster-" + d);
               renderer.changeOpacity(clusterLegend, 1);
           },
-
       }
   })();
