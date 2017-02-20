@@ -4,6 +4,9 @@ Using Machine Learning to hack the secrets of food
 ##Environment Settings
 - Add a cfg file in app/config
 
+##Data Miners
+- Scrapers and API Calls
+
 ##Python Dependecies 
 - Flask 
 - Jinja2
