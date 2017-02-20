@@ -1,5 +1,5 @@
 var lda = (function() {
-    var elementId, margin, diameter;
+    var elementId, margin, diameter, api_call;
 
     var draw = function() {
         var color = d3.scale.linear()
@@ -18,7 +18,7 @@ var lda = (function() {
             .append("g")
             .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-        d3.json("/api/lda_graph", function(error, root) {
+        d3.json(api_call, function(error, root) {
             if (error) throw error;
 
             var focus = root,
@@ -94,6 +94,7 @@ var lda = (function() {
             console.log(config.margin);
             margin = config.margin;
             diameter = config.diameter;
+            api_call = config.api_call;
             draw();
         }
     }

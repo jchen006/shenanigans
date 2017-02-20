@@ -1,5 +1,5 @@
 var scatterplot = (function() {
-    var elementId, margin, width, height;
+    var elementId, margin, width, height, api_call;
     var highlight = false;
     var clicked = false;
 
@@ -37,7 +37,7 @@ var scatterplot = (function() {
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        d3.json("/api/recipe_scatterplot", function(error, data) {
+        d3.json(api_call, function(error, data) {
             if (error) throw error;
 
             var mds = data.mds_json;
@@ -146,6 +146,7 @@ var scatterplot = (function() {
     return {
         init: function(config) {
             elementId = config.elementId;
+            api_call = config.api_call;
             createSVG();
             draw();
         }
