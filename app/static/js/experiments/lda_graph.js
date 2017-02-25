@@ -3,7 +3,7 @@ var margin = 50,
 
 var color = d3.scale.linear()
     .domain([1, 5])
-    .range([d3.rgb("#d4ebf2"), d3.rgb("#7997a1")])
+    .range([d3.rgb("#caebf2"), d3.rgb("#a9a9a9")])
     .interpolate(d3.interpolateHcl);
 
 var pack = d3.layout.pack()
@@ -18,69 +18,72 @@ var svg = d3.select("#lda").append("svg")
     .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
 d3.json("/api/lda_graph", function(error, root) {
-  if (error) throw error;
+    if (error) throw error;
 
-  var focus = root,
-      nodes = pack.nodes(root),
-      view;
+    var focus = root,
+        nodes = pack.nodes(root),
+        view;
 
-  var circle = svg.selectAll("circle")
-      .data(nodes)
-      .enter().append("circle")
-      .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
-      .style("fill", function(d) { return d.children ? color(d.depth) : null; })
-      .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+    var circle = svg.selectAll("circle")
+        .data(nodes)
+        .enter().append("circle")
+        .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+        .style("fill", function(d) { return d.children ? color(d.depth) : null; })
+        .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
 
-  var text = svg.selectAll("text")
-      .data(nodes)
-      .enter().append("text")
-      .attr("class", "label")
-      .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
-      .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
-      .text(function(d) { return d.name; });
+    var text = svg.selectAll("text")
+        .data(nodes)
+        .enter().append("text")
+        .attr("class", "label")
+        .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
+        .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+        .text(function(d) { return d.name; });
 
-  var node = svg.selectAll("circle,text");
+    var node = svg.selectAll("circle,text");
 
-  d3.select("#lda")
-      .style("background", color(-1))
-      .on("click", function() { zoom(root); });
+    d3.select("#lda")
+        .style("background", color(-1))
+        .on("click", function() { zoom(root); });
 
-  zoomTo([root.x, root.y, root.r * 2 + margin]);
+    zoomTo([root.x, root.y, root.r * 2 + margin]);
 
-  function zoom(d) {
-    var focus0 = focus; focus = d;
+    function zoom(d) {
+        var focus0 = focus;
+        focus = d;
 
-    var transition = d3.transition()
-        .duration(d3.event.altKey ? 7500 : 750)
-        .tween("zoom", function(d) {
-          var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
-          return function(t) { zoomTo(i(t)); };
-        });
+        var transition = d3.transition()
+            .duration(d3.event.altKey ? 7500 : 750)
+            .tween("zoom", function(d) {
+                var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
+                return function(t) { zoomTo(i(t)); };
+            });
 
-    transition.selectAll("text")
-        .filter(function(d) { 
-              return d.parent === focus || this.style.display === "inline"; 
+        transition.selectAll("text")
+            .filter(function(d) {
+                return d.parent === focus || this.style.display === "inline";
             })
-        .style("fill-opacity", function(d) { 
-              return d.parent === focus ? 1 : 0; 
+            .style("fill-opacity", function(d) {
+                return d.parent === focus ? 1 : 0;
             })
-        .each("start", function(d) { 
-            if (d.parent === focus)
-              clearList("ingred"); 
-              // this.style.display = "inline"; 
+            .each("start", function(d) {
+                if (d.parent === focus)
+                    clearList("ingred");
             })
-        .each("end", function(d) { 
-          if (d.parent !== focus) 
-            updateList("ingred", focus.children);
-            // this.style.display = "none"; 
-          });
-  }
+            .each("end", function(d) {
+                if (d.parent !== focus) {
+                    var size = focus.children.length;
+                    var cluster_number = focus.children[0].parent.name;
+                    updateList("ingred", focus.children, size, cluster_number);
+                }
+            });
+    }
 
-  function zoomTo(v) {
-    var k = diameter / v[2]; view = v;
-    node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
-    circle.attr("r", function(d) { return d.r * k; });
-  }
+    function zoomTo(v) {
+        var k = diameter / v[2];
+        view = v;
+        node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+        circle.attr("r", function(d) { return d.r * k; });
+    }
 });
 
 d3.select(self.frameElement).style("height", diameter + "px");
