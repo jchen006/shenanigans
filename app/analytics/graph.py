@@ -5,8 +5,8 @@ import itertools
 import json
 import numpy as np
 from app.common import *
-from recipe_parser import *
-from ingredient import *
+from app.util.data.recipe_parser import *
+from app.models.ingredient import *
 
 #Data = c.namedtuple("Data", "url chef ingredients")
 

@@ -4,6 +4,10 @@ shenanigans = Flask(__name__)
 lm = LoginManager()
 lm.init_app(shenanigans)
 
+import load_app_dir
+load_app_dir.add_app_dir()
+import app
+
 from app.routes import views
 from app.routes.API import api
 from app.routes.Admin import admin
