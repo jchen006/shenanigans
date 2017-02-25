@@ -41,3 +41,5 @@
 ehthumbs.db
 Thumbs.db
 
+# Dev Environemnt Settings # 
+.vscode/settings.json
