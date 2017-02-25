@@ -1,7 +1,7 @@
 """recipePage is to generate the methods that will be needed to convert
 a recipe into an actual page. It will take a text file and convert the 
 text file into a page for recipes"""
-from recipe_parser import *
+from app.util.data.recipe_parser import *
 
 
 class Page:
