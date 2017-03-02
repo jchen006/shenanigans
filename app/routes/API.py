@@ -1,6 +1,6 @@
 from flask import Blueprint
-from app.graph import *
-from app.radial_graph import *
+from app.analytics.graph import *
+from app.analytics.radial_graph import *
 from app.analytics.analytics import *
 import json
 from flask import request
