@@ -4,11 +4,12 @@ text file into a page for recipes"""
 from parser import *
 
 
-class recipePage:
+class RecipePage:
 
     def __init__(self, parser_obj):
         self.recipe_file = []
-    self.p = parser_obj
+        print(parser_obj)
+        self.p = parser_obj
 
     """Takes the file name converts it to a file name 
 	File name will have everything that it needs to have"""

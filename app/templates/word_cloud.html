@@ -1,23 +1,26 @@
-{% extends "layout.html" %}
-{% block content %}
-	<script src="http://d3js.org/d3.v3.min.js"></script>
-	<script src="/static/js/experiments/d3.layout.cloud.js"></script>
-	<link rel="stylesheet" link href="/static/css/experiments/word_cloud.css">
+{% extends "layout.html" %} {% block content %}
+
+<script src="/static/js/experiments/word_cloud/word_cloud.js"></script>
+
 <head>
     <title>Word Cloud Example</title>
 </head>
+
 <body id="word_cloud">
 </body>
-<script src="/static/js/experiments/word_cloud.js"></script>
-<script>
-	word_cloud(50);
-</script>
-
 <div style="width: 40%;">
     <div class="legend">
-        Commonly used words are larger and slightly faded in color.  Less common words are smaller and darker.
+        Commonly used foods are larger and slightly faded in color. Less common foods are smaller and darker.
     </div>
 </div>
+<script>
+    wordCloud.init({
+        num: 100,
+        width: 2000,
+        height: 1500,
+        api_call: "/api/word_cloud_json/"
+    });
+</script>
 
 
 {% endblock %}
