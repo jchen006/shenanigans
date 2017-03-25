@@ -10,14 +10,13 @@ import app
 
 from app.routes import views
 from app.routes.API import api
-from app.routes import views
 from app.routes.Admin import admin
 from app.routes.Submit import submit
 from app.routes.About import about
 from app.routes.Experiments import experiments
 from app.routes.TestSandbox import test
 from app.routes.Database import db
-from app.routes.BayesFilter import bayes
+from app.analytics.BayesFilter import bayes
 
 
 shenanigans.register_blueprint(api, url_prefix="/api")
