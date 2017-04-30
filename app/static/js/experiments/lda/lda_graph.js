@@ -1,11 +1,10 @@
-var lda = (function() {
+var LDA = (function() {
     var elementId, margin, diameter, api_call;
-    console.log(diamater);
 
     var draw = function() {
         var color = d3.scale.linear()
-            .domain([1, 5])
-            .range([d3.rgb("#d4ebf2"), d3.rgb("#7997a1")])
+            .domain([1, 10])
+            .range([d3.rgb(color_lower), d3.rgb(color_upper)])
             .interpolate(d3.interpolateHcl);
 
         var pack = d3.layout.pack()
@@ -95,6 +94,8 @@ var lda = (function() {
             margin = config.margin;
             diameter = config.diameter;
             api_call = config.api_call;
+            color_lower = config.color[0];
+            color_upper = config.color[1];
             draw();
         }
     }
