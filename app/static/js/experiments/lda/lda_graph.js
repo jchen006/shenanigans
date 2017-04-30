@@ -1,5 +1,6 @@
 var lda = (function() {
     var elementId, margin, diameter, api_call;
+    console.log(diamater);
 
     var draw = function() {
         var color = d3.scale.linear()
@@ -10,7 +11,7 @@ var lda = (function() {
         var pack = d3.layout.pack()
             .padding(2)
             .size([diameter - margin, diameter - margin])
-            .value(function(d) { return d.size; })
+            .value(function(d) { return d.size; });
 
         var svg = d3.select(elementId).append("svg")
             .attr("width", diameter)
@@ -91,7 +92,6 @@ var lda = (function() {
     return {
         init: function(config) {
             elementId = config.elementId;
-            console.log(config.margin);
             margin = config.margin;
             diameter = config.diameter;
             api_call = config.api_call;

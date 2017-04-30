@@ -1,22 +1,30 @@
-{% extends "layout.html" %} {% block content %}
-<div class="jumbotron">
-    <div class="container">
-        <h2>About The Project</h2>
-        </br>
-        <h4><strong> Technology Stack </strong> </h4>
-        <p>
-            Flask &nbsp MongoDB / SQL &nbsp Bootstrap
-        </p>
-
-        <h4><strong>Python Libraries</strong></h4>
-        <p>
-            pymongo &nbsp sci-kit learn &nbsp BeautifulSoup &nbsp selenium &nbsp DepotManager
-        </p>
-
-        <h4><strong>Javascript Libraries</h4></strong>
-            <p> phantomjs &nbsp d3.js &nbsp
-            </p>
-
+{% extends "layout_2.html" %} {% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">About The Project</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<div class="row">
+    <div class="col-lg-8">
+        <h4> Technology Stack </h4>
+        <div class="jumbotron">
+            <div class="container">
+                Flask &nbsp MongoDB / SQL &nbsp Bootstrap
+            </div>
+        </div>
+        <h4> Python Dependencies </h4>
+        <div class="jumbotron">
+            <div class="container">
+                pymongo &nbsp sci-kit learn &nbsp BeautifulSoup &nbsp selenium &nbsp DepotManager
+            </div>
+        </div>
+        <h4> Javascript Dependencies</h4>
+        <div class="jumbotron">
+            <div class="container">
+                phantomjs &nbsp d3.js &nbsp
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
