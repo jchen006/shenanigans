@@ -3,7 +3,9 @@ var listNotCreated = true;
 function updateList(name, list, size, title) {
     var curr = document.getElementById(name).getElementsByTagName("li");
     var cluster_name = document.getElementById("cluster_name");
-    cluster_name.innerHTML = title + " (" + size + ")";
+    if(typeof size !== "undefined" && typeof title !== "undefined") {
+         cluster_name.innerHTML = title + " (" + size + ")";
+    }
     if (curr.length == 0) {
         createList(name, list);
     }

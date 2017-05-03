@@ -72,7 +72,9 @@ var LDA = (function() {
                     })
                     .each("end", function(d) {
                         if (d.parent !== focus)
-                            updateList("ingred", focus.children);
+                            var size = focus.children.length;
+                            var cluster_number = focus.children[0].parent.name;
+                            updateList("ingred", focus.children, size, cluster_number);
                     });
             }
 
