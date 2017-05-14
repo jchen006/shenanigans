@@ -13,16 +13,18 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 app_dir = os.path.join(os.path.dirname(currentdir), 'app')
 os.sys.path.insert(0, app_dir)
 
+from app.analytics.analytics import BagOfIngredients
+from app.util.data.recipe_parser import Parser
 from analytics import *
 
 parser = Parser()
 parser.retrieve_data()
 
-b = BagOfIngredients(parser)
-b.generate_bag_of_ingredients()
-b.generate_recipe_vectors()
-top_ingreds, top_freqs = b.get_top_N_ingredient_frequencies(20)
-X = b.recipe_vects
+boi = BagOfIngredients(parser)
+boi.generate_bag_of_ingredients()
+boi.generate_recipe_vectors()
+top_ingreds, top_freqs = boi.get_top_N_ingredient_frequencies(20)
+X = boi.recipe_vects
 
 n_samples = X.shape[0]
 
@@ -34,7 +36,7 @@ network_architecture = \
          n_input=1099, # MNIST data input (img shape: 28*28)
          n_z=10)  # dimensionality of latent space
 
-def train(network_architecture, learning_rate=0.001,
+def train(network_architecture, learning_rate=0.0001,
           batch_size=50, training_epochs=10000, display_step=5):
     VAE = VariationalAutoencoder(network_architecture, 
                                  learning_rate=learning_rate, 
@@ -69,12 +71,13 @@ def generate_recipe_from_vae(bag_of_ingred, vae):
     recipe_vec = vae.generate()[0]
     recipe_vec[recipe_vec < 0.5] = 0
     recipe_vec[recipe_vec >= 0.5] = 1
-    recipe_string = b.create_recipe_string_from_vec(recipe_vec)
+    recipe_string = bag_of_ingred.create_recipe_string_from_vec(recipe_vec)
     print "recipe_vec exists in recipes?:", recipe_vec in X
     print "generated recipe:", recipe_string
     return recipe_string
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Train a Variational Autoencoder given a network architecture")
-    vae = train(network_architecture, training_epochs=216)
-    generate_recipe_from_vae(b, vae)
+    vae = train(network_architecture, training_epochs=10000)#216)
+    import pdb; pdb.set_trace()
+    generate_recipe_from_vae(boi, vae)
