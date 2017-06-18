@@ -39,5 +39,7 @@ def word_cloud():
 
 @experiments.route('/generate_recipe')
 def generate_recipe(): 
-    items=['Steph', 'KD']
-    return render_template('generate_recipe.html', n=5)
+    n=5
+    base = 100
+    default_value = base/n
+    return render_template('generate_recipe.html', n=n, default=default_value)
