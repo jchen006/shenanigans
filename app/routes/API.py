@@ -35,8 +35,8 @@ clusters = L.clustered_recipes
 lda_json = L.d3_json
 
 
-import pdb; pdb.set_trace()
-vae = vae_train.train(vae_train.default_network_architecture, training_epochs=1500)
+#import pdb; pdb.set_trace()
+#vae = vae_train.train(vae_train.default_network_architecture, training_epochs=1500)
 
 # @api.route('/graph')
 # def graph_json():

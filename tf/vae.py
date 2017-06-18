@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+import os
 from utils import weight_variable, bias_variable, montage_batch
 
 def xavier_init(fan_in, fan_out, constant=1): 
@@ -26,7 +27,6 @@ class VariationalAutoencoder(object):
         self.transfer_fct = transfer_fct
         self.learning_rate = learning_rate
         self.batch_size = batch_size
-        self.saver = tf.train.Saver()
         self.save_path = save_path
         
         # tf Graph input
@@ -45,6 +45,8 @@ class VariationalAutoencoder(object):
         self.sess = tf.InteractiveSession()
         self.sess.run(init)
     
+        self.saver = tf.train.Saver()
+
     def _create_network(self):
         # Initialize autoencode network weights and biases
         network_weights = self._initialize_weights(**self.network_architecture)
@@ -188,6 +190,8 @@ class VariationalAutoencoder(object):
                              feed_dict={self.x: X})
 
     def save_ckpt(self):
+        if not os.path.exists(self.save_path):
+            os.makedirs(self.save_path)
         self.saver.save(self.sess, self.save_path)
 
     def restore_ckpt(self):
