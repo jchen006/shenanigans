@@ -6,6 +6,7 @@ import json
 from flask import request
 import app.mongo.mongo_helper as mh
 from app.util.data.recipe_parser import Parser
+from tf import ingred_vae_train as vae_train
 
 api = Blueprint('api', __name__)
 
@@ -34,9 +35,17 @@ clusters = L.clustered_recipes
 lda_json = L.d3_json
 
 
+import pdb; pdb.set_trace()
+vae = vae_train.train(vae_train.default_network_architecture, training_epochs=1500)
+
 # @api.route('/graph')
 # def graph_json():
 #     return g.get_d3_json()
+#import pdb; pdb.set_trace()
+
+@api.route('/create_recipe')
+def crate_recipe_tensorflow():
+    return vae_train.generate_recipe_from_vae(b, vae)
 
 
 @api.route('/ingredient_frequency')
