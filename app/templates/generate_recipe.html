@@ -1,7 +1,22 @@
 {% extends "layout.html" %} {% block content %}
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://www.d3plus.org/js/d3plus.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Knob/1.2.13/jquery.knob.min.js"></script>
 
-<div id="viz"></div>
-<script type="text/javascript" src="/static/js/sandbox/food_network_d3plus.js"></script>
-<link rel="stylesheet" link href="/static/css/sandbox/radial_graph_4.css"> {% endblock %}
+<div class="container">
+  <div class="row">
+    {% for n in range(n) %}
+    <div class="col-lg-2">
+      <input type="text" value="75" class="dial">
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+    $('.dial').knob();
+</script>
+<!--<script type="text/javascript" src="/static/js/sandbox/food_network_d3plus.js"></script>
+<link rel="stylesheet" link href="/static/css/sandbox/radial_graph_4.css"> {% endblock %}-->

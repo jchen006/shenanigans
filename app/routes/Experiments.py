@@ -36,3 +36,8 @@ def recipe_scatterplot():
 @experiments.route('/word_cloud')
 def word_cloud():
     return render_template('word_cloud.html')
+
+@experiments.route('/generate_recipe')
+def generate_recipe(): 
+    items=['Steph', 'KD']
+    return render_template('generate_recipe.html', n=5)
