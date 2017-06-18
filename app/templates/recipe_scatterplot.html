@@ -1,22 +1,21 @@
-{% extends "layout.html" %} {% block content %}
-<script src="/static/js/d3/d3.v3.min.js"></script>
-<link rel="stylesheet" href="/static/css/experiments/scatterplot.css">
-<h1>
-    <center><strong>Recipe Scatterplot</strong></center>
-</h1>
-<div class="row">
-    <div class="col-md-3">
-        <p>Recipes Highlighted</p>
-        <ul id="recipe_names" class="list-group" style="height: 450px; overflow:scroll;">
-        </ul>
-    </div>
-    <div class="col-md-6">
+{% extends "layout_2.html" %} {% block content %}
 
-        <body>
-            <div id="scatterplot"></div>
-        </body>
+<link rel="stylesheet" href="/static/css/experiments/scatterplot.css">
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Recipe Scatterplot</h1>
     </div>
 </div>
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="scatterplot-container">
+            <div id="scatterplot"></div>
+        </div>
+    </div>
+</div>
+<!--
 <div class="row">
     <body-main>
         <div class="col-md-3">
@@ -39,7 +38,7 @@
             </div>
         </div>
     </body-main>
-</div>
+</div>-->
 <script type="text/javascript" src="/static/js/experiments/scatterplot/renderer.js"></script>
 <script type="text/javascript" src="/static/js/experiments/scatterplot/events.js"></script>
 <script type="text/javascript" src="/static/js/experiments/scatterplot/scatterplot.js"></script>
