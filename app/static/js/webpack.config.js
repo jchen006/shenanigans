@@ -9,7 +9,7 @@ var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
 
 module.exports = {
     entry: [
-        './react-components/iceBox.js'
+        './react-components/core/list.jsx'
     ],
     module: {
         loaders: [
@@ -23,7 +23,7 @@ module.exports = {
 		]
 	},
     output: {
-		path: __dirname + '/static/js/react/admin',
+		path: __dirname + '/react-components',
 		filename: 'index_bundle.js'
     },
 //	plugin: [HTMLWebpackPluginConfig]
