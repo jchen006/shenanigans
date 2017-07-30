@@ -9,16 +9,21 @@ var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
 
 module.exports = {
     entry: [
-        './react-components/core/list.jsx'
+        './components/d3/Bar.jsx',
+        './experiments/ingredient_frequency/ingredient_frequency_bar_react.jsx'
     ],
     module: {
         loaders: [
             {
-                test: /\.js$/,
+                test: /\.jsx$/,
                 include: __dirname,
                 exclude: /node_modules/,
                 loader: 'babel-loader' //fixed my installing other dependencies
                 //query: { presets: [ 'es2015', 'react' ] }
+            },
+            {
+                test: /\.css$/,
+                loader: 'style-loader!css-loader'
             }
 		]
 	},
