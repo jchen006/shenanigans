@@ -51,7 +51,7 @@ var ingredient_frequency_bar = function() {
             .attr("transform", "rotate(-50)");;
 
 
-        svg.append("g")
+        svg.append("g") 
             .attr("class", "y axis")
             .call(yAxis)
             .append("text")

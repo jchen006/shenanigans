@@ -9,8 +9,8 @@ var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
 
 module.exports = {
     entry: [
-        './components/d3/Bar.jsx',
-        './experiments/ingredient_frequency/ingredient_frequency_bar_react.jsx'
+        './components/d3/Axis.jsx',
+        './experiments/ingredient_frequency/ingredient_frequency_bar.jsx'
     ],
     module: {
         loaders: [
