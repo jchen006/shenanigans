@@ -42,7 +42,11 @@ const Axis = React.createClass({
 
     var node = ReactDOM.findDOMNode(this);
     d3.select(node)
-      .call(d3.axisBottom(x))
+      .call(d3.axisBottom(x)).selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-50)")
   },
 
   renderYAxis() {

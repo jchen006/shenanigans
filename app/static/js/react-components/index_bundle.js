@@ -114,7 +114,7 @@
 	    console.log(typeof x);
 
 	    var node = ReactDOM.findDOMNode(this);
-	    d3.select(node).call(d3.axisBottom(x));
+	    d3.select(node).call(d3.axisBottom(x)).selectAll("text").style("text-anchor", "end").attr("dx", "-.8em").attr("dy", ".15em").attr("transform", "rotate(-50)");
 	  },
 
 	  renderYAxis() {
@@ -21694,16 +21694,16 @@
 	  },
 
 	  componentWillMount() {
-	    fetch('/api/ingredient_frequency').then(response => response.json()).then(json => {
+	    fetch('/api/ingredient_frequency').then(response => response.json()).then(data => {
 	      this.setState({
-	        data: json
+	        data: data
 	      });
 	    });
 	  },
 
 	  renderXAxis() {
 	    const margin = { top: 40, right: 20, bottom: 30, left: 40 };
-	    const width = 960 - margin.left - margin.right;
+	    const width = 600 - margin.left - margin.right;
 	    const height = 500 - margin.top - margin.bottom;
 
 	    return _react2.default.createElement(_Axis2.default, { transform: "translate(0," + height + ")", width: width, height: height, data: this.state.data });

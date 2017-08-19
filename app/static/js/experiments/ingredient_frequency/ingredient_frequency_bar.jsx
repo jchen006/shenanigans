@@ -13,20 +13,19 @@ const FrequencyBarChart = React.createClass({
     };
   },
 
-
   componentWillMount() {
     fetch('/api/ingredient_frequency')
       .then(response => response.json())
-      .then(json => {
+      .then(data => {
         this.setState({
-          data: json
+          data: data
         })
       })
   },
 
   renderXAxis() {
     const margin = { top: 40, right: 20, bottom: 30, left: 40 }
-    const width =  960 - margin.left - margin.right
+    const width =  600 - margin.left - margin.right
     const height = 500 - margin.top - margin.bottom
    
     return (
