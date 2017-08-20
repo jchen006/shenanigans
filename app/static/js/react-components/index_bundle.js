@@ -121,18 +121,18 @@
 	      var y = d3.scaleLinear().rangeRound([this.props.height, 0]);
 
 	      y.domain([0, d3.max(this.props.data, function (d) {
+	        console.log(d.size);
 	        return d.size;
 	      })]);
 
 	      var node = ReactDOM.findDOMNode(this);
-	      d3.select(node).call(d3.axisLeft(y).ticks(10, "%")).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", "0.71em").attr("text-anchor", "end").text("Frequency");
+	      d3.select(node).call(d3.axisLeft(y).ticks(10)).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", "0.71em").attr("text-anchor", "end").text("Number of Occurences");
 	    }
 	  },
 
 	  render() {
 	    return _react2.default.createElement('g', { className: this.props.className, transform: this.props.transform });
 	  }
-
 	});
 
 	exports.default = Axis;
@@ -21740,7 +21740,7 @@
 	      { className: 'ingredient_frequency_bar' },
 	      _react2.default.createElement(
 	        'svg',
-	        { width: 600, height: 500 },
+	        { width: 900, height: 500 },
 	        this.renderXAxis(),
 	        this.renderYAxis()
 	      )

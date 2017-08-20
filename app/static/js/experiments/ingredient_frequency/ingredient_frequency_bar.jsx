@@ -58,7 +58,7 @@ const FrequencyBarChart = React.createClass({
   render() {
     return (
         <div className="ingredient_frequency_bar">
-          <svg width = {600} height = {500}>
+          <svg width = {900} height = {500}>
              { this.renderXAxis() } 
             { this.renderYAxis() }
           </svg>

@@ -48,7 +48,7 @@ var ingredient_frequency_bar = function() {
             .style("text-anchor", "end")
             .attr("dx", "-.8em")
             .attr("dy", ".15em")
-            .attr("transform", "rotate(-50)");;
+            .attr("transform", "rotate(-50)");
 
 
         svg.append("g") 

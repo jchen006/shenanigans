@@ -51,19 +51,21 @@ const Axis = React.createClass({
               
     } else if(this.props.className === "axis axis--y") {
 
-       var y = d3.scaleLinear().rangeRound([this.props.height, 0]);
+      var y = d3.scaleLinear().rangeRound([this.props.height, 0]);
 
-      y.domain([0, d3.max(this.props.data, function(d) { return d.size })])
+      y.domain([0, d3.max(this.props.data, function(d) { 
+        console.log(d.size)
+        return d.size })])
 
       var node = ReactDOM.findDOMNode(this);
       d3.select(node)
-        .call(d3.axisLeft(y).ticks(10, "%"))
+        .call(d3.axisLeft(y).ticks(10))
         .append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 6)
         .attr("dy", "0.71em")
         .attr("text-anchor", "end")
-        .text("Frequency")
+        .text("Number of Occurences")
     }
   },
 
@@ -73,7 +75,6 @@ const Axis = React.createClass({
       </g>
       )
     }
-   
 })
 
 
