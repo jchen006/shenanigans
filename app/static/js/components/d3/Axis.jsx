@@ -19,59 +19,52 @@ const Axis = React.createClass({
     style: PropTypes.string,
     baseLength: PropTypes.number,
     type: PropTypes.string,
-    axis: PropTypes.func,
-    className: PropTypes.string
+    axis: PropTypes.func
   },
 
   componentDidMount() {
-    this.renderAxis()
+    this.renderXAxis()
   },
 
   componentDidUpdate() {
-    this.renderAxis()
+    this.renderXAxis()
   },
 
-  renderAxis() {
-    if(this.props.className === "axis axis--x") {
-      var x = d3.scaleBand().rangeRound([0, this.props.width]).padding(0.1)
-      
-      console.log(this.props.data)
-      //Add a domain specific function
-      x.domain(this.props.data.map(function(d) { return d.text; }))
+  renderXAxis() {
 
-      console.log(typeof x)
+    var x = d3.scaleBand().rangeRound([0, this.props.width]).padding(0.1)
+    
+    console.log(this.props.data)
+    //Add a domain specific function
+    x.domain(this.props.data.map(function(d) { return d.text; }))
 
-      var node = ReactDOM.findDOMNode(this);
-      d3.select(node)
-        .call(d3.axisBottom(x)).selectAll("text")
-              .style("text-anchor", "end")
-              .attr("dx", "-.8em")
-              .attr("dy", ".15em")
-              .attr("transform", "rotate(-50)")
-    } else if(this.props.className === "axis axis--y") {
-       var y = d3.scaleLinear().rangeRound([this.props.height, 0]);
+    console.log(typeof x)
 
-      y.domain([0, d3.max(this.props.data, function(d) { return d.size })])
+    var node = ReactDOM.findDOMNode(this);
+    d3.select(node)
+      .call(d3.axisBottom(x)).selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-50)")
+  },
 
-      var node = ReactDOM.findDOMNode(this);
-      d3.select(node)
-        .call(d3.axisLeft(y).ticks(10, "%"))
-        .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", "0.71em")
-        .attr("text-anchor", "end")
-        .text("Frequency")
-    }
+  renderYAxis() {
+    var y = d3.scale.linear()
+        .range([this.props.height, 0]);
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left");
   },
 
   render() {
     return(
-      <g className= {this.props.className } transform = { this.props.transform }>
+      <g className="axis axis--x"  transform = { this.props.transform }>
       </g>
-      )
-    }
-   
+    )
+  }
+
 })
 
 
