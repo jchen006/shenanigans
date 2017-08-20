@@ -24,12 +24,12 @@ const FrequencyBarChart = React.createClass({
   },
 
   renderXAxis() {
-    const margin = { top: 40, right: 20, bottom: 30, left: 40 }
+    const margin = { top: 20, right: 20, bottom: 30, left: 50 }
     const width =  600 - margin.left - margin.right
     const height = 500 - margin.top - margin.bottom
    
     return (
-      <Axis transform={ "translate(0," + height + ")" } 
+      <Axis transform={ "translate(" + margin.left +"," + height + ")" } 
         width={width} 
         height={height} 
         data={this.state.data}
@@ -39,13 +39,13 @@ const FrequencyBarChart = React.createClass({
   },
 
   renderYAxis() {
-    const margin = { top: 40, right: 20, bottom: 30, left: 40 }
+    const margin = { top: 20, right: 20, bottom: 30, left: 50 }
     const width =  600 - margin.left - margin.right
     const height = 500 - margin.top - margin.bottom
 
     return(
       <Axis 
-        transform = { "" }
+        transform = { "translate(" + margin.left + ",0)" }
         width = { width }
         height = { height }
         data = { this.state.data }
@@ -59,7 +59,7 @@ const FrequencyBarChart = React.createClass({
     return (
         <div className="ingredient_frequency_bar">
           <svg width = {900} height = {500}>
-             { this.renderXAxis() } 
+            { this.renderXAxis() } 
             { this.renderYAxis() }
           </svg>
         </div>

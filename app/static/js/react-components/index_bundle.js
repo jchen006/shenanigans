@@ -126,7 +126,7 @@
 	      })]);
 
 	      var node = ReactDOM.findDOMNode(this);
-	      d3.select(node).call(d3.axisLeft(y).ticks(10)).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", "0.71em").attr("text-anchor", "end").text("Number of Occurences");
+	      d3.select(node).call(d3.axisLeft(y).ticks(10));
 	    }
 	  },
 
@@ -21708,11 +21708,11 @@
 	  },
 
 	  renderXAxis() {
-	    const margin = { top: 40, right: 20, bottom: 30, left: 40 };
+	    const margin = { top: 20, right: 20, bottom: 30, left: 50 };
 	    const width = 600 - margin.left - margin.right;
 	    const height = 500 - margin.top - margin.bottom;
 
-	    return _react2.default.createElement(_Axis2.default, { transform: "translate(0," + height + ")",
+	    return _react2.default.createElement(_Axis2.default, { transform: "translate(" + margin.left + "," + height + ")",
 	      width: width,
 	      height: height,
 	      data: this.state.data,
@@ -21721,12 +21721,12 @@
 	  },
 
 	  renderYAxis() {
-	    const margin = { top: 40, right: 20, bottom: 30, left: 40 };
+	    const margin = { top: 20, right: 20, bottom: 30, left: 50 };
 	    const width = 600 - margin.left - margin.right;
 	    const height = 500 - margin.top - margin.bottom;
 
 	    return _react2.default.createElement(_Axis2.default, {
-	      transform: "",
+	      transform: "translate(" + margin.left + ",0)",
 	      width: width,
 	      height: height,
 	      data: this.state.data,

@@ -60,12 +60,6 @@ const Axis = React.createClass({
       var node = ReactDOM.findDOMNode(this);
       d3.select(node)
         .call(d3.axisLeft(y).ticks(10))
-        .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", "0.71em")
-        .attr("text-anchor", "end")
-        .text("Number of Occurences")
     }
   },
 
