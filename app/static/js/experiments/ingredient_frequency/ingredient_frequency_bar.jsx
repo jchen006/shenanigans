@@ -45,7 +45,7 @@ const FrequencyBarChart = React.createClass({
 
     return(
       <Axis 
-        transform = { "rotate(-90)" }
+        transform = { "" }
         width = { width }
         height = { height }
         data = { this.state.data }

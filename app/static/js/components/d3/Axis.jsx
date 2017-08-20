@@ -48,7 +48,9 @@ const Axis = React.createClass({
               .attr("dx", "-.8em")
               .attr("dy", ".15em")
               .attr("transform", "rotate(-50)")
+              
     } else if(this.props.className === "axis axis--y") {
+
        var y = d3.scaleLinear().rangeRound([this.props.height, 0]);
 
       y.domain([0, d3.max(this.props.data, function(d) { return d.size })])

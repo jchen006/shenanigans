@@ -90,41 +90,47 @@
 	    style: _react.PropTypes.string,
 	    baseLength: _react.PropTypes.number,
 	    type: _react.PropTypes.string,
-	    axis: _react.PropTypes.func
+	    axis: _react.PropTypes.func,
+	    className: _react.PropTypes.string
 	  },
 
 	  componentDidMount() {
-	    this.renderXAxis();
+	    this.renderAxis();
 	  },
 
 	  componentDidUpdate() {
-	    this.renderXAxis();
+	    this.renderAxis();
 	  },
 
-	  renderXAxis() {
+	  renderAxis() {
+	    if (this.props.className === "axis axis--x") {
+	      var x = d3.scaleBand().rangeRound([0, this.props.width]).padding(0.1);
 
-	    var x = d3.scaleBand().rangeRound([0, this.props.width]).padding(0.1);
+	      console.log(this.props.data);
+	      //Add a domain specific function
+	      x.domain(this.props.data.map(function (d) {
+	        return d.text;
+	      }));
 
-	    console.log(this.props.data);
-	    //Add a domain specific function
-	    x.domain(this.props.data.map(function (d) {
-	      return d.text;
-	    }));
+	      console.log(typeof x);
 
-	    console.log(typeof x);
+	      var node = ReactDOM.findDOMNode(this);
+	      d3.select(node).call(d3.axisBottom(x)).selectAll("text").style("text-anchor", "end").attr("dx", "-.8em").attr("dy", ".15em").attr("transform", "rotate(-50)");
+	    } else if (this.props.className === "axis axis--y") {
 
-	    var node = ReactDOM.findDOMNode(this);
-	    d3.select(node).call(d3.axisBottom(x)).selectAll("text").style("text-anchor", "end").attr("dx", "-.8em").attr("dy", ".15em").attr("transform", "rotate(-50)");
-	  },
+	      var y = d3.scaleLinear().rangeRound([this.props.height, 0]);
 
-	  renderYAxis() {
-	    var y = d3.scale.linear().range([this.props.height, 0]);
+	      y.domain([0, d3.max(this.props.data, function (d) {
+	        return d.size;
+	      })]);
 
-	    var yAxis = d3.svg.axis().scale(y).orient("left");
+	      var node = ReactDOM.findDOMNode(this);
+	      d3.select(node).call(d3.axisLeft(y).ticks(10, "%")).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", "0.71em").attr("text-anchor", "end").text("Frequency");
+	    }
 	  },
 
 	  render() {
-	    return _react2.default.createElement('g', { className: 'axis axis--x', transform: this.props.transform });
+	    return _react2.default.createElement('g', { className: this.props.className, transform: this.props.transform });
 	  }
 
 	});
@@ -21706,7 +21712,26 @@
 	    const width = 600 - margin.left - margin.right;
 	    const height = 500 - margin.top - margin.bottom;
 
-	    return _react2.default.createElement(_Axis2.default, { transform: "translate(0," + height + ")", width: width, height: height, data: this.state.data });
+	    return _react2.default.createElement(_Axis2.default, { transform: "translate(0," + height + ")",
+	      width: width,
+	      height: height,
+	      data: this.state.data,
+	      className: "axis axis--x"
+	    });
+	  },
+
+	  renderYAxis() {
+	    const margin = { top: 40, right: 20, bottom: 30, left: 40 };
+	    const width = 600 - margin.left - margin.right;
+	    const height = 500 - margin.top - margin.bottom;
+
+	    return _react2.default.createElement(_Axis2.default, {
+	      transform: "",
+	      width: width,
+	      height: height,
+	      data: this.state.data,
+	      className: "axis axis--y"
+	    });
 	  },
 
 	  render() {
@@ -21716,7 +21741,8 @@
 	      _react2.default.createElement(
 	        'svg',
 	        { width: 600, height: 500 },
-	        this.renderXAxis()
+	        this.renderXAxis(),
+	        this.renderYAxis()
 	      )
 	    );
 	  }
