@@ -121,7 +121,6 @@
 	      var y = d3.scaleLinear().rangeRound([this.props.height, 0]);
 
 	      y.domain([0, d3.max(this.props.data, function (d) {
-	        console.log(d.size);
 	        return d.size;
 	      })]);
 
@@ -21677,11 +21676,17 @@
 
 	var _d = __webpack_require__(38);
 
-	var _d2 = _interopRequireDefault(_d);
+	var d3 = _interopRequireWildcard(_d);
 
 	var _Axis = __webpack_require__(1);
 
 	var _Axis2 = _interopRequireDefault(_Axis);
+
+	var _Bar = __webpack_require__(40);
+
+	var _Bar2 = _interopRequireDefault(_Bar);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21708,7 +21713,7 @@
 	  },
 
 	  renderXAxis() {
-	    const margin = { top: 20, right: 20, bottom: 30, left: 50 };
+	    const margin = { top: 40, right: 20, bottom: 30, left: 50 };
 	    const width = 600 - margin.left - margin.right;
 	    const height = 500 - margin.top - margin.bottom;
 
@@ -21721,7 +21726,7 @@
 	  },
 
 	  renderYAxis() {
-	    const margin = { top: 20, right: 20, bottom: 30, left: 50 };
+	    const margin = { top: 40, right: 20, bottom: 30, left: 50 };
 	    const width = 600 - margin.left - margin.right;
 	    const height = 500 - margin.top - margin.bottom;
 
@@ -21734,6 +21739,32 @@
 	    });
 	  },
 
+	  renderBars() {
+	    const margin = { top: 40, right: 20, bottom: 30, left: 50 };
+	    const width = 600 - margin.left - margin.right;
+	    const height = 500 - margin.top - margin.bottom;
+	    var x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
+	    var y = d3.scaleLinear().rangeRound([height, 0]);
+
+	    y.domain([0, d3.max(this.state.data, function (d) {
+	      return d.size;
+	    })]);
+
+	    x.domain(this.state.data.map(function (d) {
+	      return d.text;
+	    }));
+
+	    return this.state.data.map(d => {
+	      return _react2.default.createElement(_Bar2.default, {
+	        className: "bar",
+	        x: x(d.text),
+	        y: y(d.size),
+	        height: height - y(d.size),
+	        width: x.bandwidth()
+	      });
+	    });
+	  },
+
 	  render() {
 	    return _react2.default.createElement(
 	      'div',
@@ -21742,13 +21773,54 @@
 	        'svg',
 	        { width: 900, height: 500 },
 	        this.renderXAxis(),
-	        this.renderYAxis()
+	        this.renderYAxis(),
+	        _react2.default.createElement(
+	          'g',
+	          { transform: 'translate(50,0)' },
+	          this.renderBars()
+	        )
 	      )
 	    );
 	  }
 	});
 
 	ReactDOM.render(_react2.default.createElement(FrequencyBarChart, null), document.getElementById('ingredient_frequency'));
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	const Bar = _react2.default.createClass({
+	  displayName: 'Bar',
+
+	  propTypes: {
+	    className: _react.PropTypes.string,
+	    x: _react.PropTypes.number,
+	    y: _react.PropTypes.number,
+	    height: _react.PropTypes.number,
+	    width: _react.PropTypes.number
+	  },
+
+	  render() {
+	    return _react2.default.createElement('rect', this.props);
+	  }
+	});
+
+	Bar.defaultProps = { className: 'bar' };
+
+	exports.default = Bar;
 
 /***/ })
 /******/ ]);

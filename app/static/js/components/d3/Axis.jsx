@@ -54,7 +54,6 @@ const Axis = React.createClass({
       var y = d3.scaleLinear().rangeRound([this.props.height, 0]);
 
       y.domain([0, d3.max(this.props.data, function(d) { 
-        console.log(d.size)
         return d.size })])
 
       var node = ReactDOM.findDOMNode(this);
