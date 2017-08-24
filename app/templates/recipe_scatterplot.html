@@ -1,45 +1,37 @@
-{% extends "layout.html" %} {% block content %}
-<script src="/static/js/d3/d3.v3.min.js"></script>
-<link rel="stylesheet" href="/static/css/experiments/scatterplot.css">
-<h1>
-    <center><strong>Recipe Scatterplot</strong></center>
-</h1>
-<div class="row">
-    <div class="col-md-3">
-        <p>Recipes Highlighted</p>
-        <ul id="recipe_names" class="list-group" style="height: 450px; overflow:scroll;">
-        </ul>
-    </div>
-    <div class="col-md-6">
+{% extends "layout_2.html" %} {% block content %}
 
-        <body>
-            <div id="scatterplot"></div>
-        </body>
+<link rel="stylesheet" href="/static/css/experiments/scatterplot.css">
+<body>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Recipe Scatterplot</h1>
+        </div>
     </div>
-</div>
-<div class="row">
-    <body-main>
-        <div class="col-md-3">
-            <div class="panel panel-info">
-                <div id="recipe_info_heading" class="panel-heading">
-                    <h3 id="recipe_info_header" class="panel-title"></h3>
+
+    <div id="content" style="height:700px; overflow:scroll;">
+        <div id="explanation" class="row" style="height:700px; width:96%; margin-left:5px;">
+            <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </p>
+            <a href="#visualization">Try it out</a>
+        </div>
+
+        <div id="visualization" style="height:800px">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="scatterplot-container">
+                    <div id="scatterplot"></div>
+                    </div>
                 </div>
-                <div id="recipe_info_body" class="panel-body">
+            </div>
+            <div class="row" style="width: 90%">
+                <div id="recipe_list" class="col-md-12">
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Explanation</h3>
-                </div>
-                <div class="panel-body">
-                    Random Test
-                </div>
-            </div>
-        </div>
-    </body-main>
-</div>
+    </div>
+
+</body>
 <script type="text/javascript" src="/static/js/experiments/scatterplot/renderer.js"></script>
 <script type="text/javascript" src="/static/js/experiments/scatterplot/events.js"></script>
 <script type="text/javascript" src="/static/js/experiments/scatterplot/scatterplot.js"></script>

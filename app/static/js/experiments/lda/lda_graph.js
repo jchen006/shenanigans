@@ -1,16 +1,16 @@
-var lda = (function() {
+var LDA = (function() {
     var elementId, margin, diameter, api_call;
 
     var draw = function() {
         var color = d3.scale.linear()
-            .domain([1, 5])
-            .range([d3.rgb("#d4ebf2"), d3.rgb("#7997a1")])
+            .domain([1, 10])
+            .range([d3.rgb(color_lower), d3.rgb(color_upper)])
             .interpolate(d3.interpolateHcl);
 
         var pack = d3.layout.pack()
             .padding(2)
             .size([diameter - margin, diameter - margin])
-            .value(function(d) { return d.size; })
+            .value(function(d) { return d.size; });
 
         var svg = d3.select(elementId).append("svg")
             .attr("width", diameter)
@@ -72,7 +72,9 @@ var lda = (function() {
                     })
                     .each("end", function(d) {
                         if (d.parent !== focus)
-                            updateList("ingred", focus.children);
+                            var size = focus.children.length;
+                            var cluster_number = focus.children[0].parent.name;
+                            updateList("ingred", focus.children, size, cluster_number);
                     });
             }
 
@@ -91,10 +93,11 @@ var lda = (function() {
     return {
         init: function(config) {
             elementId = config.elementId;
-            console.log(config.margin);
             margin = config.margin;
             diameter = config.diameter;
             api_call = config.api_call;
+            color_lower = config.color[0];
+            color_upper = config.color[1];
             draw();
         }
     }
