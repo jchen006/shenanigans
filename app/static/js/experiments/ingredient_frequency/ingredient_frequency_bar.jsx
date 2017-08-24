@@ -7,6 +7,14 @@ import Bar from '../../components/d3/Bar.jsx'
 
 const FrequencyBarChart = React.createClass({
 
+  constants : {
+    margin : { top: 40, right: 20, bottom: 30, left: 50 },
+    width : 600 - margin.left - margin.right,
+    height: 500 - margin.top - margin.bottom,
+    xAxis: "axis axis--x",
+    yAxis: "axis axis--y"
+  },
+
   getInitialState: function() {
     return { 
       data: [],
@@ -24,17 +32,13 @@ const FrequencyBarChart = React.createClass({
       })
   },
 
-  renderXAxis() {
-    const margin = { top: 40, right: 20, bottom: 30, left: 50 }
-    const width =  600 - margin.left - margin.right
-    const height = 500 - margin.top - margin.bottom
-   
+  renderXAxis() {   
     return (
-      <Axis transform={ "translate(" + margin.left +"," + height + ")" } 
-        width={width} 
-        height={height} 
-        data={this.state.data}
-        className = { "axis axis--x"}
+      <Axis transform={ "translate(" + constants.margin.left +"," + constants.height + ")" } 
+        width={ constants.width } 
+        height={ constants.height } 
+        data={ this.state.data }
+        className = { constants.xAxis }
       />
     )
   },
@@ -46,21 +50,18 @@ const FrequencyBarChart = React.createClass({
 
     return(
       <Axis 
-        transform = { "translate(" + margin.left + ",0)" }
-        width = { width }
-        height = { height }
+        transform = { "translate(" + constants.margin.left + ",0)" }
+        width = { constants.width }
+        height = { constants.height }
         data = { this.state.data }
-        className = { "axis axis--y"}
+        className = { constants.yAxis }
       />
     )
   },
 
   renderBars() {
-    const margin = { top: 40, right: 20, bottom: 30, left: 50 }
-    const width =  600 - margin.left - margin.right
-    const height = 500 - margin.top - margin.bottom
-    var x = d3.scaleBand().rangeRound([0, width]).padding(0.1)
-    var y = d3.scaleLinear().rangeRound([height, 0]);
+    var x = d3.scaleBand().rangeRound([0, constants.width]).padding(0.1)
+    var y = d3.scaleLinear().rangeRound([ constants.height, 0]);
 
     y.domain([0, d3.max(this.state.data, function(d) { 
         return d.size })])
@@ -73,7 +74,7 @@ const FrequencyBarChart = React.createClass({
             className = { "bar" }
             x = { x(d.text) }
             y = { y(d.size) }
-            height = { height - y(d.size) } 
+            height = { constants.height - y(d.size) } 
             width = { x.bandwidth() }
           />
         )
