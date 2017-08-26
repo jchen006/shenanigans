@@ -3,23 +3,9 @@ import * as d3 from 'd3'
 
 const Axis = React.createClass({
   propTypes: {
+    width: PropTypes.number,
+    height: PropTypes.number,
     data: PropTypes.array,
-    axisType: PropTypes.string,
-    text: PropTypes.string,
-    scale: PropTypes.func,
-    orient: PropTypes.string,
-    transform: PropTypes.string,
-    y: PropTypes.number,
-    dy: PropTypes.string,
-    x: PropTypes.number,
-    dx: PropTypes.string,
-    text: PropTypes.string,
-    range: PropTypes.number,
-    scaleFunction: PropTypes.func,
-    style: PropTypes.string,
-    baseLength: PropTypes.number,
-    type: PropTypes.string,
-    axis: PropTypes.func,
     className: PropTypes.string
   },
 
@@ -35,11 +21,7 @@ const Axis = React.createClass({
     if(this.props.className === "axis axis--x") {
       var x = d3.scaleBand().rangeRound([0, this.props.width]).padding(0.1)
       
-      console.log(this.props.data)
-      //Add a domain specific function
       x.domain(this.props.data.map(function(d) { return d.text; }))
-
-      console.log(typeof x)
 
       var node = ReactDOM.findDOMNode(this);
       d3.select(node)

@@ -6,7 +6,8 @@ const Bar = React.createClass({
     x: PropTypes.number,
     y: PropTypes.number,
     height: PropTypes.number,
-    width: PropTypes.number
+    width: PropTypes.number,
+    onClick: PropTypes.func
   },
 
   render() {
