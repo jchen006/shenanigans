@@ -1,0 +1,33 @@
+{
+    "experiments": [{
+            "name": "Recipe Scatterplot",
+            "image_screenshot": "/static/images/recipe_scatterplot.png",
+            "description": "Scatterplot of all the recipes in their clusters",
+            "link": "/experiments/recipe_scatterplot"
+        },
+        {
+            "name": "Radar Graph",
+            "image_screenshot": "/static/images/radar_graph.png",
+            "description": "Radar graph of recipes and their probability in certain clusters",
+            "link": "/experiments/radar_graph"
+        },
+        {
+            "name": "LDA Graph",
+            "image_screenshot": "/static/images/lda_graph.png",
+            "description": "LDA clustering on ingredients of recipes",
+            "link": "/experiments/lda_graph"
+        },
+        {
+            "name": "Ingredient Frequency",
+            "image_screenshot": "http://placehold.it/700x400",
+            "description": "Frequency of ingredients in the dataset.",
+            "link": "/experiments/ingredient_frequency"
+        },
+        {
+            "name": "Word Cloud",
+            "image_screenshot": "/static/images/word_cloud.png",
+            "description": "Word Cloud generated from the frequency of ingredients.",
+            "link": "/static/images/word_cloud.png"
+        }
+    ]
+}

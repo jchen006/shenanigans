@@ -21,7 +21,7 @@ var wordCloud = (function() {
                 .start();
 
             function draw(words) {
-                d3.select("body")
+                d3.select("#word_cloud")
                     .append("svg")
                     .attr("width", width)
                     .attr("height", height)

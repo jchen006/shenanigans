@@ -1,18 +1,23 @@
-{% extends "layout.html" %} {% block content %}
-
+{% extends "layout_2.html" %} {% block content %}
 <script src="/static/js/experiments/word_cloud/word_cloud.js"></script>
-
-<head>
-    <title>Word Cloud Example</title>
-</head>
-
-<body id="word_cloud">
-</body>
-<div style="width: 40%;">
-    <div class="legend">
-        Commonly used foods are larger and slightly faded in color. Less common foods are smaller and darker.
+<script src="/static/js/d3/d3.layout.cloud.js"></script>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header"> Word Cloud </h1>
     </div>
 </div>
+<div class="row">
+    <div class-"col-md-12">
+        <div id="word_cloud">
+        </div>
+        <div style="width: 40%;">
+            <div class="legend">
+                Commonly used foods are larger and slightly faded in color. Less common foods are smaller and darker.
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     wordCloud.init({
         num: 100,

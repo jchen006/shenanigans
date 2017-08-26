@@ -26,7 +26,7 @@ var scatterplot = (function() {
             .scale(y)
             .orient("left");
 
-        var div = d3.select("body")
+        var div = d3.select("#scatterplot-container")
             .append("div") // declare the tooltip div 
             .attr("class", "tooltip")
             .style("opacity", 0);
