@@ -35,18 +35,11 @@ clusters = L.clustered_recipes
 lda_json = L.d3_json
 
 
-import pdb
-pdb.set_trace()
 VAE_TRAIN_EPOCHS = 1600
 _, VAE_SAVE_PATH = vae_utils.create_and_train_vae(
     vae_utils.DEFAULT_NETWORK_ARCHITECTURE, X, X.shape[0], training_epochs=VAE_TRAIN_EPOCHS)
 vae = vae_utils.restore_test_vae_from_checkpoint(
     vae_utils.DEFAULT_NETWORK_ARCHITECTURE, VAE_SAVE_PATH)
-
-# @api.route('/graph')
-# def graph_json():
-#     return g.get_d3_json()
-#import pdb; pdb.set_trace()
 
 
 @api.route('/create_recipe')
