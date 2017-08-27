@@ -21739,7 +21739,7 @@
 
 	var _d = __webpack_require__(38);
 
-	var _d2 = _interopRequireDefault(_d);
+	var d3 = _interopRequireWildcard(_d);
 
 	var _Axis = __webpack_require__(1);
 
@@ -21748,6 +21748,8 @@
 	var _Bar = __webpack_require__(41);
 
 	var _Bar2 = _interopRequireDefault(_Bar);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21801,10 +21803,10 @@
 	    var margin = this.props.margin;
 	    var width = 600 - margin.left - margin.right;
 	    var height = 500 - margin.top - margin.bottom;
-	    var x = _d2.default.scaleBand().rangeRound([0, width]).padding(0.1);
-	    var y = _d2.default.scaleLinear().rangeRound([height, 0]);
+	    var x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
+	    var y = d3.scaleLinear().rangeRound([height, 0]);
 
-	    y.domain([0, _d2.default.max(this.props.data, function (d) {
+	    y.domain([0, d3.max(this.props.data, function (d) {
 	      return d.size;
 	    })]);
 

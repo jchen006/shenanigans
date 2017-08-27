@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import d3 from 'd3'
+import * as d3 from 'd3'
 import Axis from '../../components/d3/Axis.jsx'
 import Bar from '../../components/d3/Bar.jsx'
 
