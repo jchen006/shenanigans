@@ -25,13 +25,15 @@ class VariationalAutoencoder(object):
     """
 
     def __init__(self, network_architecture, transfer_fct=tf.nn.softplus,
-                 learning_rate=0.001, batch_size=100, save_path="save/vae.ckpt"):
+                 learning_rate=0.001, batch_size=100, save_path="save/vae.ckpt",
+                 is_train=True):
         self.network_architecture = network_architecture
         self.transfer_fct = transfer_fct
         self.learning_rate = learning_rate
         self.batch_size = batch_size
         self.save_path = save_path
         self.latent_dim = network_architecture["n_z"]
+        self.is_train = is_train
 
         # tf (Encoder) Graph input
         self.x = tf.placeholder(
@@ -41,7 +43,8 @@ class VariationalAutoencoder(object):
         self._create_network()
         # Define loss function based variational upper-bound and
         # corresponding optimizer
-        self._create_loss_optimizer()
+        if self.is_train:
+            self._create_loss_optimizer()
 
         # Initializing the tensor flow variables
         init = tf.initialize_all_variables()

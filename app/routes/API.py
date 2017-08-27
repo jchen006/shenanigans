@@ -6,7 +6,7 @@ import json
 from flask import request
 import app.mongo.mongo_helper as mh
 from app.util.data.recipe_parser import Parser
-from tf import ingred_vae_train as vae_train
+from tf import ingred_vae_train as vae_utils
 
 api = Blueprint('api', __name__)
 
@@ -22,35 +22,42 @@ print(parser)
 rg = RadialGraph(parser)
 rg.init_graph_from_mongo()
 
-b = BagOfIngredients(parser)
-b.generate_bag_of_ingredients()
-b.generate_recipe_vectors()
-top_ingreds, top_freqs = b.get_top_N_ingredient_frequencies(20)
-X = b.recipe_vects
+boi = BagOfIngredients(parser)
+boi.generate_bag_of_ingredients()
+boi.generate_recipe_vectors()
+top_ingreds, top_freqs = boi.get_top_N_ingredient_frequencies(20)
+X = boi.recipe_vects
 P = PCAModel(X)
-L = LDAModel(X, b.ordered_ingredients, b.ordered_recipes)
+L = LDAModel(X, boi.ordered_ingredients, boi.ordered_recipes)
 L.plot_mds()
 NN = NearestNeighborsModel(X)
 clusters = L.clustered_recipes
 lda_json = L.d3_json
 
 
-#import pdb; pdb.set_trace()
-#vae = vae_train.train(vae_train.default_network_architecture, training_epochs=1500)
+import pdb
+pdb.set_trace()
+VAE_TRAIN_EPOCHS = 1600
+_, VAE_SAVE_PATH = vae_utils.create_and_train_vae(
+    vae_utils.DEFAULT_NETWORK_ARCHITECTURE, X, X.shape[0], training_epochs=VAE_TRAIN_EPOCHS)
+vae = vae_utils.restore_test_vae_from_checkpoint(
+    vae_utils.DEFAULT_NETWORK_ARCHITECTURE, VAE_SAVE_PATH)
 
 # @api.route('/graph')
 # def graph_json():
 #     return g.get_d3_json()
 #import pdb; pdb.set_trace()
 
+
 @api.route('/create_recipe')
 def crate_recipe_tensorflow():
-    return vae_train.generate_recipe_from_vae(b, vae)
+    z_mu = request.args.get('vect')
+    return vae_utils.generate_recipe_from_vae(boi, vae, z_mu)
 
 
 @api.route('/ingredient_frequency')
 def ing_freq_json():
-    return b.get_top_N_ingredients_json(30)
+    return boi.get_top_N_ingredients_json(30)
 
 
 @api.route('/ingredient_network_json')
@@ -89,4 +96,4 @@ def recipe_scatterplot_json():
 
 @api.route("/word_cloud_json/<num_words>")
 def output_word_cloud_json(num_words):
-    return b.get_top_N_ingredients_json(N=int(num_words), MAX_FONT=70)
+    return boi.get_top_N_ingredients_json(N=int(num_words), MAX_FONT=70)

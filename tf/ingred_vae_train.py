@@ -28,48 +28,57 @@ DEFAULT_NETWORK_ARCHITECTURE = \
 
 
 def create_and_train_vae(network_architecture, recipe_vects, n_samples, learning_rate=0.0001,
-                         batch_size=50, training_epochs=10000, display_step=5):
+                         batch_size=50, training_epochs=10000, display_step=5, save_path=None):
 
-    default_save_path = "save/vae_{}_epochs.ckpt".format(training_epochs)
+    if save_path is None:
+        save_path = "save/vae_{}_epochs.ckpt".format(training_epochs)
+    if os.path.exists(save_path):
+        print "already exists!"
+        return None, save_path
 
-    if os.path.exists(default_save_path):
-        print "RESTORING CKPT FROM", default_save_path
-        VAE = VariationalAutoencoder(network_architecture,
-                                     learning_rate=learning_rate,
-                                     batch_size=1,
-                                     save_path=default_save_path)
-        VAE.restore_ckpt()
-    else:
-        VAE = VariationalAutoencoder(network_architecture,
-                                     learning_rate=learning_rate,
-                                     batch_size=batch_size,
-                                     save_path=default_save_path)
-        # Training cycle
-        for epoch in range(training_epochs):
-            avg_cost = 0.
-            total_batch = int(n_samples / batch_size)
-            # Loop over all batches
-            prev_start_idx = 0
-            for i in range(total_batch):
-                if (n_samples - prev_start_idx < batch_size):
-                    prev_start_idx = 0
-                recipe_batch = recipe_vects[
-                    prev_start_idx:prev_start_idx + batch_size]
-                assert recipe_batch.shape[0] == batch_size
-                prev_start_idx = prev_start_idx + batch_size
-                #batch_xs, _ = mnist.train.next_batch(batch_size)
-                batch_xs = recipe_batch
+    train_vae = VariationalAutoencoder(network_architecture,
+                                       learning_rate=learning_rate,
+                                       batch_size=batch_size,
+                                       save_path=save_path)
+    # Training cycle
+    for epoch in range(training_epochs):
+        avg_cost = 0.
+        total_batch = int(n_samples / batch_size)
+        # Loop over all batches
+        prev_start_idx = 0
+        for i in range(total_batch):
+            if (n_samples - prev_start_idx < batch_size):
+                prev_start_idx = 0
+            recipe_batch = recipe_vects[
+                prev_start_idx:prev_start_idx + batch_size]
+            assert recipe_batch.shape[0] == batch_size
+            prev_start_idx = prev_start_idx + batch_size
+            #batch_xs, _ = mnist.train.next_batch(batch_size)
+            batch_xs = recipe_batch
 
-                # Fit training using batch data
-                cost = VAE.partial_fit(batch_xs)
-                # Compute average loss
-                avg_cost += cost / n_samples * batch_size
+            # Fit training using batch data
+            cost = train_vae.partial_fit(batch_xs)
+            # Compute average loss
+            avg_cost += cost / n_samples * batch_size
 
-            # Display logs per epoch step
-            if epoch % display_step == 0:
-                print "Epoch:", '%04d' % (epoch + 1), \
-                      "cost=", "{:.9f}".format(avg_cost)
-        VAE.save_ckpt()
+        # Display logs per epoch step
+        if epoch % display_step == 0:
+            print "Epoch:", '%04d' % (epoch + 1), \
+                  "cost=", "{:.9f}".format(avg_cost)
+    train_vae.save_ckpt()
+
+    return train_vae, save_path
+
+
+def restore_test_vae_from_checkpoint(network_architecture,
+                                     save_path):
+    print "RESTORING CKPT FROM", save_path
+    VAE = VariationalAutoencoder(network_architecture,
+                                 learning_rate=None,
+                                 batch_size=1,
+                                 save_path=save_path,
+                                 is_train=False)
+    VAE.restore_ckpt()
     return VAE
 
 
@@ -78,8 +87,8 @@ def generate_recipe_from_vae(bag_of_ingred, vae, z_mu=None):
     recipe_vec[recipe_vec < 0.5] = 0
     recipe_vec[recipe_vec >= 0.5] = 1
     recipe_string = bag_of_ingred.create_recipe_string_from_vec(recipe_vec)
-    print "recipe_vec exists in recipes?:", recipe_vec in bag_of_ingred.recipe_vects
-    print "generated recipe:", recipe_string
+    # print "recipe_vec exists in recipes?:", recipe_vec in bag_of_ingred.recipe_vects
+    # print "generated recipe:", recipe_string
     return recipe_string
 
 if __name__ == '__main__':
@@ -95,8 +104,11 @@ if __name__ == '__main__':
 
     n_samples = X.shape[0]
 
-    vae = create_and_train_vae(
+    train_vae, save_path = create_and_train_vae(
         DEFAULT_NETWORK_ARCHITECTURE, X, n_samples, training_epochs=1000)
+    vae = restore_test_vae_from_checkpoint(
+        DEFAULT_NETWORK_ARCHITECTURE, save_path)
     generate_recipe_from_vae(boi, vae)
+    generate_recipe_from_vae(boi, vae, None)
     generate_recipe_from_vae(boi, vae, np.ones(vae.latent_dim))
     generate_recipe_from_vae(boi, vae, range(10))
