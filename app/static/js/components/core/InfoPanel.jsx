@@ -5,7 +5,8 @@ const InfoPanel = React.createClass({
 
   propTypes: {
     /**
-     * An object containing any set of informaton
+     * An object containing any set of informaton,
+     * for now contains text and size
      */
     info: PropTypes.shape({
       text: PropTypes.string,
@@ -16,10 +17,9 @@ const InfoPanel = React.createClass({
   render() {
     return (
       <div>
-        <Panel header= {this.props.text} bsStyle="info">
-          The total number of recipes this appears in is {this.props.size}
+        <Panel header= {this.props.info.text} bsStyle="info">
+          The total number of recipes this appears in is {this.props.info.size}
         </Panel>
-        />
       </div>
     )
   }

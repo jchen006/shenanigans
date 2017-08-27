@@ -71,7 +71,7 @@ const BarGraph = React.createClass({
             y = { y(d.size) }
             height = { height - y(d.size) } 
             width = { x.bandwidth() }
-            onClick = { this.props.onClick }
+            onClick = { () => { this.props.onClick(d)} }
           />
         )
       })
@@ -91,6 +91,5 @@ const BarGraph = React.createClass({
     )
   }
 })
-
 
 export default BarGraph

@@ -32,19 +32,26 @@ const FrequencyBarChart = React.createClass({
         data = {this.state.data}
         margin = { margin }
         constants = { constants }
-        onClick = { () => {} }
+        onClick = { this.onBarClick }
       />
     )
+  },
+
+  onBarClick(d) {
+    this.setState({
+      ingredientViewing: d
+    })
   },
 
   renderInfoPanel() {
     if(this.state.ingredientViewing) {
       return(
-        <Panel
-          info = { this.state.ingredientViewing}
+        <InfoPanel
+          info = { this.state.ingredientViewing } 
         />
-      )
+     )
     }
+    return null
   },
 
   render() {

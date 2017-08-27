@@ -21699,16 +21699,23 @@
 	      data: this.state.data,
 	      margin: margin,
 	      constants: constants,
-	      onClick: () => {}
+	      onClick: this.onBarClick
+	    });
+	  },
+
+	  onBarClick(d) {
+	    this.setState({
+	      ingredientViewing: d
 	    });
 	  },
 
 	  renderInfoPanel() {
 	    if (this.state.ingredientViewing) {
-	      return _react2.default.createElement(Panel, {
+	      return _react2.default.createElement(_InfoPanel2.default, {
 	        info: this.state.ingredientViewing
 	      });
 	    }
+	    return null;
 	  },
 
 	  render() {
@@ -21821,7 +21828,9 @@
 	        y: y(d.size),
 	        height: height - y(d.size),
 	        width: x.bandwidth(),
-	        onClick: this.props.onClick
+	        onClick: () => {
+	          this.props.onClick(d);
+	        }
 	      });
 	    });
 	  },
@@ -21922,11 +21931,10 @@
 	      null,
 	      _react2.default.createElement(
 	        _reactBootstrap.Panel,
-	        { header: this.props.text, bsStyle: 'info' },
+	        { header: this.props.info.text, bsStyle: 'info' },
 	        'The total number of recipes this appears in is ',
-	        this.props.size
-	      ),
-	      '/>'
+	        this.props.info.size
+	      )
 	    );
 	  }
 	});
