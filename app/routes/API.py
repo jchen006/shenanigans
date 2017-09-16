@@ -42,10 +42,16 @@ vae = vae_utils.restore_test_vae_from_checkpoint(
     vae_utils.DEFAULT_NETWORK_ARCHITECTURE, VAE_SAVE_PATH)
 
 
-@api.route('/create_recipe')
+@api.route('/create_recipe', methods=['POST'])
 def crate_recipe_tensorflow():
-    z_mu = request.args.get('vect')
-    return vae_utils.generate_recipe_from_vae(boi, vae, z_mu)
+    vector = None
+    if request.method == 'POST':
+        vector = request.form['vector']
+
+    if vector and len(vector) == 10:
+        return vae_utils.generate_recipe_from_vae(boi, vae, vector)
+    else: 
+        return json.dumps({"error": "Vector does not exist"})
 
 
 @api.route('/ingredient_frequency')
