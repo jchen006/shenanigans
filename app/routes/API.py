@@ -48,8 +48,10 @@ def crate_recipe_tensorflow():
     if request.method == 'POST':
         vector = request.form['vector']
 
+    vector = json.loads(vector)
     if vector and len(vector) == 10:
-        return vae_utils.generate_recipe_from_vae(boi, vae, vector)
+        recipe_string = vae_utils.generate_recipe_from_vae(boi, vae, vector)
+        return json.dumps({"Recipe": recipe_string});
     else: 
         return json.dumps({"error": "Vector does not exist"})
 
