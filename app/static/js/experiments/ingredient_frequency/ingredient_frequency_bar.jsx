@@ -95,6 +95,9 @@ const FrequencyBarChart = React.createClass({
   }
 })
 
-ReactDOM.render(
-  <FrequencyBarChart/>, document.getElementById('ingredient_frequency')
-)
+
+if(document.getElementById("ingredient_frequency")) {
+  ReactDOM.render(
+    <FrequencyBarChart/>, document.querySelector('#ingredient_frequency')
+  )
+}

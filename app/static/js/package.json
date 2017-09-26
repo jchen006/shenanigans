@@ -21,6 +21,7 @@
     "html-webpack-plugin": "^2.22.0",
     "path": "^0.12.7",
     "react-bar-chart": "^0.1.2",
+    "react-rangeslider": "^2.2.0",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.1"
   },
