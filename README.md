@@ -1,13 +1,13 @@
 # shenanigans
 Using Machine Learning to hack the secrets of food 
 
-##Environment Settings
+## Environment Settings
 - Add a cfg file in app/config
 
-##Data Miners
+## Data Miners
 - Scrapers and API Calls
 
-##Python Dependecies 
+## Python Dependecies 
 - Flask 
 - Jinja2
 - Werkzeug
@@ -23,7 +23,7 @@ Using Machine Learning to hack the secrets of food
 - Node
 - jQuery 
 
-##Local Deployment 
+## Local Deployment 
 ```
 $ python app/run.py
 ```
