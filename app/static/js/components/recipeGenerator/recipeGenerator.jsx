@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import InputRange from 'react-input-range'
-
+import { ListGroup, ListGroupItem } from 'react-bootstrap'
 
 const RecipeGenerator = React.createClass({
   propTypes: {
@@ -20,24 +20,24 @@ const RecipeGenerator = React.createClass({
 
   generateRecipeService() {
     let generateRecipeEndpoint = "/api/create_recipe"
-    var data = {
+    var requestData = {
       "vector": this.state.sliders
     }  
-    console.log(data)
+    console.log(requestData)
     let fetchData = {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       method: "POST",
-      body: JSON.stringify(data)
+      body: JSON.stringify(requestData)
     }
 
     fetch(generateRecipeEndpoint, fetchData)
       .then(response => response.json())
       .then( data => {
         this.setState({
-          recipes : data
+          recipe : data.Recipe
         })
       })
   },
@@ -49,23 +49,6 @@ const RecipeGenerator = React.createClass({
       sliders: updated_sliders
     }, this.generateRecipeService())
   },
-
-  handleChangeComplete() {
-    console.log("done")
-  },
-
-  // renderSliders() {
-  //   return (
-  //     <div className='slider'>
-  //      <Slider
-  //         min={0}
-  //         max={100}
-  //         value={10}
-  //         onChangeComplete={this.handleChangeComplete}
-  //       />
-  //     </div>
-  //   )
-  // },
 
   renderSliders() {
     return (
@@ -86,10 +69,29 @@ const RecipeGenerator = React.createClass({
     )
   },
 
+  renderRecipes() {
+    console.log(this.state.recipe)
+    return (
+      <div className="suggested-recipes">
+        <ListGroup>
+          { this.state.recipe.map((ingredient) => {
+            console.log(ingredient)
+            return (
+              <ListGroupItem> 
+                { ingredient } 
+              </ListGroupItem>
+            )
+          })}
+        </ListGroup>
+      </div>
+    )
+  },
+
   render() {
     return (
       <div className="recipeGenerator">
         { this.renderSliders() }
+        { this.renderRecipes() }
       </div>
     )
   }
