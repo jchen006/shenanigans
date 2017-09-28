@@ -47,10 +47,14 @@ vae = vae_utils.restore_test_vae_from_checkpoint(
 @api.route('/create_recipe', methods=['POST'])
 def crate_recipe_tensorflow():
     vector = None
+    print(request.json)
     if request.method == 'POST':
-        vector = request.form['vector']
-
-    vector = json.loads(vector)
+        print(type(request.json['vector']))
+        vector = request.json['vector']
+        print(vector)
+        
+        # vector = json.loads(request.json.read())['vector']
+        # vector = json.loads(vector)
     if vector and len(vector) == 10:
         recipe_string = vae_utils.generate_recipe_from_vae(boi, vae, vector)
         return json.dumps({"Recipe": recipe_string});

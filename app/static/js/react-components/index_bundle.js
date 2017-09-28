@@ -21839,9 +21839,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRangeslider = __webpack_require__(42);
+	var _reactInputRange = __webpack_require__(42);
 
-	var _reactRangeslider2 = _interopRequireDefault(_reactRangeslider);
+	var _reactInputRange2 = _interopRequireDefault(_reactInputRange);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21865,13 +21865,20 @@
 
 	  generateRecipeService() {
 	    let generateRecipeEndpoint = "/api/create_recipe";
-	    let headers = {
-	      method: "POST",
-	      body: {
-	        vector: this.state.sliders
-	      }
+	    var data = {
+	      "vector": this.state.sliders
 	    };
-	    fetch(generateRecipeEndpoint, headers).then(response => response.json()).then(data => {
+	    console.log(data);
+	    let fetchData = {
+	      headers: {
+	        'Accept': 'application/json',
+	        'Content-Type': 'application/json'
+	      },
+	      method: "POST",
+	      body: JSON.stringify(data)
+	    };
+
+	    fetch(generateRecipeEndpoint, fetchData).then(response => response.json()).then(data => {
 	      this.setState({
 	        recipes: data
 	      });
@@ -21908,13 +21915,15 @@
 	      'div',
 	      { className: 'sliders' },
 	      this.state.sliders.map((s, index) => {
-	        return _react2.default.createElement(_reactRangeslider2.default, {
-	          min: 0,
-	          max: 10000,
+	        return _react2.default.createElement(_reactInputRange2.default, {
+	          minValue: 0,
+	          maxValue: 10000,
 	          step: 5,
 	          value: s,
 	          orientation: "horizontal",
-	          onChangeComplete: this.handleOnSliderChange
+	          onChange: value => {
+	            this.handleOnSliderChangeComplete(index, value);
+	          }
 	        });
 	      })
 	    );
@@ -21948,13 +21957,58 @@
 	  value: true
 	});
 
-	var _Rangeslider = __webpack_require__(43);
+	var _inputRange = __webpack_require__(43);
 
-	var _Rangeslider2 = _interopRequireDefault(_Rangeslider);
+	var _inputRange2 = _interopRequireDefault(_inputRange);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	exports.default = _Rangeslider2.default;
+	/**
+	 * @ignore
+	 * @typedef {Object} ClientRect
+	 * @property {number} height
+	 * @property {number} left
+	 * @property {number} top
+	 * @property {number} width
+	 */
+
+	/**
+	 * @typedef {Object} InputRangeClassNames
+	 * @property {string} activeTrack
+	 * @property {string} disabledInputRange
+	 * @property {string} inputRange
+	 * @property {string} labelContainer
+	 * @property {string} maxLabel
+	 * @property {string} minLabel
+	 * @property {string} slider
+	 * @property {string} sliderContainer
+	 * @property {string} track
+	 * @property {string} valueLabel
+	 */
+
+	/**
+	 * @typedef {Function} LabelFormatter
+	 * @param {number} value
+	 * @param {string} type
+	 * @return {string}
+	 */
+
+	/**
+	 * @ignore
+	 * @typedef {Object} Point
+	 * @property {number} x
+	 * @property {number} y
+	 */
+
+	/**
+	 * @typedef {Object} Range
+	 * @property {number} min - Min value
+	 * @property {number} max - Max value
+	 */
+
+	exports.default = _inputRange2.default;
+	module.exports = exports['default'];
+	//# sourceMappingURL=index.js.map
 
 /***/ }),
 /* 43 */
@@ -21965,538 +22019,893 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.default = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _classnames = __webpack_require__(44);
-
-	var _classnames2 = _interopRequireDefault(_classnames);
+	var _desc, _value, _class;
 
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _propTypes = __webpack_require__(45);
+	var _propTypes = __webpack_require__(44);
 
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 
-	var _resizeObserverPolyfill = __webpack_require__(47);
+	var _autobindDecorator = __webpack_require__(46);
 
-	var _resizeObserverPolyfill2 = _interopRequireDefault(_resizeObserverPolyfill);
+	var _autobindDecorator2 = _interopRequireDefault(_autobindDecorator);
+
+	var _valueTransformer = __webpack_require__(47);
+
+	var valueTransformer = _interopRequireWildcard(_valueTransformer);
+
+	var _defaultClassNames = __webpack_require__(56);
+
+	var _defaultClassNames2 = _interopRequireDefault(_defaultClassNames);
+
+	var _label = __webpack_require__(57);
+
+	var _label2 = _interopRequireDefault(_label);
+
+	var _rangePropType = __webpack_require__(58);
+
+	var _rangePropType2 = _interopRequireDefault(_rangePropType);
+
+	var _valuePropType = __webpack_require__(59);
+
+	var _valuePropType2 = _interopRequireDefault(_valuePropType);
+
+	var _slider = __webpack_require__(60);
+
+	var _slider2 = _interopRequireDefault(_slider);
+
+	var _track = __webpack_require__(61);
+
+	var _track2 = _interopRequireDefault(_track);
 
 	var _utils = __webpack_require__(48);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _keyCodes = __webpack_require__(62);
 
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* eslint no-debugger: "warn" */
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+	  var desc = {};
+	  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+	    desc[key] = descriptor[key];
+	  });
+	  desc.enumerable = !!desc.enumerable;
+	  desc.configurable = !!desc.configurable;
+
+	  if ('value' in desc || desc.initializer) {
+	    desc.writable = true;
+	  }
+
+	  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+	    return decorator(target, property, desc) || desc;
+	  }, desc);
+
+	  if (context && desc.initializer !== void 0) {
+	    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+	    desc.initializer = undefined;
+	  }
+
+	  if (desc.initializer === void 0) {
+	    Object['define' + 'Property'](target, property, desc);
+	    desc = null;
+	  }
+
+	  return desc;
+	}
 
 	/**
-	 * Predefined constants
-	 * @type {Object}
+	 * A React component that allows users to input numeric values within a range
+	 * by dragging its sliders.
 	 */
-	var constants = {
-	  orientation: {
-	    horizontal: {
-	      dimension: 'width',
-	      direction: 'left',
-	      reverseDirection: 'right',
-	      coordinate: 'x'
-	    },
-	    vertical: {
-	      dimension: 'height',
-	      direction: 'top',
-	      reverseDirection: 'bottom',
-	      coordinate: 'y'
-	    }
-	  }
-	};
+	var InputRange = (_class = function (_React$Component) {
+	  _inherits(InputRange, _React$Component);
 
-	var Slider = function (_Component) {
-	  _inherits(Slider, _Component);
+	  _createClass(InputRange, null, [{
+	    key: 'propTypes',
 
-	  function Slider(props, context) {
-	    _classCallCheck(this, Slider);
-
-	    var _this = _possibleConstructorReturn(this, (Slider.__proto__ || Object.getPrototypeOf(Slider)).call(this, props, context));
-
-	    _this.handleFormat = function (value) {
-	      var format = _this.props.format;
-
-	      return format ? format(value) : value;
-	    };
-
-	    _this.handleUpdate = function () {
-	      if (!_this.slider) {
-	        // for shallow rendering
-	        return;
-	      }
-	      var orientation = _this.props.orientation;
-
-	      var dimension = (0, _utils.capitalize)(constants.orientation[orientation].dimension);
-	      var sliderPos = _this.slider['offset' + dimension];
-	      var handlePos = _this.handle['offset' + dimension];
-
-	      _this.setState({
-	        limit: sliderPos - handlePos,
-	        grab: handlePos / 2
-	      });
-	    };
-
-	    _this.handleStart = function (e) {
-	      var onChangeStart = _this.props.onChangeStart;
-
-	      document.addEventListener('mousemove', _this.handleDrag);
-	      document.addEventListener('mouseup', _this.handleEnd);
-	      _this.setState({
-	        active: true
-	      }, function () {
-	        onChangeStart && onChangeStart(e);
-	      });
-	    };
-
-	    _this.handleDrag = function (e) {
-	      e.stopPropagation();
-	      var onChange = _this.props.onChange;
-	      var _e$target = e.target,
-	          className = _e$target.className,
-	          classList = _e$target.classList,
-	          dataset = _e$target.dataset;
-
-	      if (!onChange || className === 'rangeslider__labels') return;
-
-	      var value = _this.position(e);
-
-	      if (classList && classList.contains('rangeslider__label-item') && dataset.value) {
-	        value = parseFloat(dataset.value);
-	      }
-
-	      onChange && onChange(value, e);
-	    };
-
-	    _this.handleEnd = function (e) {
-	      var onChangeComplete = _this.props.onChangeComplete;
-
-	      _this.setState({
-	        active: false
-	      }, function () {
-	        onChangeComplete && onChangeComplete(e);
-	      });
-	      document.removeEventListener('mousemove', _this.handleDrag);
-	      document.removeEventListener('mouseup', _this.handleEnd);
-	    };
-
-	    _this.handleKeyDown = function (e) {
-	      e.preventDefault();
-	      var keyCode = e.keyCode;
-	      var _this$props = _this.props,
-	          value = _this$props.value,
-	          min = _this$props.min,
-	          max = _this$props.max,
-	          step = _this$props.step,
-	          onChange = _this$props.onChange;
-
-	      var sliderValue = void 0;
-
-	      switch (keyCode) {
-	        case 38:
-	        case 39:
-	          sliderValue = value + step > max ? max : value + step;
-	          onChange && onChange(sliderValue, e);
-	          break;
-	        case 37:
-	        case 40:
-	          sliderValue = value - step < min ? min : value - step;
-	          onChange && onChange(sliderValue, e);
-	          break;
-	      }
-	    };
-
-	    _this.getPositionFromValue = function (value) {
-	      var limit = _this.state.limit;
-	      var _this$props2 = _this.props,
-	          min = _this$props2.min,
-	          max = _this$props2.max;
-
-	      var diffMaxMin = max - min;
-	      var diffValMin = value - min;
-	      var percentage = diffValMin / diffMaxMin;
-	      var pos = Math.round(percentage * limit);
-
-	      return pos;
-	    };
-
-	    _this.getValueFromPosition = function (pos) {
-	      var limit = _this.state.limit;
-	      var _this$props3 = _this.props,
-	          orientation = _this$props3.orientation,
-	          min = _this$props3.min,
-	          max = _this$props3.max,
-	          step = _this$props3.step;
-
-	      var percentage = (0, _utils.clamp)(pos, 0, limit) / (limit || 1);
-	      var baseVal = step * Math.round(percentage * (max - min) / step);
-	      var value = orientation === 'horizontal' ? baseVal + min : max - baseVal;
-
-	      return (0, _utils.clamp)(value, min, max);
-	    };
-
-	    _this.position = function (e) {
-	      var grab = _this.state.grab;
-	      var _this$props4 = _this.props,
-	          orientation = _this$props4.orientation,
-	          reverse = _this$props4.reverse;
-
-
-	      var node = _this.slider;
-	      var coordinateStyle = constants.orientation[orientation].coordinate;
-	      var directionStyle = reverse ? constants.orientation[orientation].reverseDirection : constants.orientation[orientation].direction;
-	      var clientCoordinateStyle = 'client' + (0, _utils.capitalize)(coordinateStyle);
-	      var coordinate = !e.touches ? e[clientCoordinateStyle] : e.touches[0][clientCoordinateStyle];
-	      var direction = node.getBoundingClientRect()[directionStyle];
-	      var pos = reverse ? direction - coordinate - grab : coordinate - direction - grab;
-	      var value = _this.getValueFromPosition(pos);
-
-	      return value;
-	    };
-
-	    _this.coordinates = function (pos) {
-	      var _this$state = _this.state,
-	          limit = _this$state.limit,
-	          grab = _this$state.grab;
-	      var orientation = _this.props.orientation;
-
-	      var value = _this.getValueFromPosition(pos);
-	      var position = _this.getPositionFromValue(value);
-	      var handlePos = orientation === 'horizontal' ? position + grab : position;
-	      var fillPos = orientation === 'horizontal' ? handlePos : limit - handlePos;
-
+	    /**
+	     * @ignore
+	     * @override
+	     * @return {Object}
+	     */
+	    get: function get() {
 	      return {
-	        fill: fillPos,
-	        handle: handlePos,
-	        label: handlePos
+	        ariaLabelledby: _propTypes2.default.string,
+	        ariaControls: _propTypes2.default.string,
+	        classNames: _propTypes2.default.objectOf(_propTypes2.default.string),
+	        disabled: _propTypes2.default.bool,
+	        draggableTrack: _propTypes2.default.bool,
+	        formatLabel: _propTypes2.default.func,
+	        maxValue: _rangePropType2.default,
+	        minValue: _rangePropType2.default,
+	        name: _propTypes2.default.string,
+	        onChangeStart: _propTypes2.default.func,
+	        onChange: _propTypes2.default.func.isRequired,
+	        onChangeComplete: _propTypes2.default.func,
+	        step: _propTypes2.default.number,
+	        value: _valuePropType2.default
 	      };
-	    };
+	    }
 
-	    _this.renderLabels = function (labels) {
-	      return _react2.default.createElement(
-	        'ul',
-	        {
-	          ref: function ref(sl) {
-	            _this.labels = sl;
-	          },
-	          className: (0, _classnames2.default)('rangeslider__labels')
-	        },
-	        labels
-	      );
-	    };
+	    /**
+	     * @ignore
+	     * @override
+	     * @return {Object}
+	     */
 
-	    _this.state = {
-	      active: false,
-	      limit: 0,
-	      grab: 0
-	    };
+	  }, {
+	    key: 'defaultProps',
+	    get: function get() {
+	      return {
+	        classNames: _defaultClassNames2.default,
+	        disabled: false,
+	        maxValue: 10,
+	        minValue: 0,
+	        step: 1
+	      };
+	    }
+
+	    /**
+	     * @param {Object} props
+	     * @param {string} [props.ariaLabelledby]
+	     * @param {string} [props.ariaControls]
+	     * @param {InputRangeClassNames} [props.classNames]
+	     * @param {boolean} [props.disabled = false]
+	     * @param {Function} [props.formatLabel]
+	     * @param {number|Range} [props.maxValue = 10]
+	     * @param {number|Range} [props.minValue = 0]
+	     * @param {string} [props.name]
+	     * @param {string} props.onChange
+	     * @param {Function} [props.onChangeComplete]
+	     * @param {Function} [props.onChangeStart]
+	     * @param {number} [props.step = 1]
+	     * @param {number|Range} props.value
+	     */
+
+	  }]);
+
+	  function InputRange(props) {
+	    _classCallCheck(this, InputRange);
+
+	    /**
+	     * @private
+	     * @type {?number}
+	     */
+	    var _this = _possibleConstructorReturn(this, (InputRange.__proto__ || Object.getPrototypeOf(InputRange)).call(this, props));
+
+	    _this.startValue = null;
+
+	    /**
+	     * @private
+	     * @type {?Component}
+	     */
+	    _this.node = null;
+
+	    /**
+	     * @private
+	     * @type {?Component}
+	     */
+	    _this.trackNode = null;
+
+	    /**
+	     * @private
+	     * @type {bool}
+	     */
+	    _this.isSliderDragging = false;
 	    return _this;
 	  }
 
-	  _createClass(Slider, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.handleUpdate();
-	      var resizeObserver = new _resizeObserverPolyfill2.default(this.handleUpdate);
-	      resizeObserver.observe(this.slider);
+	  /**
+	   * @ignore
+	   * @override
+	   * @return {void}
+	   */
+
+
+	  _createClass(InputRange, [{
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.removeDocumentMouseUpListener();
+	      this.removeDocumentTouchEndListener();
 	    }
 
 	    /**
-	     * Format label/tooltip value
-	     * @param  {Number} - value
-	     * @return {Formatted Number}
+	     * Return the CSS class name of the component
+	     * @private
+	     * @return {string}
 	     */
 
+	  }, {
+	    key: 'getComponentClassName',
+	    value: function getComponentClassName() {
+	      if (!this.props.disabled) {
+	        return this.props.classNames.inputRange;
+	      }
+
+	      return this.props.classNames.disabledInputRange;
+	    }
 
 	    /**
-	     * Update slider state on change
+	     * Return the bounding rect of the track
+	     * @private
+	     * @return {ClientRect}
+	     */
+
+	  }, {
+	    key: 'getTrackClientRect',
+	    value: function getTrackClientRect() {
+	      return this.trackNode.getClientRect();
+	    }
+
+	    /**
+	     * Return the slider key closest to a point
+	     * @private
+	     * @param {Point} position
+	     * @return {string}
+	     */
+
+	  }, {
+	    key: 'getKeyByPosition',
+	    value: function getKeyByPosition(position) {
+	      var values = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
+	      var positions = valueTransformer.getPositionsFromValues(values, this.props.minValue, this.props.maxValue, this.getTrackClientRect());
+
+	      if (this.isMultiValue()) {
+	        var distanceToMin = (0, _utils.distanceTo)(position, positions.min);
+	        var distanceToMax = (0, _utils.distanceTo)(position, positions.max);
+
+	        if (distanceToMin < distanceToMax) {
+	          return 'min';
+	        }
+	      }
+
+	      return 'max';
+	    }
+
+	    /**
+	     * Return all the slider keys
+	     * @private
+	     * @return {string[]}
+	     */
+
+	  }, {
+	    key: 'getKeys',
+	    value: function getKeys() {
+	      if (this.isMultiValue()) {
+	        return ['min', 'max'];
+	      }
+
+	      return ['max'];
+	    }
+
+	    /**
+	     * Return true if the difference between the new and the current value is
+	     * greater or equal to the step amount of the component
+	     * @private
+	     * @param {Range} values
+	     * @return {boolean}
+	     */
+
+	  }, {
+	    key: 'hasStepDifference',
+	    value: function hasStepDifference(values) {
+	      var currentValues = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
+
+	      return (0, _utils.length)(values.min, currentValues.min) >= this.props.step || (0, _utils.length)(values.max, currentValues.max) >= this.props.step;
+	    }
+
+	    /**
+	     * Return true if the component accepts a min and max value
+	     * @private
+	     * @return {boolean}
+	     */
+
+	  }, {
+	    key: 'isMultiValue',
+	    value: function isMultiValue() {
+	      return (0, _utils.isObject)(this.props.value);
+	    }
+
+	    /**
+	     * Return true if the range is within the max and min value of the component
+	     * @private
+	     * @param {Range} values
+	     * @return {boolean}
+	     */
+
+	  }, {
+	    key: 'isWithinRange',
+	    value: function isWithinRange(values) {
+	      if (this.isMultiValue()) {
+	        return values.min >= this.props.minValue && values.max <= this.props.maxValue && values.min < values.max;
+	      }
+
+	      return values.max >= this.props.minValue && values.max <= this.props.maxValue;
+	    }
+
+	    /**
+	     * Return true if the new value should trigger a render
+	     * @private
+	     * @param {Range} values
+	     * @return {boolean}
+	     */
+
+	  }, {
+	    key: 'shouldUpdate',
+	    value: function shouldUpdate(values) {
+	      return this.isWithinRange(values) && this.hasStepDifference(values);
+	    }
+
+	    /**
+	     * Update the position of a slider
+	     * @private
+	     * @param {string} key
+	     * @param {Point} position
 	     * @return {void}
 	     */
 
+	  }, {
+	    key: 'updatePosition',
+	    value: function updatePosition(key, position) {
+	      var values = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
+	      var positions = valueTransformer.getPositionsFromValues(values, this.props.minValue, this.props.maxValue, this.getTrackClientRect());
+
+	      positions[key] = position;
+
+	      this.updatePositions(positions);
+	    }
 
 	    /**
-	     * Attach event listeners to mousemove/mouseup events
+	     * Update the positions of multiple sliders
+	     * @private
+	     * @param {Object} positions
+	     * @param {Point} positions.min
+	     * @param {Point} positions.max
 	     * @return {void}
 	     */
 
+	  }, {
+	    key: 'updatePositions',
+	    value: function updatePositions(positions) {
+	      var values = {
+	        min: valueTransformer.getValueFromPosition(positions.min, this.props.minValue, this.props.maxValue, this.getTrackClientRect()),
+	        max: valueTransformer.getValueFromPosition(positions.max, this.props.minValue, this.props.maxValue, this.getTrackClientRect())
+	      };
+
+	      var transformedValues = {
+	        min: valueTransformer.getStepValueFromValue(values.min, this.props.step),
+	        max: valueTransformer.getStepValueFromValue(values.max, this.props.step)
+	      };
+
+	      this.updateValues(transformedValues);
+	    }
 
 	    /**
-	     * Handle drag/mousemove event
-	     * @param  {Object} e - Event object
+	     * Update the value of a slider
+	     * @private
+	     * @param {string} key
+	     * @param {number} value
 	     * @return {void}
 	     */
 
+	  }, {
+	    key: 'updateValue',
+	    value: function updateValue(key, value) {
+	      var values = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
+
+	      values[key] = value;
+
+	      this.updateValues(values);
+	    }
 
 	    /**
-	     * Detach event listeners to mousemove/mouseup events
+	     * Update the values of multiple sliders
+	     * @private
+	     * @param {Range|number} values
 	     * @return {void}
 	     */
 
+	  }, {
+	    key: 'updateValues',
+	    value: function updateValues(values) {
+	      if (!this.shouldUpdate(values)) {
+	        return;
+	      }
+
+	      this.props.onChange(this.isMultiValue() ? values : values.max);
+	    }
 
 	    /**
-	     * Support for key events on the slider handle
-	     * @param  {Object} e - Event object
+	     * Increment the value of a slider by key name
+	     * @private
+	     * @param {string} key
 	     * @return {void}
 	     */
 
+	  }, {
+	    key: 'incrementValue',
+	    value: function incrementValue(key) {
+	      var values = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
+	      var value = values[key] + this.props.step;
+
+	      this.updateValue(key, value);
+	    }
 
 	    /**
-	     * Calculate position of slider based on its value
-	     * @param  {number} value - Current value of slider
-	     * @return {position} pos - Calculated position of slider based on value
+	     * Decrement the value of a slider by key name
+	     * @private
+	     * @param {string} key
+	     * @return {void}
 	     */
 
+	  }, {
+	    key: 'decrementValue',
+	    value: function decrementValue(key) {
+	      var values = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
+	      var value = values[key] - this.props.step;
+
+	      this.updateValue(key, value);
+	    }
 
 	    /**
-	     * Translate position of slider to slider value
-	     * @param  {number} pos - Current position/coordinates of slider
-	     * @return {number} value - Slider value
+	     * Listen to mouseup event
+	     * @private
+	     * @return {void}
 	     */
 
+	  }, {
+	    key: 'addDocumentMouseUpListener',
+	    value: function addDocumentMouseUpListener() {
+	      this.removeDocumentMouseUpListener();
+	      this.node.ownerDocument.addEventListener('mouseup', this.handleMouseUp);
+	    }
 
 	    /**
-	     * Calculate position of slider based on value
-	     * @param  {Object} e - Event object
-	     * @return {number} value - Slider value
+	     * Listen to touchend event
+	     * @private
+	     * @return {void}
 	     */
 
+	  }, {
+	    key: 'addDocumentTouchEndListener',
+	    value: function addDocumentTouchEndListener() {
+	      this.removeDocumentTouchEndListener();
+	      this.node.ownerDocument.addEventListener('touchend', this.handleTouchEnd);
+	    }
 
 	    /**
-	     * Grab coordinates of slider
-	     * @param  {Object} pos - Position object
-	     * @return {Object} - Slider fill/handle coordinates
+	     * Stop listening to mouseup event
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'removeDocumentMouseUpListener',
+	    value: function removeDocumentMouseUpListener() {
+	      this.node.ownerDocument.removeEventListener('mouseup', this.handleMouseUp);
+	    }
+
+	    /**
+	     * Stop listening to touchend event
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'removeDocumentTouchEndListener',
+	    value: function removeDocumentTouchEndListener() {
+	      this.node.ownerDocument.removeEventListener('touchend', this.handleTouchEnd);
+	    }
+
+	    /**
+	     * Handle any "mousemove" event received by the slider
+	     * @private
+	     * @param {SyntheticEvent} event
+	     * @param {string} key
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleSliderDrag',
+	    value: function handleSliderDrag(event, key) {
+	      var _this2 = this;
+
+	      if (this.props.disabled) {
+	        return;
+	      }
+
+	      var position = valueTransformer.getPositionFromEvent(event, this.getTrackClientRect());
+	      this.isSliderDragging = true;
+	      requestAnimationFrame(function () {
+	        return _this2.updatePosition(key, position);
+	      });
+	    }
+
+	    /**
+	     * Handle any "mousemove" event received by the track
+	     * @private
+	     * @param {SyntheticEvent} event
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleTrackDrag',
+	    value: function handleTrackDrag(event, prevEvent) {
+	      if (this.props.disabled || !this.props.draggableTrack || this.isSliderDragging) {
+	        return;
+	      }
+
+	      var _props = this.props,
+	          maxValue = _props.maxValue,
+	          minValue = _props.minValue,
+	          _props$value = _props.value,
+	          max = _props$value.max,
+	          min = _props$value.min;
+
+
+	      var position = valueTransformer.getPositionFromEvent(event, this.getTrackClientRect());
+	      var value = valueTransformer.getValueFromPosition(position, minValue, maxValue, this.getTrackClientRect());
+	      var stepValue = valueTransformer.getStepValueFromValue(value, this.props.step);
+
+	      var prevPosition = valueTransformer.getPositionFromEvent(prevEvent, this.getTrackClientRect());
+	      var prevValue = valueTransformer.getValueFromPosition(prevPosition, minValue, maxValue, this.getTrackClientRect());
+	      var prevStepValue = valueTransformer.getStepValueFromValue(prevValue, this.props.step);
+
+	      var offset = prevStepValue - stepValue;
+
+	      var transformedValues = {
+	        min: min - offset,
+	        max: max - offset
+	      };
+
+	      this.updateValues(transformedValues);
+	    }
+
+	    /**
+	     * Handle any "keydown" event received by the slider
+	     * @private
+	     * @param {SyntheticEvent} event
+	     * @param {string} key
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleSliderKeyDown',
+	    value: function handleSliderKeyDown(event, key) {
+	      if (this.props.disabled) {
+	        return;
+	      }
+
+	      switch (event.keyCode) {
+	        case _keyCodes.LEFT_ARROW:
+	        case _keyCodes.DOWN_ARROW:
+	          event.preventDefault();
+	          this.decrementValue(key);
+	          break;
+
+	        case _keyCodes.RIGHT_ARROW:
+	        case _keyCodes.UP_ARROW:
+	          event.preventDefault();
+	          this.incrementValue(key);
+	          break;
+
+	        default:
+	          break;
+	      }
+	    }
+
+	    /**
+	     * Handle any "mousedown" event received by the track
+	     * @private
+	     * @param {SyntheticEvent} event
+	     * @param {Point} position
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleTrackMouseDown',
+	    value: function handleTrackMouseDown(event, position) {
+	      if (this.props.disabled) {
+	        return;
+	      }
+
+	      var _props2 = this.props,
+	          maxValue = _props2.maxValue,
+	          minValue = _props2.minValue,
+	          _props2$value = _props2.value,
+	          max = _props2$value.max,
+	          min = _props2$value.min;
+
+
+	      event.preventDefault();
+
+	      var value = valueTransformer.getValueFromPosition(position, minValue, maxValue, this.getTrackClientRect());
+	      var stepValue = valueTransformer.getStepValueFromValue(value, this.props.step);
+
+	      if (!this.props.draggableTrack || stepValue > max || stepValue < min) {
+	        this.updatePosition(this.getKeyByPosition(position), position);
+	      }
+	    }
+
+	    /**
+	     * Handle the start of any mouse/touch event
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleInteractionStart',
+	    value: function handleInteractionStart() {
+	      if (this.props.onChangeStart) {
+	        this.props.onChangeStart(this.props.value);
+	      }
+
+	      if (this.props.onChangeComplete && !(0, _utils.isDefined)(this.startValue)) {
+	        this.startValue = this.props.value;
+	      }
+	    }
+
+	    /**
+	     * Handle the end of any mouse/touch event
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleInteractionEnd',
+	    value: function handleInteractionEnd() {
+	      if (this.isSliderDragging) {
+	        this.isSliderDragging = false;
+	      }
+
+	      if (!this.props.onChangeComplete || !(0, _utils.isDefined)(this.startValue)) {
+	        return;
+	      }
+
+	      if (this.startValue !== this.props.value) {
+	        this.props.onChangeComplete(this.props.value);
+	      }
+
+	      this.startValue = null;
+	    }
+
+	    /**
+	     * Handle any "keydown" event received by the component
+	     * @private
+	     * @param {SyntheticEvent} event
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleKeyDown',
+	    value: function handleKeyDown(event) {
+	      this.handleInteractionStart(event);
+	    }
+
+	    /**
+	     * Handle any "keyup" event received by the component
+	     * @private
+	     * @param {SyntheticEvent} event
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleKeyUp',
+	    value: function handleKeyUp(event) {
+	      this.handleInteractionEnd(event);
+	    }
+
+	    /**
+	     * Handle any "mousedown" event received by the component
+	     * @private
+	     * @param {SyntheticEvent} event
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleMouseDown',
+	    value: function handleMouseDown(event) {
+	      this.handleInteractionStart(event);
+	      this.addDocumentMouseUpListener();
+	    }
+
+	    /**
+	     * Handle any "mouseup" event received by the component
+	     * @private
+	     * @param {SyntheticEvent} event
+	     */
+
+	  }, {
+	    key: 'handleMouseUp',
+	    value: function handleMouseUp(event) {
+	      this.handleInteractionEnd(event);
+	      this.removeDocumentMouseUpListener();
+	    }
+
+	    /**
+	     * Handle any "touchstart" event received by the component
+	     * @private
+	     * @param {SyntheticEvent} event
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleTouchStart',
+	    value: function handleTouchStart(event) {
+	      this.handleInteractionStart(event);
+	      this.addDocumentTouchEndListener();
+	    }
+
+	    /**
+	     * Handle any "touchend" event received by the component
+	     * @private
+	     * @param {SyntheticEvent} event
+	     */
+
+	  }, {
+	    key: 'handleTouchEnd',
+	    value: function handleTouchEnd(event) {
+	      this.handleInteractionEnd(event);
+	      this.removeDocumentTouchEndListener();
+	    }
+
+	    /**
+	     * Return JSX of sliders
+	     * @private
+	     * @return {JSX.Element}
+	     */
+
+	  }, {
+	    key: 'renderSliders',
+	    value: function renderSliders() {
+	      var _this3 = this;
+
+	      var values = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
+	      var percentages = valueTransformer.getPercentagesFromValues(values, this.props.minValue, this.props.maxValue);
+
+	      return this.getKeys().map(function (key) {
+	        var value = values[key];
+	        var percentage = percentages[key];
+
+	        var _props3 = _this3.props,
+	            maxValue = _props3.maxValue,
+	            minValue = _props3.minValue;
+
+
+	        if (key === 'min') {
+	          maxValue = values.max;
+	        } else {
+	          minValue = values.min;
+	        }
+
+	        var slider = _react2.default.createElement(_slider2.default, {
+	          ariaLabelledby: _this3.props.ariaLabelledby,
+	          ariaControls: _this3.props.ariaControls,
+	          classNames: _this3.props.classNames,
+	          formatLabel: _this3.props.formatLabel,
+	          key: key,
+	          maxValue: maxValue,
+	          minValue: minValue,
+	          onSliderDrag: _this3.handleSliderDrag,
+	          onSliderKeyDown: _this3.handleSliderKeyDown,
+	          percentage: percentage,
+	          type: key,
+	          value: value });
+
+	        return slider;
+	      });
+	    }
+
+	    /**
+	     * Return JSX of hidden inputs
+	     * @private
+	     * @return {JSX.Element}
+	     */
+
+	  }, {
+	    key: 'renderHiddenInputs',
+	    value: function renderHiddenInputs() {
+	      var _this4 = this;
+
+	      if (!this.props.name) {
+	        return [];
+	      }
+
+	      var isMultiValue = this.isMultiValue();
+	      var values = valueTransformer.getValueFromProps(this.props, isMultiValue);
+
+	      return this.getKeys().map(function (key) {
+	        var value = values[key];
+	        var name = isMultiValue ? '' + _this4.props.name + (0, _utils.captialize)(key) : _this4.props.name;
+
+	        return _react2.default.createElement('input', { key: key, type: 'hidden', name: name, value: value });
+	      });
+	    }
+
+	    /**
+	     * @ignore
+	     * @override
+	     * @return {JSX.Element}
 	     */
 
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
+	      var _this5 = this;
 
-	      var _props = this.props,
-	          value = _props.value,
-	          orientation = _props.orientation,
-	          className = _props.className,
-	          tooltip = _props.tooltip,
-	          reverse = _props.reverse,
-	          labels = _props.labels,
-	          min = _props.min,
-	          max = _props.max,
-	          handleLabel = _props.handleLabel;
-	      var active = this.state.active;
-
-	      var dimension = constants.orientation[orientation].dimension;
-	      var direction = reverse ? constants.orientation[orientation].reverseDirection : constants.orientation[orientation].direction;
-	      var position = this.getPositionFromValue(value);
-	      var coords = this.coordinates(position);
-	      var fillStyle = _defineProperty({}, dimension, coords.fill + 'px');
-	      var handleStyle = _defineProperty({}, direction, coords.handle + 'px');
-	      var showTooltip = tooltip && active;
-
-	      var labelItems = [];
-	      var labelKeys = Object.keys(labels);
-
-	      if (labelKeys.length > 0) {
-	        labelKeys = labelKeys.sort(function (a, b) {
-	          return reverse ? a - b : b - a;
-	        });
-
-	        var _iteratorNormalCompletion = true;
-	        var _didIteratorError = false;
-	        var _iteratorError = undefined;
-
-	        try {
-	          for (var _iterator = labelKeys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	            var key = _step.value;
-
-	            var labelPosition = this.getPositionFromValue(key);
-	            var labelCoords = this.coordinates(labelPosition);
-	            var labelStyle = _defineProperty({}, direction, labelCoords.label + 'px');
-
-	            labelItems.push(_react2.default.createElement(
-	              'li',
-	              {
-	                key: key,
-	                className: (0, _classnames2.default)('rangeslider__label-item'),
-	                'data-value': key,
-	                onMouseDown: this.handleDrag,
-	                onTouchStart: this.handleStart,
-	                onTouchEnd: this.handleEnd,
-	                style: labelStyle
-	              },
-	              this.props.labels[key]
-	            ));
-	          }
-	        } catch (err) {
-	          _didIteratorError = true;
-	          _iteratorError = err;
-	        } finally {
-	          try {
-	            if (!_iteratorNormalCompletion && _iterator.return) {
-	              _iterator.return();
-	            }
-	          } finally {
-	            if (_didIteratorError) {
-	              throw _iteratorError;
-	            }
-	          }
-	        }
-	      }
+	      var componentClassName = this.getComponentClassName();
+	      var values = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
+	      var percentages = valueTransformer.getPercentagesFromValues(values, this.props.minValue, this.props.maxValue);
 
 	      return _react2.default.createElement(
 	        'div',
 	        {
-	          ref: function ref(s) {
-	            _this2.slider = s;
+	          'aria-disabled': this.props.disabled,
+	          ref: function ref(node) {
+	            _this5.node = node;
 	          },
-	          className: (0, _classnames2.default)('rangeslider', 'rangeslider-' + orientation, { 'rangeslider-reverse': reverse }, className),
-	          onMouseDown: this.handleDrag,
-	          onMouseUp: this.handleEnd,
-	          onTouchStart: this.handleStart,
-	          onTouchEnd: this.handleEnd,
-	          'aria-valuemin': min,
-	          'aria-valuemax': max,
-	          'aria-valuenow': value,
-	          'aria-orientation': orientation
-	        },
-	        _react2.default.createElement('div', { className: 'rangeslider__fill', style: fillStyle }),
+	          className: componentClassName,
+	          onKeyDown: this.handleKeyDown,
+	          onKeyUp: this.handleKeyUp,
+	          onMouseDown: this.handleMouseDown,
+	          onTouchStart: this.handleTouchStart },
 	        _react2.default.createElement(
-	          'div',
+	          _label2.default,
 	          {
-	            ref: function ref(sh) {
-	              _this2.handle = sh;
-	            },
-	            className: 'rangeslider__handle',
-	            onMouseDown: this.handleStart,
-	            onTouchMove: this.handleDrag,
-	            onTouchEnd: this.handleEnd,
-	            onKeyDown: this.handleKeyDown,
-	            style: handleStyle,
-	            tabIndex: 0
-	          },
-	          showTooltip ? _react2.default.createElement(
-	            'div',
-	            {
-	              ref: function ref(st) {
-	                _this2.tooltip = st;
-	              },
-	              className: 'rangeslider__handle-tooltip'
-	            },
-	            _react2.default.createElement(
-	              'span',
-	              null,
-	              this.handleFormat(value)
-	            )
-	          ) : null,
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'rangeslider__handle-label' },
-	            handleLabel
-	          )
+	            classNames: this.props.classNames,
+	            formatLabel: this.props.formatLabel,
+	            type: 'min' },
+	          this.props.minValue
 	        ),
-	        labels ? this.renderLabels(labelItems) : null
+	        _react2.default.createElement(
+	          _track2.default,
+	          {
+	            classNames: this.props.classNames,
+	            draggableTrack: this.props.draggableTrack,
+	            ref: function ref(trackNode) {
+	              _this5.trackNode = trackNode;
+	            },
+	            percentages: percentages,
+	            onTrackDrag: this.handleTrackDrag,
+	            onTrackMouseDown: this.handleTrackMouseDown },
+	          this.renderSliders()
+	        ),
+	        _react2.default.createElement(
+	          _label2.default,
+	          {
+	            classNames: this.props.classNames,
+	            formatLabel: this.props.formatLabel,
+	            type: 'max' },
+	          this.props.maxValue
+	        ),
+	        this.renderHiddenInputs()
 	      );
 	    }
 	  }]);
 
-	  return Slider;
-	}(_react.Component);
-
-	Slider.propTypes = {
-	  min: _propTypes2.default.number,
-	  max: _propTypes2.default.number,
-	  step: _propTypes2.default.number,
-	  value: _propTypes2.default.number,
-	  orientation: _propTypes2.default.string,
-	  tooltip: _propTypes2.default.bool,
-	  reverse: _propTypes2.default.bool,
-	  labels: _propTypes2.default.object,
-	  handleLabel: _propTypes2.default.string,
-	  format: _propTypes2.default.func,
-	  onChangeStart: _propTypes2.default.func,
-	  onChange: _propTypes2.default.func,
-	  onChangeComplete: _propTypes2.default.func
-	};
-	Slider.defaultProps = {
-	  min: 0,
-	  max: 100,
-	  step: 1,
-	  value: 0,
-	  orientation: 'horizontal',
-	  tooltip: true,
-	  reverse: false,
-	  labels: {},
-	  handleLabel: ''
-	};
-	exports.default = Slider;
+	  return InputRange;
+	}(_react2.default.Component), (_applyDecoratedDescriptor(_class.prototype, 'handleSliderDrag', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleSliderDrag'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleTrackDrag', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleTrackDrag'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleSliderKeyDown', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleSliderKeyDown'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleTrackMouseDown', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleTrackMouseDown'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleInteractionStart', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleInteractionStart'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleInteractionEnd', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleInteractionEnd'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleKeyDown', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleKeyDown'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleKeyUp', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleKeyUp'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleMouseDown', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleMouseDown'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleMouseUp', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleMouseUp'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleTouchStart', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleTouchStart'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleTouchEnd', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleTouchEnd'), _class.prototype)), _class);
+	exports.default = InputRange;
+	module.exports = exports['default'];
+	//# sourceMappingURL=input-range.js.map
 
 /***/ }),
 /* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	  Copyright (c) 2016 Jed Watson.
-	  Licensed under the MIT License (MIT), see
-	  http://jedwatson.github.io/classnames
-	*/
-	/* global define */
-
-	(function () {
-		'use strict';
-
-		var hasOwn = {}.hasOwnProperty;
-
-		function classNames () {
-			var classes = [];
-
-			for (var i = 0; i < arguments.length; i++) {
-				var arg = arguments[i];
-				if (!arg) continue;
-
-				var argType = typeof arg;
-
-				if (argType === 'string' || argType === 'number') {
-					classes.push(arg);
-				} else if (Array.isArray(arg)) {
-					classes.push(classNames.apply(null, arg));
-				} else if (argType === 'object') {
-					for (var key in arg) {
-						if (hasOwn.call(arg, key) && arg[key]) {
-							classes.push(key);
-						}
-					}
-				}
-			}
-
-			return classes.join(' ');
-		}
-
-		if (typeof module !== 'undefined' && module.exports) {
-			module.exports = classNames;
-		} else if (true) {
-			// register as 'classnames', consistent with npm package name
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
-				return classNames;
-			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-		} else {
-			window.classNames = classNames;
-		}
-	}());
-
-
-/***/ }),
-/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -22527,13 +22936,13 @@
 	} else {
 	  // By explicitly using `prop-types` you are opting into new production behavior.
 	  // http://fb.me/prop-types-in-prod
-	  module.exports = __webpack_require__(46)();
+	  module.exports = __webpack_require__(45)();
 	}
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -22598,1038 +23007,362 @@
 
 
 /***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 46 */
+/***/ (function(module, exports) {
 
-	(function (global, factory) {
-	     true ? module.exports = factory() :
-	    typeof define === 'function' && define.amd ? define(factory) :
-	    (global.ResizeObserver = factory());
-	}(this, (function () {
+	/**
+	 * @copyright 2015, Andrey Popp <8mayday@gmail.com>
+	 *
+	 * The decorator may be used on classes or methods
+	 * ```
+	 * @autobind
+	 * class FullBound {}
+	 *
+	 * class PartBound {
+	 *   @autobind
+	 *   method () {}
+	 * }
+	 * ```
+	 */
 	'use strict';
 
-	/**
-	 * A collection of shims that provide minimal functionality of the ES6 collections.
-	 *
-	 * These implementations are not meant to be used outside of the ResizeObserver
-	 * modules as they cover only a limited range of use cases.
-	 */
-	/* eslint-disable require-jsdoc, valid-jsdoc */
-	var MapShim = (function () {
-	    if (typeof Map != 'undefined') {
-	        return Map;
-	    }
-
-	    /**
-	     * Returns index in provided array that matches the specified key.
-	     *
-	     * @param {Array<Array>} arr
-	     * @param {*} key
-	     * @returns {number}
-	     */
-	    function getIndex(arr, key) {
-	        var result = -1;
-
-	        arr.some(function (entry, index) {
-	            if (entry[0] === key) {
-	                result = index;
-
-	                return true;
-	            }
-
-	            return false;
-	        });
-
-	        return result;
-	    }
-
-	    return (function () {
-	        function anonymous() {
-	            this.__entries__ = [];
-	        }
-
-	        var prototypeAccessors = { size: {} };
-
-	        /**
-	         * @returns {boolean}
-	         */
-	        prototypeAccessors.size.get = function () {
-	            return this.__entries__.length;
-	        };
-
-	        /**
-	         * @param {*} key
-	         * @returns {*}
-	         */
-	        anonymous.prototype.get = function (key) {
-	            var index = getIndex(this.__entries__, key);
-	            var entry = this.__entries__[index];
-
-	            return entry && entry[1];
-	        };
-
-	        /**
-	         * @param {*} key
-	         * @param {*} value
-	         * @returns {void}
-	         */
-	        anonymous.prototype.set = function (key, value) {
-	            var index = getIndex(this.__entries__, key);
-
-	            if (~index) {
-	                this.__entries__[index][1] = value;
-	            } else {
-	                this.__entries__.push([key, value]);
-	            }
-	        };
-
-	        /**
-	         * @param {*} key
-	         * @returns {void}
-	         */
-	        anonymous.prototype.delete = function (key) {
-	            var entries = this.__entries__;
-	            var index = getIndex(entries, key);
-
-	            if (~index) {
-	                entries.splice(index, 1);
-	            }
-	        };
-
-	        /**
-	         * @param {*} key
-	         * @returns {void}
-	         */
-	        anonymous.prototype.has = function (key) {
-	            return !!~getIndex(this.__entries__, key);
-	        };
-
-	        /**
-	         * @returns {void}
-	         */
-	        anonymous.prototype.clear = function () {
-	            this.__entries__.splice(0);
-	        };
-
-	        /**
-	         * @param {Function} callback
-	         * @param {*} [ctx=null]
-	         * @returns {void}
-	         */
-	        anonymous.prototype.forEach = function (callback, ctx) {
-	            if ( ctx === void 0 ) ctx = null;
-
-	            for (var i = 0, list = this.__entries__; i < list.length; i += 1) {
-	                var entry = list[i];
-
-	                callback.call(ctx, entry[1], entry[0]);
-	            }
-	        };
-
-	        Object.defineProperties( anonymous.prototype, prototypeAccessors );
-
-	        return anonymous;
-	    }());
-	})();
-
-	/**
-	 * Detects whether window and document objects are available in current environment.
-	 */
-	var isBrowser = typeof window != 'undefined' && typeof document != 'undefined' && window.document === document;
-
-	/**
-	 * A shim for the requestAnimationFrame which falls back to the setTimeout if
-	 * first one is not supported.
-	 *
-	 * @returns {number} Requests' identifier.
-	 */
-	var requestAnimationFrame$1 = (function () {
-	    if (typeof requestAnimationFrame === 'function') {
-	        return requestAnimationFrame;
-	    }
-
-	    return function (callback) { return setTimeout(function () { return callback(Date.now()); }, 1000 / 60); };
-	})();
-
-	// Defines minimum timeout before adding a trailing call.
-	var trailingTimeout = 2;
-
-	/**
-	 * Creates a wrapper function which ensures that provided callback will be
-	 * invoked only once during the specified delay period.
-	 *
-	 * @param {Function} callback - Function to be invoked after the delay period.
-	 * @param {number} delay - Delay after which to invoke callback.
-	 * @returns {Function}
-	 */
-	var throttle = function (callback, delay) {
-	    var leadingCall = false,
-	        trailingCall = false,
-	        lastCallTime = 0;
-
-	    /**
-	     * Invokes the original callback function and schedules new invocation if
-	     * the "proxy" was called during current request.
-	     *
-	     * @returns {void}
-	     */
-	    function resolvePending() {
-	        if (leadingCall) {
-	            leadingCall = false;
-
-	            callback();
-	        }
-
-	        if (trailingCall) {
-	            proxy();
-	        }
-	    }
-
-	    /**
-	     * Callback invoked after the specified delay. It will further postpone
-	     * invocation of the original function delegating it to the
-	     * requestAnimationFrame.
-	     *
-	     * @returns {void}
-	     */
-	    function timeoutCallback() {
-	        requestAnimationFrame$1(resolvePending);
-	    }
-
-	    /**
-	     * Schedules invocation of the original function.
-	     *
-	     * @returns {void}
-	     */
-	    function proxy() {
-	        var timeStamp = Date.now();
-
-	        if (leadingCall) {
-	            // Reject immediately following calls.
-	            if (timeStamp - lastCallTime < trailingTimeout) {
-	                return;
-	            }
-
-	            // Schedule new call to be in invoked when the pending one is resolved.
-	            // This is important for "transitions" which never actually start
-	            // immediately so there is a chance that we might miss one if change
-	            // happens amids the pending invocation.
-	            trailingCall = true;
-	        } else {
-	            leadingCall = true;
-	            trailingCall = false;
-
-	            setTimeout(timeoutCallback, delay);
-	        }
-
-	        lastCallTime = timeStamp;
-	    }
-
-	    return proxy;
-	};
-
-	// Minimum delay before invoking the update of observers.
-	var REFRESH_DELAY = 20;
-
-	// A list of substrings of CSS properties used to find transition events that
-	// might affect dimensions of observed elements.
-	var transitionKeys = ['top', 'right', 'bottom', 'left', 'width', 'height', 'size', 'weight'];
-
-	// Detect whether running in IE 11 (facepalm).
-	var isIE11 = typeof navigator != 'undefined' && /Trident\/.*rv:11/.test(navigator.userAgent);
-
-	// MutationObserver should not be used if running in Internet Explorer 11 as it's
-	// implementation is unreliable. Example: https://jsfiddle.net/x2r3jpuz/2/
-	//
-	// It's a real bummer that there is no other way to check for this issue but to
-	// use the UA information.
-	var mutationObserverSupported = typeof MutationObserver != 'undefined' && !isIE11;
-
-	/**
-	 * Singleton controller class which handles updates of ResizeObserver instances.
-	 */
-	var ResizeObserverController = function() {
-	    /**
-	     * Indicates whether DOM listeners have been added.
-	     *
-	     * @private {boolean}
-	     */
-	    this.connected_ = false;
-
-	    /**
-	     * Tells that controller has subscribed for Mutation Events.
-	     *
-	     * @private {boolean}
-	     */
-	    this.mutationEventsAdded_ = false;
-
-	    /**
-	     * Keeps reference to the instance of MutationObserver.
-	     *
-	     * @private {MutationObserver}
-	     */
-	    this.mutationsObserver_ = null;
-
-	    /**
-	     * A list of connected observers.
-	     *
-	     * @private {Array<ResizeObserverSPI>}
-	     */
-	    this.observers_ = [];
-
-	    this.onTransitionEnd_ = this.onTransitionEnd_.bind(this);
-	    this.refresh = throttle(this.refresh.bind(this), REFRESH_DELAY);
-	};
-
-	/**
-	 * Adds observer to observers list.
-	 *
-	 * @param {ResizeObserverSPI} observer - Observer to be added.
-	 * @returns {void}
-	 */
-	ResizeObserverController.prototype.addObserver = function (observer) {
-	    if (!~this.observers_.indexOf(observer)) {
-	        this.observers_.push(observer);
-	    }
-
-	    // Add listeners if they haven't been added yet.
-	    if (!this.connected_) {
-	        this.connect_();
-	    }
-	};
-
-	/**
-	 * Removes observer from observers list.
-	 *
-	 * @param {ResizeObserverSPI} observer - Observer to be removed.
-	 * @returns {void}
-	 */
-	ResizeObserverController.prototype.removeObserver = function (observer) {
-	    var observers = this.observers_;
-	    var index = observers.indexOf(observer);
-
-	    // Remove observer if it's present in registry.
-	    if (~index) {
-	        observers.splice(index, 1);
-	    }
-
-	    // Remove listeners if controller has no connected observers.
-	    if (!observers.length && this.connected_) {
-	        this.disconnect_();
-	    }
-	};
-
-	/**
-	 * Invokes the update of observers. It will continue running updates insofar
-	 * it detects changes.
-	 *
-	 * @returns {void}
-	 */
-	ResizeObserverController.prototype.refresh = function () {
-	    var changesDetected = this.updateObservers_();
-
-	    // Continue running updates if changes have been detected as there might
-	    // be future ones caused by CSS transitions.
-	    if (changesDetected) {
-	        this.refresh();
-	    }
-	};
-
-	/**
-	 * Updates every observer from observers list and notifies them of queued
-	 * entries.
-	 *
-	 * @private
-	 * @returns {boolean} Returns "true" if any observer has detected changes in
-	 *  dimensions of it's elements.
-	 */
-	ResizeObserverController.prototype.updateObservers_ = function () {
-	    // Collect observers that have active observations.
-	    var activeObservers = this.observers_.filter(function (observer) {
-	        return observer.gatherActive(), observer.hasActive();
-	    });
-
-	    // Deliver notifications in a separate cycle in order to avoid any
-	    // collisions between observers, e.g. when multiple instances of
-	    // ResizeObserver are tracking the same element and the callback of one
-	    // of them changes content dimensions of the observed target. Sometimes
-	    // this may result in notifications being blocked for the rest of observers.
-	    activeObservers.forEach(function (observer) { return observer.broadcastActive(); });
-
-	    return activeObservers.length > 0;
-	};
-
-	/**
-	 * Initializes DOM listeners.
-	 *
-	 * @private
-	 * @returns {void}
-	 */
-	ResizeObserverController.prototype.connect_ = function () {
-	    // Do nothing if running in a non-browser environment or if listeners
-	    // have been already added.
-	    if (!isBrowser || this.connected_) {
-	        return;
-	    }
-
-	    // Subscription to the "Transitionend" event is used as a workaround for
-	    // delayed transitions. This way it's possible to capture at least the
-	    // final state of an element.
-	    document.addEventListener('transitionend', this.onTransitionEnd_);
-
-	    window.addEventListener('resize', this.refresh);
-
-	    if (mutationObserverSupported) {
-	        this.mutationsObserver_ = new MutationObserver(this.refresh);
-
-	        this.mutationsObserver_.observe(document, {
-	            attributes: true,
-	            childList: true,
-	            characterData: true,
-	            subtree: true
-	        });
-	    } else {
-	        document.addEventListener('DOMSubtreeModified', this.refresh);
-
-	        this.mutationEventsAdded_ = true;
-	    }
-
-	    this.connected_ = true;
-	};
-
-	/**
-	 * Removes DOM listeners.
-	 *
-	 * @private
-	 * @returns {void}
-	 */
-	ResizeObserverController.prototype.disconnect_ = function () {
-	    // Do nothing if running in a non-browser environment or if listeners
-	    // have been already removed.
-	    if (!isBrowser || !this.connected_) {
-	        return;
-	    }
-
-	    document.removeEventListener('transitionend', this.onTransitionEnd_);
-	    window.removeEventListener('resize', this.refresh);
-
-	    if (this.mutationsObserver_) {
-	        this.mutationsObserver_.disconnect();
-	    }
-
-	    if (this.mutationEventsAdded_) {
-	        document.removeEventListener('DOMSubtreeModified', this.refresh);
-	    }
-
-	    this.mutationsObserver_ = null;
-	    this.mutationEventsAdded_ = false;
-	    this.connected_ = false;
-	};
-
-	/**
-	 * "Transitionend" event handler.
-	 *
-	 * @private
-	 * @param {TransitionEvent} event
-	 * @returns {void}
-	 */
-	ResizeObserverController.prototype.onTransitionEnd_ = function (ref) {
-	        var propertyName = ref.propertyName;
-
-	    // Detect whether transition may affect dimensions of an element.
-	    var isReflowProperty = transitionKeys.some(function (key) {
-	        return !!~propertyName.indexOf(key);
-	    });
-
-	    if (isReflowProperty) {
-	        this.refresh();
-	    }
-	};
-
-	/**
-	 * Returns instance of the ResizeObserverController.
-	 *
-	 * @returns {ResizeObserverController}
-	 */
-	ResizeObserverController.getInstance = function () {
-	    if (!this.instance_) {
-	        this.instance_ = new ResizeObserverController();
-	    }
-
-	    return this.instance_;
-	};
-
-	/**
-	 * Holds reference to the controller's instance.
-	 *
-	 * @private {ResizeObserverController}
-	 */
-	ResizeObserverController.instance_ = null;
-
-	/**
-	 * Defines non-writable/enumerable properties of the provided target object.
-	 *
-	 * @param {Object} target - Object for which to define properties.
-	 * @param {Object} props - Properties to be defined.
-	 * @returns {Object} Target object.
-	 */
-	var defineConfigurable = (function (target, props) {
-	    for (var i = 0, list = Object.keys(props); i < list.length; i += 1) {
-	        var key = list[i];
-
-	        Object.defineProperty(target, key, {
-	            value: props[key],
-	            enumerable: false,
-	            writable: false,
-	            configurable: true
-	        });
-	    }
-
-	    return target;
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
 	});
+	exports['default'] = autobind;
 
-	// Placeholder of an empty content rectangle.
-	var emptyRect = createRectInit(0, 0, 0, 0);
+	function autobind() {
+	  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	    args[_key] = arguments[_key];
+	  }
 
-	/**
-	 * Converts provided string to a number.
-	 *
-	 * @param {number|string} value
-	 * @returns {number}
-	 */
-	function toFloat(value) {
-	    return parseFloat(value) || 0;
+	  if (args.length === 1) {
+	    return boundClass.apply(undefined, args);
+	  } else {
+	    return boundMethod.apply(undefined, args);
+	  }
 	}
 
 	/**
-	 * Extracts borders size from provided styles.
-	 *
-	 * @param {CSSStyleDeclaration} styles
-	 * @param {...string} positions - Borders positions (top, right, ...)
-	 * @returns {number}
+	 * Use boundMethod to bind all methods on the target.prototype
 	 */
-	function getBordersSize(styles) {
-	    var positions = Array.prototype.slice.call(arguments, 1);
+	function boundClass(target) {
+	  // (Using reflect to get all keys including symbols)
+	  var keys = undefined;
+	  // Use Reflect if exists
+	  if (typeof Reflect !== 'undefined' && typeof Reflect.ownKeys === 'function') {
+	    keys = Reflect.ownKeys(target.prototype);
+	  } else {
+	    keys = Object.getOwnPropertyNames(target.prototype);
+	    // use symbols if support is provided
+	    if (typeof Object.getOwnPropertySymbols === 'function') {
+	      keys = keys.concat(Object.getOwnPropertySymbols(target.prototype));
+	    }
+	  }
 
-	    return positions.reduce(function (size, position) {
-	        var value = styles['border-' + position + '-width'];
+	  keys.forEach(function (key) {
+	    // Ignore special case target method
+	    if (key === 'constructor') {
+	      return;
+	    }
 
-	        return size + toFloat(value);
-	    }, 0);
+	    var descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
+
+	    // Only methods need binding
+	    if (typeof descriptor.value === 'function') {
+	      Object.defineProperty(target.prototype, key, boundMethod(target, key, descriptor));
+	    }
+	  });
+	  return target;
 	}
 
 	/**
-	 * Extracts paddings sizes from provided styles.
-	 *
-	 * @param {CSSStyleDeclaration} styles
-	 * @returns {Object} Paddings box.
+	 * Return a descriptor removing the value and returning a getter
+	 * The getter will return a .bind version of the function
+	 * and memoize the result against a symbol on the instance
 	 */
-	function getPaddings(styles) {
-	    var positions = ['top', 'right', 'bottom', 'left'];
-	    var paddings = {};
+	function boundMethod(target, key, descriptor) {
+	  var fn = descriptor.value;
 
-	    for (var i = 0, list = positions; i < list.length; i += 1) {
-	        var position = list[i];
+	  if (typeof fn !== 'function') {
+	    throw new Error('@autobind decorator can only be applied to methods not: ' + typeof fn);
+	  }
 
-	        var value = styles['padding-' + position];
+	  // In IE11 calling Object.defineProperty has a side-effect of evaluating the
+	  // getter for the property which is being replaced. This causes infinite
+	  // recursion and an "Out of stack space" error.
+	  var definingProperty = false;
 
-	        paddings[position] = toFloat(value);
+	  return {
+	    configurable: true,
+	    get: function get() {
+	      if (definingProperty || this === target.prototype || this.hasOwnProperty(key)) {
+	        return fn;
+	      }
+
+	      var boundFn = fn.bind(this);
+	      definingProperty = true;
+	      Object.defineProperty(this, key, {
+	        value: boundFn,
+	        configurable: true,
+	        writable: true
+	      });
+	      definingProperty = false;
+	      return boundFn;
 	    }
-
-	    return paddings;
+	  };
 	}
-
-	/**
-	 * Calculates content rectangle of provided SVG element.
-	 *
-	 * @param {SVGGraphicsElement} target - Element content rectangle of which needs
-	 *      to be calculated.
-	 * @returns {DOMRectInit}
-	 */
-	function getSVGContentRect(target) {
-	    var bbox = target.getBBox();
-
-	    return createRectInit(0, 0, bbox.width, bbox.height);
-	}
-
-	/**
-	 * Calculates content rectangle of provided HTMLElement.
-	 *
-	 * @param {HTMLElement} target - Element for which to calculate the content rectangle.
-	 * @returns {DOMRectInit}
-	 */
-	function getHTMLElementContentRect(target) {
-	    // Client width & height properties can't be
-	    // used exclusively as they provide rounded values.
-	    var clientWidth = target.clientWidth;
-	    var clientHeight = target.clientHeight;
-
-	    // By this condition we can catch all non-replaced inline, hidden and
-	    // detached elements. Though elements with width & height properties less
-	    // than 0.5 will be discarded as well.
-	    //
-	    // Without it we would need to implement separate methods for each of
-	    // those cases and it's not possible to perform a precise and performance
-	    // effective test for hidden elements. E.g. even jQuery's ':visible' filter
-	    // gives wrong results for elements with width & height less than 0.5.
-	    if (!clientWidth && !clientHeight) {
-	        return emptyRect;
-	    }
-
-	    var styles = getComputedStyle(target);
-	    var paddings = getPaddings(styles);
-	    var horizPad = paddings.left + paddings.right;
-	    var vertPad = paddings.top + paddings.bottom;
-
-	    // Computed styles of width & height are being used because they are the
-	    // only dimensions available to JS that contain non-rounded values. It could
-	    // be possible to utilize the getBoundingClientRect if only it's data wasn't
-	    // affected by CSS transformations let alone paddings, borders and scroll bars.
-	    var width = toFloat(styles.width),
-	        height = toFloat(styles.height);
-
-	    // Width & height include paddings and borders when the 'border-box' box
-	    // model is applied (except for IE).
-	    if (styles.boxSizing === 'border-box') {
-	        // Following conditions are required to handle Internet Explorer which
-	        // doesn't include paddings and borders to computed CSS dimensions.
-	        //
-	        // We can say that if CSS dimensions + paddings are equal to the "client"
-	        // properties then it's either IE, and thus we don't need to subtract
-	        // anything, or an element merely doesn't have paddings/borders styles.
-	        if (Math.round(width + horizPad) !== clientWidth) {
-	            width -= getBordersSize(styles, 'left', 'right') + horizPad;
-	        }
-
-	        if (Math.round(height + vertPad) !== clientHeight) {
-	            height -= getBordersSize(styles, 'top', 'bottom') + vertPad;
-	        }
-	    }
-
-	    // Following steps can't be applied to the document's root element as its
-	    // client[Width/Height] properties represent viewport area of the window.
-	    // Besides, it's as well not necessary as the <html> itself neither has
-	    // rendered scroll bars nor it can be clipped.
-	    if (!isDocumentElement(target)) {
-	        // In some browsers (only in Firefox, actually) CSS width & height
-	        // include scroll bars size which can be removed at this step as scroll
-	        // bars are the only difference between rounded dimensions + paddings
-	        // and "client" properties, though that is not always true in Chrome.
-	        var vertScrollbar = Math.round(width + horizPad) - clientWidth;
-	        var horizScrollbar = Math.round(height + vertPad) - clientHeight;
-
-	        // Chrome has a rather weird rounding of "client" properties.
-	        // E.g. for an element with content width of 314.2px it sometimes gives
-	        // the client width of 315px and for the width of 314.7px it may give
-	        // 314px. And it doesn't happen all the time. So just ignore this delta
-	        // as a non-relevant.
-	        if (Math.abs(vertScrollbar) !== 1) {
-	            width -= vertScrollbar;
-	        }
-
-	        if (Math.abs(horizScrollbar) !== 1) {
-	            height -= horizScrollbar;
-	        }
-	    }
-
-	    return createRectInit(paddings.left, paddings.top, width, height);
-	}
-
-	/**
-	 * Checks whether provided element is an instance of the SVGGraphicsElement.
-	 *
-	 * @param {Element} target - Element to be checked.
-	 * @returns {boolean}
-	 */
-	var isSVGGraphicsElement = (function () {
-	    // Some browsers, namely IE and Edge, don't have the SVGGraphicsElement
-	    // interface.
-	    if (typeof SVGGraphicsElement != 'undefined') {
-	        return function (target) { return target instanceof SVGGraphicsElement; };
-	    }
-
-	    // If it's so, then check that element is at least an instance of the
-	    // SVGElement and that it has the "getBBox" method.
-	    // eslint-disable-next-line no-extra-parens
-	    return function (target) { return target instanceof SVGElement && typeof target.getBBox === 'function'; };
-	})();
-
-	/**
-	 * Checks whether provided element is a document element (<html>).
-	 *
-	 * @param {Element} target - Element to be checked.
-	 * @returns {boolean}
-	 */
-	function isDocumentElement(target) {
-	    return target === document.documentElement;
-	}
-
-	/**
-	 * Calculates an appropriate content rectangle for provided html or svg element.
-	 *
-	 * @param {Element} target - Element content rectangle of which needs to be calculated.
-	 * @returns {DOMRectInit}
-	 */
-	function getContentRect(target) {
-	    if (!isBrowser) {
-	        return emptyRect;
-	    }
-
-	    if (isSVGGraphicsElement(target)) {
-	        return getSVGContentRect(target);
-	    }
-
-	    return getHTMLElementContentRect(target);
-	}
-
-	/**
-	 * Creates rectangle with an interface of the DOMRectReadOnly.
-	 * Spec: https://drafts.fxtf.org/geometry/#domrectreadonly
-	 *
-	 * @param {DOMRectInit} rectInit - Object with rectangle's x/y coordinates and dimensions.
-	 * @returns {DOMRectReadOnly}
-	 */
-	function createReadOnlyRect(ref) {
-	    var x = ref.x;
-	    var y = ref.y;
-	    var width = ref.width;
-	    var height = ref.height;
-
-	    // If DOMRectReadOnly is available use it as a prototype for the rectangle.
-	    var Constr = typeof DOMRectReadOnly != 'undefined' ? DOMRectReadOnly : Object;
-	    var rect = Object.create(Constr.prototype);
-
-	    // Rectangle's properties are not writable and non-enumerable.
-	    defineConfigurable(rect, {
-	        x: x, y: y, width: width, height: height,
-	        top: y,
-	        right: x + width,
-	        bottom: height + y,
-	        left: x
-	    });
-
-	    return rect;
-	}
-
-	/**
-	 * Creates DOMRectInit object based on the provided dimensions and the x/y coordinates.
-	 * Spec: https://drafts.fxtf.org/geometry/#dictdef-domrectinit
-	 *
-	 * @param {number} x - X coordinate.
-	 * @param {number} y - Y coordinate.
-	 * @param {number} width - Rectangle's width.
-	 * @param {number} height - Rectangle's height.
-	 * @returns {DOMRectInit}
-	 */
-	function createRectInit(x, y, width, height) {
-	    return { x: x, y: y, width: width, height: height };
-	}
-
-	/**
-	 * Class that is responsible for computations of the content rectangle of
-	 * provided DOM element and for keeping track of it's changes.
-	 */
-	var ResizeObservation = function(target) {
-	    /**
-	     * Broadcasted width of content rectangle.
-	     *
-	     * @type {number}
-	     */
-	    this.broadcastWidth = 0;
-
-	    /**
-	     * Broadcasted height of content rectangle.
-	     *
-	     * @type {number}
-	     */
-	    this.broadcastHeight = 0;
-
-	    /**
-	     * Reference to the last observed content rectangle.
-	     *
-	     * @private {DOMRectInit}
-	     */
-	    this.contentRect_ = createRectInit(0, 0, 0, 0);
-
-	    /**
-	     * Reference to the observed element.
-	     *
-	     * @type {Element}
-	     */
-	    this.target = target;
-	};
-
-	/**
-	 * Updates content rectangle and tells whether it's width or height properties
-	 * have changed since the last broadcast.
-	 *
-	 * @returns {boolean}
-	 */
-	ResizeObservation.prototype.isActive = function () {
-	    var rect = getContentRect(this.target);
-
-	    this.contentRect_ = rect;
-
-	    return rect.width !== this.broadcastWidth || rect.height !== this.broadcastHeight;
-	};
-
-	/**
-	 * Updates 'broadcastWidth' and 'broadcastHeight' properties with a data
-	 * from the corresponding properties of the last observed content rectangle.
-	 *
-	 * @returns {DOMRectInit} Last observed content rectangle.
-	 */
-	ResizeObservation.prototype.broadcastRect = function () {
-	    var rect = this.contentRect_;
-
-	    this.broadcastWidth = rect.width;
-	    this.broadcastHeight = rect.height;
-
-	    return rect;
-	};
-
-	var ResizeObserverEntry = function(target, rectInit) {
-	    var contentRect = createReadOnlyRect(rectInit);
-
-	    // According to the specification following properties are not writable
-	    // and are also not enumerable in the native implementation.
-	    //
-	    // Property accessors are not being used as they'd require to define a
-	    // private WeakMap storage which may cause memory leaks in browsers that
-	    // don't support this type of collections.
-	    defineConfigurable(this, { target: target, contentRect: contentRect });
-	};
-
-	var ResizeObserverSPI = function(callback, controller, callbackCtx) {
-	    if (typeof callback !== 'function') {
-	        throw new TypeError('The callback provided as parameter 1 is not a function.');
-	    }
-
-	    /**
-	     * Collection of resize observations that have detected changes in dimensions
-	     * of elements.
-	     *
-	     * @private {Array<ResizeObservation>}
-	     */
-	    this.activeObservations_ = [];
-
-	    /**
-	     * Registry of the ResizeObservation instances.
-	     *
-	     * @private {Map<Element, ResizeObservation>}
-	     */
-	    this.observations_ = new MapShim();
-
-	    /**
-	     * Reference to the callback function.
-	     *
-	     * @private {ResizeObserverCallback}
-	     */
-	    this.callback_ = callback;
-
-	    /**
-	     * Reference to the associated ResizeObserverController.
-	     *
-	     * @private {ResizeObserverController}
-	     */
-	    this.controller_ = controller;
-
-	    /**
-	     * Public ResizeObserver instance which will be passed to the callback
-	     * function and used as a value of it's "this" binding.
-	     *
-	     * @private {ResizeObserver}
-	     */
-	    this.callbackCtx_ = callbackCtx;
-	};
-
-	/**
-	 * Starts observing provided element.
-	 *
-	 * @param {Element} target - Element to be observed.
-	 * @returns {void}
-	 */
-	ResizeObserverSPI.prototype.observe = function (target) {
-	    if (!arguments.length) {
-	        throw new TypeError('1 argument required, but only 0 present.');
-	    }
-
-	    // Do nothing if current environment doesn't have the Element interface.
-	    if (typeof Element === 'undefined' || !(Element instanceof Object)) {
-	        return;
-	    }
-
-	    if (!(target instanceof Element)) {
-	        throw new TypeError('parameter 1 is not of type "Element".');
-	    }
-
-	    var observations = this.observations_;
-
-	    // Do nothing if element is already being observed.
-	    if (observations.has(target)) {
-	        return;
-	    }
-
-	    observations.set(target, new ResizeObservation(target));
-
-	    this.controller_.addObserver(this);
-
-	    // Force the update of observations.
-	    this.controller_.refresh();
-	};
-
-	/**
-	 * Stops observing provided element.
-	 *
-	 * @param {Element} target - Element to stop observing.
-	 * @returns {void}
-	 */
-	ResizeObserverSPI.prototype.unobserve = function (target) {
-	    if (!arguments.length) {
-	        throw new TypeError('1 argument required, but only 0 present.');
-	    }
-
-	    // Do nothing if current environment doesn't have the Element interface.
-	    if (typeof Element === 'undefined' || !(Element instanceof Object)) {
-	        return;
-	    }
-
-	    if (!(target instanceof Element)) {
-	        throw new TypeError('parameter 1 is not of type "Element".');
-	    }
-
-	    var observations = this.observations_;
-
-	    // Do nothing if element is not being observed.
-	    if (!observations.has(target)) {
-	        return;
-	    }
-
-	    observations.delete(target);
-
-	    if (!observations.size) {
-	        this.controller_.removeObserver(this);
-	    }
-	};
-
-	/**
-	 * Stops observing all elements.
-	 *
-	 * @returns {void}
-	 */
-	ResizeObserverSPI.prototype.disconnect = function () {
-	    this.clearActive();
-	    this.observations_.clear();
-	    this.controller_.removeObserver(this);
-	};
-
-	/**
-	 * Collects observation instances the associated element of which has changed
-	 * it's content rectangle.
-	 *
-	 * @returns {void}
-	 */
-	ResizeObserverSPI.prototype.gatherActive = function () {
-	        var this$1 = this;
-
-	    this.clearActive();
-
-	    this.observations_.forEach(function (observation) {
-	        if (observation.isActive()) {
-	            this$1.activeObservations_.push(observation);
-	        }
-	    });
-	};
-
-	/**
-	 * Invokes initial callback function with a list of ResizeObserverEntry
-	 * instances collected from active resize observations.
-	 *
-	 * @returns {void}
-	 */
-	ResizeObserverSPI.prototype.broadcastActive = function () {
-	    // Do nothing if observer doesn't have active observations.
-	    if (!this.hasActive()) {
-	        return;
-	    }
-
-	    var ctx = this.callbackCtx_;
-
-	    // Create ResizeObserverEntry instance for every active observation.
-	    var entries = this.activeObservations_.map(function (observation) {
-	        return new ResizeObserverEntry(observation.target, observation.broadcastRect());
-	    });
-
-	    this.callback_.call(ctx, entries, ctx);
-	    this.clearActive();
-	};
-
-	/**
-	 * Clears the collection of active observations.
-	 *
-	 * @returns {void}
-	 */
-	ResizeObserverSPI.prototype.clearActive = function () {
-	    this.activeObservations_.splice(0);
-	};
-
-	/**
-	 * Tells whether observer has active observations.
-	 *
-	 * @returns {boolean}
-	 */
-	ResizeObserverSPI.prototype.hasActive = function () {
-	    return this.activeObservations_.length > 0;
-	};
-
-	// Registry of internal observers. If WeakMap is not available use current shim
-	// for the Map collection as it has all required methods and because WeakMap
-	// can't be fully polyfilled anyway.
-	var observers = typeof WeakMap != 'undefined' ? new WeakMap() : new MapShim();
-
-	/**
-	 * ResizeObserver API. Encapsulates the ResizeObserver SPI implementation
-	 * exposing only those methods and properties that are defined in the spec.
-	 */
-	var ResizeObserver$1 = function(callback) {
-	    if (!(this instanceof ResizeObserver$1)) {
-	        throw new TypeError('Cannot call a class as a function');
-	    }
-
-	    if (!arguments.length) {
-	        throw new TypeError('1 argument required, but only 0 present.');
-	    }
-
-	    var controller = ResizeObserverController.getInstance();
-	    var observer = new ResizeObserverSPI(callback, controller, this);
-
-	    observers.set(this, observer);
-	};
-
-	// Expose public methods of ResizeObserver.
-	['observe', 'unobserve', 'disconnect'].forEach(function (method) {
-	    ResizeObserver$1.prototype[method] = function () {
-	        return (ref = observers.get(this))[method].apply(ref, arguments);
-	        var ref;
-	    };
-	});
-
-	var index = (function () {
-	    // Export existing implementation if available.
-	    if (typeof ResizeObserver != 'undefined') {
-	        // eslint-disable-next-line no-undef
-	        return ResizeObserver;
-	    }
-
-	    return ResizeObserver$1;
-	})();
-
-	return index;
-	})));
+	module.exports = exports['default'];
 
 
 /***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	exports.getPercentageFromPosition = getPercentageFromPosition;
+	exports.getValueFromPosition = getValueFromPosition;
+	exports.getValueFromProps = getValueFromProps;
+	exports.getPercentageFromValue = getPercentageFromValue;
+	exports.getPercentagesFromValues = getPercentagesFromValues;
+	exports.getPositionFromValue = getPositionFromValue;
+	exports.getPositionsFromValues = getPositionsFromValues;
+	exports.getPositionFromEvent = getPositionFromEvent;
+	exports.getStepValueFromValue = getStepValueFromValue;
+
+	var _utils = __webpack_require__(48);
+
+	/**
+	 * Convert a point into a percentage value
+	 * @ignore
+	 * @param {Point} position
+	 * @param {ClientRect} clientRect
+	 * @return {number} Percentage value
+	 */
+	function getPercentageFromPosition(position, clientRect) {
+	  var length = clientRect.width;
+	  var sizePerc = position.x / length;
+
+	  return sizePerc || 0;
+	}
+
+	/**
+	 * Convert a point into a model value
+	 * @ignore
+	 * @param {Point} position
+	 * @param {number} minValue
+	 * @param {number} maxValue
+	 * @param {ClientRect} clientRect
+	 * @return {number}
+	 */
+	function getValueFromPosition(position, minValue, maxValue, clientRect) {
+	  var sizePerc = getPercentageFromPosition(position, clientRect);
+	  var valueDiff = maxValue - minValue;
+
+	  return minValue + valueDiff * sizePerc;
+	}
+
+	/**
+	 * Convert props into a range value
+	 * @ignore
+	 * @param {Object} props
+	 * @param {boolean} isMultiValue
+	 * @return {Range}
+	 */
+	function getValueFromProps(props, isMultiValue) {
+	  if (isMultiValue) {
+	    return _extends({}, props.value);
+	  }
+
+	  return {
+	    min: props.minValue,
+	    max: props.value
+	  };
+	}
+
+	/**
+	 * Convert a model value into a percentage value
+	 * @ignore
+	 * @param {number} value
+	 * @param {number} minValue
+	 * @param {number} maxValue
+	 * @return {number}
+	 */
+	function getPercentageFromValue(value, minValue, maxValue) {
+	  var validValue = (0, _utils.clamp)(value, minValue, maxValue);
+	  var valueDiff = maxValue - minValue;
+	  var valuePerc = (validValue - minValue) / valueDiff;
+
+	  return valuePerc || 0;
+	}
+
+	/**
+	 * Convert model values into percentage values
+	 * @ignore
+	 * @param {Range} values
+	 * @param {number} minValue
+	 * @param {number} maxValue
+	 * @return {Range}
+	 */
+	function getPercentagesFromValues(values, minValue, maxValue) {
+	  return {
+	    min: getPercentageFromValue(values.min, minValue, maxValue),
+	    max: getPercentageFromValue(values.max, minValue, maxValue)
+	  };
+	}
+
+	/**
+	 * Convert a value into a point
+	 * @ignore
+	 * @param {number} value
+	 * @param {number} minValue
+	 * @param {number} maxValue
+	 * @param {ClientRect} clientRect
+	 * @return {Point} Position
+	 */
+	function getPositionFromValue(value, minValue, maxValue, clientRect) {
+	  var length = clientRect.width;
+	  var valuePerc = getPercentageFromValue(value, minValue, maxValue);
+	  var positionValue = valuePerc * length;
+
+	  return {
+	    x: positionValue,
+	    y: 0
+	  };
+	}
+
+	/**
+	 * Convert a range of values into points
+	 * @ignore
+	 * @param {Range} values
+	 * @param {number} minValue
+	 * @param {number} maxValue
+	 * @param {ClientRect} clientRect
+	 * @return {Range}
+	 */
+	function getPositionsFromValues(values, minValue, maxValue, clientRect) {
+	  return {
+	    min: getPositionFromValue(values.min, minValue, maxValue, clientRect),
+	    max: getPositionFromValue(values.max, minValue, maxValue, clientRect)
+	  };
+	}
+
+	/**
+	 * Convert an event into a point
+	 * @ignore
+	 * @param {Event} event
+	 * @param {ClientRect} clientRect
+	 * @return {Point}
+	 */
+	function getPositionFromEvent(event, clientRect) {
+	  var length = clientRect.width;
+
+	  var _ref = event.touches ? event.touches[0] : event,
+	      clientX = _ref.clientX;
+
+	  return {
+	    x: (0, _utils.clamp)(clientX - clientRect.left, 0, length),
+	    y: 0
+	  };
+	}
+
+	/**
+	 * Convert a value into a step value
+	 * @ignore
+	 * @param {number} value
+	 * @param {number} valuePerStep
+	 * @return {number}
+	 */
+	function getStepValueFromValue(value, valuePerStep) {
+	  return Math.round(value / valuePerStep) * valuePerStep;
+	}
+	//# sourceMappingURL=value-transformer.js.map
+
+/***/ }),
 /* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _captialize = __webpack_require__(49);
+
+	Object.defineProperty(exports, 'captialize', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_captialize).default;
+	  }
+	});
+
+	var _clamp = __webpack_require__(50);
+
+	Object.defineProperty(exports, 'clamp', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_clamp).default;
+	  }
+	});
+
+	var _distanceTo = __webpack_require__(51);
+
+	Object.defineProperty(exports, 'distanceTo', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_distanceTo).default;
+	  }
+	});
+
+	var _isDefined = __webpack_require__(52);
+
+	Object.defineProperty(exports, 'isDefined', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_isDefined).default;
+	  }
+	});
+
+	var _isNumber = __webpack_require__(53);
+
+	Object.defineProperty(exports, 'isNumber', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_isNumber).default;
+	  }
+	});
+
+	var _isObject = __webpack_require__(54);
+
+	Object.defineProperty(exports, 'isObject', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_isObject).default;
+	  }
+	});
+
+	var _length = __webpack_require__(55);
+
+	Object.defineProperty(exports, 'length', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_length).default;
+	  }
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	//# sourceMappingURL=index.js.map
+
+/***/ }),
+/* 49 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -23637,28 +23370,1048 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.capitalize = capitalize;
-	exports.clamp = clamp;
+	exports.default = captialize;
 	/**
-	 * Capitalize first letter of string
-	 * @private
-	 * @param  {string} - String
-	 * @return {string} - String with first letter capitalized
+	 * Captialize a string
+	 * @ignore
+	 * @param {string} string
+	 * @return {string}
 	 */
-	function capitalize(str) {
-	  return str.charAt(0).toUpperCase() + str.substr(1);
+	function captialize(string) {
+	  return string.charAt(0).toUpperCase() + string.slice(1);
 	}
+	module.exports = exports["default"];
+	//# sourceMappingURL=captialize.js.map
 
+/***/ }),
+/* 50 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = clamp;
 	/**
-	 * Clamp position between a range
-	 * @param  {number} - Value to be clamped
-	 * @param  {number} - Minimum value in range
-	 * @param  {number} - Maximum value in range
-	 * @return {number} - Clamped value
+	 * Clamp a value between a min and max value
+	 * @ignore
+	 * @param {number} value
+	 * @param {number} min
+	 * @param {number} max
+	 * @return {number}
 	 */
 	function clamp(value, min, max) {
 	  return Math.min(Math.max(value, min), max);
 	}
+	module.exports = exports["default"];
+	//# sourceMappingURL=clamp.js.map
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = distanceTo;
+	/**
+	 * Calculate the distance between pointA and pointB
+	 * @ignore
+	 * @param {Point} pointA
+	 * @param {Point} pointB
+	 * @return {number} Distance
+	 */
+	function distanceTo(pointA, pointB) {
+	  var xDiff = Math.pow(pointB.x - pointA.x, 2);
+	  var yDiff = Math.pow(pointB.y - pointA.y, 2);
+
+	  return Math.sqrt(xDiff + yDiff);
+	}
+	module.exports = exports["default"];
+	//# sourceMappingURL=distance-to.js.map
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = isDefined;
+	/**
+	 * Check if a value is defined
+	 * @ignore
+	 * @param {*} value
+	 * @return {boolean}
+	 */
+	function isDefined(value) {
+	  return value !== undefined && value !== null;
+	}
+	module.exports = exports["default"];
+	//# sourceMappingURL=is-defined.js.map
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = isNumber;
+	/**
+	 * Check if a value is a number
+	 * @ignore
+	 * @param {*} value
+	 * @return {boolean}
+	 */
+	function isNumber(value) {
+	  return typeof value === 'number';
+	}
+	module.exports = exports['default'];
+	//# sourceMappingURL=is-number.js.map
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	exports.default = isObject;
+	/**
+	 * Check if a value is an object
+	 * @ignore
+	 * @param {*} value
+	 * @return {boolean}
+	 */
+	function isObject(value) {
+	  return value !== null && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object';
+	}
+	module.exports = exports['default'];
+	//# sourceMappingURL=is-object.js.map
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = length;
+	/**
+	 * Calculate the absolute difference between two numbers
+	 * @ignore
+	 * @param {number} numA
+	 * @param {number} numB
+	 * @return {number}
+	 */
+	function length(numA, numB) {
+	  return Math.abs(numA - numB);
+	}
+	module.exports = exports["default"];
+	//# sourceMappingURL=length.js.map
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	/**
+	* Default CSS class names
+	* @ignore
+	* @type {InputRangeClassNames}
+	*/
+	var DEFAULT_CLASS_NAMES = {
+	  activeTrack: 'input-range__track input-range__track--active',
+	  disabledInputRange: 'input-range input-range--disabled',
+	  inputRange: 'input-range',
+	  labelContainer: 'input-range__label-container',
+	  maxLabel: 'input-range__label input-range__label--max',
+	  minLabel: 'input-range__label input-range__label--min',
+	  slider: 'input-range__slider',
+	  sliderContainer: 'input-range__slider-container',
+	  track: 'input-range__track input-range__track--background',
+	  valueLabel: 'input-range__label input-range__label--value'
+	};
+
+	exports.default = DEFAULT_CLASS_NAMES;
+	module.exports = exports['default'];
+	//# sourceMappingURL=default-class-names.js.map
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = Label;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _propTypes = __webpack_require__(44);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * @ignore
+	 * @param {Object} props
+	 * @param {InputRangeClassNames} props.classNames
+	 * @param {Function} props.formatLabel
+	 * @param {string} props.type
+	 */
+	function Label(props) {
+	  var labelValue = props.formatLabel ? props.formatLabel(props.children, props.type) : props.children;
+
+	  return _react2.default.createElement(
+	    'span',
+	    { className: props.classNames[props.type + 'Label'] },
+	    _react2.default.createElement(
+	      'span',
+	      { className: props.classNames.labelContainer },
+	      labelValue
+	    )
+	  );
+	}
+
+	/**
+	 * @type {Object}
+	 * @property {Function} children
+	 * @property {Function} classNames
+	 * @property {Function} formatLabel
+	 * @property {Function} type
+	 */
+	Label.propTypes = {
+	  children: _propTypes2.default.node.isRequired,
+	  classNames: _propTypes2.default.objectOf(_propTypes2.default.string).isRequired,
+	  formatLabel: _propTypes2.default.func,
+	  type: _propTypes2.default.string.isRequired
+	};
+	module.exports = exports['default'];
+	//# sourceMappingURL=label.js.map
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = rangePropType;
+
+	var _utils = __webpack_require__(48);
+
+	/**
+	 * @ignore
+	 * @param {Object} props - React component props
+	 * @return {?Error} Return Error if validation fails
+	 */
+	function rangePropType(props) {
+	  var maxValue = props.maxValue,
+	      minValue = props.minValue;
+
+
+	  if (!(0, _utils.isNumber)(minValue) || !(0, _utils.isNumber)(maxValue)) {
+	    return new Error('"minValue" and "maxValue" must be a number');
+	  }
+
+	  if (minValue >= maxValue) {
+	    return new Error('"minValue" must be smaller than "maxValue"');
+	  }
+	}
+	module.exports = exports['default'];
+	//# sourceMappingURL=range-prop-type.js.map
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = valuePropType;
+
+	var _utils = __webpack_require__(48);
+
+	/**
+	 * @ignore
+	 * @param {Object} props
+	 * @return {?Error} Return Error if validation fails
+	 */
+	function valuePropType(props, propName) {
+	  var maxValue = props.maxValue,
+	      minValue = props.minValue;
+
+	  var value = props[propName];
+
+	  if (!(0, _utils.isNumber)(value) && (!(0, _utils.isObject)(value) || !(0, _utils.isNumber)(value.min) || !(0, _utils.isNumber)(value.max))) {
+	    return new Error('"' + propName + '" must be a number or a range object');
+	  }
+
+	  if ((0, _utils.isNumber)(value) && (value < minValue || value > maxValue)) {
+	    return new Error('"' + propName + '" must be in between "minValue" and "maxValue"');
+	  }
+
+	  if ((0, _utils.isObject)(value) && (value.min < minValue || value.min > maxValue || value.max < minValue || value.max > maxValue)) {
+	    return new Error('"' + propName + '" must be in between "minValue" and "maxValue"');
+	  }
+	}
+	module.exports = exports['default'];
+	//# sourceMappingURL=value-prop-type.js.map
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _desc, _value, _class;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _propTypes = __webpack_require__(44);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	var _autobindDecorator = __webpack_require__(46);
+
+	var _autobindDecorator2 = _interopRequireDefault(_autobindDecorator);
+
+	var _label = __webpack_require__(57);
+
+	var _label2 = _interopRequireDefault(_label);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+	  var desc = {};
+	  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+	    desc[key] = descriptor[key];
+	  });
+	  desc.enumerable = !!desc.enumerable;
+	  desc.configurable = !!desc.configurable;
+
+	  if ('value' in desc || desc.initializer) {
+	    desc.writable = true;
+	  }
+
+	  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+	    return decorator(target, property, desc) || desc;
+	  }, desc);
+
+	  if (context && desc.initializer !== void 0) {
+	    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+	    desc.initializer = undefined;
+	  }
+
+	  if (desc.initializer === void 0) {
+	    Object['define' + 'Property'](target, property, desc);
+	    desc = null;
+	  }
+
+	  return desc;
+	}
+
+	/**
+	 * @ignore
+	 */
+	var Slider = (_class = function (_React$Component) {
+	  _inherits(Slider, _React$Component);
+
+	  _createClass(Slider, null, [{
+	    key: 'propTypes',
+
+	    /**
+	     * Accepted propTypes of Slider
+	     * @override
+	     * @return {Object}
+	     * @property {Function} ariaLabelledby
+	     * @property {Function} ariaControls
+	     * @property {Function} className
+	     * @property {Function} formatLabel
+	     * @property {Function} maxValue
+	     * @property {Function} minValue
+	     * @property {Function} onSliderDrag
+	     * @property {Function} onSliderKeyDown
+	     * @property {Function} percentage
+	     * @property {Function} type
+	     * @property {Function} value
+	     */
+	    get: function get() {
+	      return {
+	        ariaLabelledby: _propTypes2.default.string,
+	        ariaControls: _propTypes2.default.string,
+	        classNames: _propTypes2.default.objectOf(_propTypes2.default.string).isRequired,
+	        formatLabel: _propTypes2.default.func,
+	        maxValue: _propTypes2.default.number,
+	        minValue: _propTypes2.default.number,
+	        onSliderDrag: _propTypes2.default.func.isRequired,
+	        onSliderKeyDown: _propTypes2.default.func.isRequired,
+	        percentage: _propTypes2.default.number.isRequired,
+	        type: _propTypes2.default.string.isRequired,
+	        value: _propTypes2.default.number.isRequired
+	      };
+	    }
+
+	    /**
+	     * @param {Object} props
+	     * @param {string} [props.ariaLabelledby]
+	     * @param {string} [props.ariaControls]
+	     * @param {InputRangeClassNames} props.classNames
+	     * @param {Function} [props.formatLabel]
+	     * @param {number} [props.maxValue]
+	     * @param {number} [props.minValue]
+	     * @param {Function} props.onSliderKeyDown
+	     * @param {Function} props.onSliderDrag
+	     * @param {number} props.percentage
+	     * @param {number} props.type
+	     * @param {number} props.value
+	     */
+
+	  }]);
+
+	  function Slider(props) {
+	    _classCallCheck(this, Slider);
+
+	    /**
+	     * @private
+	     * @type {?Component}
+	     */
+	    var _this = _possibleConstructorReturn(this, (Slider.__proto__ || Object.getPrototypeOf(Slider)).call(this, props));
+
+	    _this.node = null;
+	    return _this;
+	  }
+
+	  /**
+	   * @ignore
+	   * @override
+	   * @return {void}
+	   */
+
+
+	  _createClass(Slider, [{
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.removeDocumentMouseMoveListener();
+	      this.removeDocumentMouseUpListener();
+	      this.removeDocumentTouchEndListener();
+	      this.removeDocumentTouchMoveListener();
+	    }
+
+	    /**
+	     * @private
+	     * @return {Object}
+	     */
+
+	  }, {
+	    key: 'getStyle',
+	    value: function getStyle() {
+	      var perc = (this.props.percentage || 0) * 100;
+	      var style = {
+	        position: 'absolute',
+	        left: perc + '%'
+	      };
+
+	      return style;
+	    }
+
+	    /**
+	     * Listen to mousemove event
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'addDocumentMouseMoveListener',
+	    value: function addDocumentMouseMoveListener() {
+	      this.removeDocumentMouseMoveListener();
+	      this.node.ownerDocument.addEventListener('mousemove', this.handleMouseMove);
+	    }
+
+	    /**
+	     * Listen to mouseup event
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'addDocumentMouseUpListener',
+	    value: function addDocumentMouseUpListener() {
+	      this.removeDocumentMouseUpListener();
+	      this.node.ownerDocument.addEventListener('mouseup', this.handleMouseUp);
+	    }
+
+	    /**
+	     * Listen to touchmove event
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'addDocumentTouchMoveListener',
+	    value: function addDocumentTouchMoveListener() {
+	      this.removeDocumentTouchMoveListener();
+	      this.node.ownerDocument.addEventListener('touchmove', this.handleTouchMove);
+	    }
+
+	    /**
+	     * Listen to touchend event
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'addDocumentTouchEndListener',
+	    value: function addDocumentTouchEndListener() {
+	      this.removeDocumentTouchEndListener();
+	      this.node.ownerDocument.addEventListener('touchend', this.handleTouchEnd);
+	    }
+
+	    /**
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'removeDocumentMouseMoveListener',
+	    value: function removeDocumentMouseMoveListener() {
+	      this.node.ownerDocument.removeEventListener('mousemove', this.handleMouseMove);
+	    }
+
+	    /**
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'removeDocumentMouseUpListener',
+	    value: function removeDocumentMouseUpListener() {
+	      this.node.ownerDocument.removeEventListener('mouseup', this.handleMouseUp);
+	    }
+
+	    /**
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'removeDocumentTouchMoveListener',
+	    value: function removeDocumentTouchMoveListener() {
+	      this.node.ownerDocument.removeEventListener('touchmove', this.handleTouchMove);
+	    }
+
+	    /**
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'removeDocumentTouchEndListener',
+	    value: function removeDocumentTouchEndListener() {
+	      this.node.ownerDocument.removeEventListener('touchend', this.handleTouchEnd);
+	    }
+
+	    /**
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleMouseDown',
+	    value: function handleMouseDown() {
+	      this.addDocumentMouseMoveListener();
+	      this.addDocumentMouseUpListener();
+	    }
+
+	    /**
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleMouseUp',
+	    value: function handleMouseUp() {
+	      this.removeDocumentMouseMoveListener();
+	      this.removeDocumentMouseUpListener();
+	    }
+
+	    /**
+	     * @private
+	     * @param {SyntheticEvent} event
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleMouseMove',
+	    value: function handleMouseMove(event) {
+	      this.props.onSliderDrag(event, this.props.type);
+	    }
+
+	    /**
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleTouchStart',
+	    value: function handleTouchStart() {
+	      this.addDocumentTouchEndListener();
+	      this.addDocumentTouchMoveListener();
+	    }
+
+	    /**
+	     * @private
+	     * @param {SyntheticEvent} event
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleTouchMove',
+	    value: function handleTouchMove(event) {
+	      this.props.onSliderDrag(event, this.props.type);
+	    }
+
+	    /**
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleTouchEnd',
+	    value: function handleTouchEnd() {
+	      this.removeDocumentTouchMoveListener();
+	      this.removeDocumentTouchEndListener();
+	    }
+
+	    /**
+	     * @private
+	     * @param {SyntheticEvent} event
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleKeyDown',
+	    value: function handleKeyDown(event) {
+	      this.props.onSliderKeyDown(event, this.props.type);
+	    }
+
+	    /**
+	     * @override
+	     * @return {JSX.Element}
+	     */
+
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      var style = this.getStyle();
+
+	      return _react2.default.createElement(
+	        'span',
+	        {
+	          className: this.props.classNames.sliderContainer,
+	          ref: function ref(node) {
+	            _this2.node = node;
+	          },
+	          style: style },
+	        _react2.default.createElement(
+	          _label2.default,
+	          {
+	            classNames: this.props.classNames,
+	            formatLabel: this.props.formatLabel,
+	            type: 'value' },
+	          this.props.value
+	        ),
+	        _react2.default.createElement('div', {
+	          'aria-labelledby': this.props.ariaLabelledby,
+	          'aria-controls': this.props.ariaControls,
+	          'aria-valuemax': this.props.maxValue,
+	          'aria-valuemin': this.props.minValue,
+	          'aria-valuenow': this.props.value,
+	          className: this.props.classNames.slider,
+	          draggable: 'false',
+	          onKeyDown: this.handleKeyDown,
+	          onMouseDown: this.handleMouseDown,
+	          onTouchStart: this.handleTouchStart,
+	          role: 'slider',
+	          tabIndex: '0' })
+	      );
+	    }
+	  }]);
+
+	  return Slider;
+	}(_react2.default.Component), (_applyDecoratedDescriptor(_class.prototype, 'handleMouseDown', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleMouseDown'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleMouseUp', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleMouseUp'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleMouseMove', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleMouseMove'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleTouchStart', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleTouchStart'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleTouchMove', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleTouchMove'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleTouchEnd', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleTouchEnd'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleKeyDown', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleKeyDown'), _class.prototype)), _class);
+	exports.default = Slider;
+	module.exports = exports['default'];
+	//# sourceMappingURL=slider.js.map
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _desc, _value, _class;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _propTypes = __webpack_require__(44);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	var _autobindDecorator = __webpack_require__(46);
+
+	var _autobindDecorator2 = _interopRequireDefault(_autobindDecorator);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+	  var desc = {};
+	  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+	    desc[key] = descriptor[key];
+	  });
+	  desc.enumerable = !!desc.enumerable;
+	  desc.configurable = !!desc.configurable;
+
+	  if ('value' in desc || desc.initializer) {
+	    desc.writable = true;
+	  }
+
+	  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+	    return decorator(target, property, desc) || desc;
+	  }, desc);
+
+	  if (context && desc.initializer !== void 0) {
+	    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+	    desc.initializer = undefined;
+	  }
+
+	  if (desc.initializer === void 0) {
+	    Object['define' + 'Property'](target, property, desc);
+	    desc = null;
+	  }
+
+	  return desc;
+	}
+
+	/**
+	 * @ignore
+	 */
+	var Track = (_class = function (_React$Component) {
+	  _inherits(Track, _React$Component);
+
+	  _createClass(Track, null, [{
+	    key: 'propTypes',
+
+	    /**
+	     * @override
+	     * @return {Object}
+	     * @property {Function} children
+	     * @property {Function} classNames
+	     * @property {Boolean} draggableTrack
+	     * @property {Function} onTrackDrag
+	     * @property {Function} onTrackMouseDown
+	     * @property {Function} percentages
+	     */
+	    get: function get() {
+	      return {
+	        children: _propTypes2.default.node.isRequired,
+	        classNames: _propTypes2.default.objectOf(_propTypes2.default.string).isRequired,
+	        draggableTrack: _propTypes2.default.bool,
+	        onTrackDrag: _propTypes2.default.func,
+	        onTrackMouseDown: _propTypes2.default.func.isRequired,
+	        percentages: _propTypes2.default.objectOf(_propTypes2.default.number).isRequired
+	      };
+	    }
+
+	    /**
+	     * @param {Object} props
+	     * @param {InputRangeClassNames} props.classNames
+	     * @param {Boolean} props.draggableTrack
+	     * @param {Function} props.onTrackDrag
+	     * @param {Function} props.onTrackMouseDown
+	     * @param {number} props.percentages
+	     */
+
+	  }]);
+
+	  function Track(props) {
+	    _classCallCheck(this, Track);
+
+	    /**
+	     * @private
+	     * @type {?Component}
+	     */
+	    var _this = _possibleConstructorReturn(this, (Track.__proto__ || Object.getPrototypeOf(Track)).call(this, props));
+
+	    _this.node = null;
+	    _this.trackDragEvent = null;
+	    return _this;
+	  }
+
+	  /**
+	   * @private
+	   * @return {ClientRect}
+	   */
+
+
+	  _createClass(Track, [{
+	    key: 'getClientRect',
+	    value: function getClientRect() {
+	      return this.node.getBoundingClientRect();
+	    }
+
+	    /**
+	     * @private
+	     * @return {Object} CSS styles
+	     */
+
+	  }, {
+	    key: 'getActiveTrackStyle',
+	    value: function getActiveTrackStyle() {
+	      var width = (this.props.percentages.max - this.props.percentages.min) * 100 + '%';
+	      var left = this.props.percentages.min * 100 + '%';
+
+	      return { left: left, width: width };
+	    }
+
+	    /**
+	     * Listen to mousemove event
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'addDocumentMouseMoveListener',
+	    value: function addDocumentMouseMoveListener() {
+	      this.removeDocumentMouseMoveListener();
+	      this.node.ownerDocument.addEventListener('mousemove', this.handleMouseMove);
+	    }
+
+	    /**
+	     * Listen to mouseup event
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'addDocumentMouseUpListener',
+	    value: function addDocumentMouseUpListener() {
+	      this.removeDocumentMouseUpListener();
+	      this.node.ownerDocument.addEventListener('mouseup', this.handleMouseUp);
+	    }
+
+	    /**
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'removeDocumentMouseMoveListener',
+	    value: function removeDocumentMouseMoveListener() {
+	      this.node.ownerDocument.removeEventListener('mousemove', this.handleMouseMove);
+	    }
+
+	    /**
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'removeDocumentMouseUpListener',
+	    value: function removeDocumentMouseUpListener() {
+	      this.node.ownerDocument.removeEventListener('mouseup', this.handleMouseUp);
+	    }
+
+	    /**
+	     * @private
+	     * @param {SyntheticEvent} event
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleMouseMove',
+	    value: function handleMouseMove(event) {
+	      if (!this.props.draggableTrack) {
+	        return;
+	      }
+
+	      if (this.trackDragEvent !== null) {
+	        this.props.onTrackDrag(event, this.trackDragEvent);
+	      }
+
+	      this.trackDragEvent = event;
+	    }
+
+	    /**
+	     * @private
+	     * @return {void}
+	     */
+
+	  }, {
+	    key: 'handleMouseUp',
+	    value: function handleMouseUp() {
+	      if (!this.props.draggableTrack) {
+	        return;
+	      }
+
+	      this.removeDocumentMouseMoveListener();
+	      this.removeDocumentMouseUpListener();
+	      this.trackDragEvent = null;
+	    }
+
+	    /**
+	     * @private
+	     * @param {SyntheticEvent} event - User event
+	     */
+
+	  }, {
+	    key: 'handleMouseDown',
+	    value: function handleMouseDown(event) {
+	      var clientX = event.touches ? event.touches[0].clientX : event.clientX;
+	      var trackClientRect = this.getClientRect();
+	      var position = {
+	        x: clientX - trackClientRect.left,
+	        y: 0
+	      };
+
+	      this.props.onTrackMouseDown(event, position);
+
+	      if (this.props.draggableTrack) {
+	        this.addDocumentMouseMoveListener();
+	        this.addDocumentMouseUpListener();
+	      }
+	    }
+
+	    /**
+	     * @private
+	     * @param {SyntheticEvent} event - User event
+	     */
+
+	  }, {
+	    key: 'handleTouchStart',
+	    value: function handleTouchStart(event) {
+	      event.preventDefault();
+
+	      this.handleMouseDown(event);
+	    }
+
+	    /**
+	     * @override
+	     * @return {JSX.Element}
+	     */
+
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      var activeTrackStyle = this.getActiveTrackStyle();
+
+	      return _react2.default.createElement(
+	        'div',
+	        {
+	          className: this.props.classNames.track,
+	          onMouseDown: this.handleMouseDown,
+	          onTouchStart: this.handleTouchStart,
+	          ref: function ref(node) {
+	            _this2.node = node;
+	          } },
+	        _react2.default.createElement('div', {
+	          style: activeTrackStyle,
+	          className: this.props.classNames.activeTrack }),
+	        this.props.children
+	      );
+	    }
+	  }]);
+
+	  return Track;
+	}(_react2.default.Component), (_applyDecoratedDescriptor(_class.prototype, 'handleMouseMove', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleMouseMove'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleMouseUp', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleMouseUp'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleMouseDown', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleMouseDown'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleTouchStart', [_autobindDecorator2.default], Object.getOwnPropertyDescriptor(_class.prototype, 'handleTouchStart'), _class.prototype)), _class);
+	exports.default = Track;
+	module.exports = exports['default'];
+	//# sourceMappingURL=track.js.map
+
+/***/ }),
+/* 62 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	/** @ignore */
+	var DOWN_ARROW = exports.DOWN_ARROW = 40;
+
+	/** @ignore */
+	var LEFT_ARROW = exports.LEFT_ARROW = 37;
+
+	/** @ignore */
+	var RIGHT_ARROW = exports.RIGHT_ARROW = 39;
+
+	/** @ignore */
+	var UP_ARROW = exports.UP_ARROW = 38;
+	//# sourceMappingURL=key-codes.js.map
 
 /***/ })
 /******/ ]);

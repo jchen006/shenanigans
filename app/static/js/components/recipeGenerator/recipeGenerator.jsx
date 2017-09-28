@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import Slider from 'react-rangeslider'
+import InputRange from 'react-input-range'
 
 
 const RecipeGenerator = React.createClass({
@@ -20,13 +20,20 @@ const RecipeGenerator = React.createClass({
 
   generateRecipeService() {
     let generateRecipeEndpoint = "/api/create_recipe"
-    let headers = {
+    var data = {
+      "vector": this.state.sliders
+    }  
+    console.log(data)
+    let fetchData = {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
       method: "POST",
-      body: {
-        vector: this.state.sliders
-      }
+      body: JSON.stringify(data)
     }
-    fetch(generateRecipeEndpoint, headers)
+
+    fetch(generateRecipeEndpoint, fetchData)
       .then(response => response.json())
       .then( data => {
         this.setState({
@@ -64,13 +71,15 @@ const RecipeGenerator = React.createClass({
     return (
       <div className="sliders">
         { this.state.sliders.map((s, index) => {
-          return (<Slider
-            min = {0}
-            max = {10000}
+          return (<InputRange
+            minValue = {0}
+            maxValue = {10000}
             step = { 5 }
             value = { s }
             orientation = { "horizontal" }
-            onChangeComplete = { this.handleOnSliderChange }
+            onChange = { (value) => {
+              this.handleOnSliderChangeComplete(index, value)
+            }}
           />)
         })}
       </div>
