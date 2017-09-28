@@ -6,6 +6,7 @@ import json
 from flask import request
 import app.mongo.mongo_helper as mh
 from app.util.data.recipe_parser import Parser
+import tensorflow
 from tf import ingred_vae_train as vae_utils
 
 api = Blueprint('api', __name__)
@@ -38,14 +39,27 @@ lda_json = L.d3_json
 VAE_TRAIN_EPOCHS = 1600
 _, VAE_SAVE_PATH = vae_utils.create_and_train_vae(
     vae_utils.DEFAULT_NETWORK_ARCHITECTURE, X, X.shape[0], training_epochs=VAE_TRAIN_EPOCHS)
+tensorflow.reset_default_graph()
 vae = vae_utils.restore_test_vae_from_checkpoint(
     vae_utils.DEFAULT_NETWORK_ARCHITECTURE, VAE_SAVE_PATH)
 
 
-@api.route('/create_recipe')
+@api.route('/create_recipe', methods=['POST'])
 def crate_recipe_tensorflow():
-    z_mu = request.args.get('vect')
-    return vae_utils.generate_recipe_from_vae(boi, vae, z_mu)
+    vector = None
+    print(request.json)
+    if request.method == 'POST':
+        print(type(request.json['vector']))
+        vector = request.json['vector']
+        print(vector)
+        
+        # vector = json.loads(request.json.read())['vector']
+        # vector = json.loads(vector)
+    if vector and len(vector) == 10:
+        recipe_string = vae_utils.generate_recipe_from_vae(boi, vae, vector)
+        return json.dumps({"Recipe": recipe_string})
+    else: 
+        return json.dumps({"error": "Vector does not exist"})
 
 
 @api.route('/ingredient_frequency')

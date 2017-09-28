@@ -31,7 +31,7 @@ def create_and_train_vae(network_architecture, recipe_vects, n_samples, learning
                          batch_size=50, training_epochs=10000, display_step=5, save_path=None):
 
     if save_path is None:
-        save_path = "save/vae_{}_epochs.ckpt".format(training_epochs)
+        save_path = "tf_save/vae_{}_epochs.ckpt".format(training_epochs)
     if os.path.exists(save_path):
         print "already exists!"
         return None, save_path
@@ -106,6 +106,7 @@ if __name__ == '__main__':
 
     train_vae, save_path = create_and_train_vae(
         DEFAULT_NETWORK_ARCHITECTURE, X, n_samples, training_epochs=1000)
+    tf.reset_default_graph()
     vae = restore_test_vae_from_checkpoint(
         DEFAULT_NETWORK_ARCHITECTURE, save_path)
     generate_recipe_from_vae(boi, vae)
