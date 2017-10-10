@@ -1,0 +1,30 @@
+<ul class="nav nav-tabs" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#recipes" role="tab">Recipes</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#pending" role="tab">Pending</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#labels" role="tab">Labels</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#seasons" role="tab">Seasons</a>
+  </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane active" id="recipes" role="tabpanel">
+    {% include "/admin/database_recipes.html" %}
+  </div>
+  <div class="tab-pane" id="pending" role="tabpanel">
+    {% include "/admin/pending_recipes.html" %}
+  </div>
+  <div class="tab-pane" id="labels" role="tabpanel">
+    {% include "/admin/database_labels.html" %}
+  </div>
+  <div class="tab-pane" id="seasons" role="tabpanel">
+    {% include "/admin/database_seasons.html" %}
+  </div>
+</div>

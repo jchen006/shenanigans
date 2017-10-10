@@ -1,11 +1,20 @@
 from flask import Blueprint, request, jsonify, abort
 import app.mongo.mongo_helper as mh
 import app.mongo.mongo_submit_helper as msh
+from bson import json_util
+import json
 
 db = Blueprint('db', __name__)
 
 pending_recipe = msh.SubmitMongoHelper('pending_recipe_collection')
 mongo_main = mh.MongoHelper()
+
+"""Gets all recipes"""
+@db.route("/recipes", methods=['GET'])
+def get_mongo_recipes(): 
+    recipes = mongo_main.findAll()
+    recipes_cleaned = json.loads(json_util.dumps(recipes))
+    return jsonify({"Recipes": recipes_cleaned}), 200
 
 """Updates the recipe 
 """

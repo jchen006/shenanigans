@@ -22,7 +22,9 @@
         </div>
     </body-main>
 </div>
-<!-- <script>
-    // ingredient_frequency_bar();
-</script> -->
 {% endblock %}
+<script>
+  ReactDOM.render(
+    <FrequencyBarChart/>, document.querySelector('#ingredient_frequency')
+  )
+</script>
