@@ -13,3 +13,13 @@
 
 </body>
 {% endblock %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    ReactDOM.render(
+      <PendingRecipeList/>, 
+      document.getElementById('#pending_recipe_list')
+    )
+  })
+</script>
+

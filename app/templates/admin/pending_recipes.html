@@ -1,5 +1,7 @@
+/** @jsx React.DOM */
 <h1> Pending Items Test</h1>
-<table id="icebox" class="table">
+<div id="pending_recipe_list"></div>
+<!-- <table id="icebox" class="table">
   <thead>
     <tr>
       <th> id </th>
@@ -27,4 +29,11 @@
       </tr>
     {% endfor %}
   </tbody>
-</table>
+</table> -->
+
+<script>
+  ReactDOM.render(
+    <PendingRecipeList/>, 
+    document.getElementById('#pending_recipe_list')
+  )
+</script>
