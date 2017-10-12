@@ -33,5 +33,6 @@ module.exports = {
 		path: __dirname + '/react-components',
 		filename: 'index_bundle.js'
     },
+    devtool: 'source-map',
 //	plugin: [HTMLWebpackPluginConfig]
 };

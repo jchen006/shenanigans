@@ -1,16 +1,25 @@
 import React, { PropTypes } from 'react'
+import { Button, Glyphicon } from 'react-bootstrap'
 
 const GlyphiconButtons = React.createClass({
   propTypes: {
-    type: PropTypes.string,
-    action: PropTypes.string
+    glyphiconType: PropTypes.string,
+    action: PropTypes.string,
+    onClick: PropTypes.func,
+    data: PropTypes.object
+  },
+
+  handleOnClick() {
+    this.props.onClick(this.props.data)
   },
 
   render() {
     return (
-      <button type="button" class="btn btn-default btn-sm">
-        <span class={this.props.type}></span> {this.props.action}
-      </button>
+      <Button bsSize="small" onClick={this.handleOnClick}>
+        <Glyphicon glyph={this.props.glyphiconType}/> {this.props.action}
+      </Button>
     )
   }
 })
+
+export default GlyphiconButtons

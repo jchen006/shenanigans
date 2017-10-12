@@ -2,24 +2,13 @@
 <!--Add functionality to CRUD the files -->
 
 {% block content %}
-<body>
 
   <!-- Move to corner -->
 <a type="button" href="{{url_for('admin.logout')}}"> Logout </a>
-
-{% include "/admin/database_panel.html" %}
-
-
-
-</body>
+  <body>
+    {% include "/admin/database_panel.html" %}
+  </body>
 {% endblock %}
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    ReactDOM.render(
-      <PendingRecipeList/>, 
-      document.getElementById('#pending_recipe_list')
-    )
-  })
-</script>
+
 

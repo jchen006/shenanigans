@@ -1,17 +1,19 @@
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
-import { GlyphiconButtons } from '../../core/GlyphiconButtons.jsx'
-import { Modal } from 'react-responsive-modal'
+import GlyphiconButtons from '../../core/GlyphiconButtons.jsx'
+import { Modal, ModalClose, ModalHeader, ModalTitle, ModalBody } from 'react-modal-bootstrap'
+import { Table } from 'react-bootstrap'
+import RecipeEdit from '/RecipeEdit.jsx'
 
 const PendingRecipeList = React.createClass({
 
   getInitialState() {
     return ({
       open: false,
-      recipes: []
+      recipes: [],
+      recipeEdit: {}
     })
   },
 
-  onComponentDidMount() {
+  componentWillMount() {
     fetch('/db/recipes')
     .then(response => response.json())
     .then(data => {
@@ -22,62 +24,103 @@ const PendingRecipeList = React.createClass({
   },
 
 
-  renderActionIcons() {
+  renderActionIcons(data) {
     return (
       <div className="recipe-list-action-edit">
         <GlyphiconButtons
-          type= { "glyphicon glyphicon-edit"}
+          glyphiconType= { "glyphicon glyphicon-edit"}
           action={"Edit"}
+          onClick = { this.onEditClick }
+          data = { data }
         />
         <GlyphiconButtons
-          type= { "glyphicon glyphicon-ok"}
+          glyphiconType= { "glyphicon glyphicon-ok"}
           action={"Ok"}
         />
         <GlyphiconButtons
-          type= { "glyphicon glyphicon-remove"}
+          glyphiconType= { "glyphicon glyphicon-remove"}
           action={"Remove"}
         />
       </div>
     )
   },
 
-  onRowClick() {
+  renderModal() {
+    return (
+      <Modal isOpen={this.state.open} onRequestHide = {this.onEditClose}>
+        <ModalHeader>
+          <ModalClose onClick={this.onEditClose}/>
+          <ModalTitle>  Editing Mode </ModalTitle>
+          <ModalBody>
+            <RecipeEdit recipe = { this.state.recipeEdit} />
+          </ModalBody>
+        </ModalHeader>
+      </Modal>
+    )
+  },
+
+  renderTableHeader() {
+    return (
+      <thead>
+        <tr>
+          <th> Mongo Id </th>
+          <th> Name </th>
+          <th> Actions </th>
+        </tr>
+      </thead>
+    )
+  },
+
+  renderRow(recipe) {
+    return (
+      <tbody>
+        <tr>
+          <td> {recipe._id.$oid} </td>
+          <td> {recipe.name} </td>
+          <td> { this.renderActionIcons(recipe) } </td>
+        </tr>
+      </tbody>
+    )
+  },
+
+  renderRows() {
+    return(this.state.recipes.map(recipe => {
+      return (
+        this.renderRow(recipe)
+      )
+    }))
+  },
+
+  onEditClick(recipe) {
     this.setState({
-      open: true
+      open: true,
+      recipeEdit: recipe
     })
   },
 
   onEditClose() {
     this.setState({
-      open: false
+      open: false,
+      recipeEdit: {}
     })
   },
 
   render() {
-    const options = {
-      onRowClick: this.onRowClick
-    }
-
     return (
       <div className="pending-recipe-list">
-        <BootstrapTable data={this.props.data} striped={true} hover={true} options = { options} >
-          <TableHeaderColumn dataField="id" isKey={true} dataAlign="center" dataSort={true}>
-            Mongo id
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="name" dataAlign="center" dataSort={true}>
-            Name
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="action">
-            { this.renderActionIcons() }
-          </TableHeaderColumn>
-        </BootstrapTable>
-        <Modal open={this.state.open} onClose={this.onEditClose} little>
-            <h2> Test </h2>
-        </Modal>
+        <Table responsive>
+          { this.renderTableHeader() }
+          { this.renderRows() }
+        </Table>
+        { this.renderModal() }
       </div>
     )
   }
-
 })
 
-export default PendingRecipeList
+
+if(document.getElementById("pending_recipe_list_panel")) {
+  ReactDOM.render(
+    <PendingRecipeList/>, document.getElementById('pending_recipe_list_panel')
+  )
+}
