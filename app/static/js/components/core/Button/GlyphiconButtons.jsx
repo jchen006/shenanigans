@@ -15,7 +15,7 @@ const GlyphiconButtons = React.createClass({
 
   render() {
     return (
-      <Button bsSize="small" onClick={this.handleOnClick}>
+      <Button bsSize="xsmall" onClick={this.handleOnClick}>
         <Glyphicon glyph={this.props.glyphiconType}/> {this.props.action}
       </Button>
     )

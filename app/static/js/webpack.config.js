@@ -8,12 +8,11 @@ var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
 */
 
 module.exports = {
-    entry: [
-        './components/d3/Axis.jsx',
-        './experiments/ingredient_frequency/ingredient_frequency_bar.jsx',
-        './components/recipeGenerator/recipeGenerator.jsx',
-        './components/admin/curation/PendingRecipeList.jsx'
-    ],
+    entry: {
+        "ingredient-frequency-bar-chart": "./experiments/IngredientFrequency/IngredientFrequencyBarChart.jsx",
+        "recipe-generator": "./components/RecipeGenerator/RecipeGenerator.jsx",
+        "pending-recipe-list": "./components/admin/curation/PendingRecipeList.jsx"
+    },
     module: {
         loaders: [
             {
@@ -31,8 +30,7 @@ module.exports = {
 	},
     output: {
 		path: __dirname + '/react-components',
-		filename: 'index_bundle.js'
+		filename: '[name]-bundle.js'
     },
-    devtool: 'source-map',
-//	plugin: [HTMLWebpackPluginConfig]
+    devtool: 'source-map'
 };
