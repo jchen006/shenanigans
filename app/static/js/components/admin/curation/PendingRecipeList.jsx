@@ -1,12 +1,11 @@
 import ModalWrapper from '../../core/Modal/ModalWrapper.jsx'
-import Loader from 'react-loaders'
 import PendingRecipeTable from '../../core/Table/PendingRecipeTable.jsx'
 
 const PendingRecipeList = React.createClass({
 
   getInitialState() {
     return ({
-      open: false,
+      isOpen: false,
       loading: true,
       recipes: [],
       recipeEdit: {}
@@ -34,7 +33,7 @@ const PendingRecipeList = React.createClass({
         onClose = { this.onClose }
         onUpdate = { this.onUpdate }
         onRevert = { this.onRevert }
-        recipe = { this.state.recipe }
+        recipe = { this.state.recipeEdit }
         isOpen = { this.state.isOpen }
       />
     )
@@ -51,32 +50,24 @@ const PendingRecipeList = React.createClass({
     )
   },
 
-  renderLoader() {
-    return (
-      <div className="pending-recipe-loader">
-        <Loader type="ball-grid-pulse" />
-      </div>
-    )
+  onApprove(recipe) {
+    console.log("Approved", recipe.name)
   },
 
-  onApprove() {
-    console.log("Approved")
-  },
-
-  onDelete() {
-    console.log("Deleted")
+  onDelete(recipe) {
+    console.log("Deleted", recipe.name)
   },
 
   onEdit(recipe) {
     this.setState({
-      open: true,
+      isOpen: true,
       recipeEdit: recipe
     })
   },
 
   onClose() {
     this.setState({
-      open: false,
+      isOpen: false,
       recipeEdit: {}
     })
   },

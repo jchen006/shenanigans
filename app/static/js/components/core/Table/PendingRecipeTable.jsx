@@ -27,11 +27,10 @@ const PendingRecipeTable = React.createClass({
       return (
         <PendingRecipeTableRow
           key = {recipe._id.$oid}
-          name = {recipe.name}
-          mongoId = {recipe._id.$oid}
-          onEdit = {this.props.onEdit}
-          onApprove = { this.props.onApprove}
-          onDelete = {this.props.onDelete}
+          recipe = { recipe }
+          onEdit = {this.props.onEdit }
+          onApprove = { this.props.onApprove }
+          onDelete = {this.props.onDelete }
         />
       )
     }))
@@ -40,7 +39,6 @@ const PendingRecipeTable = React.createClass({
   renderTable() {
     return (
       <Table bordered responsive>
-        
         { this.renderTableHeader() }
         <tbody>
           { this.renderTableRows() }

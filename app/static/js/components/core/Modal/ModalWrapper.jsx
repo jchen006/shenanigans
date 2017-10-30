@@ -24,9 +24,7 @@ const ModalWrapper = React.createClass({
   renderBody() {
     return (
       <ModalBody>
-        <p> Here </p>
-        {/* <RecipeEditForm 
-          recipe = {this.props.recipe}/> */}
+        <p> { this.props.recipe.name} </p>
       </ModalBody>
     )
   },
@@ -37,6 +35,7 @@ const ModalWrapper = React.createClass({
         <ButtonGroupModal 
           onUpdate = { this.props.onUpdate }
           onRevert = { this.props.onRevert }
+          recipe = { this.props.recipe }
         />
       </ModalFooter>
     )

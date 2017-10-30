@@ -4,8 +4,7 @@ import ButtonGroupTableRow from '../ButtonGroup/ButtonGroupTableRow.jsx'
 const PendingRecipeTableRow = React.createClass({
 
   propTypes: {
-    name: PropTypes.string,
-    mongoId: PropTypes.string,
+    recipe: PropTypes.object,
     onEdit: PropTypes.func,
     onApprove: PropTypes.func,
     onDelete: PropTypes.func
@@ -14,6 +13,7 @@ const PendingRecipeTableRow = React.createClass({
   renderActionIcons() {
     return (
       <ButtonGroupTableRow
+        recipe = {this.props.recipe}
         onEdit = { this.props.onEdit }
         onApprove = { this.props.onApprove }
         onDelete = { this.props.onDelete }
@@ -24,8 +24,8 @@ const PendingRecipeTableRow = React.createClass({
   render() {
     return (
       <tr key = {this.props.name}>
-        <td> { this.props.mongoId } </td>
-        <td> { this.props.name } </td>
+        <td> { this.props.recipe._id.$oid } </td>
+        <td> { this.props.recipe.name } </td>
         <td> {this.renderActionIcons() } </td>
       </tr>
     )
