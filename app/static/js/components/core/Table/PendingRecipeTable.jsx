@@ -4,6 +4,7 @@ import { Table } from 'react-bootstrap'
 
 const PendingRecipeTable = React.createClass({
   propTypes: {
+    pagination: PropTypes.object,
     recipes: PropTypes.array,
     onEdit: PropTypes.func,
     onApprove: PropTypes.func,
@@ -23,7 +24,10 @@ const PendingRecipeTable = React.createClass({
   },
 
   renderTableRows() {
-    return (this.props.recipes.map(recipe => {
+    const indexLastRecipe = this.props.pagination.currentPage * this.props.pagination.recipesPerPage
+    const indexFirstRecipe = this.props.pagination.indexLastRecipe - this.props.pagination.recipesPerPage
+    const recipesDisplayed = this.props.recipes.slice(indexFirstRecipe, indexLastRecipe)
+    return (recipesDisplayed.map(recipe => {
       return (
         <PendingRecipeTableRow
           key = {recipe._id.$oid}

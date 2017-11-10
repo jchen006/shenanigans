@@ -8,7 +8,17 @@ const PendingRecipeList = React.createClass({
       isOpen: false,
       loading: true,
       recipes: [],
-      recipeEdit: {}
+      recipeEdit: {},
+      pagination: {
+        currentPage: 1,
+        recipesPerPage: 20
+      }
+    })
+  },
+
+  handlePageClick(event) {
+    this.setState({
+      currentPage: Number(event.target.id)
     })
   },
 
@@ -42,6 +52,7 @@ const PendingRecipeList = React.createClass({
   renderTable() {
     return (
       <PendingRecipeTable
+        pagination = { this.state.pagination }
         recipes = { this.state.recipes }
         onEdit = { this.onEdit }
         onApprove = { this.onApprove }
@@ -72,8 +83,8 @@ const PendingRecipeList = React.createClass({
     })
   },
 
-  onUpdate() {
-    console.log("update")
+  onUpdate(recipe) {
+    console.log(recipe.name)
   },
 
   render() {

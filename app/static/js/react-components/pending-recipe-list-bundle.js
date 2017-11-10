@@ -65,8 +65,18 @@
 	      isOpen: false,
 	      loading: true,
 	      recipes: [],
-	      recipeEdit: {}
+	      recipeEdit: {},
+	      pagination: {
+	        currentPage: 1,
+	        recipesPerPage: 20
+	      }
 	    };
+	  },
+	
+	  handlePageClick(event) {
+	    this.setState({
+	      currentPage: Number(event.target.id)
+	    });
 	  },
 	
 	  //Need to change the db to pending recipes 
@@ -93,6 +103,7 @@
 	
 	  renderTable() {
 	    return React.createElement(_PendingRecipeTable2.default, {
+	      pagination: this.state.pagination,
 	      recipes: this.state.recipes,
 	      onEdit: this.onEdit,
 	      onApprove: this.onApprove,
@@ -122,8 +133,8 @@
 	    });
 	  },
 	
-	  onUpdate() {
-	    console.log("update");
+	  onUpdate(recipe) {
+	    console.log(recipe.name);
 	  },
 	
 	  render() {
@@ -4769,6 +4780,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _RecipeEditForm = __webpack_require__(522);
+	
+	var _RecipeEditForm2 = _interopRequireDefault(_RecipeEditForm);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	const ModalWrapper = _react2.default.createClass({
@@ -4781,7 +4796,8 @@
 	    onUpdate: _react.PropTypes.func,
 	    onRevert: _react.PropTypes.func,
 	    recipe: _react.PropTypes.object,
-	    isOpen: _react.PropTypes.bool
+	    isOpen: _react.PropTypes.bool,
+	    modalBody: _react.PropTypes.object
 	  },
 	
 	  renderHeader() {
@@ -4803,13 +4819,10 @@
 	    return _react2.default.createElement(
 	      _reactModalBootstrap.ModalBody,
 	      null,
-	      _react2.default.createElement(
-	        'p',
-	        null,
-	        ' ',
-	        this.props.recipe.name,
-	        ' '
-	      )
+	      _react2.default.createElement(_RecipeEditForm2.default, {
+	        recipe: this.props.recipe,
+	        onUpdate: this.props.onUpdate
+	      })
 	    );
 	  },
 	
@@ -27758,6 +27771,7 @@
 	  displayName: 'PendingRecipeTable',
 	
 	  propTypes: {
+	    pagination: _react.PropTypes.object,
 	    recipes: _react.PropTypes.array,
 	    onEdit: _react.PropTypes.func,
 	    onApprove: _react.PropTypes.func,
@@ -27791,7 +27805,10 @@
 	  },
 	
 	  renderTableRows() {
-	    return this.props.recipes.map(recipe => {
+	    const indexLastRecipe = this.props.pagination.currentPage * this.props.pagination.recipesPerPage;
+	    const indexFirstRecipe = this.props.pagination.indexLastRecipe - this.props.pagination.recipesPerPage;
+	    const recipesDisplayed = this.props.recipes.slice(indexFirstRecipe, indexLastRecipe);
+	    return recipesDisplayed.map(recipe => {
 	      return _react2.default.createElement(_PendingRecipeTableRow2.default, {
 	        key: recipe._id.$oid,
 	        recipe: recipe,
@@ -48146,6 +48163,197 @@
 	exports.bootstrapUtils = _bootstrapUtils;
 	exports.createChainedFunction = _createChainedFunction3['default'];
 	exports.ValidComponentChildren = _ValidComponentChildren3['default'];
+
+/***/ }),
+/* 522 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _InputField = __webpack_require__(523);
+	
+	var _InputField2 = _interopRequireDefault(_InputField);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	const RecipeEditForm = _react2.default.createClass({
+	  displayName: 'RecipeEditForm',
+	
+	  propTypes: {
+	    recipe: _react.PropTypes.object,
+	    onUpdate: _react.PropTypes.func
+	  },
+	
+	  //   <form>
+	  //   <div class="form-group row">
+	  //     <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+	  //     <div class="col-sm-10">
+	  //       <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
+	  //     </div>
+	  //   </div>
+	  //   <div class="form-group row">
+	  //     <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+	  //     <div class="col-sm-10">
+	  //       <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+	  //     </div>
+	  //   </div>
+	  // </form>
+	
+	  renderMongoId() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'form-group' },
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        ' ',
+	        _react2.default.createElement(
+	          'strong',
+	          null,
+	          'Mongo Id:'
+	        ),
+	        ' ',
+	        this.props.recipe._id ? this.props.recipe._id.$oid : "",
+	        ' '
+	      )
+	    );
+	  },
+	
+	  renderName() {
+	    console.log(this.props.recipe);
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'form-group' },
+	      _react2.default.createElement(
+	        'label',
+	        { 'for': 'recipe-name' },
+	        ' Recipe Name '
+	      ),
+	      _react2.default.createElement('input', { type: 'text', className: 'form-control', value: this.props.recipe ? this.props.recipe.name : "" })
+	    );
+	  },
+	
+	  renderFilteredIngredients() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'form-group' },
+	      _react2.default.createElement(
+	        'label',
+	        null,
+	        ' Ingredients '
+	      ),
+	      this.props.recipe.ingredients ? this.props.recipe.ingredients.map(ingredient => {
+	        return _react2.default.createElement('input', { type: 'text', className: 'form-control', value: ingredient });
+	      }) : ""
+	    );
+	  },
+	
+	  // renderOrignialIngredients() {
+	
+	  // },
+	
+	  // renderIngredients() {
+	  //   return (
+	
+	  //   )
+	  // },
+	
+	  renderCuisine() {
+	    //Selection based
+	  },
+	
+	  renderChef() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'form-group' },
+	      _react2.default.createElement(
+	        'label',
+	        { 'for': 'recipe-name' },
+	        ' Chef '
+	      ),
+	      _react2.default.createElement('input', { type: 'text', className: 'form-control', value: this.props.recipe ? this.props.recipe.chef : "" })
+	    );
+	  },
+	
+	  renderTags() {
+	    //Selection based
+	  },
+	
+	  handleSubmit(event) {
+	    this.props.onUpdate(recipe);
+	  },
+	
+	  handleChange(event) {
+	    var updateValue = event.target.value;
+	  },
+	
+	  render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'recipe-edit' },
+	      _react2.default.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        this.renderMongoId(),
+	        this.renderName(),
+	        this.renderFilteredIngredients(),
+	        this.renderChef()
+	      )
+	    );
+	  }
+	});
+	
+	exports.default = RecipeEditForm;
+
+/***/ }),
+/* 523 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactBootstrap = __webpack_require__(263);
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	const InputField = _react2.default.createClass({
+	  displayName: 'InputField',
+	
+	
+	  propTypes: {
+	    id: _react.PropTypes.string,
+	    type: _react.PropTypes.string,
+	    label: _react.PropTypes.string,
+	    value: _react.PropTypes.string
+	  },
+	
+	  render() {
+	    return _react2.default.createElement(_reactBootstrap.FieldGroup, {
+	      id: this.propTypes.id,
+	      type: this.props.type,
+	      label: this.props.label,
+	      value: this.props.value
+	    });
+	  }
+	
+	});
+	
+	exports.default = InputField;
 
 /***/ })
 /******/ ]);

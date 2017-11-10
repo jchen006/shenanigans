@@ -1,5 +1,6 @@
 import {Modal, ModalClose, ModalHeader, ModalTitle, ModalBody } from 'react-modal-bootstrap'
 import React, { PropTypes } from 'react'
+import RecipeEditForm from '../Form/RecipeEditForm.jsx'
 
 const ModalWrapper = React.createClass({
 
@@ -9,7 +10,8 @@ const ModalWrapper = React.createClass({
     onUpdate: PropTypes.func,
     onRevert: PropTypes.func,
     recipe: PropTypes.object,
-    isOpen: PropTypes.bool
+    isOpen: PropTypes.bool,
+    modalBody: PropTypes.object
   },
 
   renderHeader() {
@@ -24,7 +26,10 @@ const ModalWrapper = React.createClass({
   renderBody() {
     return (
       <ModalBody>
-        <p> { this.props.recipe.name} </p>
+        <RecipeEditForm
+          recipe = { this.props.recipe }
+          onUpdate = { this.props.onUpdate }
+        />
       </ModalBody>
     )
   },
