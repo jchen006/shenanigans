@@ -68,7 +68,9 @@ const PendingRecipeList = React.createClass({
 
   renderPageNumbers() {
     const pageNumbers = []
-    for(let i = 1; i <= Math.ceil(this.state.recipes.length/this.state.pagination.recipesPerPage); i++) {
+    const recipesLength = this.state.recipes.length
+    const recipesPerPage = this.state.pagination.recipesPerPage
+    for(let i = 1; i <= Math.ceil(recipesLength/recipesPerPage); i++) {
       pageNumbers.push(i)
     }
     return (
@@ -76,27 +78,19 @@ const PendingRecipeList = React.createClass({
         <ul className="pagination">
         { pageNumbers.map(number => {
           return (
-            <li 
-              className = {"page-item"}
-              key = { number }
+            <li key = { number } className = {"page-item"}>
+            <a 
+              className="page-link"
               id = { number }
-              onClick = { this.handlePageClick }
-            >
+              onClick = { this.handlePageClick } >
             { number }
+            </a>
             </li>
           )
         })}
         </ul>
       </nav>
     )
-  },
-
-  onPageNumberClick(event) {
-    this.setState({
-      pagination: {
-        currentPage: Number(event.target.id)
-      }
-    })
   },
 
   onApprove(recipe) {

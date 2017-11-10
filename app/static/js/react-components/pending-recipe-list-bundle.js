@@ -118,7 +118,9 @@
 	
 	  renderPageNumbers() {
 	    const pageNumbers = [];
-	    for (let i = 1; i <= Math.ceil(this.state.recipes.length / this.state.pagination.recipesPerPage); i++) {
+	    const recipesLength = this.state.recipes.length;
+	    const recipesPerPage = this.state.pagination.recipesPerPage;
+	    for (let i = 1; i <= Math.ceil(recipesLength / recipesPerPage); i++) {
 	      pageNumbers.push(i);
 	    }
 	    return React.createElement(
@@ -130,25 +132,19 @@
 	        pageNumbers.map(number => {
 	          return React.createElement(
 	            'li',
-	            {
-	              className: "page-item",
-	              key: number,
-	              id: number,
-	              onClick: this.handlePageClick
-	            },
-	            number
+	            { key: number, className: "page-item" },
+	            React.createElement(
+	              'a',
+	              {
+	                className: 'page-link',
+	                id: number,
+	                onClick: this.handlePageClick },
+	              number
+	            )
 	          );
 	        })
 	      )
 	    );
-	  },
-	
-	  onPageNumberClick(event) {
-	    this.setState({
-	      pagination: {
-	        currentPage: Number(event.target.id)
-	      }
-	    });
 	  },
 	
 	  onApprove(recipe) {
