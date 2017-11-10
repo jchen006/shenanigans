@@ -74,8 +74,13 @@
 	  },
 	
 	  handlePageClick(event) {
+	    const recipesPerPage = this.state.pagination.recipesPerPage;
+	    const currentPage = Number(event.target.id);
 	    this.setState({
-	      currentPage: Number(event.target.id)
+	      pagination: {
+	        currentPage,
+	        recipesPerPage
+	      }
 	    });
 	  },
 	
@@ -111,6 +116,41 @@
 	    });
 	  },
 	
+	  renderPageNumbers() {
+	    const pageNumbers = [];
+	    for (let i = 1; i <= Math.ceil(this.state.recipes.length / this.state.pagination.recipesPerPage); i++) {
+	      pageNumbers.push(i);
+	    }
+	    return React.createElement(
+	      'nav',
+	      { 'aria-label': 'recipe-table-navigation' },
+	      React.createElement(
+	        'ul',
+	        { className: 'pagination' },
+	        pageNumbers.map(number => {
+	          return React.createElement(
+	            'li',
+	            {
+	              className: "page-item",
+	              key: number,
+	              id: number,
+	              onClick: this.handlePageClick
+	            },
+	            number
+	          );
+	        })
+	      )
+	    );
+	  },
+	
+	  onPageNumberClick(event) {
+	    this.setState({
+	      pagination: {
+	        currentPage: Number(event.target.id)
+	      }
+	    });
+	  },
+	
 	  onApprove(recipe) {
 	    console.log("Approved", recipe.name);
 	  },
@@ -141,6 +181,7 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'pending-recipe-list' },
+	      this.renderPageNumbers(),
 	      this.renderTable(),
 	      this.renderModal()
 	    );
@@ -27806,7 +27847,7 @@
 	
 	  renderTableRows() {
 	    const indexLastRecipe = this.props.pagination.currentPage * this.props.pagination.recipesPerPage;
-	    const indexFirstRecipe = this.props.pagination.indexLastRecipe - this.props.pagination.recipesPerPage;
+	    const indexFirstRecipe = indexLastRecipe - this.props.pagination.recipesPerPage;
 	    const recipesDisplayed = this.props.recipes.slice(indexFirstRecipe, indexLastRecipe);
 	    return recipesDisplayed.map(recipe => {
 	      return _react2.default.createElement(_PendingRecipeTableRow2.default, {

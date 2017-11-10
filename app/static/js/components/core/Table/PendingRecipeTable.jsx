@@ -25,7 +25,7 @@ const PendingRecipeTable = React.createClass({
 
   renderTableRows() {
     const indexLastRecipe = this.props.pagination.currentPage * this.props.pagination.recipesPerPage
-    const indexFirstRecipe = this.props.pagination.indexLastRecipe - this.props.pagination.recipesPerPage
+    const indexFirstRecipe = indexLastRecipe - this.props.pagination.recipesPerPage
     const recipesDisplayed = this.props.recipes.slice(indexFirstRecipe, indexLastRecipe)
     return (recipesDisplayed.map(recipe => {
       return (

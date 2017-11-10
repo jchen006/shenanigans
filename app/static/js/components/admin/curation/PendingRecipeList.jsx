@@ -17,8 +17,13 @@ const PendingRecipeList = React.createClass({
   },
 
   handlePageClick(event) {
+    const recipesPerPage = this.state.pagination.recipesPerPage
+    const currentPage = Number(event.target.id)
     this.setState({
-      currentPage: Number(event.target.id)
+      pagination: {
+        currentPage,
+        recipesPerPage
+      }
     })
   },
 
@@ -61,6 +66,39 @@ const PendingRecipeList = React.createClass({
     )
   },
 
+  renderPageNumbers() {
+    const pageNumbers = []
+    for(let i = 1; i <= Math.ceil(this.state.recipes.length/this.state.pagination.recipesPerPage); i++) {
+      pageNumbers.push(i)
+    }
+    return (
+      <nav aria-label="recipe-table-navigation">
+        <ul className="pagination">
+        { pageNumbers.map(number => {
+          return (
+            <li 
+              className = {"page-item"}
+              key = { number }
+              id = { number }
+              onClick = { this.handlePageClick }
+            >
+            { number }
+            </li>
+          )
+        })}
+        </ul>
+      </nav>
+    )
+  },
+
+  onPageNumberClick(event) {
+    this.setState({
+      pagination: {
+        currentPage: Number(event.target.id)
+      }
+    })
+  },
+
   onApprove(recipe) {
     console.log("Approved", recipe.name)
   },
@@ -87,9 +125,12 @@ const PendingRecipeList = React.createClass({
     console.log(recipe.name)
   },
 
+
+
   render() {
     return (
       <div className="pending-recipe-list">
+        { this.renderPageNumbers() }
         { this.renderTable() }
         { this.renderModal() }
       </div>
