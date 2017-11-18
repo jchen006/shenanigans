@@ -2,17 +2,19 @@ import React, {PropTypes} from 'react'
 
 const List = React.createClass({
   propTypes: {
-    recipe: PropTypes.array
-  },
-
-  getInitialState() {
-    return {
-      recipes: this.props.recipes
-    }
+    items: PropTypes.array
   },
 
   render() {
-
+    return (
+      <ul>
+        { this.props.items.map(item=> (
+          <li key={item.id}>
+            {item.text}
+          </li>
+        ))}
+      </ul>
+    )
   }
 
 })

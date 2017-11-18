@@ -1,7 +1,8 @@
-{% extends "layout.html" %} {% block content %}
+{% extends "layout.html" %} 
+{% block content %}
 
 <!-- <script type="text/javascript" src="/static/js/experiments/ingredient_frequency/ingredient_frequency_bar.js"></script>-->
-<link rel="stylesheet" link href="/static/js/experiments/ingredient_frequency/ingredient_frequency_bar.css"> 
+<link rel="stylesheet" link href="/static/js/experiments/ingredientFrequency/ingredient_frequency_bar.css"> 
 <h1>
     <center><strong>Frequency of Ingredients </strong></center>
 </h1>
@@ -9,7 +10,7 @@
     <div class="col-md-7">
 
         <body>
-            <div id="ingredient_frequency"></div>
+            <div id="ingredient-frequency"></div>
         </body>
     </div>
     <body-main>
@@ -22,7 +23,5 @@
         </div>
     </body-main>
 </div>
-<!-- <script>
-    // ingredient_frequency_bar();
-</script> -->
+<script src="/static/js/react-components/ingredient-frequency-bar-chart-bundle.js"></script>
 {% endblock %}
