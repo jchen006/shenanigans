@@ -21845,6 +21845,10 @@
 
 	var _reactBootstrap = __webpack_require__(63);
 
+	var _RangeSlider = __webpack_require__(468);
+
+	var _RangeSlider2 = _interopRequireDefault(_RangeSlider);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	const RecipeGenerator = _react2.default.createClass({
@@ -21896,16 +21900,18 @@
 	  },
 
 	  renderSliders() {
+	    const minValue = 0;
+	    const maxValue = 10000;
+	    const step = 5;
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'sliders' },
 	      this.state.sliders.map((s, index) => {
-	        return _react2.default.createElement(_reactInputRange2.default, {
-	          minValue: 0,
-	          maxValue: 10000,
-	          step: 5,
+	        return _react2.default.createElement(_RangeSlider2.default, {
+	          min: minValue,
+	          max: maxValue,
+	          step: step,
 	          value: s,
-	          orientation: "horizontal",
 	          onChange: value => {
 	            this.handleOnSliderChangeComplete(index, value);
 	          }
@@ -62017,6 +62023,51 @@
 	exports.bootstrapUtils = _bootstrapUtils;
 	exports.createChainedFunction = _createChainedFunction3['default'];
 	exports.ValidComponentChildren = _ValidComponentChildren3['default'];
+
+/***/ }),
+/* 468 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	const RangeSlider = _react2.default.createClass({
+	  displayName: "RangeSlider",
+
+
+	  propTypes: {
+	    min: _react.PropTypes.number,
+	    max: _react.PropTypes.number,
+	    value: _react.PropTypes.number,
+	    onChange: _react.PropTypes.func,
+	    rangeType: _react.PropTypes.string
+	  },
+
+	  render() {
+	    return _react2.default.createElement(
+	      "div",
+	      { className: "range " + this.props.rangeType },
+	      _react2.default.createElement("input", { type: "range", name: "range", min: this.props.min, max: this.props.max, value: this.props.value, onChange: this.props.onChange }),
+	      _react2.default.createElement(
+	        "output",
+	        { id: "rangePrimary" },
+	        this.props.value
+	      )
+	    );
+	  }
+
+	});
+
+	exports.default = RangeSlider;
 
 /***/ })
 /******/ ]);

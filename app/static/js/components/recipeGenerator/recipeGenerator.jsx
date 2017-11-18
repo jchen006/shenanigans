@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import InputRange from 'react-input-range'
 import { ListGroup, ListGroupItem } from 'react-bootstrap'
+import RangeSlider from '../core/RangeSlider/RangeSlider.jsx'
 
 const RecipeGenerator = React.createClass({
   propTypes: {
@@ -51,15 +52,19 @@ const RecipeGenerator = React.createClass({
   },
 
   renderSliders() {
+    const minValue = 0
+    const maxValue = 10000
+    const step = 5
     return (
       <div className="sliders">
         { this.state.sliders.map((s, index) => {
-          return (<InputRange
-            minValue = {0}
-            maxValue = {10000}
-            step = { 5 }
+          return (
+            <RangeSlider
+            rangeType = "range-primary"
+            min = {minValue}
+            max = {maxValue}
+            step = { step }
             value = { s }
-            orientation = { "horizontal" }
             onChange = { (value) => {
               this.handleOnSliderChangeComplete(index, value)
             }}
