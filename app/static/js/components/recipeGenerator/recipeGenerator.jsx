@@ -65,7 +65,8 @@ const RecipeGenerator = React.createClass({
             max = {maxValue}
             step = { step }
             value = { s }
-            onChange = { (value) => {
+            onChange = { (event) => {
+              const value = parseInt(event.target.value)
               this.handleOnSliderChangeComplete(index, value)
             }}
           />)
@@ -103,3 +104,9 @@ const RecipeGenerator = React.createClass({
 })
 
 export default RecipeGenerator
+
+ReactDOM.render(
+  <RecipeGenerator 
+    numSliders = {10}
+  />, document.getElementById("recipe-generator")
+)
