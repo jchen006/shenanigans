@@ -102,3 +102,7 @@ typings/
 
 # dotenv environment variables file
 .env
+
+#VAE 
+save/*
+tf_save/*
