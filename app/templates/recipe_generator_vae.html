@@ -2,9 +2,16 @@
 {% block content %}
 <link rel="stylesheet" href="/static/js/components/core/RangeSlider/RangeSlider.css"
 <body>
-  <div id="recipe_generator">
+  <div id="recipe-generator">
   </div>
 </body>
 
-
 {% endblock %}
+
+ <script> 
+    ReactDOM.render(
+    <RecipeGenerator 
+      numSliders = {10}
+    />, document.getElementById("recipe-generator")
+  )
+</script>

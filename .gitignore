@@ -106,3 +106,4 @@ typings/
 #VAE 
 save/*
 tf_save/*
+app/static/js/react-components/recipe-generator-bundle.js

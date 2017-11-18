@@ -103,12 +103,3 @@ const RecipeGenerator = React.createClass({
 })
 
 export default RecipeGenerator
-
-
-if(document.getElementById("recipe_generator")) {
-    ReactDOM.render(
-    <RecipeGenerator 
-      numSliders = {10}
-    />, document.getElementById("recipe_generator")
-  )
-}
