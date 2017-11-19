@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react'
 import InputRange from 'react-input-range'
-import { ListGroup, ListGroupItem } from 'react-bootstrap'
+import { ListGroup, ListGroupItem, Grid, Row, Col, PageHeader } from 'react-bootstrap'
 import RangeSlider from '../core/RangeSlider/RangeSlider.jsx'
+import IngredientsCard from '../core/IngredientsCard/IngredientsCard.jsx'
 
 const RecipeGenerator = React.createClass({
   propTypes: {
@@ -76,28 +77,37 @@ const RecipeGenerator = React.createClass({
   },
 
   renderRecipes() {
-    console.log(this.state.recipe)
     return (
       <div className="suggested-recipes">
-        <ListGroup>
-          { this.state.recipe.map((ingredient) => {
-            console.log(ingredient)
-            return (
-              <ListGroupItem> 
-                { ingredient } 
-              </ListGroupItem>
-            )
-          })}
-        </ListGroup>
+        <IngredientsCard
+          ingredients = { this.state.recipe }
+        />
       </div>
+    )
+  },
+
+  renderHeader() {
+    return(
+      <PageHeader>
+        Recipe Generator
+      </PageHeader>
     )
   },
 
   render() {
     return (
       <div className="recipeGenerator">
-        { this.renderSliders() }
-        { this.renderRecipes() }
+        {this.renderHeader()}
+        <Grid>
+          <Row className="show-grid">
+            <Col md={6}>
+              { this.renderSliders() }
+            </Col>
+            <Col md={6}>
+              { this.renderRecipes() }
+            </Col>
+          </Row>
+        </Grid>
       </div>
     )
   }
