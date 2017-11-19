@@ -1,18 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
-<link rel="stylesheet" href="/static/js/node_modules/react-input-range/lib/css/index.css" />
-  <!-- Sliders on the right  -->
+<link rel="stylesheet" href="/static/js/components/core/RangeSlider/RangeSlider.css"
 <body>
   <div id="recipe-generator">
   </div>
 </body>
-
+<script src="/static/js/react-components/recipe-generator-bundle.js"></script>
 {% endblock %}
 
- <script> 
-    ReactDOM.render(
-    <RecipeGenerator 
-      numSliders = {10}
-    />, document.getElementById("recipe-generator")
-  )
-</script>
