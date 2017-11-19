@@ -40,8 +40,9 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54,11 +55,11 @@
 	
 	var d3 = _interopRequireWildcard(_d);
 	
-	var _Axis = __webpack_require__(38);
+	var _Axis = __webpack_require__(545);
 	
 	var _Axis2 = _interopRequireDefault(_Axis);
 	
-	var _Bar = __webpack_require__(39);
+	var _Bar = __webpack_require__(546);
 	
 	var _Bar2 = _interopRequireDefault(_Bar);
 	
@@ -163,7 +164,8 @@
 	ReactDOM.render(_react2.default.createElement(FrequencyBarChart, null), document.getElementById('ingredient-frequency'));
 
 /***/ }),
-/* 1 */
+
+/***/ 1:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -172,7 +174,8 @@
 
 
 /***/ }),
-/* 2 */
+
+/***/ 2:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -309,7 +312,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 3 */
+
+/***/ 3:
 /***/ (function(module, exports) {
 
 	// shim for using process in browser
@@ -499,7 +503,8 @@
 
 
 /***/ }),
-/* 4 */
+
+/***/ 4:
 /***/ (function(module, exports) {
 
 	/*
@@ -595,7 +600,8 @@
 
 
 /***/ }),
-/* 5 */
+
+/***/ 5:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -743,7 +749,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 6 */
+
+/***/ 6:
 /***/ (function(module, exports) {
 
 	/**
@@ -786,7 +793,8 @@
 	module.exports = reactProdInvariant;
 
 /***/ }),
-/* 7 */
+
+/***/ 7:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -886,7 +894,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 8 */
+
+/***/ 8:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -956,7 +965,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 9 */
+
+/***/ 9:
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -999,7 +1009,8 @@
 	module.exports = emptyFunction;
 
 /***/ }),
-/* 10 */
+
+/***/ 10:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1030,7 +1041,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 11 */
+
+/***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1055,7 +1067,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 12 */
+
+/***/ 12:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1116,7 +1129,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 13 */
+
+/***/ 13:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1186,7 +1200,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 14 */
+
+/***/ 14:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -1381,7 +1396,8 @@
 	module.exports = ReactChildren;
 
 /***/ }),
-/* 15 */
+
+/***/ 15:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1498,7 +1514,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 16 */
+
+/***/ 16:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1844,7 +1861,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 17 */
+
+/***/ 17:
 /***/ (function(module, exports) {
 
 	/**
@@ -1877,7 +1895,8 @@
 	module.exports = ReactCurrentOwner;
 
 /***/ }),
-/* 18 */
+
+/***/ 18:
 /***/ (function(module, exports) {
 
 	/**
@@ -1901,7 +1920,8 @@
 	module.exports = REACT_ELEMENT_TYPE;
 
 /***/ }),
-/* 19 */
+
+/***/ 19:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -2082,7 +2102,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 20 */
+
+/***/ 20:
 /***/ (function(module, exports) {
 
 	/**
@@ -2127,7 +2148,8 @@
 	module.exports = getIteratorFn;
 
 /***/ }),
-/* 21 */
+
+/***/ 21:
 /***/ (function(module, exports) {
 
 	/**
@@ -2190,7 +2212,8 @@
 	module.exports = KeyEscapeUtils;
 
 /***/ }),
-/* 22 */
+
+/***/ 22:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -2364,7 +2387,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 23 */
+
+/***/ 23:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -2624,7 +2648,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 24 */
+
+/***/ 24:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -3008,7 +3033,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 25 */
+
+/***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -3100,7 +3126,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 26 */
+
+/***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -3130,7 +3157,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 27 */
+
+/***/ 27:
 /***/ (function(module, exports) {
 
 	/**
@@ -3151,7 +3179,8 @@
 	module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 28 */
+
+/***/ 28:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -3174,7 +3203,8 @@
 	module.exports = factory(isValidElement);
 
 /***/ }),
-/* 29 */
+
+/***/ 29:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -3201,7 +3231,8 @@
 
 
 /***/ }),
-/* 30 */
+
+/***/ 30:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -3720,7 +3751,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 31 */
+
+/***/ 31:
 /***/ (function(module, exports) {
 
 	/**
@@ -3740,7 +3772,8 @@
 
 
 /***/ }),
-/* 32 */
+
+/***/ 32:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -3808,7 +3841,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 33 */
+
+/***/ 33:
 /***/ (function(module, exports) {
 
 	/**
@@ -3826,7 +3860,8 @@
 	module.exports = '15.6.1';
 
 /***/ }),
-/* 34 */
+
+/***/ 34:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -3853,7 +3888,8 @@
 	module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
 
 /***/ }),
-/* 35 */
+
+/***/ 35:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -4732,7 +4768,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 36 */
+
+/***/ 36:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -4775,7 +4812,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 37 */
+
+/***/ 37:
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org Version 4.10.0. Copyright 2017 Mike Bostock.
@@ -21691,7 +21729,8 @@
 
 
 /***/ }),
-/* 38 */
+
+/***/ 545:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21779,7 +21818,8 @@
 	exports.default = Axis;
 
 /***/ }),
-/* 39 */
+
+/***/ 546:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21815,5 +21855,6 @@
 	exports.default = Bar;
 
 /***/ })
-/******/ ]);
+
+/******/ });
 //# sourceMappingURL=ingredient-frequency-bar-chart-bundle.js.map

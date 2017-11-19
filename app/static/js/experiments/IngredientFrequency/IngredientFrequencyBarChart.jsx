@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import * as d3 from 'd3'
-import Axis from '../../components/d3/Axis.jsx'
-import Bar from '../../components/d3/Bar.jsx'
+import Axis from '../../components/d3_core/Axis/Axis.jsx'
+import Bar from '../../components/d3_core/Bar/Bar.jsx'
 // import './ingredient_frequency_bar.css'
 
 

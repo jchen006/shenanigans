@@ -10,7 +10,7 @@ var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
 module.exports = {
     entry: {
         "ingredient-frequency-bar-chart": "./experiments/IngredientFrequency/IngredientFrequencyBarChart.jsx",
-        "recipe-generator": "./components/RecipeGenerator/RecipeGenerator.jsx",
+        "recipe-generator": "./components/widgets/RecipeGenerator/RecipeGenerator.jsx",
         "pending-recipe-list": "./components/admin/curation/PendingRecipeList.jsx"
     },
     module: {
