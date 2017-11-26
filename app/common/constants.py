@@ -27,7 +27,7 @@ states = ['ground ', 'half-fat', 'fat', 'clarified', 'grated', 'scored', 'peeled
 
 temperature = ['hot', 'cold', 'lukewarm']
 
-misc = ['good-quality', 'ready_made', 'ready-to-eat', 'freshly', 'strong', 'smoked', 'soft', 'hard', 'warm', 'fresh',
+misc = ['good-quality', 'ready-made', 'ready-to-eat', 'freshly', 'strong', 'smoked', 'soft', 'hard', 'warm', 'fresh',
         'few', 'raw', 'good', 'wild', 'dried', 'generous', 'very', 'whole', 'half-fat', 'a little', 'quality', 'level',
         'about', 'plain', 'vacuum-packed', 'heaped', 'the', 'thickly', 'thinly', 'pin', 'boned', 'skin', 'roughly']
 
