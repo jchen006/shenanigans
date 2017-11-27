@@ -9,6 +9,26 @@ db = Blueprint('db', __name__)
 pending_recipe = msh.SubmitMongoHelper('pending_recipe_collection')
 mongo_main = mh.MongoHelper()
 
+"""Gets all ingredients"""
+@db.route("ingredients", methods=["GET"])
+def get_monogo_ingredients(): 
+    pass
+
+"""Updates ingredient"""
+@db.route("ingredients/update", methods=["POST"])
+def update_mongo_ingredients(): 
+    pass
+
+"""Search ingredient"""
+@db.route("ingredients/search", methods=["POST"])
+def search_mongo_ingreients():
+    pass
+
+"""Remove ingredient"""
+@db.route("ingredients/remove", methods=["POST"])
+def remove_mongo_ingredient(): 
+    pass
+
 """Gets all recipes"""
 @db.route("/recipes", methods=['GET'])
 def get_mongo_recipes(): 

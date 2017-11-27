@@ -34,13 +34,16 @@ class MongoHelper:
     def insertToRemote(self, json):
         post_id = None
         if isinstance(json, dict):
-            post_id = [self.collection.insert_one(json).inserted_id]
+            post_id = self.collection.insert_one(json).inserted_id
         elif isinstance(json, list):
             post_id = self.collection.insert_many(json).inserted_ids
         return post_id
 
     def findByJson(self, json):
-        return list(self.collection.find(json))
+        returned_posts = list(self.collection.find(json))
+        if len(returned_posts) == 1:
+            returned_posts = returned_posts[0]
+        return returned_posts
 
     def findById(self, post_id):
         if isinstance(post_id, str):
@@ -57,7 +60,17 @@ class MongoHelper:
         posts = []
         for post in self.collection.find():
             posts.append(post)
+        if len(posts) == 1:
+            posts = posts[0]
         return posts
+
+    def findByField(self, field_name, field_value):
+        return_val = []
+        for val in self.collection.find({field_name: field_value}):
+            return_val.append(val)
+        if len(return_val) == 1:
+            return_val = return_val[0]
+        return return_val
 
     def removeOneRecipe(self, item):
         removal_json = {"recipe_name": item}
