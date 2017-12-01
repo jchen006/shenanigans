@@ -16,8 +16,21 @@ class Ingredient:
         # strings)
         self.timeframe = timeframe
 
-        # recipes = list of strings for the names of the recipes
         self.recipes = recipes
+
+        # recipes = list of strings for the names of the recipes
+        # self._recipes = None
+
+    # @property
+    # def recipes(self):
+    #     if self._recipes:
+    #         return self._recipes
+    #     else:
+    #         # Search entire DB for all other recipes containing ingredient
+    #         # ...
+    #         # Update the class cache!
+    #         self._recipes = None
+    #         pass
 
 if __name__ == "__main__":
     x = Ingredient("buttercake crackers")

@@ -1,7 +1,6 @@
 gunicorn==0.17.2
 beautifulsoup4==4.3.2
 configparser==3.5.0
-dateparser==0.5.0
 Django==1.8.2
 flasgger==0.5.13
 Flask==0.10.1
@@ -24,7 +23,6 @@ Pillow==2.8.1
 pymongo==3.3.0
 pyscreenshot==0.4.1
 python-dateutil==2.4.2
-PyYAML==3.12
 regex==2016.9.22
 request==0.0.8
 requests==2.10.0

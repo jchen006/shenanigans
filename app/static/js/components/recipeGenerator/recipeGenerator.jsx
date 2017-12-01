@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import InputRange from 'react-input-range'
 import { ListGroup, ListGroupItem, Grid, Row, Col, PageHeader } from 'react-bootstrap'
 import RangeSlider from '../core/RangeSlider/RangeSlider.jsx'
 import IngredientsCard from '../core/IngredientsCard/IngredientsCard.jsx'

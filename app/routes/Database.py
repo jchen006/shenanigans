@@ -7,26 +7,35 @@ import json
 db = Blueprint('db', __name__)
 
 pending_recipe = msh.SubmitMongoHelper('pending_recipe_collection')
+ingredients_collection = mh.MongoHelper(collection_str='ingredient_collection')
 mongo_main = mh.MongoHelper()
 
 """Gets all ingredients"""
-@db.route("ingredients", methods=["GET"])
+@db.route("/ingredients", methods=["GET"])
 def get_monogo_ingredients(): 
-    pass
+    ingredients = ingredients_collection.findAll()
+    ingredients_cleaned = json.loads(json_util.dumps(ingredients))
+    return jsonify({"Ingredients": ingredients_cleaned}), 200
 
 """Updates ingredient"""
-@db.route("ingredients/update", methods=["POST"])
+@db.route("/ingredients/update", methods=["POST"])
 def update_mongo_ingredients(): 
-    pass
+    id = request.json['_id'].encode("ascii", "ignore")
+
 
 """Search ingredient"""
-@db.route("ingredients/search", methods=["POST"])
+@db.route("/ingredients/searchId", methods=["POST"])
 def search_mongo_ingreients():
-    pass
+    print(request)
+    id = request.json['id'].encode("ascii", "ignore")
+    ingredient = ingredients_collection.findById(id)
+    ingredient_cleaned = json.loads(json_util.dumps(ingredient))
+    return jsonify({"Ingredient": ingredient_cleaned}), 200
 
 """Remove ingredient"""
-@db.route("ingredients/remove", methods=["POST"])
+@db.route("/ingredients/remove", methods=["POST"])
 def remove_mongo_ingredient(): 
+    id = request.json['_id'].encode("ascii", "ignore")
     pass
 
 """Gets all recipes"""
