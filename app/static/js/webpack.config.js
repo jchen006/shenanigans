@@ -11,7 +11,8 @@ module.exports = {
     entry: {
         "ingredient-frequency-bar-chart": "./experiments/IngredientFrequency/IngredientFrequencyBarChart.jsx",
         "recipe-generator": "./components/RecipeGenerator/RecipeGenerator.jsx",
-        "pending-recipe-list": "./components/admin/curation/PendingRecipeList.jsx"
+        "pending-recipe-list": "./components/admin/curation/PendingRecipeList.jsx",
+        "ingredients-list": "./components/admin/curation/IngredientListApp.jsx"
     },
     module: {
         loaders: [
@@ -32,5 +33,11 @@ module.exports = {
 		path: __dirname + '/react-components',
 		filename: '[name]-bundle.js'
     },
-    devtool: 'source-map'
+    devtool: 'source-map',
+    node: {
+        fs: 'empty'
+    },
+    externals: [
+        'child_process'
+    ] 
 };
