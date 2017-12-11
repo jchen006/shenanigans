@@ -21,7 +21,7 @@ const routes = [
   }
 ]
 
-const SidebarExample = () => (
+const IngredientsListApp = () => (
   <Router>
     <div style={{ display: 'flex' }}>
       <div style={{
@@ -35,7 +35,9 @@ const SidebarExample = () => (
           <li><Link to="/shoelaces">Shoelaces</Link></li>
         </ul>
 
-        {routes.map((route, index) => (
+        <Route path="/:id" component={Child}/>
+
+        {/* {routes.map((route, index) => (
           // You can render a <Route> in as many places
           // as you want in your app. It will render along
           // with any other <Route>s that also match the URL.
@@ -49,7 +51,7 @@ const SidebarExample = () => (
             exact={route.exact}
             component={route.sidebar}
           />
-        ))}
+        ))} */}
       </div>
 
       <div style={{ flex: 1, padding: '10px' }}>
@@ -68,7 +70,13 @@ const SidebarExample = () => (
   </Router>
 )
 
+const Child = ({match}) => (
+  <div>
+    <h3> ID: {match.params.id} </h3>
+  </div>
+)
+
 ReactDOM.render(
-  <SidebarExample/>,
+  <IngredientsListApp/>,
   document.getElementById('ingredient-list-panel')
 )
