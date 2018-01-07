@@ -35,5 +35,8 @@ module.exports = {
     devtool: 'source-map',
     node: {
         fs: 'empty'
-    }
+    },
+    externals: [
+        'child_process'
+    ] 
 };
