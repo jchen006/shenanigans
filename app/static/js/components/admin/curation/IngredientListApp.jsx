@@ -4,6 +4,7 @@ import {
   Route,
   Link
 } from 'react-router-dom'
+import { Table } from 'react-bootstrap'
 
 const routes = [
   { path: '/',
@@ -21,6 +22,12 @@ const routes = [
   }
 ]
 
+const getAllIngredients = () => {
+  fetch('/db/ingredients')
+    .then(response => response.json())
+    .then(data => {return data.Ingredients})
+}
+
 const IngredientsListApp = () => (
   <Router>
     <div style={{ display: 'flex' }}>
@@ -29,42 +36,25 @@ const IngredientsListApp = () => (
         width: '40%',
         background: '#f0f0f0'
       }}>
-        <ul style={{ listStyleType: 'none', padding: 0 }}>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/bubblegum">Bubblegum</Link></li>
-          <li><Link to="/shoelaces">Shoelaces</Link></li>
-        </ul>
-
+        <Table hover>
+          <thead>
+            <td> Ingredient </td>
+            <td> Flag </td>
+            <td> Details </td>
+          </thead>
+          <tbody>
+            { getAllIngredients().map(recipe => {
+              return (
+                <tr>
+                  <td>{recipe.name}</td>
+                  <td>{"None"}</td>
+                  <td><Link to= {(id) => `/${id}`}>Details</Link></td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </Table>
         <Route path="/:id" component={Child}/>
-
-        {/* {routes.map((route, index) => (
-          // You can render a <Route> in as many places
-          // as you want in your app. It will render along
-          // with any other <Route>s that also match the URL.
-          // So, a sidebar or breadcrumbs or anything else
-          // that requires you to render multiple things
-          // in multiple places at the same URL is nothing
-          // more than multiple <Route>s.
-          <Route
-            key={index}
-            path={route.path}
-            exact={route.exact}
-            component={route.sidebar}
-          />
-        ))} */}
-      </div>
-
-      <div style={{ flex: 1, padding: '10px' }}>
-        {routes.map((route, index) => (
-          // Render more <Route>s with the same paths as
-          // above, but different components this time.
-          <Route
-            key={index}
-            path={route.path}
-            exact={route.exact}
-            component={route.main}
-          />
-        ))}
       </div>
     </div>
   </Router>
