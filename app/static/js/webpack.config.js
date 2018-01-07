@@ -10,7 +10,7 @@ var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
 module.exports = {
     entry: {
         "ingredient-frequency-bar-chart": "./experiments/IngredientFrequency/IngredientFrequencyBarChart.jsx",
-        "recipe-generator": "./components/RecipeGenerator/RecipeGenerator.jsx",
+        "recipe-generator": "./widgets/RecipeGeneratorWidget/RecipeGeneratorWidget.jsx",
         "pending-recipe-list": "./components/admin/curation/PendingRecipeList.jsx"
     },
     module: {
@@ -32,5 +32,8 @@ module.exports = {
 		path: __dirname + '/react-components',
 		filename: '[name]-bundle.js'
     },
-    devtool: 'source-map'
+    devtool: 'source-map',
+    node: {
+        fs: 'empty'
+    }
 };
