@@ -33,7 +33,11 @@
     "webpack-dev-server": "^1.16.1"
   },
   "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-install": "^2.1.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
     "react-edit-inline": "^1.0.8"

@@ -54,11 +54,11 @@
 	
 	var d3 = _interopRequireWildcard(_d);
 	
-	var _Axis = __webpack_require__(109);
+	var _Axis = __webpack_require__(110);
 	
 	var _Axis2 = _interopRequireDefault(_Axis);
 	
-	var _Bar = __webpack_require__(110);
+	var _Bar = __webpack_require__(111);
 	
 	var _Bar2 = _interopRequireDefault(_Bar);
 	
@@ -4769,15 +4769,15 @@
 	var d3Queue = __webpack_require__(59);
 	var d3Random = __webpack_require__(60);
 	var d3Request = __webpack_require__(61);
-	var d3Scale = __webpack_require__(103);
+	var d3Scale = __webpack_require__(104);
 	var d3Selection = __webpack_require__(43);
-	var d3Shape = __webpack_require__(106);
-	var d3Time = __webpack_require__(104);
-	var d3TimeFormat = __webpack_require__(105);
+	var d3Shape = __webpack_require__(107);
+	var d3Time = __webpack_require__(105);
+	var d3TimeFormat = __webpack_require__(106);
 	var d3Timer = __webpack_require__(47);
 	var d3Transition = __webpack_require__(46);
-	var d3Voronoi = __webpack_require__(107);
-	var d3Zoom = __webpack_require__(108);
+	var d3Voronoi = __webpack_require__(108);
+	var d3Zoom = __webpack_require__(109);
 	
 	var version = "4.12.2";
 	
@@ -17029,7 +17029,7 @@
 	   */
 	  var self = this;
 	  var http = __webpack_require__(76);
-	  var https = __webpack_require__(102);
+	  var https = __webpack_require__(103);
 	
 	  // Holds http.js objects
 	  var request;
@@ -21138,8 +21138,8 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {var ClientRequest = __webpack_require__(77)
-	var extend = __webpack_require__(100)
-	var statusCodes = __webpack_require__(101)
+	var extend = __webpack_require__(101)
+	var statusCodes = __webpack_require__(102)
 	var url = __webpack_require__(67)
 	
 	var http = exports
@@ -21226,7 +21226,7 @@
 	var inherits = __webpack_require__(79)
 	var response = __webpack_require__(80)
 	var stream = __webpack_require__(81)
-	var toArrayBuffer = __webpack_require__(99)
+	var toArrayBuffer = __webpack_require__(100)
 	
 	var IncomingMessage = response.IncomingMessage
 	var rStates = response.readyStates
@@ -21832,10 +21832,10 @@
 	exports = module.exports = __webpack_require__(82);
 	exports.Stream = exports;
 	exports.Readable = exports;
-	exports.Writable = __webpack_require__(92);
-	exports.Duplex = __webpack_require__(91);
-	exports.Transform = __webpack_require__(97);
-	exports.PassThrough = __webpack_require__(98);
+	exports.Writable = __webpack_require__(93);
+	exports.Duplex = __webpack_require__(92);
+	exports.Transform = __webpack_require__(98);
+	exports.PassThrough = __webpack_require__(99);
 
 
 /***/ }),
@@ -21873,7 +21873,7 @@
 	module.exports = Readable;
 	
 	/*<replacement>*/
-	var isArray = __webpack_require__(66);
+	var isArray = __webpack_require__(84);
 	/*</replacement>*/
 	
 	/*<replacement>*/
@@ -21883,7 +21883,7 @@
 	Readable.ReadableState = ReadableState;
 	
 	/*<replacement>*/
-	var EE = __webpack_require__(84).EventEmitter;
+	var EE = __webpack_require__(85).EventEmitter;
 	
 	var EElistenerCount = function (emitter, type) {
 	  return emitter.listeners(type).length;
@@ -21891,13 +21891,13 @@
 	/*</replacement>*/
 	
 	/*<replacement>*/
-	var Stream = __webpack_require__(85);
+	var Stream = __webpack_require__(86);
 	/*</replacement>*/
 	
 	// TODO(bmeurer): Change this back to const once hole checks are
 	// properly optimized away early in Ignition+TurboFan.
 	/*<replacement>*/
-	var Buffer = __webpack_require__(86).Buffer;
+	var Buffer = __webpack_require__(87).Buffer;
 	var OurUint8Array = global.Uint8Array || function () {};
 	function _uint8ArrayToBuffer(chunk) {
 	  return Buffer.from(chunk);
@@ -21908,12 +21908,12 @@
 	/*</replacement>*/
 	
 	/*<replacement>*/
-	var util = __webpack_require__(87);
+	var util = __webpack_require__(88);
 	util.inherits = __webpack_require__(79);
 	/*</replacement>*/
 	
 	/*<replacement>*/
-	var debugUtil = __webpack_require__(88);
+	var debugUtil = __webpack_require__(89);
 	var debug = void 0;
 	if (debugUtil && debugUtil.debuglog) {
 	  debug = debugUtil.debuglog('stream');
@@ -21922,8 +21922,8 @@
 	}
 	/*</replacement>*/
 	
-	var BufferList = __webpack_require__(89);
-	var destroyImpl = __webpack_require__(90);
+	var BufferList = __webpack_require__(90);
+	var destroyImpl = __webpack_require__(91);
 	var StringDecoder;
 	
 	util.inherits(Readable, Stream);
@@ -21945,7 +21945,7 @@
 	}
 	
 	function ReadableState(options, stream) {
-	  Duplex = Duplex || __webpack_require__(91);
+	  Duplex = Duplex || __webpack_require__(92);
 	
 	  options = options || {};
 	
@@ -22006,14 +22006,14 @@
 	  this.decoder = null;
 	  this.encoding = null;
 	  if (options.encoding) {
-	    if (!StringDecoder) StringDecoder = __webpack_require__(96).StringDecoder;
+	    if (!StringDecoder) StringDecoder = __webpack_require__(97).StringDecoder;
 	    this.decoder = new StringDecoder(options.encoding);
 	    this.encoding = options.encoding;
 	  }
 	}
 	
 	function Readable(options) {
-	  Duplex = Duplex || __webpack_require__(91);
+	  Duplex = Duplex || __webpack_require__(92);
 	
 	  if (!(this instanceof Readable)) return new Readable(options);
 	
@@ -22162,7 +22162,7 @@
 	
 	// backwards compatibility.
 	Readable.prototype.setEncoding = function (enc) {
-	  if (!StringDecoder) StringDecoder = __webpack_require__(96).StringDecoder;
+	  if (!StringDecoder) StringDecoder = __webpack_require__(97).StringDecoder;
 	  this._readableState.decoder = new StringDecoder(enc);
 	  this._readableState.encoding = enc;
 	  return this;
@@ -22905,6 +22905,17 @@
 /* 84 */
 /***/ (function(module, exports) {
 
+	var toString = {}.toString;
+	
+	module.exports = Array.isArray || function (arr) {
+	  return toString.call(arr) == '[object Array]';
+	};
+
+
+/***/ }),
+/* 85 */
+/***/ (function(module, exports) {
+
 	// Copyright Joyent, Inc. and other Node contributors.
 	//
 	// Permission is hereby granted, free of charge, to any person obtaining a
@@ -23210,14 +23221,14 @@
 
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(84).EventEmitter;
+	module.exports = __webpack_require__(85).EventEmitter;
 
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* eslint-disable node/no-deprecated-api */
@@ -23285,7 +23296,7 @@
 
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {// Copyright Joyent, Inc. and other Node contributors.
@@ -23399,13 +23410,13 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(63).Buffer))
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports) {
 
 	/* (ignored) */
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23414,7 +23425,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var Buffer = __webpack_require__(86).Buffer;
+	var Buffer = __webpack_require__(87).Buffer;
 	/*</replacement>*/
 	
 	function copyBuffer(src, target, offset) {
@@ -23484,7 +23495,7 @@
 	}();
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23561,7 +23572,7 @@
 	};
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -23609,12 +23620,12 @@
 	module.exports = Duplex;
 	
 	/*<replacement>*/
-	var util = __webpack_require__(87);
+	var util = __webpack_require__(88);
 	util.inherits = __webpack_require__(79);
 	/*</replacement>*/
 	
 	var Readable = __webpack_require__(82);
-	var Writable = __webpack_require__(92);
+	var Writable = __webpack_require__(93);
 	
 	util.inherits(Duplex, Readable);
 	
@@ -23690,7 +23701,7 @@
 	}
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process, setImmediate, global) {// Copyright Joyent, Inc. and other Node contributors.
@@ -23759,22 +23770,22 @@
 	Writable.WritableState = WritableState;
 	
 	/*<replacement>*/
-	var util = __webpack_require__(87);
+	var util = __webpack_require__(88);
 	util.inherits = __webpack_require__(79);
 	/*</replacement>*/
 	
 	/*<replacement>*/
 	var internalUtil = {
-	  deprecate: __webpack_require__(95)
+	  deprecate: __webpack_require__(96)
 	};
 	/*</replacement>*/
 	
 	/*<replacement>*/
-	var Stream = __webpack_require__(85);
+	var Stream = __webpack_require__(86);
 	/*</replacement>*/
 	
 	/*<replacement>*/
-	var Buffer = __webpack_require__(86).Buffer;
+	var Buffer = __webpack_require__(87).Buffer;
 	var OurUint8Array = global.Uint8Array || function () {};
 	function _uint8ArrayToBuffer(chunk) {
 	  return Buffer.from(chunk);
@@ -23784,14 +23795,14 @@
 	}
 	/*</replacement>*/
 	
-	var destroyImpl = __webpack_require__(90);
+	var destroyImpl = __webpack_require__(91);
 	
 	util.inherits(Writable, Stream);
 	
 	function nop() {}
 	
 	function WritableState(options, stream) {
-	  Duplex = Duplex || __webpack_require__(91);
+	  Duplex = Duplex || __webpack_require__(92);
 	
 	  options = options || {};
 	
@@ -23931,7 +23942,7 @@
 	}
 	
 	function Writable(options) {
-	  Duplex = Duplex || __webpack_require__(91);
+	  Duplex = Duplex || __webpack_require__(92);
 	
 	  // Writable ctor is applied to Duplexes, too.
 	  // `realHasInstance` is necessary because using plain `instanceof`
@@ -24357,10 +24368,10 @@
 	  this.end();
 	  cb(err);
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(93).setImmediate, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(94).setImmediate, (function() { return this; }())))
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var apply = Function.prototype.apply;
@@ -24413,13 +24424,13 @@
 	};
 	
 	// setimmediate attaches itself to the global object
-	__webpack_require__(94);
+	__webpack_require__(95);
 	exports.setImmediate = setImmediate;
 	exports.clearImmediate = clearImmediate;
 
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -24612,7 +24623,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(3)))
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {
@@ -24686,12 +24697,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var Buffer = __webpack_require__(86).Buffer;
+	var Buffer = __webpack_require__(87).Buffer;
 	
 	var isEncoding = Buffer.isEncoding || function (encoding) {
 	  encoding = '' + encoding;
@@ -24963,7 +24974,7 @@
 	}
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -25033,10 +25044,10 @@
 	
 	module.exports = Transform;
 	
-	var Duplex = __webpack_require__(91);
+	var Duplex = __webpack_require__(92);
 	
 	/*<replacement>*/
-	var util = __webpack_require__(87);
+	var util = __webpack_require__(88);
 	util.inherits = __webpack_require__(79);
 	/*</replacement>*/
 	
@@ -25182,7 +25193,7 @@
 	}
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -25214,10 +25225,10 @@
 	
 	module.exports = PassThrough;
 	
-	var Transform = __webpack_require__(97);
+	var Transform = __webpack_require__(98);
 	
 	/*<replacement>*/
-	var util = __webpack_require__(87);
+	var util = __webpack_require__(88);
 	util.inherits = __webpack_require__(79);
 	/*</replacement>*/
 	
@@ -25234,7 +25245,7 @@
 	};
 
 /***/ }),
-/* 99 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var Buffer = __webpack_require__(63).Buffer
@@ -25267,7 +25278,7 @@
 
 
 /***/ }),
-/* 100 */
+/* 101 */
 /***/ (function(module, exports) {
 
 	module.exports = extend
@@ -25292,7 +25303,7 @@
 
 
 /***/ }),
-/* 101 */
+/* 102 */
 /***/ (function(module, exports) {
 
 	module.exports = {
@@ -25362,7 +25373,7 @@
 
 
 /***/ }),
-/* 102 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var http = __webpack_require__(76);
@@ -25382,12 +25393,12 @@
 
 
 /***/ }),
-/* 103 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-scale/ Version 1.0.7. Copyright 2017 Mike Bostock.
 	(function (global, factory) {
-		 true ? factory(exports, __webpack_require__(38), __webpack_require__(51), __webpack_require__(44), __webpack_require__(55), __webpack_require__(104), __webpack_require__(105), __webpack_require__(45)) :
+		 true ? factory(exports, __webpack_require__(38), __webpack_require__(51), __webpack_require__(44), __webpack_require__(55), __webpack_require__(105), __webpack_require__(106), __webpack_require__(45)) :
 		typeof define === 'function' && define.amd ? define(['exports', 'd3-array', 'd3-collection', 'd3-interpolate', 'd3-format', 'd3-time', 'd3-time-format', 'd3-color'], factory) :
 		(factory((global.d3 = global.d3 || {}),global.d3,global.d3,global.d3,global.d3,global.d3,global.d3,global.d3));
 	}(this, (function (exports,d3Array,d3Collection,d3Interpolate,d3Format,d3Time,d3TimeFormat,d3Color) { 'use strict';
@@ -26313,7 +26324,7 @@
 
 
 /***/ }),
-/* 104 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-time/ Version 1.0.8. Copyright 2017 Mike Bostock.
@@ -26704,12 +26715,12 @@
 
 
 /***/ }),
-/* 105 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-time-format/ Version 2.1.1. Copyright 2017 Mike Bostock.
 	(function (global, factory) {
-		 true ? factory(exports, __webpack_require__(104)) :
+		 true ? factory(exports, __webpack_require__(105)) :
 		typeof define === 'function' && define.amd ? define(['exports', 'd3-time'], factory) :
 		(factory((global.d3 = global.d3 || {}),global.d3));
 	}(this, (function (exports,d3Time) { 'use strict';
@@ -27398,7 +27409,7 @@
 
 
 /***/ }),
-/* 106 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-shape/ Version 1.2.0. Copyright 2017 Mike Bostock.
@@ -29339,7 +29350,7 @@
 
 
 /***/ }),
-/* 107 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-voronoi/ Version 1.1.2. Copyright 2017 Mike Bostock.
@@ -30344,7 +30355,7 @@
 
 
 /***/ }),
-/* 108 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-zoom/ Version 1.7.1. Copyright 2017 Mike Bostock.
@@ -30852,7 +30863,7 @@
 
 
 /***/ }),
-/* 109 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30940,7 +30951,7 @@
 	exports.default = Axis;
 
 /***/ }),
-/* 110 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
