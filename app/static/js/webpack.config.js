@@ -32,5 +32,11 @@ module.exports = {
 		path: __dirname + '/react-components',
 		filename: '[name]-bundle.js'
     },
-    devtool: 'source-map'
+    devtool: 'source-map',
+    node: {
+        fs: 'empty'
+    },
+    externals: [
+        'child_process'
+    ]
 };
