@@ -23,11 +23,11 @@ module.exports = {
                 //query: { presets: [ 'es2015', 'react' ] }
             },
             {
-                test: /\.css$/,
-                loader: 'style-loader!css-loader'
+                test: /\.less$/,
+                loader: 'css-loader!less-loader'
             }
-		]
-	},
+        ]
+    },
     output: {
 		path: __dirname + '/react-components',
 		filename: '[name]-bundle.js'

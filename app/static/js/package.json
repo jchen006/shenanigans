@@ -31,7 +31,11 @@
   },
   "devDependencies": {
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+    "css-loader": "^0.28.8",
     "d3": "^4.12.2",
+    "file-loader": "^1.1.6",
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
     "react": "^15.0.0",
     "react-bootstrap": "^0.32.0",
     "react-dom": "^15.0.0",
