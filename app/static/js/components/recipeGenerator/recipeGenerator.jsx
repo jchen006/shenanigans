@@ -25,8 +25,7 @@ const RecipeGenerator = React.createClass({
     let generateRecipeEndpoint = "/api/create_recipe"
     var requestData = {
       "vector": this.state.sliders
-    }  
-    console.log(requestData)
+    }
     let fetchData = {
       headers: {
         'Accept': 'application/json',
