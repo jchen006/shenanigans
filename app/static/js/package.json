@@ -22,6 +22,7 @@
     "path": "^0.12.7",
     "react-bar-chart": "^0.1.2",
     "react-bootstrap-table": "^4.0.6",
+    "react-bootstrap-typeahead": "^2.2.0",
     "react-loaders": "^2.6.0",
     "react-modal-bootstrap": "^1.1.1",
     "react-rangeslider": "^2.2.0",
