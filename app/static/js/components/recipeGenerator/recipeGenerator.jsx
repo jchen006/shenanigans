@@ -116,8 +116,6 @@ RecipeGenerator.propTypes = {
   numSliders: PropTypes.number
 }
 
-// export default RecipeGenerator
-
 ReactDOM.render(
   <RecipeGenerator 
     numSliders = {10}
