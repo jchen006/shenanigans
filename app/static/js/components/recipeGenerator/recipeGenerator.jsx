@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import InputRange from 'react-input-range'
 import { ListGroup, ListGroupItem, Grid, Row, Col, PageHeader } from 'react-bootstrap'
 import RangeSlider from '../core/RangeSlider/RangeSlider.jsx'
@@ -8,11 +9,11 @@ import './RecipeGenerator.less'
 class RecipeGenerator extends React.Component {
 
   constructor(props) {
-    super(props);
-    this.state({
+    super(props)
+    this.state = {
       sliders: new Array(this.props.numSliders).fill(0),
       recipe: []
-    })
+    }
   }
 
   defaultSliders() {
