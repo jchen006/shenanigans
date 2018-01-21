@@ -1,15 +1,17 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Panel } from 'react-bootstrap'
 
-const IngredientsCard = React.createClass({
- propTypes: {
-    ingredients: PropTypes.array
-  },
+class IngredientsCard extends React.Component {
+
+  constructor(props) {
+    super(props)
+  }
 
   createList() {
     var ingredients = this.props.ingredients
     return ingredients.join(", ")
-  },
+  }
 
   render() {
     const title = ( <h3> Recipe </h3> )
@@ -21,6 +23,10 @@ const IngredientsCard = React.createClass({
       </div>
     )
   }
-})
+}
+
+IngredientsCard.propTypes = {
+  ingredients: PropTypes.array
+}
 
 export default IngredientsCard 
