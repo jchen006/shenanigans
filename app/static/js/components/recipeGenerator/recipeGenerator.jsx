@@ -5,21 +5,19 @@ import RangeSlider from '../core/RangeSlider/RangeSlider.jsx'
 import IngredientsCard from '../core/IngredientsCard/IngredientsCard.jsx'
 import './RecipeGenerator.less'
 
-const RecipeGenerator = React.createClass({
-  propTypes: {
-    numSliders: PropTypes.number
-  },
+class RecipeGenerator extends React.Component {
 
-  getInitialState() {
-    return {
-      sliders: this.defaultSliders(),
+  constructor(props) {
+    super(props);
+    this.state({
+      sliders: new Array(this.props.numSliders).fill(0),
       recipe: []
-    }
-  },
+    })
+  }
 
   defaultSliders() {
     return new Array(this.props.numSliders).fill(0)
-  },
+  }
 
   generateRecipeService() {
     let generateRecipeEndpoint = "/api/create_recipe"
@@ -42,7 +40,7 @@ const RecipeGenerator = React.createClass({
           recipe : data.Recipe
         })
       })
-  },
+  }
 
   handleOnSliderChangeComplete(index, value) {
     let updated_sliders = this.state.sliders
@@ -50,7 +48,7 @@ const RecipeGenerator = React.createClass({
     this.setState({
       sliders: updated_sliders
     }, this.generateRecipeService())
-  },
+  }
 
   renderSliders() {
     const minValue = 0
@@ -74,7 +72,7 @@ const RecipeGenerator = React.createClass({
         })}
       </div>
     )
-  },
+  }
 
   renderRecipes() {
     return (
@@ -84,7 +82,7 @@ const RecipeGenerator = React.createClass({
         />
       </div>
     )
-  },
+  }
 
   renderHeader() {
     return(
@@ -92,7 +90,7 @@ const RecipeGenerator = React.createClass({
         Recipe Generator
       </PageHeader>
     )
-  },
+  }
 
   render() {
     return (
@@ -111,9 +109,13 @@ const RecipeGenerator = React.createClass({
       </div>
     )
   }
-})
+}
 
-export default RecipeGenerator
+RecipeGenerator.propTypes = { 
+  numSliders: PropTypes.number
+}
+
+// export default RecipeGenerator
 
 ReactDOM.render(
   <RecipeGenerator 
