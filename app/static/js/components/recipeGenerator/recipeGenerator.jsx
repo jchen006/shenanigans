@@ -99,11 +99,11 @@ class RecipeGenerator extends React.Component {
         {this.renderHeader()}
         <Grid>
           <Row className="show-grid">
-            <Col md={6}>
+            <Col md={4}>
               { this.renderSliders() }
             </Col>
-            <Col md={6}>
-              { this.renderRecipes() }
+            <Col md={8}>
+              { this.state.recipe.length > 0 ? this.renderRecipes() : null}
             </Col>
           </Row>
         </Grid>

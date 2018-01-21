@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Panel } from 'react-bootstrap'
+import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap'
 
 class IngredientsCard extends React.Component {
 
@@ -8,18 +8,37 @@ class IngredientsCard extends React.Component {
     super(props)
   }
 
+  createTable() {
+    var ingredients = this.props.ingredients
+    return (
+      <ListGroup>
+        { ingredients.map((i) => {
+          return (<ListGroupItem href='#'> 
+            {i}
+          </ListGroupItem>)
+        })}
+      </ListGroup>
+    )
+  }
+
   createList() {
     var ingredients = this.props.ingredients
     return ingredients.join(", ")
   }
 
-  render() {
+  ingredientPanel() {
     const title = ( <h3> Recipe </h3> )
     return (
-      <div> 
-        <Panel header={title}>
-          { this.createList() }
-        </Panel>
+      <Panel header={ title }>
+        { this.createList() }
+      </Panel>
+    )
+  }
+
+  render() {
+    return (
+      <div className="suggested-recipe-panel">
+        { this.ingredientPanel() }
       </div>
     )
   }
