@@ -11,7 +11,8 @@ module.exports = {
     entry: {
         "ingredient-frequency-bar-chart": "./experiments/IngredientFrequency/IngredientFrequencyBarChart.jsx",
         "recipe-generator": "./components/RecipeGenerator/RecipeGenerator.jsx",
-        "pending-recipe-list": "./components/admin/curation/PendingRecipeList.jsx"
+        "pending-recipe-list": "./components/admin/curation/PendingRecipeList.jsx",
+        "word-cloud": "./widgets/WordCloudWidget.jsx"
     },
     module: {
         loaders: [
@@ -34,7 +35,8 @@ module.exports = {
     },
     devtool: 'source-map',
     node: {
-        fs: 'empty'
+        fs: 'empty',
+        child_process: 'empty'
     },
     externals: [
         'child_process'

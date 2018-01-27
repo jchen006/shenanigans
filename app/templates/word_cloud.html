@@ -1,6 +1,6 @@
 {% extends "layout_2.html" %} {% block content %}
-<script src="/static/js/experiments/word_cloud/word_cloud.js"></script>
-<script src="/static/js/d3/d3.layout.cloud.js"></script>
+<script src="/static/js/react-components/word-cloud-bundle.js"></script>
+
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header"> Word Cloud </h1>
@@ -17,15 +17,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    wordCloud.init({
-        num: 100,
-        width: 2000,
-        height: 1500,
-        api_call: "/api/word_cloud_json/"
-    });
-</script>
 
 
 {% endblock %}
