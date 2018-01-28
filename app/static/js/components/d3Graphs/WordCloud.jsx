@@ -15,6 +15,7 @@ class WordCloudComponent extends React.Component {
             data={this.props.data}
             width={this.props.width}
             height={this.props.height}
+            padding = {this.props.padding}
           />
       </div>
     )}
@@ -23,7 +24,8 @@ class WordCloudComponent extends React.Component {
 WordCloudComponent.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
-  data: PropTypes.array
+  data: PropTypes.array,
+  padding: PropTypes.number
 }
 
 export default WordCloudComponent

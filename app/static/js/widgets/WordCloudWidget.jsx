@@ -25,9 +25,10 @@ class WordCloudWidget extends React.Component {
     return (
       <div className="word-cloud-widget-container">
         <WordCloudComponent
-          width = { 2000}
-          height = { 1500 }
+          width = { 1500 }
+          height = { 1000 }
           data = { this.state.ingredients }
+          padding = {0}
         />
       </div>
     )

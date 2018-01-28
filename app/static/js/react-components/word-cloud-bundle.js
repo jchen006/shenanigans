@@ -79,9 +79,10 @@
 	      'div',
 	      { className: 'word-cloud-widget-container' },
 	      _react2.default.createElement(_WordCloud2.default, {
-	        width: 2000,
-	        height: 1500,
-	        data: this.state.ingredients
+	        width: 1500,
+	        height: 1000,
+	        data: this.state.ingredients,
+	        padding: 0
 	      })
 	    );
 	  }
@@ -8102,7 +8103,8 @@
 	      _react2.default.createElement(_reactD3Cloud2.default, {
 	        data: this.props.data,
 	        width: this.props.width,
-	        height: this.props.height
+	        height: this.props.height,
+	        padding: this.props.padding
 	      })
 	    );
 	  }
@@ -8111,7 +8113,8 @@
 	WordCloudComponent.propTypes = {
 	  width: _propTypes2.default.number,
 	  height: _propTypes2.default.number,
-	  data: _propTypes2.default.array
+	  data: _propTypes2.default.array,
+	  padding: _propTypes2.default.number
 	};
 	
 	exports.default = WordCloudComponent;

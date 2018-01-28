@@ -76,7 +76,7 @@ class BagOfIngredients:
     def get_top_N_ingredients_json(self, N, MAX_FONT=120):
         top_ingreds, top_freqs = self.get_top_N_ingredient_frequencies(N)
         MULT_FONT_SCALE = MAX_FONT / (1.0 * max(top_freqs))
-        js = [{"text": x, "size": int(y * MULT_FONT_SCALE)}
+        js = [{"text": x, "value": int(y * MULT_FONT_SCALE)}
               for x, y in zip(top_ingreds, top_freqs)]
         return json.dumps(js)
 
