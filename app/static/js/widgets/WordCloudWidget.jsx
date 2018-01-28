@@ -1,10 +1,17 @@
 import React from 'react'
-import WordCloud from '../components/d3Graphs/WordCloud.jsx'
+import WordCloudComponent from '../components/d3Graphs/WordCloud.jsx'
 
 class WordCloudWidget extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      ingredients : []
+    }
+  }
+
   componentWillMount() {
-    fetch("/api/word_cloud_json/")
+    fetch("/api/word_cloud_json/100")
     .then(response => response.json())
     .then(data => {
         this.setState({
@@ -17,13 +24,10 @@ class WordCloudWidget extends React.Component {
   render() {
     return (
       <div className="word-cloud-widget-container">
-        <WordCloud
-          num = { 100 }
+        <WordCloudComponent
           width = { 2000}
           height = { 1500 }
-          words = { this.state.ingredients }
-          domain = { [0, 1, 2, 3, 4, 5, 6, 10, 15, 20, 100] }
-          range = { ["#ddd", "#ccc", "#bbb", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]}
+          data = { this.state.ingredients }
         />
       </div>
     )
@@ -31,4 +35,4 @@ class WordCloudWidget extends React.Component {
 
 }
 
-ReactDOM.render(<WordCloudWidget/>, document.getElementById('word_cloud') )
+ReactDOM.render(<WordCloudWidget/>, document.getElementById('word_cloud'))
