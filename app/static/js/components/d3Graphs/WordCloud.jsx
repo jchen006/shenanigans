@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import WordCloud from 'react-d3-cloud';
+import WordCloud from 'react-d3-cloud'
 
 class WordCloudComponent extends React.Component {
 
