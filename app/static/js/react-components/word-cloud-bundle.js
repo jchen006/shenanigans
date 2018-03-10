@@ -51,7 +51,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _WordCloud = __webpack_require__(473);
+	var _WordCloud = __webpack_require__(499);
 	
 	var _WordCloud2 = _interopRequireDefault(_WordCloud);
 	
@@ -2659,108 +2659,6 @@
 	exports.transpose = transpose;
 	exports.variance = variance;
 	exports.zip = zip;
-	
-	Object.defineProperty(exports, '__esModule', { value: true });
-	
-	})));
-
-
-/***/ }),
-
-/***/ 16:
-/***/ (function(module, exports, __webpack_require__) {
-
-	// https://d3js.org/d3-dispatch/ Version 1.0.3. Copyright 2017 Mike Bostock.
-	(function (global, factory) {
-		 true ? factory(exports) :
-		typeof define === 'function' && define.amd ? define(['exports'], factory) :
-		(factory((global.d3 = global.d3 || {})));
-	}(this, (function (exports) { 'use strict';
-	
-	var noop = {value: function() {}};
-	
-	function dispatch() {
-	  for (var i = 0, n = arguments.length, _ = {}, t; i < n; ++i) {
-	    if (!(t = arguments[i] + "") || (t in _)) throw new Error("illegal type: " + t);
-	    _[t] = [];
-	  }
-	  return new Dispatch(_);
-	}
-	
-	function Dispatch(_) {
-	  this._ = _;
-	}
-	
-	function parseTypenames(typenames, types) {
-	  return typenames.trim().split(/^|\s+/).map(function(t) {
-	    var name = "", i = t.indexOf(".");
-	    if (i >= 0) name = t.slice(i + 1), t = t.slice(0, i);
-	    if (t && !types.hasOwnProperty(t)) throw new Error("unknown type: " + t);
-	    return {type: t, name: name};
-	  });
-	}
-	
-	Dispatch.prototype = dispatch.prototype = {
-	  constructor: Dispatch,
-	  on: function(typename, callback) {
-	    var _ = this._,
-	        T = parseTypenames(typename + "", _),
-	        t,
-	        i = -1,
-	        n = T.length;
-	
-	    // If no callback was specified, return the callback of the given type and name.
-	    if (arguments.length < 2) {
-	      while (++i < n) if ((t = (typename = T[i]).type) && (t = get(_[t], typename.name))) return t;
-	      return;
-	    }
-	
-	    // If a type was specified, set the callback for the given type and name.
-	    // Otherwise, if a null callback was specified, remove callbacks of the given name.
-	    if (callback != null && typeof callback !== "function") throw new Error("invalid callback: " + callback);
-	    while (++i < n) {
-	      if (t = (typename = T[i]).type) _[t] = set(_[t], typename.name, callback);
-	      else if (callback == null) for (t in _) _[t] = set(_[t], typename.name, null);
-	    }
-	
-	    return this;
-	  },
-	  copy: function() {
-	    var copy = {}, _ = this._;
-	    for (var t in _) copy[t] = _[t].slice();
-	    return new Dispatch(copy);
-	  },
-	  call: function(type, that) {
-	    if ((n = arguments.length - 2) > 0) for (var args = new Array(n), i = 0, n, t; i < n; ++i) args[i] = arguments[i + 2];
-	    if (!this._.hasOwnProperty(type)) throw new Error("unknown type: " + type);
-	    for (t = this._[type], i = 0, n = t.length; i < n; ++i) t[i].value.apply(that, args);
-	  },
-	  apply: function(type, that, args) {
-	    if (!this._.hasOwnProperty(type)) throw new Error("unknown type: " + type);
-	    for (var t = this._[type], i = 0, n = t.length; i < n; ++i) t[i].value.apply(that, args);
-	  }
-	};
-	
-	function get(type, name) {
-	  for (var i = 0, n = type.length, c; i < n; ++i) {
-	    if ((c = type[i]).name === name) {
-	      return c.value;
-	    }
-	  }
-	}
-	
-	function set(type, name, callback) {
-	  for (var i = 0, n = type.length; i < n; ++i) {
-	    if (type[i].name === name) {
-	      type[i] = noop, type = type.slice(0, i).concat(type.slice(i + 1));
-	      break;
-	    }
-	  }
-	  if (callback != null) type.push({name: name, value: callback});
-	  return type;
-	}
-	
-	exports.dispatch = dispatch;
 	
 	Object.defineProperty(exports, '__esModule', { value: true });
 	
@@ -8067,7 +7965,7 @@
 
 /***/ }),
 
-/***/ 473:
+/***/ 499:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8084,7 +7982,7 @@
 	
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 	
-	var _reactD3Cloud = __webpack_require__(474);
+	var _reactD3Cloud = __webpack_require__(500);
 	
 	var _reactD3Cloud2 = _interopRequireDefault(_reactD3Cloud);
 	
@@ -8121,12 +8019,12 @@
 
 /***/ }),
 
-/***/ 474:
+/***/ 500:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var _WordCloud = __webpack_require__(475);
+	var _WordCloud = __webpack_require__(501);
 	
 	var _WordCloud2 = _interopRequireDefault(_WordCloud);
 	
@@ -8136,7 +8034,7 @@
 
 /***/ }),
 
-/***/ 475:
+/***/ 501:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8151,7 +8049,7 @@
 	
 	var _react = __webpack_require__(1);
 	
-	var _reactFauxDom = __webpack_require__(476);
+	var _reactFauxDom = __webpack_require__(502);
 	
 	var _reactFauxDom2 = _interopRequireDefault(_reactFauxDom);
 	
@@ -8159,11 +8057,11 @@
 	
 	var _d3Scale = __webpack_require__(79);
 	
-	var _d3Cloud = __webpack_require__(492);
+	var _d3Cloud = __webpack_require__(518);
 	
 	var _d3Cloud2 = _interopRequireDefault(_d3Cloud);
 	
-	var _defaultMappers = __webpack_require__(493);
+	var _defaultMappers = __webpack_require__(519);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -8244,13 +8142,13 @@
 
 /***/ }),
 
-/***/ 476:
+/***/ 502:
 /***/ (function(module, exports, __webpack_require__) {
 
-	var Element = __webpack_require__(477)
-	var Window = __webpack_require__(489)
-	var core = __webpack_require__(490)
-	var anim = __webpack_require__(491)
+	var Element = __webpack_require__(503)
+	var Window = __webpack_require__(515)
+	var core = __webpack_require__(516)
+	var anim = __webpack_require__(517)
 	
 	var ReactFauxDOM = {
 	  Element: Element,
@@ -8279,18 +8177,18 @@
 
 /***/ }),
 
-/***/ 477:
+/***/ 503:
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1)
-	var styleAttr = __webpack_require__(478)
-	var querySelectorAll = __webpack_require__(479)
-	var camelCase = __webpack_require__(483)
-	var isString = __webpack_require__(484)
-	var isUndefined = __webpack_require__(485)
-	var assign = __webpack_require__(486)
-	var mapValues = __webpack_require__(487)
-	var styleCamelCase = __webpack_require__(488)
+	var styleAttr = __webpack_require__(504)
+	var querySelectorAll = __webpack_require__(505)
+	var camelCase = __webpack_require__(509)
+	var isString = __webpack_require__(510)
+	var isUndefined = __webpack_require__(511)
+	var assign = __webpack_require__(512)
+	var mapValues = __webpack_require__(513)
+	var styleCamelCase = __webpack_require__(514)
 	
 	function Element (nodeName, parentNode) {
 	  this.nodeName = nodeName
@@ -8643,7 +8541,7 @@
 
 /***/ }),
 
-/***/ 478:
+/***/ 504:
 /***/ (function(module, exports) {
 
 	
@@ -8779,14 +8677,14 @@
 
 /***/ }),
 
-/***/ 479:
+/***/ 505:
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(480);
+	module.exports = __webpack_require__(506);
 
 /***/ }),
 
-/***/ 480:
+/***/ 506:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -8795,8 +8693,8 @@
 	 * @author yiminghe@gmail.com
 	 */
 	
-	var util = __webpack_require__(481);
-	var parser = __webpack_require__(482);
+	var util = __webpack_require__(507);
+	var parser = __webpack_require__(508);
 	
 	var EXPANDO_SELECTOR_KEY = '_ks_data_selector_id_',
 	  caches = {},
@@ -9490,7 +9388,7 @@
 
 /***/ }),
 
-/***/ 481:
+/***/ 507:
 /***/ (function(module, exports) {
 
 	/**
@@ -9842,7 +9740,7 @@
 
 /***/ }),
 
-/***/ 482:
+/***/ 508:
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -11052,7 +10950,7 @@
 
 /***/ }),
 
-/***/ 483:
+/***/ 509:
 /***/ (function(module, exports) {
 
 	var hyphenExpression = /\-+([a-z])/gi
@@ -11076,7 +10974,7 @@
 
 /***/ }),
 
-/***/ 484:
+/***/ 510:
 /***/ (function(module, exports) {
 
 	function isString (value) {
@@ -11088,7 +10986,7 @@
 
 /***/ }),
 
-/***/ 485:
+/***/ 511:
 /***/ (function(module, exports) {
 
 	function isUndefined (value) {
@@ -11100,7 +10998,7 @@
 
 /***/ }),
 
-/***/ 486:
+/***/ 512:
 /***/ (function(module, exports) {
 
 	function assign (dest) {
@@ -11123,7 +11021,7 @@
 
 /***/ }),
 
-/***/ 487:
+/***/ 513:
 /***/ (function(module, exports) {
 
 	function mapValues (source, fn) {
@@ -11143,10 +11041,10 @@
 
 /***/ }),
 
-/***/ 488:
+/***/ 514:
 /***/ (function(module, exports, __webpack_require__) {
 
-	var camelCase = __webpack_require__(483)
+	var camelCase = __webpack_require__(509)
 	
 	function styleCamelCase (name) {
 	  var camel = camelCase(name)
@@ -11170,7 +11068,7 @@
 
 /***/ }),
 
-/***/ 489:
+/***/ 515:
 /***/ (function(module, exports) {
 
 	var Window = {
@@ -11186,11 +11084,11 @@
 
 /***/ }),
 
-/***/ 490:
+/***/ 516:
 /***/ (function(module, exports, __webpack_require__) {
 
-	var Element = __webpack_require__(477)
-	var mapValues = __webpack_require__(487)
+	var Element = __webpack_require__(503)
+	var mapValues = __webpack_require__(513)
 	
 	var mixin = {
 	  componentWillMount: function () {
@@ -11217,7 +11115,7 @@
 
 /***/ }),
 
-/***/ 491:
+/***/ 517:
 /***/ (function(module, exports) {
 
 	var anim = {
@@ -11250,13 +11148,14 @@
 
 /***/ }),
 
-/***/ 492:
+/***/ 518:
 /***/ (function(module, exports, __webpack_require__) {
 
+	var require;var require;(function(f){if(true){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g=(g.d3||(g.d3 = {}));g=(g.layout||(g.layout = {}));g.cloud = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return require(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 	// Word cloud layout by Jason Davies, https://www.jasondavies.com/wordcloud/
 	// Algorithm due to Jonathan Feinberg, http://static.mrfeinberg.com/bv_ch03.pdf
 	
-	var dispatch = __webpack_require__(16).dispatch;
+	var dispatch = require("d3-dispatch").dispatch;
 	
 	var cloudRadians = Math.PI / 180,
 	    cw = 1 << 11 >> 5,
@@ -11652,11 +11551,110 @@
 	  archimedean: archimedeanSpiral,
 	  rectangular: rectangularSpiral
 	};
-
+	
+	},{"d3-dispatch":2}],2:[function(require,module,exports){
+	// https://d3js.org/d3-dispatch/ Version 1.0.3. Copyright 2017 Mike Bostock.
+	(function (global, factory) {
+		typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+		typeof define === 'function' && define.amd ? define(['exports'], factory) :
+		(factory((global.d3 = global.d3 || {})));
+	}(this, (function (exports) { 'use strict';
+	
+	var noop = {value: function() {}};
+	
+	function dispatch() {
+	  for (var i = 0, n = arguments.length, _ = {}, t; i < n; ++i) {
+	    if (!(t = arguments[i] + "") || (t in _)) throw new Error("illegal type: " + t);
+	    _[t] = [];
+	  }
+	  return new Dispatch(_);
+	}
+	
+	function Dispatch(_) {
+	  this._ = _;
+	}
+	
+	function parseTypenames(typenames, types) {
+	  return typenames.trim().split(/^|\s+/).map(function(t) {
+	    var name = "", i = t.indexOf(".");
+	    if (i >= 0) name = t.slice(i + 1), t = t.slice(0, i);
+	    if (t && !types.hasOwnProperty(t)) throw new Error("unknown type: " + t);
+	    return {type: t, name: name};
+	  });
+	}
+	
+	Dispatch.prototype = dispatch.prototype = {
+	  constructor: Dispatch,
+	  on: function(typename, callback) {
+	    var _ = this._,
+	        T = parseTypenames(typename + "", _),
+	        t,
+	        i = -1,
+	        n = T.length;
+	
+	    // If no callback was specified, return the callback of the given type and name.
+	    if (arguments.length < 2) {
+	      while (++i < n) if ((t = (typename = T[i]).type) && (t = get(_[t], typename.name))) return t;
+	      return;
+	    }
+	
+	    // If a type was specified, set the callback for the given type and name.
+	    // Otherwise, if a null callback was specified, remove callbacks of the given name.
+	    if (callback != null && typeof callback !== "function") throw new Error("invalid callback: " + callback);
+	    while (++i < n) {
+	      if (t = (typename = T[i]).type) _[t] = set(_[t], typename.name, callback);
+	      else if (callback == null) for (t in _) _[t] = set(_[t], typename.name, null);
+	    }
+	
+	    return this;
+	  },
+	  copy: function() {
+	    var copy = {}, _ = this._;
+	    for (var t in _) copy[t] = _[t].slice();
+	    return new Dispatch(copy);
+	  },
+	  call: function(type, that) {
+	    if ((n = arguments.length - 2) > 0) for (var args = new Array(n), i = 0, n, t; i < n; ++i) args[i] = arguments[i + 2];
+	    if (!this._.hasOwnProperty(type)) throw new Error("unknown type: " + type);
+	    for (t = this._[type], i = 0, n = t.length; i < n; ++i) t[i].value.apply(that, args);
+	  },
+	  apply: function(type, that, args) {
+	    if (!this._.hasOwnProperty(type)) throw new Error("unknown type: " + type);
+	    for (var t = this._[type], i = 0, n = t.length; i < n; ++i) t[i].value.apply(that, args);
+	  }
+	};
+	
+	function get(type, name) {
+	  for (var i = 0, n = type.length, c; i < n; ++i) {
+	    if ((c = type[i]).name === name) {
+	      return c.value;
+	    }
+	  }
+	}
+	
+	function set(type, name, callback) {
+	  for (var i = 0, n = type.length; i < n; ++i) {
+	    if (type[i].name === name) {
+	      type[i] = noop, type = type.slice(0, i).concat(type.slice(i + 1));
+	      break;
+	    }
+	  }
+	  if (callback != null) type.push({name: name, value: callback});
+	  return type;
+	}
+	
+	exports.dispatch = dispatch;
+	
+	Object.defineProperty(exports, '__esModule', { value: true });
+	
+	})));
+	
+	},{}]},{},[1])(1)
+	});
 
 /***/ }),
 
-/***/ 493:
+/***/ 519:
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11666,7 +11664,7 @@
 	});
 	exports.defaultFontSizeMapper = undefined;
 	
-	var _defaultFontSizeMapper2 = __webpack_require__(494);
+	var _defaultFontSizeMapper2 = __webpack_require__(520);
 	
 	var _defaultFontSizeMapper3 = _interopRequireDefault(_defaultFontSizeMapper2);
 	
@@ -11676,7 +11674,7 @@
 
 /***/ }),
 
-/***/ 494:
+/***/ 520:
 /***/ (function(module, exports) {
 
 	"use strict";

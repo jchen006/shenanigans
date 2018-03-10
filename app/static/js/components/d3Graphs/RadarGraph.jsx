@@ -3,16 +3,14 @@ import PropTypes from 'prop-types'
 import Radar from 'react-d3-radar';
 
 class RadarGraphComponent extends React.Component {
-
-  state={
-    hoveredOption: ''
-  }
-
   constructor(props) {
     super(props)
+    this.state = {
+      hoveredOption: ''
+    }
   }
 
-  handleHover = (point) => {
+  handleHover(point) {
     this.setState( { hoveredOption: point } )
     console.log(point)
     this.props.onHover(point)

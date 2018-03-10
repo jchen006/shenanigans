@@ -11,7 +11,7 @@
     <div class="col-md-6">
 
         <body>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="recipe1">Select recipe:</label>
@@ -30,14 +30,15 @@
                     <input class="btn btn-primary" type="submit" value="Submit" onclick="createGraph()">
                 </div>
             </div>
-            <div class="radarChart"></div>
+            <div class="radarChart"></div> -->
+            <div id="radar-graph-widget"></div>
         </body>
     </div>
 </div>
+<script src="/static/js/react-components/radar-graph-bundle.js"></script>
 
 
-
-<script>
+<!-- <script>
     window.onload = generateSelector();
 
     function loadSelectors() {
@@ -130,6 +131,6 @@
     };
 
     generateGraph(1, 2);
-</script>
+</script> -->
 
 {% endblock %}

@@ -4,15 +4,14 @@ import PropTypes from 'prop-types'
 
 class Selector extends React.Component {
 
-  state = {
-    selectedOption: ''
-  }
-
   constructor(props) {
     super(props)
+    this.state = {
+      selectedOption: ''
+    }
   }
 
-  handleChange = (selectedOption) => {
+  handleChange(selectedOption) {
     this.setState({ selectedOption })
     console.log(`Selected: ${selectedOption.label}`)
     this.props.onChange()

@@ -12,7 +12,8 @@ module.exports = {
         "ingredient-frequency-bar-chart": "./experiments/IngredientFrequency/IngredientFrequencyBarChart.jsx",
         "recipe-generator": "./components/RecipeGenerator/RecipeGenerator.jsx",
         "pending-recipe-list": "./components/admin/curation/PendingRecipeList.jsx",
-        "word-cloud": "./widgets/WordCloudWidget.jsx"
+        "word-cloud": "./widgets/WordCloudWidget.jsx",
+        "radar-graph": "./widgets/RadarGraphWidget.jsx"
     },
     module: {
         loaders: [
