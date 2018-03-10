@@ -19,7 +19,7 @@ class Selector extends React.Component {
 
   render() {
     const { selectedOption } = this.state
-    const value = selectOption && selectOption.value
+    const value = selectedOption && selectedOption.value
 
     return (
       <Select

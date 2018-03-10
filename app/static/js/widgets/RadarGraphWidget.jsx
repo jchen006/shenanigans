@@ -54,24 +54,19 @@ class RadarGraphWidget extends React.Component {
           options: this._mapRecipeSelection(data.ordered_recipes)
         })
       })
-  }
-
-  _flattenString(name) {
-    var updated_string = name
-    updated_string = updated_string.toLowerCase()
-    updated_string = updated_string.replace(" ", "_")
-    updated_string = updated_string.replace("-", "_")
-    return updated_string
-  }
+    }
 
   _mapRecipeSelection(ordered_recipes) {
     let mapped_recipes = []
-    ordered_recipes.map(recipe_name => {
+    ordered_recipes.map((recipe_name, index) => {
       let recipe_obj = {
         label: recipe_name,
-        value: this._flattenString(recipe_name) 
+        value: index
       }
+      mapped_recipes.push(recipe_obj)
     })
+    console.log(mapped_recipes)
+    return mapped_recipes
   }
 
   handleSelection(selectionOption) {
@@ -113,7 +108,7 @@ class RadarGraphWidget extends React.Component {
   render() {
     return (
       <div className="radar-graph-wiodget">
-        {/* { this.renderSelector() } */}
+        { this.renderSelector() }
         { this.renderRadarGraph() }
         {/* { this.renderChart() } */}
       </div>

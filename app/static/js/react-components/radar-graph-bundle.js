@@ -106,22 +106,17 @@
 	    });
 	  }
 	
-	  _flattenString(name) {
-	    var updated_string = name;
-	    updated_string = updated_string.toLowerCase();
-	    updated_string = updated_string.replace(" ", "_");
-	    updated_string = updated_string.replace("-", "_");
-	    return updated_string;
-	  }
-	
 	  _mapRecipeSelection(ordered_recipes) {
 	    let mapped_recipes = [];
-	    ordered_recipes.map(recipe_name => {
+	    ordered_recipes.map((recipe_name, index) => {
 	      let recipe_obj = {
 	        label: recipe_name,
-	        value: this._flattenString(recipe_name)
+	        value: index
 	      };
+	      mapped_recipes.push(recipe_obj);
 	    });
+	    console.log(mapped_recipes);
+	    return mapped_recipes;
 	  }
 	
 	  handleSelection(selectionOption) {
@@ -158,6 +153,7 @@
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'radar-graph-wiodget' },
+	      this.renderSelector(),
 	      this.renderRadarGraph()
 	    );
 	  }
@@ -26465,7 +26461,7 @@
 	
 	  render() {
 	    const { selectedOption } = this.state;
-	    const value = selectOption && selectOption.value;
+	    const value = selectedOption && selectedOption.value;
 	
 	    return _react2.default.createElement(_reactSelect2.default, {
 	      name: this.props.name,
