@@ -5,13 +5,9 @@ import Radar from 'react-d3-radar';
 class RadarGraphComponent extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      hoveredOption: ''
-    }
   }
 
   handleHover(point) {
-    this.setState( { hoveredOption: point } )
     console.log(point)
     this.props.onHover(point)
   }
@@ -25,7 +21,14 @@ class RadarGraphComponent extends React.Component {
           padding={ this.props.padding }
           domainMax={ this.props.domainMax }
           highlighted={ this.props.highlighted }
-          onHover={ this.handleHover }
+          onHover={ (point) => { 
+            if(point) {
+              console.log("hovered")
+              this.handleHover(point)
+            } else {
+              console.log("nothing")
+            }
+          }}
           data={ this.props.data }
         />
       </div>
@@ -40,7 +43,7 @@ RadarGraphComponent.propTypes = {
   padding: PropTypes.number,
   domainMax: PropTypes.number,
   highlight: PropTypes.bool,
-  onHover: PropTypes.func
+  onHover: PropTypes.func,
 }
 
 export default RadarGraphComponent

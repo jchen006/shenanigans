@@ -6,27 +6,24 @@ class Selector extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      selectedOption: ''
-    }
   }
 
-  handleChange(selectedOption) {
-    this.setState({ selectedOption })
+  handleSelectChange(selectedOption) {
     console.log(`Selected: ${selectedOption.label}`)
-    this.props.onChange()
+    this.props.onChange(selectedOption)
   }
 
   render() {
-    const { selectedOption } = this.state
-    const value = selectedOption && selectedOption.value
+    const value = this.props.selectedOptions && this.props.selectedOptions.value
 
     return (
       <Select
         name= { this.props.name }
         value={ value }
-        onChange={ this.handleChange }
+        onChange={ this.onChange }
         options={ this.props.options }
+        multi = { this.props.multi }
+        placeholder = { this.props.placeholder }
       />
     )
   }
@@ -35,7 +32,10 @@ class Selector extends React.Component {
 Selector.propTypes = {
   name: PropTypes.string,
   options: PropTypes.array,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  multi: PropTypes.bool,
+  selectedOptions: PropTypes.array,
+  placeholder: PropTypes.string
 }
 
 export default Selector

@@ -96,7 +96,8 @@
 	          }
 	        }]
 	      },
-	      selectedOption: ''
+	      selectedOptions: [],
+	      hoveredOption: ''
 	    });
 	
 	    fetch("/api/ordered_recipes").then(response => response.json()).then(data => {
@@ -119,10 +120,15 @@
 	    return mapped_recipes;
 	  }
 	
-	  handleSelection(selectionOption) {
-	    let selectedOptions = this.state.selectOptions;
-	    selectedOptions.push(selectionOption);
+	  handleSelection(value) {
+	    let selectedOptions = this.state.selectedOptions;
+	    selectedOptions.push(value);
 	    this.setState({ selectedOptions: selectedOptions });
+	  }
+	
+	  handleOnHover(point) {
+	    console.log(point);
+	    this.setState({ hoveredOption: point });
 	  }
 	
 	  renderRadarGraph() {
@@ -132,10 +138,9 @@
 	      padding: 70,
 	      domainMax: 10,
 	      highlighted: null,
-	      onHover: point => {
-	        console.log(point);
-	      },
-	      data: this.state.data
+	      onHover: this.handleOnHover,
+	      data: this.state.data,
+	      hoveredOption: this.state.hoveredOption
 	    });
 	  }
 	
@@ -143,7 +148,10 @@
 	    return _react2.default.createElement(_Selector2.default, {
 	      name: 'form-field-selection',
 	      onChange: this.handleSelection,
-	      options: this.state.options
+	      options: this.state.options,
+	      multi: true,
+	      placeholder: 'Select some recipes',
+	      selectedOption: this.state.selectedOptions
 	    });
 	  }
 	
@@ -152,7 +160,7 @@
 	  render() {
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'radar-graph-wiodget' },
+	      { className: 'radar-graph-widget-container' },
 	      this.renderSelector(),
 	      this.renderRadarGraph()
 	    );
@@ -26448,26 +26456,23 @@
 	
 	  constructor(props) {
 	    super(props);
-	    this.state = {
-	      selectedOption: ''
-	    };
 	  }
 	
-	  handleChange(selectedOption) {
-	    this.setState({ selectedOption });
+	  handleSelectChange(selectedOption) {
 	    console.log(`Selected: ${selectedOption.label}`);
-	    this.props.onChange();
+	    this.props.onChange(selectedOption);
 	  }
 	
 	  render() {
-	    const { selectedOption } = this.state;
-	    const value = selectedOption && selectedOption.value;
+	    const value = this.props.selectedOptions && this.props.selectedOptions.value;
 	
 	    return _react2.default.createElement(_reactSelect2.default, {
 	      name: this.props.name,
 	      value: value,
-	      onChange: this.handleChange,
-	      options: this.props.options
+	      onChange: this.onChange,
+	      options: this.props.options,
+	      multi: this.props.multi,
+	      placeholder: this.props.placeholder
 	    });
 	  }
 	}
@@ -26475,7 +26480,10 @@
 	Selector.propTypes = {
 	  name: _propTypes2.default.string,
 	  options: _propTypes2.default.array,
-	  onChange: _propTypes2.default.func
+	  onChange: _propTypes2.default.func,
+	  multi: _propTypes2.default.bool,
+	  selectedOptions: _propTypes2.default.array,
+	  placeholder: _propTypes2.default.string
 	};
 	
 	exports.default = Selector;
@@ -29691,13 +29699,9 @@
 	class RadarGraphComponent extends _react2.default.Component {
 	  constructor(props) {
 	    super(props);
-	    this.state = {
-	      hoveredOption: ''
-	    };
 	  }
 	
 	  handleHover(point) {
-	    this.setState({ hoveredOption: point });
 	    console.log(point);
 	    this.props.onHover(point);
 	  }
@@ -29712,7 +29716,14 @@
 	        padding: this.props.padding,
 	        domainMax: this.props.domainMax,
 	        highlighted: this.props.highlighted,
-	        onHover: this.handleHover,
+	        onHover: point => {
+	          if (point) {
+	            console.log("hovered");
+	            this.handleHover(point);
+	          } else {
+	            console.log("nothing");
+	          }
+	        },
 	        data: this.props.data
 	      })
 	    );

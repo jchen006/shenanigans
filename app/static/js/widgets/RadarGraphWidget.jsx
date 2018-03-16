@@ -44,7 +44,8 @@ class RadarGraphWidget extends React.Component {
           },
         ],
       },
-      selectedOption: '',
+      selectedOptions: [],
+      hoveredOption: ''
     })
 
     fetch("/api/ordered_recipes")
@@ -69,10 +70,15 @@ class RadarGraphWidget extends React.Component {
     return mapped_recipes
   }
 
-  handleSelection(selectionOption) {
-    let selectedOptions = this.state.selectOptions
-    selectedOptions.push(selectionOption)
+  handleSelection(value) {
+    let selectedOptions = this.state.selectedOptions
+    selectedOptions.push(value)
     this.setState({selectedOptions: selectedOptions})
+  }
+
+  handleOnHover(point) {
+    console.log(point)
+    this.setState({ hoveredOption: point})
   }
 
   renderRadarGraph() {
@@ -83,10 +89,9 @@ class RadarGraphWidget extends React.Component {
         padding = { 70 }
         domainMax = { 10 }
         highlighted = { null }
-        onHover = { (point) => {
-          console.log(point)
-        }}
+        onHover = { this.handleOnHover}
         data = { this.state.data }
+        hoveredOption = { this.state.hoveredOption }
       />
     )
   }
@@ -97,6 +102,9 @@ class RadarGraphWidget extends React.Component {
         name="form-field-selection"
         onChange={this.handleSelection}
         options={this.state.options}
+        multi = {true}
+        placeholder = {'Select some recipes'}
+        selectedOption = { this.state.selectedOptions}
       />
     )
   }
@@ -107,7 +115,7 @@ class RadarGraphWidget extends React.Component {
 
   render() {
     return (
-      <div className="radar-graph-wiodget">
+      <div className="radar-graph-widget-container">
         { this.renderSelector() }
         { this.renderRadarGraph() }
         {/* { this.renderChart() } */}
