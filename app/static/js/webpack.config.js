@@ -11,7 +11,8 @@ module.exports = {
     entry: {
         "ingredient-frequency-bar-chart": "./experiments/IngredientFrequency/IngredientFrequencyBarChart.jsx",
         "recipe-generator": "./components/RecipeGenerator/RecipeGenerator.jsx",
-        "pending-recipe-list": "./components/admin/curation/PendingRecipeList.jsx"
+        "pending-recipe-list": "./components/admin/curation/PendingRecipeList.jsx",
+        "food-network-graph":"./widgets/FoodNetworkGraph.jsx"
     },
     module: {
         loaders: [

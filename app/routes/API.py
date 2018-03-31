@@ -16,9 +16,9 @@ parser.retrieve_data()
 
 print(parser)
 
-# g = Graph(parser)
-# g.make_graph_from_mongo()
-# g.make_d3()
+g = Graph(parser)
+g.make_graph_from_mongo()
+g.make_d3()
 
 rg = RadialGraph(parser)
 rg.init_graph_from_mongo()
@@ -43,6 +43,9 @@ tensorflow.reset_default_graph()
 vae = vae_utils.restore_test_vae_from_checkpoint(
     vae_utils.DEFAULT_NETWORK_ARCHITECTURE, VAE_SAVE_PATH)
 
+@api.route('/graph')
+def graph_json():
+    return g.get_d3_json()
 
 @api.route('/create_recipe', methods=['POST'])
 def crate_recipe_tensorflow():

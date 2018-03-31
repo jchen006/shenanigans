@@ -23,6 +23,7 @@
     "react": "^16.2.0",
     "react-bar-chart": "^0.1.2",
     "react-bootstrap-table": "^4.0.6",
+    "react-d3-graph": "^1.0.1",
     "react-dom": "^16.2.0",
     "react-loaders": "^2.6.0",
     "react-modal-bootstrap": "^1.1.1",
