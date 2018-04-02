@@ -45,7 +45,7 @@
 /***/ 0:
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	var _NetworkGraph = __webpack_require__(1);
 	
@@ -59,14 +59,40 @@
 	    super(props);
 	    this.state = {
 	      config: {
-	        nodeHighlightBehavior: true,
-	        node: {
-	          color: 'lightgreen',
-	          size: 120,
-	          highlightStrokeColor: 'blue'
+	        "height": 400,
+	        "highlightDegree": 1,
+	        "highlightOpacity": 1,
+	        "linkHighlightBehavior": false,
+	        "maxZoom": 8,
+	        "minZoom": 0.1,
+	        "nodeHighlightBehavior": false,
+	        "panAndZoom": false,
+	        "staticGraph": false,
+	        "width": 800,
+	        "node": {
+	          "color": "#d3d3d3",
+	          "fontSize": 8,
+	          "fontWeight": "normal",
+	          "labelProperty": "id",
+	          "mouseCursor": "pointer",
+	          "opacity": 1,
+	          "renderLabel": true,
+	          "size": 200,
+	          "strokeColor": "none",
+	          "strokeWidth": 1.5,
+	          "symbolType": "circle",
+	          "highlightColor": "SAME",
+	          "highlightFontSize": 8,
+	          "highlightFontWeight": "normal",
+	          "highlightStrokeColor": "SAME",
+	          "highlightStrokeWidth": 1.5
 	        },
-	        link: {
-	          highlightColor: 'lightblue'
+	        "link": {
+	          "color": "#d3d3d3",
+	          "opacity": 1,
+	          "semanticStrokeWidth": false,
+	          "strokeWidth": 1.5,
+	          "highlightColor": "#d3d3d3"
 	        }
 	      },
 	      data: {
@@ -112,11 +138,41 @@
 	
 	class NetworkGraph extends _react2.default.Component {
 	
+	  handleOnClickNode(nodeId) {
+	    this.props.onClickNode(nodeId);
+	  }
+	
+	  handleOPnMouseOverNode(nodeId) {
+	    this.props.onMouseOverNode(nodeId);
+	  }
+	
+	  handleOnMouseOutNode(nodeId) {
+	    this.props.onMouseOutNode(nodeId);
+	  }
+	
+	  handleOnClickLink(source, target) {
+	    this.props.onClickLink(source, target);
+	  }
+	
+	  handleOnMouseOverLink(source, target) {
+	    this.props.onMouseOverLink(source, target);
+	  }
+	
+	  handleOnMouseOutLink(source, target) {
+	    this.props.onMouseOutLink(source, target);
+	  }
+	
 	  render() {
 	    return _react2.default.createElement(_reactD3Graph.Graph, {
 	      id: this.props.id,
 	      data: this.props.data,
-	      config: this.props.config
+	      config: this.props.config,
+	      onClickNode: this.handleOnClickNode,
+	      onClickLink: this.handleOnClickLink,
+	      onMouseOverNode: this.handleOnMouseOverNode,
+	      onMouseOutNode: this.handleOnMouseOutNode,
+	      onMouseOverLink: this.handleOnMouseOverLink,
+	      onMouseOutLink: this.handleOnMouseOutLink
 	    });
 	  }
 	}
@@ -124,7 +180,13 @@
 	NetworkGraph.propTypes = {
 	  data: _propTypes2.default.object,
 	  config: _propTypes2.default.object,
-	  id: _propTypes2.default.string
+	  id: _propTypes2.default.string,
+	  onClickNode: _propTypes2.default.func,
+	  onClickLink: _propTypes2.default.func,
+	  onMouseOverNode: _propTypes2.default.func,
+	  onMouseOutNode: _propTypes2.default.func,
+	  onMouseOverLink: _propTypes2.default.func,
+	  onMouseOutLink: _propTypes2.default.func
 	};
 	
 	exports.default = NetworkGraph;
