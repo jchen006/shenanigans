@@ -1,4 +1,4 @@
-import NetworkGraph from "../components/d3-graphs/NetworkGraph.jsx";
+import { Graph } from 'react-d3-graph'
 
 class FoodNetworkGraph extends React.Component{
 
@@ -6,20 +6,26 @@ class FoodNetworkGraph extends React.Component{
     super(props)
     this.state = {
       config: {
+        "automaticRearrangeAfterDropNode": false,
         "height": 400,
         "highlightDegree": 1,
-        "highlightOpacity": 1,
+        "highlightOpacity": 0.2,
         "linkHighlightBehavior": false,
-        "maxZoom": 8,
+        "maxZoom": 6,
         "minZoom": 0.1,
-        "nodeHighlightBehavior": false,
-        "panAndZoom": false,
-        "staticGraph": false,
+        "nodeHighlightBehavior": true,
+        "panAndZoom": true,
+        "staticGraph": true,
         "width": 800,
         "node": {
           "color": "#d3d3d3",
           "fontSize": 8,
           "fontWeight": "normal",
+          "highlightColor": "SAME",
+          "highlightFontSize": 8,
+          "highlightFontWeight": "normal",
+          "highlightStrokeColor": "SAME",
+          "highlightStrokeWidth": 1.5,
           "labelProperty": "id",
           "mouseCursor": "pointer",
           "opacity": 1,
@@ -27,12 +33,8 @@ class FoodNetworkGraph extends React.Component{
           "size": 200,
           "strokeColor": "none",
           "strokeWidth": 1.5,
-          "symbolType": "circle",
-          "highlightColor": "SAME",
-          "highlightFontSize": 8,
-          "highlightFontWeight": "normal",
-          "highlightStrokeColor": "SAME",
-          "highlightStrokeWidth": 1.5
+          "svg": "",
+          "symbolType": "circle"
         },
         "link": {
           "color": "#d3d3d3",
@@ -62,12 +64,42 @@ class FoodNetworkGraph extends React.Component{
     }
   }
 
+  onClickNode(nodeId) {
+    console.log(nodeId)
+  }
+
+  onClickLink(source, target) {
+    console.log(source, target)
+  }
+  
+  onMouseOverNode(nodeId) {
+    console.log(nodeId)
+  }
+
+  onMouseOutNode(nodeId) {
+    console.log(nodeId)
+  }
+
+  onMouseOverLink(source, target) {
+    console.log(source, target)
+  }
+
+  onMouseOutLink(source, target) {
+    console.log(source, target)
+  }
+
   render() {
     return (
-      <NetworkGraph
+      <Graph
         config = { this.state.config }
         data = { this.state.data }
         id = { "food-network-graph" }
+        onClickNode={ this.onClickNode.bind(this) }
+        onClickLink={ this.onClickLink }
+        onMouseOverNode={ this.onMouseOverNode.bind(this) }
+        onMouseOutNode={ this.onMouseOutNode }
+        onMouseOverLink={ this.onMouseOverLink }
+        onMouseOutLink={ this.onMouseOutLink }
       />
     )
   }
