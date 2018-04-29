@@ -46,7 +46,7 @@
 
 	"use strict";
 	
-	var _reactD3Graph = __webpack_require__(13);
+	var _reactD3Graph = __webpack_require__(1);
 	
 	class FoodNetworkGraph extends React.Component {
 	
@@ -57,13 +57,13 @@
 	        "automaticRearrangeAfterDropNode": false,
 	        "height": 400,
 	        "highlightDegree": 1,
-	        "highlightOpacity": 0.2,
+	        "highlightOpacity": 1,
 	        "linkHighlightBehavior": false,
-	        "maxZoom": 6,
+	        "maxZoom": 8,
 	        "minZoom": 0.1,
-	        "nodeHighlightBehavior": true,
-	        "panAndZoom": true,
-	        "staticGraph": true,
+	        "nodeHighlightBehavior": false,
+	        "panAndZoom": false,
+	        "staticGraph": false,
 	        "width": 800,
 	        "node": {
 	          "color": "#d3d3d3",
@@ -74,7 +74,7 @@
 	          "highlightFontWeight": "normal",
 	          "highlightStrokeColor": "SAME",
 	          "highlightStrokeWidth": 1.5,
-	          "labelProperty": "id",
+	          "labelProperty": "name",
 	          "mouseCursor": "pointer",
 	          "opacity": 1,
 	          "renderLabel": true,
@@ -141,572 +141,7 @@
 	ReactDOM.render(React.createElement(FoodNetworkGraph, null), document.getElementById("food-network-graph-container"));
 
 /***/ }),
-/* 1 */,
-/* 2 */,
-/* 3 */
-/***/ (function(module, exports) {
-
-	// shim for using process in browser
-	var process = module.exports = {};
-	
-	// cached from whatever global is present so that test runners that stub it
-	// don't break things.  But we need to wrap it in a try catch in case it is
-	// wrapped in strict mode code which doesn't define any globals.  It's inside a
-	// function because try/catches deoptimize in certain engines.
-	
-	var cachedSetTimeout;
-	var cachedClearTimeout;
-	
-	function defaultSetTimout() {
-	    throw new Error('setTimeout has not been defined');
-	}
-	function defaultClearTimeout () {
-	    throw new Error('clearTimeout has not been defined');
-	}
-	(function () {
-	    try {
-	        if (typeof setTimeout === 'function') {
-	            cachedSetTimeout = setTimeout;
-	        } else {
-	            cachedSetTimeout = defaultSetTimout;
-	        }
-	    } catch (e) {
-	        cachedSetTimeout = defaultSetTimout;
-	    }
-	    try {
-	        if (typeof clearTimeout === 'function') {
-	            cachedClearTimeout = clearTimeout;
-	        } else {
-	            cachedClearTimeout = defaultClearTimeout;
-	        }
-	    } catch (e) {
-	        cachedClearTimeout = defaultClearTimeout;
-	    }
-	} ())
-	function runTimeout(fun) {
-	    if (cachedSetTimeout === setTimeout) {
-	        //normal enviroments in sane situations
-	        return setTimeout(fun, 0);
-	    }
-	    // if setTimeout wasn't available but was latter defined
-	    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-	        cachedSetTimeout = setTimeout;
-	        return setTimeout(fun, 0);
-	    }
-	    try {
-	        // when when somebody has screwed with setTimeout but no I.E. maddness
-	        return cachedSetTimeout(fun, 0);
-	    } catch(e){
-	        try {
-	            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-	            return cachedSetTimeout.call(null, fun, 0);
-	        } catch(e){
-	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-	            return cachedSetTimeout.call(this, fun, 0);
-	        }
-	    }
-	
-	
-	}
-	function runClearTimeout(marker) {
-	    if (cachedClearTimeout === clearTimeout) {
-	        //normal enviroments in sane situations
-	        return clearTimeout(marker);
-	    }
-	    // if clearTimeout wasn't available but was latter defined
-	    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-	        cachedClearTimeout = clearTimeout;
-	        return clearTimeout(marker);
-	    }
-	    try {
-	        // when when somebody has screwed with setTimeout but no I.E. maddness
-	        return cachedClearTimeout(marker);
-	    } catch (e){
-	        try {
-	            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-	            return cachedClearTimeout.call(null, marker);
-	        } catch (e){
-	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-	            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-	            return cachedClearTimeout.call(this, marker);
-	        }
-	    }
-	
-	
-	
-	}
-	var queue = [];
-	var draining = false;
-	var currentQueue;
-	var queueIndex = -1;
-	
-	function cleanUpNextTick() {
-	    if (!draining || !currentQueue) {
-	        return;
-	    }
-	    draining = false;
-	    if (currentQueue.length) {
-	        queue = currentQueue.concat(queue);
-	    } else {
-	        queueIndex = -1;
-	    }
-	    if (queue.length) {
-	        drainQueue();
-	    }
-	}
-	
-	function drainQueue() {
-	    if (draining) {
-	        return;
-	    }
-	    var timeout = runTimeout(cleanUpNextTick);
-	    draining = true;
-	
-	    var len = queue.length;
-	    while(len) {
-	        currentQueue = queue;
-	        queue = [];
-	        while (++queueIndex < len) {
-	            if (currentQueue) {
-	                currentQueue[queueIndex].run();
-	            }
-	        }
-	        queueIndex = -1;
-	        len = queue.length;
-	    }
-	    currentQueue = null;
-	    draining = false;
-	    runClearTimeout(timeout);
-	}
-	
-	process.nextTick = function (fun) {
-	    var args = new Array(arguments.length - 1);
-	    if (arguments.length > 1) {
-	        for (var i = 1; i < arguments.length; i++) {
-	            args[i - 1] = arguments[i];
-	        }
-	    }
-	    queue.push(new Item(fun, args));
-	    if (queue.length === 1 && !draining) {
-	        runTimeout(drainQueue);
-	    }
-	};
-	
-	// v8 likes predictible objects
-	function Item(fun, array) {
-	    this.fun = fun;
-	    this.array = array;
-	}
-	Item.prototype.run = function () {
-	    this.fun.apply(null, this.array);
-	};
-	process.title = 'browser';
-	process.browser = true;
-	process.env = {};
-	process.argv = [];
-	process.version = ''; // empty string to avoid regexp issues
-	process.versions = {};
-	
-	function noop() {}
-	
-	process.on = noop;
-	process.addListener = noop;
-	process.once = noop;
-	process.off = noop;
-	process.removeListener = noop;
-	process.removeAllListeners = noop;
-	process.emit = noop;
-	process.prependListener = noop;
-	process.prependOnceListener = noop;
-	
-	process.listeners = function (name) { return [] }
-	
-	process.binding = function (name) {
-	    throw new Error('process.binding is not supported');
-	};
-	
-	process.cwd = function () { return '/' };
-	process.chdir = function (dir) {
-	    throw new Error('process.chdir is not supported');
-	};
-	process.umask = function() { return 0; };
-
-
-/***/ }),
-/* 4 */,
-/* 5 */
-/***/ (function(module, exports) {
-
-	/*
-	object-assign
-	(c) Sindre Sorhus
-	@license MIT
-	*/
-	
-	'use strict';
-	/* eslint-disable no-unused-vars */
-	var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-	var hasOwnProperty = Object.prototype.hasOwnProperty;
-	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-	
-	function toObject(val) {
-		if (val === null || val === undefined) {
-			throw new TypeError('Object.assign cannot be called with null or undefined');
-		}
-	
-		return Object(val);
-	}
-	
-	function shouldUseNative() {
-		try {
-			if (!Object.assign) {
-				return false;
-			}
-	
-			// Detect buggy property enumeration order in older V8 versions.
-	
-			// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-			var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
-			test1[5] = 'de';
-			if (Object.getOwnPropertyNames(test1)[0] === '5') {
-				return false;
-			}
-	
-			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-			var test2 = {};
-			for (var i = 0; i < 10; i++) {
-				test2['_' + String.fromCharCode(i)] = i;
-			}
-			var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-				return test2[n];
-			});
-			if (order2.join('') !== '0123456789') {
-				return false;
-			}
-	
-			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-			var test3 = {};
-			'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-				test3[letter] = letter;
-			});
-			if (Object.keys(Object.assign({}, test3)).join('') !==
-					'abcdefghijklmnopqrst') {
-				return false;
-			}
-	
-			return true;
-		} catch (err) {
-			// We don't expect any of the above to throw, but better to be safe.
-			return false;
-		}
-	}
-	
-	module.exports = shouldUseNative() ? Object.assign : function (target, source) {
-		var from;
-		var to = toObject(target);
-		var symbols;
-	
-		for (var s = 1; s < arguments.length; s++) {
-			from = Object(arguments[s]);
-	
-			for (var key in from) {
-				if (hasOwnProperty.call(from, key)) {
-					to[key] = from[key];
-				}
-			}
-	
-			if (getOwnPropertySymbols) {
-				symbols = getOwnPropertySymbols(from);
-				for (var i = 0; i < symbols.length; i++) {
-					if (propIsEnumerable.call(from, symbols[i])) {
-						to[symbols[i]] = from[symbols[i]];
-					}
-				}
-			}
-		}
-	
-		return to;
-	};
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright (c) 2013-present, Facebook, Inc.
-	 *
-	 * This source code is licensed under the MIT license found in the
-	 * LICENSE file in the root directory of this source tree.
-	 *
-	 */
-	
-	'use strict';
-	
-	var emptyObject = {};
-	
-	if (process.env.NODE_ENV !== 'production') {
-	  Object.freeze(emptyObject);
-	}
-	
-	module.exports = emptyObject;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-	"use strict";
-	
-	/**
-	 * Copyright (c) 2013-present, Facebook, Inc.
-	 *
-	 * This source code is licensed under the MIT license found in the
-	 * LICENSE file in the root directory of this source tree.
-	 *
-	 * 
-	 */
-	
-	function makeEmptyFunction(arg) {
-	  return function () {
-	    return arg;
-	  };
-	}
-	
-	/**
-	 * This function accepts and discards inputs; it has no side effects. This is
-	 * primarily useful idiomatically for overridable function endpoints which
-	 * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
-	 */
-	var emptyFunction = function emptyFunction() {};
-	
-	emptyFunction.thatReturns = makeEmptyFunction;
-	emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
-	emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
-	emptyFunction.thatReturnsNull = makeEmptyFunction(null);
-	emptyFunction.thatReturnsThis = function () {
-	  return this;
-	};
-	emptyFunction.thatReturnsArgument = function (arg) {
-	  return arg;
-	};
-	
-	module.exports = emptyFunction;
-
-/***/ }),
-/* 8 */,
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright (c) 2013-present, Facebook, Inc.
-	 *
-	 * This source code is licensed under the MIT license found in the
-	 * LICENSE file in the root directory of this source tree.
-	 *
-	 */
-	
-	'use strict';
-	
-	/**
-	 * Use invariant() to assert state which your program assumes to be true.
-	 *
-	 * Provide sprintf-style format (only %s is supported) and arguments
-	 * to provide information about what broke and what you were
-	 * expecting.
-	 *
-	 * The invariant message will be stripped in production, but the invariant
-	 * will remain to ensure logic does not differ in production.
-	 */
-	
-	var validateFormat = function validateFormat(format) {};
-	
-	if (process.env.NODE_ENV !== 'production') {
-	  validateFormat = function validateFormat(format) {
-	    if (format === undefined) {
-	      throw new Error('invariant requires an error message argument');
-	    }
-	  };
-	}
-	
-	function invariant(condition, format, a, b, c, d, e, f) {
-	  validateFormat(format);
-	
-	  if (!condition) {
-	    var error;
-	    if (format === undefined) {
-	      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-	    } else {
-	      var args = [a, b, c, d, e, f];
-	      var argIndex = 0;
-	      error = new Error(format.replace(/%s/g, function () {
-	        return args[argIndex++];
-	      }));
-	      error.name = 'Invariant Violation';
-	    }
-	
-	    error.framesToPop = 1; // we don't care about invariant's own frame
-	    throw error;
-	  }
-	}
-	
-	module.exports = invariant;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright (c) 2014-present, Facebook, Inc.
-	 *
-	 * This source code is licensed under the MIT license found in the
-	 * LICENSE file in the root directory of this source tree.
-	 *
-	 */
-	
-	'use strict';
-	
-	var emptyFunction = __webpack_require__(7);
-	
-	/**
-	 * Similar to invariant but only logs a warning if the condition is not met.
-	 * This can be used to log issues in development environments in critical
-	 * paths. Removing the logging code for production environments will keep the
-	 * same logic and follow the same code paths.
-	 */
-	
-	var warning = emptyFunction;
-	
-	if (process.env.NODE_ENV !== 'production') {
-	  var printWarning = function printWarning(format) {
-	    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	      args[_key - 1] = arguments[_key];
-	    }
-	
-	    var argIndex = 0;
-	    var message = 'Warning: ' + format.replace(/%s/g, function () {
-	      return args[argIndex++];
-	    });
-	    if (typeof console !== 'undefined') {
-	      console.error(message);
-	    }
-	    try {
-	      // --- Welcome to debugging React ---
-	      // This error was thrown as a convenience so that you can use this stack
-	      // to find the callsite that caused this warning to fire.
-	      throw new Error(message);
-	    } catch (x) {}
-	  };
-	
-	  warning = function warning(condition, format) {
-	    if (format === undefined) {
-	      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
-	    }
-	
-	    if (format.indexOf('Failed Composite propType: ') === 0) {
-	      return; // Ignore CompositeComponent proptype check.
-	    }
-	
-	    if (!condition) {
-	      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-	        args[_key2 - 2] = arguments[_key2];
-	      }
-	
-	      printWarning.apply(undefined, [format].concat(args));
-	    }
-	  };
-	}
-	
-	module.exports = warning;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright (c) 2013-present, Facebook, Inc.
-	 *
-	 * This source code is licensed under the MIT license found in the
-	 * LICENSE file in the root directory of this source tree.
-	 */
-	
-	'use strict';
-	
-	if (process.env.NODE_ENV !== 'production') {
-	  var invariant = __webpack_require__(9);
-	  var warning = __webpack_require__(10);
-	  var ReactPropTypesSecret = __webpack_require__(12);
-	  var loggedTypeFailures = {};
-	}
-	
-	/**
-	 * Assert that the values match with the type specs.
-	 * Error messages are memorized and will only be shown once.
-	 *
-	 * @param {object} typeSpecs Map of name to a ReactPropType
-	 * @param {object} values Runtime values that need to be type-checked
-	 * @param {string} location e.g. "prop", "context", "child context"
-	 * @param {string} componentName Name of the component for error messages.
-	 * @param {?Function} getStack Returns the component stack.
-	 * @private
-	 */
-	function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
-	  if (process.env.NODE_ENV !== 'production') {
-	    for (var typeSpecName in typeSpecs) {
-	      if (typeSpecs.hasOwnProperty(typeSpecName)) {
-	        var error;
-	        // Prop type validation may throw. In case they do, we don't want to
-	        // fail the render phase where it didn't fail before. So we log it.
-	        // After these have been cleaned up, we'll let them throw.
-	        try {
-	          // This is intentionally an invariant that gets caught. It's the same
-	          // behavior as without this statement except with a better message.
-	          invariant(typeof typeSpecs[typeSpecName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'the `prop-types` package, but received `%s`.', componentName || 'React class', location, typeSpecName, typeof typeSpecs[typeSpecName]);
-	          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
-	        } catch (ex) {
-	          error = ex;
-	        }
-	        warning(!error || error instanceof Error, '%s: type specification of %s `%s` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', location, typeSpecName, typeof error);
-	        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
-	          // Only monitor this failure once because there tends to be a lot of the
-	          // same error.
-	          loggedTypeFailures[error.message] = true;
-	
-	          var stack = getStack ? getStack() : '';
-	
-	          warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
-	        }
-	      }
-	    }
-	  }
-	}
-	
-	module.exports = checkPropTypes;
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports) {
-
-	/**
-	 * Copyright (c) 2013-present, Facebook, Inc.
-	 *
-	 * This source code is licensed under the MIT license found in the
-	 * LICENSE file in the root directory of this source tree.
-	 */
-	
-	'use strict';
-	
-	var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
-	
-	module.exports = ReactPropTypesSecret;
-
-
-/***/ }),
-/* 13 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -716,15 +151,15 @@
 	});
 	exports.Link = exports.Node = exports.Graph = undefined;
 	
-	var _graph = __webpack_require__(14);
+	var _graph = __webpack_require__(2);
 	
 	var _graph2 = _interopRequireDefault(_graph);
 	
-	var _node = __webpack_require__(61);
+	var _node = __webpack_require__(57);
 	
 	var _node2 = _interopRequireDefault(_node);
 	
-	var _link = __webpack_require__(60);
+	var _link = __webpack_require__(56);
 	
 	var _link2 = _interopRequireDefault(_link);
 	
@@ -735,7 +170,7 @@
 	exports.Link = _link2.default;
 
 /***/ }),
-/* 14 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -748,39 +183,39 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _react = __webpack_require__(15);
+	var _react = __webpack_require__(3);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _d3Drag = __webpack_require__(43);
+	var _d3Drag = __webpack_require__(39);
 	
-	var _d3Force = __webpack_require__(46);
+	var _d3Force = __webpack_require__(42);
 	
-	var _d3Selection = __webpack_require__(45);
+	var _d3Selection = __webpack_require__(41);
 	
-	var _d3Zoom = __webpack_require__(50);
+	var _d3Zoom = __webpack_require__(46);
 	
-	var _const = __webpack_require__(55);
+	var _const = __webpack_require__(51);
 	
 	var _const2 = _interopRequireDefault(_const);
 	
-	var _config = __webpack_require__(57);
+	var _config = __webpack_require__(53);
 	
 	var _config2 = _interopRequireDefault(_config);
 	
-	var _err = __webpack_require__(58);
+	var _err = __webpack_require__(54);
 	
 	var _err2 = _interopRequireDefault(_err);
 	
-	var _graph = __webpack_require__(59);
+	var _graph = __webpack_require__(55);
 	
 	var graphRenderer = _interopRequireWildcard(_graph);
 	
-	var _graph2 = __webpack_require__(66);
+	var _graph2 = __webpack_require__(62);
 	
 	var graphHelper = _interopRequireWildcard(_graph2);
 	
-	var _utils = __webpack_require__(67);
+	var _utils = __webpack_require__(63);
 	
 	var _utils2 = _interopRequireDefault(_utils);
 	
@@ -1229,16 +664,16 @@
 	exports.default = Graph;
 
 /***/ }),
-/* 15 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	module.exports = __webpack_require__(16);
+	module.exports = __webpack_require__(4);
 
 
 /***/ }),
-/* 16 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1253,26 +688,26 @@
 	
 	'use strict';
 	
-	var _assign = __webpack_require__(5);
+	var _assign = __webpack_require__(6);
 	
-	var ReactBaseClasses = __webpack_require__(17);
-	var ReactChildren = __webpack_require__(22);
-	var ReactDOMFactories = __webpack_require__(30);
-	var ReactElement = __webpack_require__(24);
-	var ReactPropTypes = __webpack_require__(36);
-	var ReactVersion = __webpack_require__(39);
+	var ReactBaseClasses = __webpack_require__(7);
+	var ReactChildren = __webpack_require__(16);
+	var ReactDOMFactories = __webpack_require__(24);
+	var ReactElement = __webpack_require__(18);
+	var ReactPropTypes = __webpack_require__(30);
+	var ReactVersion = __webpack_require__(35);
 	
-	var createReactClass = __webpack_require__(40);
-	var onlyChild = __webpack_require__(42);
+	var createReactClass = __webpack_require__(36);
+	var onlyChild = __webpack_require__(38);
 	
 	var createElement = ReactElement.createElement;
 	var createFactory = ReactElement.createFactory;
 	var cloneElement = ReactElement.cloneElement;
 	
 	if (process.env.NODE_ENV !== 'production') {
-	  var lowPriorityWarning = __webpack_require__(21);
-	  var canDefineProperty = __webpack_require__(20);
-	  var ReactElementValidator = __webpack_require__(31);
+	  var lowPriorityWarning = __webpack_require__(15);
+	  var canDefineProperty = __webpack_require__(12);
+	  var ReactElementValidator = __webpack_require__(25);
 	  var didWarnPropTypesDeprecated = false;
 	  createElement = ReactElementValidator.createElement;
 	  createFactory = ReactElementValidator.createFactory;
@@ -1372,10 +807,296 @@
 	}
 	
 	module.exports = React;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 17 */
+/* 5 */
+/***/ (function(module, exports) {
+
+	// shim for using process in browser
+	var process = module.exports = {};
+	
+	// cached from whatever global is present so that test runners that stub it
+	// don't break things.  But we need to wrap it in a try catch in case it is
+	// wrapped in strict mode code which doesn't define any globals.  It's inside a
+	// function because try/catches deoptimize in certain engines.
+	
+	var cachedSetTimeout;
+	var cachedClearTimeout;
+	
+	function defaultSetTimout() {
+	    throw new Error('setTimeout has not been defined');
+	}
+	function defaultClearTimeout () {
+	    throw new Error('clearTimeout has not been defined');
+	}
+	(function () {
+	    try {
+	        if (typeof setTimeout === 'function') {
+	            cachedSetTimeout = setTimeout;
+	        } else {
+	            cachedSetTimeout = defaultSetTimout;
+	        }
+	    } catch (e) {
+	        cachedSetTimeout = defaultSetTimout;
+	    }
+	    try {
+	        if (typeof clearTimeout === 'function') {
+	            cachedClearTimeout = clearTimeout;
+	        } else {
+	            cachedClearTimeout = defaultClearTimeout;
+	        }
+	    } catch (e) {
+	        cachedClearTimeout = defaultClearTimeout;
+	    }
+	} ())
+	function runTimeout(fun) {
+	    if (cachedSetTimeout === setTimeout) {
+	        //normal enviroments in sane situations
+	        return setTimeout(fun, 0);
+	    }
+	    // if setTimeout wasn't available but was latter defined
+	    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+	        cachedSetTimeout = setTimeout;
+	        return setTimeout(fun, 0);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedSetTimeout(fun, 0);
+	    } catch(e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+	            return cachedSetTimeout.call(null, fun, 0);
+	        } catch(e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+	            return cachedSetTimeout.call(this, fun, 0);
+	        }
+	    }
+	
+	
+	}
+	function runClearTimeout(marker) {
+	    if (cachedClearTimeout === clearTimeout) {
+	        //normal enviroments in sane situations
+	        return clearTimeout(marker);
+	    }
+	    // if clearTimeout wasn't available but was latter defined
+	    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+	        cachedClearTimeout = clearTimeout;
+	        return clearTimeout(marker);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedClearTimeout(marker);
+	    } catch (e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+	            return cachedClearTimeout.call(null, marker);
+	        } catch (e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+	            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+	            return cachedClearTimeout.call(this, marker);
+	        }
+	    }
+	
+	
+	
+	}
+	var queue = [];
+	var draining = false;
+	var currentQueue;
+	var queueIndex = -1;
+	
+	function cleanUpNextTick() {
+	    if (!draining || !currentQueue) {
+	        return;
+	    }
+	    draining = false;
+	    if (currentQueue.length) {
+	        queue = currentQueue.concat(queue);
+	    } else {
+	        queueIndex = -1;
+	    }
+	    if (queue.length) {
+	        drainQueue();
+	    }
+	}
+	
+	function drainQueue() {
+	    if (draining) {
+	        return;
+	    }
+	    var timeout = runTimeout(cleanUpNextTick);
+	    draining = true;
+	
+	    var len = queue.length;
+	    while(len) {
+	        currentQueue = queue;
+	        queue = [];
+	        while (++queueIndex < len) {
+	            if (currentQueue) {
+	                currentQueue[queueIndex].run();
+	            }
+	        }
+	        queueIndex = -1;
+	        len = queue.length;
+	    }
+	    currentQueue = null;
+	    draining = false;
+	    runClearTimeout(timeout);
+	}
+	
+	process.nextTick = function (fun) {
+	    var args = new Array(arguments.length - 1);
+	    if (arguments.length > 1) {
+	        for (var i = 1; i < arguments.length; i++) {
+	            args[i - 1] = arguments[i];
+	        }
+	    }
+	    queue.push(new Item(fun, args));
+	    if (queue.length === 1 && !draining) {
+	        runTimeout(drainQueue);
+	    }
+	};
+	
+	// v8 likes predictible objects
+	function Item(fun, array) {
+	    this.fun = fun;
+	    this.array = array;
+	}
+	Item.prototype.run = function () {
+	    this.fun.apply(null, this.array);
+	};
+	process.title = 'browser';
+	process.browser = true;
+	process.env = {};
+	process.argv = [];
+	process.version = ''; // empty string to avoid regexp issues
+	process.versions = {};
+	
+	function noop() {}
+	
+	process.on = noop;
+	process.addListener = noop;
+	process.once = noop;
+	process.off = noop;
+	process.removeListener = noop;
+	process.removeAllListeners = noop;
+	process.emit = noop;
+	process.prependListener = noop;
+	process.prependOnceListener = noop;
+	
+	process.listeners = function (name) { return [] }
+	
+	process.binding = function (name) {
+	    throw new Error('process.binding is not supported');
+	};
+	
+	process.cwd = function () { return '/' };
+	process.chdir = function (dir) {
+	    throw new Error('process.chdir is not supported');
+	};
+	process.umask = function() { return 0; };
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+	/*
+	object-assign
+	(c) Sindre Sorhus
+	@license MIT
+	*/
+	
+	'use strict';
+	/* eslint-disable no-unused-vars */
+	var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
+	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+	
+	function toObject(val) {
+		if (val === null || val === undefined) {
+			throw new TypeError('Object.assign cannot be called with null or undefined');
+		}
+	
+		return Object(val);
+	}
+	
+	function shouldUseNative() {
+		try {
+			if (!Object.assign) {
+				return false;
+			}
+	
+			// Detect buggy property enumeration order in older V8 versions.
+	
+			// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+			var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+			test1[5] = 'de';
+			if (Object.getOwnPropertyNames(test1)[0] === '5') {
+				return false;
+			}
+	
+			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+			var test2 = {};
+			for (var i = 0; i < 10; i++) {
+				test2['_' + String.fromCharCode(i)] = i;
+			}
+			var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+				return test2[n];
+			});
+			if (order2.join('') !== '0123456789') {
+				return false;
+			}
+	
+			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+			var test3 = {};
+			'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+				test3[letter] = letter;
+			});
+			if (Object.keys(Object.assign({}, test3)).join('') !==
+					'abcdefghijklmnopqrst') {
+				return false;
+			}
+	
+			return true;
+		} catch (err) {
+			// We don't expect any of the above to throw, but better to be safe.
+			return false;
+		}
+	}
+	
+	module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+		var from;
+		var to = toObject(target);
+		var symbols;
+	
+		for (var s = 1; s < arguments.length; s++) {
+			from = Object(arguments[s]);
+	
+			for (var key in from) {
+				if (hasOwnProperty.call(from, key)) {
+					to[key] = from[key];
+				}
+			}
+	
+			if (getOwnPropertySymbols) {
+				symbols = getOwnPropertySymbols(from);
+				for (var i = 0; i < symbols.length; i++) {
+					if (propIsEnumerable.call(from, symbols[i])) {
+						to[symbols[i]] = from[symbols[i]];
+					}
+				}
+			}
+		}
+	
+		return to;
+	};
+
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1390,15 +1111,15 @@
 	
 	'use strict';
 	
-	var _prodInvariant = __webpack_require__(18),
-	    _assign = __webpack_require__(5);
+	var _prodInvariant = __webpack_require__(8),
+	    _assign = __webpack_require__(6);
 	
-	var ReactNoopUpdateQueue = __webpack_require__(19);
+	var ReactNoopUpdateQueue = __webpack_require__(9);
 	
-	var canDefineProperty = __webpack_require__(20);
-	var emptyObject = __webpack_require__(6);
-	var invariant = __webpack_require__(9);
-	var lowPriorityWarning = __webpack_require__(21);
+	var canDefineProperty = __webpack_require__(12);
+	var emptyObject = __webpack_require__(13);
+	var invariant = __webpack_require__(14);
+	var lowPriorityWarning = __webpack_require__(15);
 	
 	/**
 	 * Base class helpers for the updating state of a component.
@@ -1520,10 +1241,10 @@
 	  Component: ReactComponent,
 	  PureComponent: ReactPureComponent
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 18 */
+/* 8 */
 /***/ (function(module, exports) {
 
 	/**
@@ -1566,7 +1287,7 @@
 	module.exports = reactProdInvariant;
 
 /***/ }),
-/* 19 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1663,10 +1384,119 @@
 	};
 	
 	module.exports = ReactNoopUpdateQueue;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 20 */
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright (c) 2014-present, Facebook, Inc.
+	 *
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
+	 *
+	 */
+	
+	'use strict';
+	
+	var emptyFunction = __webpack_require__(11);
+	
+	/**
+	 * Similar to invariant but only logs a warning if the condition is not met.
+	 * This can be used to log issues in development environments in critical
+	 * paths. Removing the logging code for production environments will keep the
+	 * same logic and follow the same code paths.
+	 */
+	
+	var warning = emptyFunction;
+	
+	if (process.env.NODE_ENV !== 'production') {
+	  var printWarning = function printWarning(format) {
+	    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	      args[_key - 1] = arguments[_key];
+	    }
+	
+	    var argIndex = 0;
+	    var message = 'Warning: ' + format.replace(/%s/g, function () {
+	      return args[argIndex++];
+	    });
+	    if (typeof console !== 'undefined') {
+	      console.error(message);
+	    }
+	    try {
+	      // --- Welcome to debugging React ---
+	      // This error was thrown as a convenience so that you can use this stack
+	      // to find the callsite that caused this warning to fire.
+	      throw new Error(message);
+	    } catch (x) {}
+	  };
+	
+	  warning = function warning(condition, format) {
+	    if (format === undefined) {
+	      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
+	    }
+	
+	    if (format.indexOf('Failed Composite propType: ') === 0) {
+	      return; // Ignore CompositeComponent proptype check.
+	    }
+	
+	    if (!condition) {
+	      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+	        args[_key2 - 2] = arguments[_key2];
+	      }
+	
+	      printWarning.apply(undefined, [format].concat(args));
+	    }
+	  };
+	}
+	
+	module.exports = warning;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports) {
+
+	"use strict";
+	
+	/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 *
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
+	 *
+	 * 
+	 */
+	
+	function makeEmptyFunction(arg) {
+	  return function () {
+	    return arg;
+	  };
+	}
+	
+	/**
+	 * This function accepts and discards inputs; it has no side effects. This is
+	 * primarily useful idiomatically for overridable function endpoints which
+	 * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
+	 */
+	var emptyFunction = function emptyFunction() {};
+	
+	emptyFunction.thatReturns = makeEmptyFunction;
+	emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
+	emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
+	emptyFunction.thatReturnsNull = makeEmptyFunction(null);
+	emptyFunction.thatReturnsThis = function () {
+	  return this;
+	};
+	emptyFunction.thatReturnsArgument = function (arg) {
+	  return arg;
+	};
+	
+	module.exports = emptyFunction;
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1694,10 +1524,92 @@
 	}
 	
 	module.exports = canDefineProperty;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 21 */
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 *
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
+	 *
+	 */
+	
+	'use strict';
+	
+	var emptyObject = {};
+	
+	if (process.env.NODE_ENV !== 'production') {
+	  Object.freeze(emptyObject);
+	}
+	
+	module.exports = emptyObject;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 *
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
+	 *
+	 */
+	
+	'use strict';
+	
+	/**
+	 * Use invariant() to assert state which your program assumes to be true.
+	 *
+	 * Provide sprintf-style format (only %s is supported) and arguments
+	 * to provide information about what broke and what you were
+	 * expecting.
+	 *
+	 * The invariant message will be stripped in production, but the invariant
+	 * will remain to ensure logic does not differ in production.
+	 */
+	
+	var validateFormat = function validateFormat(format) {};
+	
+	if (process.env.NODE_ENV !== 'production') {
+	  validateFormat = function validateFormat(format) {
+	    if (format === undefined) {
+	      throw new Error('invariant requires an error message argument');
+	    }
+	  };
+	}
+	
+	function invariant(condition, format, a, b, c, d, e, f) {
+	  validateFormat(format);
+	
+	  if (!condition) {
+	    var error;
+	    if (format === undefined) {
+	      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
+	    } else {
+	      var args = [a, b, c, d, e, f];
+	      var argIndex = 0;
+	      error = new Error(format.replace(/%s/g, function () {
+	        return args[argIndex++];
+	      }));
+	      error.name = 'Invariant Violation';
+	    }
+	
+	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    throw error;
+	  }
+	}
+	
+	module.exports = invariant;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
+
+/***/ }),
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1764,10 +1676,10 @@
 	}
 	
 	module.exports = lowPriorityWarning;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 22 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -1782,11 +1694,11 @@
 	
 	'use strict';
 	
-	var PooledClass = __webpack_require__(23);
-	var ReactElement = __webpack_require__(24);
+	var PooledClass = __webpack_require__(17);
+	var ReactElement = __webpack_require__(18);
 	
-	var emptyFunction = __webpack_require__(7);
-	var traverseAllChildren = __webpack_require__(27);
+	var emptyFunction = __webpack_require__(11);
+	var traverseAllChildren = __webpack_require__(21);
 	
 	var twoArgumentPooler = PooledClass.twoArgumentPooler;
 	var fourArgumentPooler = PooledClass.fourArgumentPooler;
@@ -1962,7 +1874,7 @@
 	module.exports = ReactChildren;
 
 /***/ }),
-/* 23 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1978,9 +1890,9 @@
 	
 	'use strict';
 	
-	var _prodInvariant = __webpack_require__(18);
+	var _prodInvariant = __webpack_require__(8);
 	
-	var invariant = __webpack_require__(9);
+	var invariant = __webpack_require__(14);
 	
 	/**
 	 * Static poolers. Several custom versions for each potential number of
@@ -2076,10 +1988,10 @@
 	};
 	
 	module.exports = PooledClass;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 24 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -2094,15 +2006,15 @@
 	
 	'use strict';
 	
-	var _assign = __webpack_require__(5);
+	var _assign = __webpack_require__(6);
 	
-	var ReactCurrentOwner = __webpack_require__(25);
+	var ReactCurrentOwner = __webpack_require__(19);
 	
 	var warning = __webpack_require__(10);
-	var canDefineProperty = __webpack_require__(20);
+	var canDefineProperty = __webpack_require__(12);
 	var hasOwnProperty = Object.prototype.hasOwnProperty;
 	
-	var REACT_ELEMENT_TYPE = __webpack_require__(26);
+	var REACT_ELEMENT_TYPE = __webpack_require__(20);
 	
 	var RESERVED_PROPS = {
 	  key: true,
@@ -2422,10 +2334,10 @@
 	};
 	
 	module.exports = ReactElement;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 25 */
+/* 19 */
 /***/ (function(module, exports) {
 
 	/**
@@ -2458,7 +2370,7 @@
 	module.exports = ReactCurrentOwner;
 
 /***/ }),
-/* 26 */
+/* 20 */
 /***/ (function(module, exports) {
 
 	/**
@@ -2482,7 +2394,7 @@
 	module.exports = REACT_ELEMENT_TYPE;
 
 /***/ }),
-/* 27 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -2497,14 +2409,14 @@
 	
 	'use strict';
 	
-	var _prodInvariant = __webpack_require__(18);
+	var _prodInvariant = __webpack_require__(8);
 	
-	var ReactCurrentOwner = __webpack_require__(25);
-	var REACT_ELEMENT_TYPE = __webpack_require__(26);
+	var ReactCurrentOwner = __webpack_require__(19);
+	var REACT_ELEMENT_TYPE = __webpack_require__(20);
 	
-	var getIteratorFn = __webpack_require__(28);
-	var invariant = __webpack_require__(9);
-	var KeyEscapeUtils = __webpack_require__(29);
+	var getIteratorFn = __webpack_require__(22);
+	var invariant = __webpack_require__(14);
+	var KeyEscapeUtils = __webpack_require__(23);
 	var warning = __webpack_require__(10);
 	
 	var SEPARATOR = '.';
@@ -2660,10 +2572,10 @@
 	}
 	
 	module.exports = traverseAllChildren;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 28 */
+/* 22 */
 /***/ (function(module, exports) {
 
 	/**
@@ -2708,7 +2620,7 @@
 	module.exports = getIteratorFn;
 
 /***/ }),
-/* 29 */
+/* 23 */
 /***/ (function(module, exports) {
 
 	/**
@@ -2771,7 +2683,7 @@
 	module.exports = KeyEscapeUtils;
 
 /***/ }),
-/* 30 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -2786,7 +2698,7 @@
 	
 	'use strict';
 	
-	var ReactElement = __webpack_require__(24);
+	var ReactElement = __webpack_require__(18);
 	
 	/**
 	 * Create a factory that creates HTML tag elements.
@@ -2795,7 +2707,7 @@
 	 */
 	var createDOMFactory = ReactElement.createFactory;
 	if (process.env.NODE_ENV !== 'production') {
-	  var ReactElementValidator = __webpack_require__(31);
+	  var ReactElementValidator = __webpack_require__(25);
 	  createDOMFactory = ReactElementValidator.createFactory;
 	}
 	
@@ -2942,10 +2854,10 @@
 	};
 	
 	module.exports = ReactDOMFactories;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 31 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -2967,16 +2879,16 @@
 	
 	'use strict';
 	
-	var ReactCurrentOwner = __webpack_require__(25);
-	var ReactComponentTreeHook = __webpack_require__(32);
-	var ReactElement = __webpack_require__(24);
+	var ReactCurrentOwner = __webpack_require__(19);
+	var ReactComponentTreeHook = __webpack_require__(26);
+	var ReactElement = __webpack_require__(18);
 	
-	var checkReactTypeSpec = __webpack_require__(33);
+	var checkReactTypeSpec = __webpack_require__(27);
 	
-	var canDefineProperty = __webpack_require__(20);
-	var getIteratorFn = __webpack_require__(28);
+	var canDefineProperty = __webpack_require__(12);
+	var getIteratorFn = __webpack_require__(22);
 	var warning = __webpack_require__(10);
-	var lowPriorityWarning = __webpack_require__(21);
+	var lowPriorityWarning = __webpack_require__(15);
 	
 	function getDeclarationErrorAddendum() {
 	  if (ReactCurrentOwner.current) {
@@ -3202,10 +3114,10 @@
 	};
 	
 	module.exports = ReactElementValidator;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 32 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -3221,11 +3133,11 @@
 	
 	'use strict';
 	
-	var _prodInvariant = __webpack_require__(18);
+	var _prodInvariant = __webpack_require__(8);
 	
-	var ReactCurrentOwner = __webpack_require__(25);
+	var ReactCurrentOwner = __webpack_require__(19);
 	
-	var invariant = __webpack_require__(9);
+	var invariant = __webpack_require__(14);
 	var warning = __webpack_require__(10);
 	
 	function isNative(fn) {
@@ -3586,10 +3498,10 @@
 	};
 	
 	module.exports = ReactComponentTreeHook;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 33 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -3604,12 +3516,12 @@
 	
 	'use strict';
 	
-	var _prodInvariant = __webpack_require__(18);
+	var _prodInvariant = __webpack_require__(8);
 	
-	var ReactPropTypeLocationNames = __webpack_require__(34);
-	var ReactPropTypesSecret = __webpack_require__(35);
+	var ReactPropTypeLocationNames = __webpack_require__(28);
+	var ReactPropTypesSecret = __webpack_require__(29);
 	
-	var invariant = __webpack_require__(9);
+	var invariant = __webpack_require__(14);
 	var warning = __webpack_require__(10);
 	
 	var ReactComponentTreeHook;
@@ -3620,7 +3532,7 @@
 	  // https://github.com/facebook/react/issues/7240
 	  // Remove the inline requires when we don't need them anymore:
 	  // https://github.com/facebook/react/pull/7178
-	  ReactComponentTreeHook = __webpack_require__(32);
+	  ReactComponentTreeHook = __webpack_require__(26);
 	}
 	
 	var loggedTypeFailures = {};
@@ -3662,7 +3574,7 @@
 	
 	        if (process.env.NODE_ENV !== 'production') {
 	          if (!ReactComponentTreeHook) {
-	            ReactComponentTreeHook = __webpack_require__(32);
+	            ReactComponentTreeHook = __webpack_require__(26);
 	          }
 	          if (debugID !== null) {
 	            componentStackInfo = ReactComponentTreeHook.getStackAddendumByID(debugID);
@@ -3678,10 +3590,10 @@
 	}
 	
 	module.exports = checkReactTypeSpec;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 34 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -3708,10 +3620,10 @@
 	}
 	
 	module.exports = ReactPropTypeLocationNames;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 35 */
+/* 29 */
 /***/ (function(module, exports) {
 
 	/**
@@ -3732,7 +3644,7 @@
 	module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 36 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -3747,15 +3659,15 @@
 	
 	'use strict';
 	
-	var _require = __webpack_require__(24),
+	var _require = __webpack_require__(18),
 	    isValidElement = _require.isValidElement;
 	
-	var factory = __webpack_require__(37);
+	var factory = __webpack_require__(31);
 	
 	module.exports = factory(isValidElement);
 
 /***/ }),
-/* 37 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -3771,7 +3683,7 @@
 	// Therefore we re-export development-only version with all the PropTypes checks here.
 	// However if one is migrating to the `prop-types` npm library, they will go through the
 	// `index.js` entry point, and it will branch depending on the environment.
-	var factory = __webpack_require__(38);
+	var factory = __webpack_require__(32);
 	module.exports = function(isValidElement) {
 	  // It is still allowed in 15.5.
 	  var throwOnDirectAccess = false;
@@ -3780,7 +3692,7 @@
 
 
 /***/ }),
-/* 38 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -3792,13 +3704,13 @@
 	
 	'use strict';
 	
-	var emptyFunction = __webpack_require__(7);
-	var invariant = __webpack_require__(9);
+	var emptyFunction = __webpack_require__(11);
+	var invariant = __webpack_require__(14);
 	var warning = __webpack_require__(10);
-	var assign = __webpack_require__(5);
+	var assign = __webpack_require__(6);
 	
-	var ReactPropTypesSecret = __webpack_require__(12);
-	var checkPropTypes = __webpack_require__(11);
+	var ReactPropTypesSecret = __webpack_require__(33);
+	var checkPropTypes = __webpack_require__(34);
 	
 	module.exports = function(isValidElement, throwOnDirectAccess) {
 	  /* global Symbol */
@@ -4326,10 +4238,94 @@
 	  return ReactPropTypes;
 	};
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 39 */
+/* 33 */
+/***/ (function(module, exports) {
+
+	/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 *
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
+	 */
+	
+	'use strict';
+	
+	var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+	
+	module.exports = ReactPropTypesSecret;
+
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 *
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
+	 */
+	
+	'use strict';
+	
+	if (process.env.NODE_ENV !== 'production') {
+	  var invariant = __webpack_require__(14);
+	  var warning = __webpack_require__(10);
+	  var ReactPropTypesSecret = __webpack_require__(33);
+	  var loggedTypeFailures = {};
+	}
+	
+	/**
+	 * Assert that the values match with the type specs.
+	 * Error messages are memorized and will only be shown once.
+	 *
+	 * @param {object} typeSpecs Map of name to a ReactPropType
+	 * @param {object} values Runtime values that need to be type-checked
+	 * @param {string} location e.g. "prop", "context", "child context"
+	 * @param {string} componentName Name of the component for error messages.
+	 * @param {?Function} getStack Returns the component stack.
+	 * @private
+	 */
+	function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
+	  if (process.env.NODE_ENV !== 'production') {
+	    for (var typeSpecName in typeSpecs) {
+	      if (typeSpecs.hasOwnProperty(typeSpecName)) {
+	        var error;
+	        // Prop type validation may throw. In case they do, we don't want to
+	        // fail the render phase where it didn't fail before. So we log it.
+	        // After these have been cleaned up, we'll let them throw.
+	        try {
+	          // This is intentionally an invariant that gets caught. It's the same
+	          // behavior as without this statement except with a better message.
+	          invariant(typeof typeSpecs[typeSpecName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'the `prop-types` package, but received `%s`.', componentName || 'React class', location, typeSpecName, typeof typeSpecs[typeSpecName]);
+	          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
+	        } catch (ex) {
+	          error = ex;
+	        }
+	        warning(!error || error instanceof Error, '%s: type specification of %s `%s` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', location, typeSpecName, typeof error);
+	        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
+	          // Only monitor this failure once because there tends to be a lot of the
+	          // same error.
+	          loggedTypeFailures[error.message] = true;
+	
+	          var stack = getStack ? getStack() : '';
+	
+	          warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
+	        }
+	      }
+	    }
+	  }
+	}
+	
+	module.exports = checkPropTypes;
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
+
+/***/ }),
+/* 35 */
 /***/ (function(module, exports) {
 
 	/**
@@ -4347,7 +4343,7 @@
 	module.exports = '15.6.1';
 
 /***/ }),
-/* 40 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -4362,19 +4358,19 @@
 	
 	'use strict';
 	
-	var _require = __webpack_require__(17),
+	var _require = __webpack_require__(7),
 	    Component = _require.Component;
 	
-	var _require2 = __webpack_require__(24),
+	var _require2 = __webpack_require__(18),
 	    isValidElement = _require2.isValidElement;
 	
-	var ReactNoopUpdateQueue = __webpack_require__(19);
-	var factory = __webpack_require__(41);
+	var ReactNoopUpdateQueue = __webpack_require__(9);
+	var factory = __webpack_require__(37);
 	
 	module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
 
 /***/ }),
-/* 41 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -4387,10 +4383,10 @@
 	
 	'use strict';
 	
-	var _assign = __webpack_require__(5);
+	var _assign = __webpack_require__(6);
 	
-	var emptyObject = __webpack_require__(6);
-	var _invariant = __webpack_require__(9);
+	var emptyObject = __webpack_require__(13);
+	var _invariant = __webpack_require__(14);
 	
 	if (process.env.NODE_ENV !== 'production') {
 	  var warning = __webpack_require__(10);
@@ -5248,10 +5244,10 @@
 	
 	module.exports = factory;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 42 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -5265,11 +5261,11 @@
 	 */
 	'use strict';
 	
-	var _prodInvariant = __webpack_require__(18);
+	var _prodInvariant = __webpack_require__(8);
 	
-	var ReactElement = __webpack_require__(24);
+	var ReactElement = __webpack_require__(18);
 	
-	var invariant = __webpack_require__(9);
+	var invariant = __webpack_require__(14);
 	
 	/**
 	 * Returns the first child in a collection of children and verifies that there
@@ -5291,15 +5287,15 @@
 	}
 	
 	module.exports = onlyChild;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 43 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-drag/ Version 1.1.1. Copyright 2017 Mike Bostock.
 	(function (global, factory) {
-		 true ? factory(exports, __webpack_require__(44), __webpack_require__(45)) :
+		 true ? factory(exports, __webpack_require__(40), __webpack_require__(41)) :
 		typeof define === 'function' && define.amd ? define(['exports', 'd3-dispatch', 'd3-selection'], factory) :
 		(factory((global.d3 = global.d3 || {}),global.d3,global.d3));
 	}(this, (function (exports,d3Dispatch,d3Selection) { 'use strict';
@@ -5529,7 +5525,7 @@
 
 
 /***/ }),
-/* 44 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-dispatch/ Version 1.0.3. Copyright 2017 Mike Bostock.
@@ -5630,7 +5626,7 @@
 
 
 /***/ }),
-/* 45 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-selection/ Version 1.1.0. Copyright 2017 Mike Bostock.
@@ -6612,12 +6608,12 @@
 
 
 /***/ }),
-/* 46 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-force/ Version 1.0.6. Copyright 2017 Mike Bostock.
 	(function (global, factory) {
-		 true ? factory(exports, __webpack_require__(47), __webpack_require__(48), __webpack_require__(44), __webpack_require__(49)) :
+		 true ? factory(exports, __webpack_require__(43), __webpack_require__(44), __webpack_require__(40), __webpack_require__(45)) :
 		typeof define === 'function' && define.amd ? define(['exports', 'd3-quadtree', 'd3-collection', 'd3-dispatch', 'd3-timer'], factory) :
 		(factory((global.d3 = global.d3 || {}),global.d3,global.d3,global.d3,global.d3));
 	}(this, (function (exports,d3Quadtree,d3Collection,d3Dispatch,d3Timer) { 'use strict';
@@ -7221,7 +7217,7 @@
 
 
 /***/ }),
-/* 47 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-quadtree/ Version 1.0.3. Copyright 2017 Mike Bostock.
@@ -7662,7 +7658,7 @@
 
 
 /***/ }),
-/* 48 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-collection/ Version 1.0.4. Copyright 2017 Mike Bostock.
@@ -7885,7 +7881,7 @@
 
 
 /***/ }),
-/* 49 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-timer/ Version 1.0.7. Copyright 2017 Mike Bostock.
@@ -8040,12 +8036,12 @@
 
 
 /***/ }),
-/* 50 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-zoom/ Version 1.5.0. Copyright 2017 Mike Bostock.
 	(function (global, factory) {
-		 true ? factory(exports, __webpack_require__(44), __webpack_require__(43), __webpack_require__(51), __webpack_require__(45), __webpack_require__(53)) :
+		 true ? factory(exports, __webpack_require__(40), __webpack_require__(39), __webpack_require__(47), __webpack_require__(41), __webpack_require__(49)) :
 		typeof define === 'function' && define.amd ? define(['exports', 'd3-dispatch', 'd3-drag', 'd3-interpolate', 'd3-selection', 'd3-transition'], factory) :
 		(factory((global.d3 = global.d3 || {}),global.d3,global.d3,global.d3,global.d3,global.d3));
 	}(this, (function (exports,d3Dispatch,d3Drag,d3Interpolate,d3Selection,d3Transition) { 'use strict';
@@ -8542,12 +8538,12 @@
 
 
 /***/ }),
-/* 51 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-interpolate/ Version 1.1.5. Copyright 2017 Mike Bostock.
 	(function (global, factory) {
-		 true ? factory(exports, __webpack_require__(52)) :
+		 true ? factory(exports, __webpack_require__(48)) :
 		typeof define === 'function' && define.amd ? define(['exports', 'd3-color'], factory) :
 		(factory((global.d3 = global.d3 || {}),global.d3));
 	}(this, (function (exports,d3Color) { 'use strict';
@@ -9093,7 +9089,7 @@
 
 
 /***/ }),
-/* 52 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-color/ Version 1.0.3. Copyright 2017 Mike Bostock.
@@ -9622,12 +9618,12 @@
 
 
 /***/ }),
-/* 53 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-transition/ Version 1.1.0. Copyright 2017 Mike Bostock.
 	(function (global, factory) {
-		 true ? factory(exports, __webpack_require__(45), __webpack_require__(44), __webpack_require__(49), __webpack_require__(51), __webpack_require__(52), __webpack_require__(54)) :
+		 true ? factory(exports, __webpack_require__(41), __webpack_require__(40), __webpack_require__(45), __webpack_require__(47), __webpack_require__(48), __webpack_require__(50)) :
 		typeof define === 'function' && define.amd ? define(['exports', 'd3-selection', 'd3-dispatch', 'd3-timer', 'd3-interpolate', 'd3-color', 'd3-ease'], factory) :
 		(factory((global.d3 = global.d3 || {}),global.d3,global.d3,global.d3,global.d3,global.d3,global.d3));
 	}(this, (function (exports,d3Selection,d3Dispatch,d3Timer,d3Interpolate,d3Color,d3Ease) { 'use strict';
@@ -10415,7 +10411,7 @@
 
 
 /***/ }),
-/* 54 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-ease/ Version 1.0.3. Copyright 2017 Mike Bostock.
@@ -10680,7 +10676,7 @@
 
 
 /***/ }),
-/* 55 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10691,7 +10687,7 @@
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	var _const = __webpack_require__(56);
+	var _const = __webpack_require__(52);
 	
 	var _const2 = _interopRequireDefault(_const);
 	
@@ -10712,7 +10708,7 @@
 	}, _const2.default);
 
 /***/ }),
-/* 56 */
+/* 52 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -10738,7 +10734,7 @@
 	};
 
 /***/ }),
-/* 57 */
+/* 53 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -10909,7 +10905,7 @@
 	};
 
 /***/ }),
-/* 58 */
+/* 54 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -10925,7 +10921,7 @@
 	};
 
 /***/ }),
-/* 59 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10942,23 +10938,23 @@
 	                                                                                                                                                                                                                                                                   */
 	
 	
-	var _react = __webpack_require__(15);
+	var _react = __webpack_require__(3);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _const = __webpack_require__(55);
+	var _const = __webpack_require__(51);
 	
 	var _const2 = _interopRequireDefault(_const);
 	
-	var _link = __webpack_require__(60);
+	var _link = __webpack_require__(56);
 	
 	var _link2 = _interopRequireDefault(_link);
 	
-	var _node = __webpack_require__(61);
+	var _node = __webpack_require__(57);
 	
 	var _node2 = _interopRequireDefault(_node);
 	
-	var _graph = __webpack_require__(66);
+	var _graph = __webpack_require__(62);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -11062,7 +11058,7 @@
 	exports.buildGraph = buildGraph;
 
 /***/ }),
-/* 60 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11073,7 +11069,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _react = __webpack_require__(15);
+	var _react = __webpack_require__(3);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
@@ -11186,7 +11182,7 @@
 	exports.default = Link;
 
 /***/ }),
-/* 61 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11197,15 +11193,15 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _react = __webpack_require__(15);
+	var _react = __webpack_require__(3);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _const = __webpack_require__(62);
+	var _const = __webpack_require__(58);
 	
 	var _const2 = _interopRequireDefault(_const);
 	
-	var _helper = __webpack_require__(63);
+	var _helper = __webpack_require__(59);
 	
 	var _helper2 = _interopRequireDefault(_helper);
 	
@@ -11342,7 +11338,7 @@
 	exports.default = Node;
 
 /***/ }),
-/* 62 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11353,11 +11349,11 @@
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	var _config = __webpack_require__(57);
+	var _config = __webpack_require__(53);
 	
 	var _config2 = _interopRequireDefault(_config);
 	
-	var _const = __webpack_require__(56);
+	var _const = __webpack_require__(52);
 	
 	var _const2 = _interopRequireDefault(_const);
 	
@@ -11374,7 +11370,7 @@
 	}, _const2.default);
 
 /***/ }),
-/* 63 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11383,9 +11379,9 @@
 	    value: true
 	});
 	
-	var _d3Shape = __webpack_require__(64);
+	var _d3Shape = __webpack_require__(60);
 	
-	var _const = __webpack_require__(62);
+	var _const = __webpack_require__(58);
 	
 	var _const2 = _interopRequireDefault(_const);
 	
@@ -11449,12 +11445,12 @@
 	};
 
 /***/ }),
-/* 64 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-shape/ Version 1.2.0. Copyright 2017 Mike Bostock.
 	(function (global, factory) {
-		 true ? factory(exports, __webpack_require__(65)) :
+		 true ? factory(exports, __webpack_require__(61)) :
 		typeof define === 'function' && define.amd ? define(['exports', 'd3-path'], factory) :
 		(factory((global.d3 = global.d3 || {}),global.d3));
 	}(this, (function (exports,d3Path) { 'use strict';
@@ -13390,7 +13386,7 @@
 
 
 /***/ }),
-/* 65 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// https://d3js.org/d3-path/ Version 1.0.5. Copyright 2017 Mike Bostock.
@@ -13537,7 +13533,7 @@
 
 
 /***/ }),
-/* 66 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13547,21 +13543,21 @@
 	});
 	exports.initializeGraphState = exports.buildNodeProps = exports.buildLinkProps = undefined;
 	
-	var _d3Force = __webpack_require__(46);
+	var _d3Force = __webpack_require__(42);
 	
-	var _const = __webpack_require__(55);
+	var _const = __webpack_require__(51);
 	
 	var _const2 = _interopRequireDefault(_const);
 	
-	var _config = __webpack_require__(57);
+	var _config = __webpack_require__(53);
 	
 	var _config2 = _interopRequireDefault(_config);
 	
-	var _err = __webpack_require__(58);
+	var _err = __webpack_require__(54);
 	
 	var _err2 = _interopRequireDefault(_err);
 	
-	var _utils = __webpack_require__(67);
+	var _utils = __webpack_require__(63);
 	
 	var _utils2 = _interopRequireDefault(_utils);
 	
@@ -13941,7 +13937,7 @@
 	exports.initializeGraphState = initializeGraphState;
 
 /***/ }),
-/* 67 */
+/* 63 */
 /***/ (function(module, exports) {
 
 	'use strict';
