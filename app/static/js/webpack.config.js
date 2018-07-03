@@ -9,9 +9,10 @@ var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
 
 module.exports = {
     entry: {
-        "ingredient-frequency-bar-chart": "./experiments/IngredientFrequency/IngredientFrequencyBarChart.jsx",
-        "recipe-generator": "./components/RecipeGenerator/RecipeGenerator.jsx",
-        "pending-recipe-list": "./components/admin/curation/PendingRecipeList.jsx"
+        "app-bar": "./components/core/NavBar/NavBar.jsx"
+        // "ingredient-frequency-bar-chart": "./experiments/IngredientFrequency/IngredientFrequencyBarChart.jsx",
+        // "recipe-generator": "./components/RecipeGenerator/RecipeGenerator.jsx",
+        // "pending-recipe-list": "./components/admin/curation/PendingRecipeList.jsx"
     },
     module: {
         loaders: [
