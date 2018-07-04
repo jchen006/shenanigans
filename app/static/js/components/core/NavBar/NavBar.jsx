@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import { withStyles } from '@material-ui/core/styles'
+import { styles } from './NavBarStyles.js'
 
 class NavBar extends React.Component {
 
@@ -35,22 +36,10 @@ class NavBar extends React.Component {
   }
 }
 
-const styles = {
-  root: {
-    flexGrow: 1,
-  },
-  flex: {
-    flex: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-};
-
 NavBar.propTypes = {
   classes: PropTypes.object.isRequired
 }
+
 const ShenanigansAppBar = withStyles(styles)(NavBar)
 ReactDOM.render(<ShenanigansAppBar/>, document.getElementById("nav-bar"))
 

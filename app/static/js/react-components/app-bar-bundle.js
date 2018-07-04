@@ -84,6 +84,8 @@
 	
 	var _styles = __webpack_require__(238);
 	
+	var _NavBarStyles = __webpack_require__(244);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	class NavBar extends _react2.default.Component {
@@ -124,23 +126,11 @@
 	  }
 	}
 	
-	const styles = {
-	  root: {
-	    flexGrow: 1
-	  },
-	  flex: {
-	    flex: 1
-	  },
-	  menuButton: {
-	    marginLeft: -12,
-	    marginRight: 20
-	  }
-	};
-	
 	NavBar.propTypes = {
 	  classes: _propTypes2.default.object.isRequired
 	};
-	const ShenanigansAppBar = (0, _styles.withStyles)(styles)(NavBar);
+	
+	const ShenanigansAppBar = (0, _styles.withStyles)(_NavBarStyles.styles)(NavBar);
 	_reactDom2.default.render(_react2.default.createElement(ShenanigansAppBar, null), document.getElementById("nav-bar"));
 
 /***/ }),
@@ -33871,6 +33861,30 @@
 	var _default = withTheme;
 	exports.default = _default;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ }),
+/* 244 */
+/***/ (function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	const styles = {
+	  root: {
+	    flexGrow: 1
+	  },
+	  flex: {
+	    flex: 1
+	  },
+	  menuButton: {
+	    marginLeft: -12,
+	    marginRight: 20
+	  }
+	};
+	
+	exports.styles = styles;
 
 /***/ })
 /******/ ]);
