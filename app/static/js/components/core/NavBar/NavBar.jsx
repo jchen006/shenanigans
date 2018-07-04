@@ -7,8 +7,9 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
+import ClippedDrawer from './ClippedDrawer.jsx'
 import { withStyles } from '@material-ui/core/styles'
-import { styles } from './NavBarStyles.js'
+import { NavBarstyles } from './NavBarStyles.js'
 
 class NavBar extends React.Component {
 
@@ -19,19 +20,20 @@ class NavBar extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={"app-bar"}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="title" color="inherit" className={classes.flex}>
-              Shenanigans
-            </Typography>
-            <Button color="inherit">Login</Button>
-          </Toolbar>
-        </AppBar>
-      </div>
+      <div className={classes.root}>
+      <AppBar position="absolute" className={classes.appBar}>
+        <Toolbar>
+          <Typography variant="title" color="inherit" noWrap>
+            Clipped drawer
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <ClippedDrawer classes={classes}/>
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        <Typography noWrap>{'You think water moves fast? You should see ice.'}</Typography>
+      </main>
+    </div>
     )
   }
 }
@@ -40,6 +42,6 @@ NavBar.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-const ShenanigansAppBar = withStyles(styles)(NavBar)
+const ShenanigansAppBar = withStyles(NavBarstyles)(NavBar)
 ReactDOM.render(<ShenanigansAppBar/>, document.getElementById("nav-bar"))
 
