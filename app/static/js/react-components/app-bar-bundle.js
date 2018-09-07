@@ -112,21 +112,11 @@
 	          _react2.default.createElement(
 	            _Typography2.default,
 	            { variant: 'title', color: 'inherit', noWrap: true },
-	            'Clipped drawer'
+	            'Shenanigans'
 	          )
 	        )
 	      ),
-	      _react2.default.createElement(_ClippedDrawer2.default, { classes: classes }),
-	      _react2.default.createElement(
-	        'main',
-	        { className: classes.content },
-	        _react2.default.createElement('div', { className: classes.toolbar }),
-	        _react2.default.createElement(
-	          _Typography2.default,
-	          { noWrap: true },
-	          'You think water moves fast? You should see ice.'
-	        )
-	      )
+	      _react2.default.createElement(_ClippedDrawer2.default, { classes: classes })
 	    );
 	  }
 	}
@@ -33443,6 +33433,56 @@
 	        }
 	      },
 	      _react2.default.createElement('div', { className: classes.toolbar }),
+	      _react2.default.createElement(
+	        _ListItem2.default,
+	        { button: true },
+	        _react2.default.createElement(
+	          ListItemIcon,
+	          null,
+	          _react2.default.createElement(DraftsIcon, null)
+	        ),
+	        _react2.default.createElement(_ListItemText2.default, { primary: 'Experiments' })
+	      ),
+	      _react2.default.createElement(
+	        _ListItem2.default,
+	        { button: true },
+	        _react2.default.createElement(
+	          ListItemIcon,
+	          null,
+	          _react2.default.createElement(DraftsIcon, null)
+	        ),
+	        _react2.default.createElement(_ListItemText2.default, { primary: 'Experiments' })
+	      ),
+	      _react2.default.createElement(
+	        _ListItem2.default,
+	        { button: true },
+	        _react2.default.createElement(
+	          ListItemIcon,
+	          null,
+	          _react2.default.createElement(DraftsIcon, null)
+	        ),
+	        _react2.default.createElement(_ListItemText2.default, { primary: 'Experiments' })
+	      ),
+	      _react2.default.createElement(
+	        _ListItem2.default,
+	        { button: true },
+	        _react2.default.createElement(
+	          ListItemIcon,
+	          null,
+	          _react2.default.createElement(DraftsIcon, null)
+	        ),
+	        _react2.default.createElement(_ListItemText2.default, { primary: 'Experiments' })
+	      ),
+	      _react2.default.createElement(
+	        _ListItem2.default,
+	        { button: true },
+	        _react2.default.createElement(
+	          ListItemIcon,
+	          null,
+	          _react2.default.createElement(DraftsIcon, null)
+	        ),
+	        _react2.default.createElement(_ListItemText2.default, { primary: 'Experiments' })
+	      ),
 	      _react2.default.createElement(_Divider2.default, null)
 	    );
 	  }

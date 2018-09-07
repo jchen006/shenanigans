@@ -24,15 +24,11 @@ class NavBar extends React.Component {
       <AppBar position="absolute" className={classes.appBar}>
         <Toolbar>
           <Typography variant="title" color="inherit" noWrap>
-            Clipped drawer
+            Shenanigans
           </Typography>
         </Toolbar>
       </AppBar>
       <ClippedDrawer classes={classes}/>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Typography noWrap>{'You think water moves fast? You should see ice.'}</Typography>
-      </main>
     </div>
     )
   }
