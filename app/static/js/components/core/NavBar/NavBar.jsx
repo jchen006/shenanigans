@@ -17,6 +17,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import NavBarStyles from './NavBarStyles';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 
 
 
@@ -45,7 +50,7 @@ class NavBar extends React.Component {
               <ListItemIcon><NoteIcon /></ListItemIcon>
               <ListItemText primary={"Recipe Generation"} />
             </ListItem>
-            <ListItem button component={Link} to="/expirements">
+          <ListItem button component={Link} to="/experiments">
               <ListItemIcon><PenIcon /></ListItemIcon>
               <ListItemText primary={"Experiments"} />
             </ListItem>
