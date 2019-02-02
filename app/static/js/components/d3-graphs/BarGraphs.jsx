@@ -1,5 +1,4 @@
-import React, { PropTypes } from 'react'
-import d3 from 'd3'
+import React from 'react'
 import Axis from '../d3/Axis'
 
 const BarGraph = React.createClass({

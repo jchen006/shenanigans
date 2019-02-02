@@ -20,6 +20,7 @@
     "babel-loader": "^6.2.5",
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-react": "^6.16.0",
+    "d3": "^5.8.0",
     "html-webpack-plugin": "^2.22.0",
     "path": "^0.12.7",
     "react": "^16.2.0",
@@ -37,7 +38,6 @@
   "devDependencies": {
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "css-loader": "^0.28.8",
-    "d3": "^4.12.2",
     "file-loader": "^1.1.6",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",

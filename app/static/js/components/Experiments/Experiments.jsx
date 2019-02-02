@@ -6,29 +6,36 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import IngredientFrequency from './IngredientFrequency/IngredientFrequencyBarChart'
+import Typography from '@material-ui/core/Typography';
 
 class Experiments extends React.Component {
 
     constructor(props) {
       super(props);
       this.state = {
-        experiment: 'radial_network_graph',
+        experiments: 'ingredient_frequency',
       };
     }
 
+    renderExperiment() {
+      return <IngredientFrequency />
+    }
 
     render () {
       const { classes } = this.props;
       return (
         <NavBar>
           <div>
-            <div> Experiments </div>
+            <Typography> Experiments </Typography>
             <form className={classes.root} autoComplete="off">
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="experiments">Experiments</InputLabel>
                 <Select
-                  value={this.state.experiment}
-                  onChange={this.handleChange}
+                  value={this.state.experiments }
+                  onChange={event => {
+                    this.setState({ [event.target.name]: event.target.value });
+                  }}
                   inputProps={{
                     name: 'experiments',
                     id: 'experiments',
@@ -45,6 +52,7 @@ class Experiments extends React.Component {
                 </Select>
               </FormControl>
             </form>
+            {this.renderExperiment()}
           </div>
         </NavBar>
       )

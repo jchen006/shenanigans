@@ -1,0 +1,16 @@
+{% extends "layout.html" %} {% block content %}
+<script type="text/javascript" src="/static/js/network/food_network.js"></script>
+<form>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="entry">Entry</label>
+                <input class="form-control" id="entry" placeholder="Ex. Carrot">
+                <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</form>
+<div id="viz"></div>
+
+{% endblock %}

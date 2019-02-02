@@ -1,18 +1,13 @@
-import React, {PropTypes} from 'react'
-import * as d3 from 'd3'
-import Axis from '../../components/d3/Axis.jsx'
-import Bar from '../../components/d3/Bar.jsx'
-// import './ingredient_frequency_bar.css'
+import React from 'react';
+import * as d3 from "d3";
+import Axis from 'components/d3/Axis.jsx';
+import Bar from 'components/d3/Bar.jsx';
 
-
-const FrequencyBarChart = React.createClass({
-
-  getInitialState: function() {
-    return { 
-      data: [],
-      hasError: false
-    };
-  },
+class FrequencyBarChart extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { data: [], hasError: false }
+  }
 
   componentWillMount() {
     fetch('/api/ingredient_frequency')
@@ -22,7 +17,7 @@ const FrequencyBarChart = React.createClass({
           data: data
         })
       })
-  },
+  }
 
   renderXAxis() {
     const margin = { top: 40, right: 20, bottom: 30, left: 50 }
@@ -37,7 +32,7 @@ const FrequencyBarChart = React.createClass({
         className = { "axis axis--x"}
       />
     )
-  },
+  }
 
   renderYAxis() {
     const margin = { top: 40, right: 20, bottom: 30, left: 50 }
@@ -53,7 +48,7 @@ const FrequencyBarChart = React.createClass({
         className = { "axis axis--y"}
       />
     )
-  },
+  }
 
   renderBars() {
     const margin = { top: 40, right: 20, bottom: 30, left: 50 }
@@ -67,7 +62,7 @@ const FrequencyBarChart = React.createClass({
 
     x.domain(this.state.data.map(function(d) { return d.text; }))
 
-    return this.state.data.map((d) => {
+    return this.state.data.map((d, index) => {
         return (
           <Bar
             className = { "bar" }
@@ -75,10 +70,11 @@ const FrequencyBarChart = React.createClass({
             y = { y(d.size) }
             height = { height - y(d.size) } 
             width = { x.bandwidth() }
+            key={index}
           />
         )
       })
-  },
+  }
 
   render() {
     return (
@@ -93,8 +89,6 @@ const FrequencyBarChart = React.createClass({
         </div>
     )
   }
-})
+}
 
-ReactDOM.render(
-  <FrequencyBarChart/>, document.getElementById('ingredient-frequency')
-)
+export default FrequencyBarChart;
