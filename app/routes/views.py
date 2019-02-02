@@ -9,8 +9,9 @@ p = RecipePage(parser)
 m = mh.MongoHelper()
 
 
-@shenanigans.route('/')
-def index():
+@shenanigans.route('/', defaults={'path': ''})
+@shenanigans.route('/<path:path>')
+def index(path):
     return render_template('index.html')
 
 @shenanigans.route('/home')

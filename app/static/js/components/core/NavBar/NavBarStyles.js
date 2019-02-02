@@ -1,26 +1,27 @@
-const NavBarstyles = theme => ({
+const drawerWidth = 240;
+const styles = theme => ({
   root: {
-    flexGrow: 1,
-    height: 430,
-    zIndex: 1,
-    overflow: 'hidden',
-    position: 'relative',
     display: 'flex',
   },
-  appBar: {
+  grow: {
+    flexGrow: 1,
+  },
+  nav: {
     zIndex: theme.zIndex.drawer + 1,
   },
-  drawerPaper: {
-    position: 'relative',
-    width: 240,
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
   },
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3,
-    minWidth: 0, // So the Typography noWrap works
+  drawerPaper: {
+    width: drawerWidth,
   },
   toolbar: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
+  },
 });
 
-export { NavBarstyles };
+
+export default styles;
