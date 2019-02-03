@@ -1,7 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as d3 from "d3";
 import Axis from 'components/d3/Axis.jsx';
 import Bar from 'components/d3/Bar.jsx';
+import { withStyles } from '@material-ui/core/styles';
+
 
 class FrequencyBarChart extends React.Component {
   constructor(props) {
@@ -20,12 +23,12 @@ class FrequencyBarChart extends React.Component {
   }
 
   renderXAxis() {
-    const margin = { top: 40, right: 20, bottom: 30, left: 50 }
-    const width =  600 - margin.left - margin.right
-    const height = 500 - margin.top - margin.bottom
+    const {margin, maxWidth, maxHeight} = this.props; 
+    const width =  maxWidth - margin.left - margin.right
+    const height = maxHeight - margin.top - margin.bottom
    
     return (
-      <Axis transform={ "translate(" + margin.left +"," + height + ")" } 
+      <Axis transform={`translate(${margin.left}, ${height + margin.top})`} 
         width={width} 
         height={height} 
         data={this.state.data}
@@ -35,13 +38,13 @@ class FrequencyBarChart extends React.Component {
   }
 
   renderYAxis() {
-    const margin = { top: 40, right: 20, bottom: 30, left: 50 }
-    const width =  600 - margin.left - margin.right
-    const height = 500 - margin.top - margin.bottom
+    const {margin, maxWidth, maxHeight} = this.props; 
+    const width =  maxWidth - margin.left - margin.right
+    const height = maxHeight - margin.top - margin.bottom
 
     return(
       <Axis 
-        transform = { "translate(" + margin.left + ",0)" }
+        transform = { `translate(${margin.left}, ${margin.top})` }
         width = { width }
         height = { height }
         data = { this.state.data }
@@ -51,11 +54,11 @@ class FrequencyBarChart extends React.Component {
   }
 
   renderBars() {
-    const margin = { top: 40, right: 20, bottom: 30, left: 50 }
-    const width =  600 - margin.left - margin.right
-    const height = 500 - margin.top - margin.bottom
-    var x = d3.scaleBand().rangeRound([0, width]).padding(0.1)
-    var y = d3.scaleLinear().rangeRound([height, 0]);
+    const {margin, maxWidth, maxHeight} = this.props; 
+    const width =  maxWidth - margin.left - margin.right
+    const height = maxHeight - margin.top - margin.bottom
+    const x = d3.scaleBand().rangeRound([0, width]).padding(0.1)
+    const y = d3.scaleLinear().rangeRound([height, 0]);
 
     y.domain([0, d3.max(this.state.data, function(d) { 
         return d.size })])
@@ -79,7 +82,7 @@ class FrequencyBarChart extends React.Component {
   render() {
     return (
         <div className="ingredient_frequency_bar">
-          <svg width = {900} height = {500}>
+          <svg width = {900} height = {600}>
             { this.renderXAxis() } 
             { this.renderYAxis() }
             <g transform="translate(50,0)">
@@ -91,4 +94,26 @@ class FrequencyBarChart extends React.Component {
   }
 }
 
-export default FrequencyBarChart;
+FrequencyBarChart.propTypes = {
+  classes: PropTypes.object.isRequired,
+  maxWidth: PropTypes.number.isRequired,
+  maxHeight: PropTypes.number.isRequired,
+  margin: PropTypes.shape({
+    top: PropTypes.number,
+    left: PropTypes.number,
+    bottom: PropTypes.number,
+    right: PropTypes.number,
+  }),
+}
+FrequencyBarChart.defaultProps = {
+  margin: { top: 10, right: 20, bottom: 10, left: 50 }
+}
+
+const styles = theme => ({
+  ingredient_frequency_bar: {
+    width: '100%',
+    marginTop: 28
+  }
+})
+
+export default withStyles(styles)(FrequencyBarChart);

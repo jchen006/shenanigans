@@ -7,7 +7,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import IngredientFrequency from './IngredientFrequency/IngredientFrequencyBarChart'
-import Typography from '@material-ui/core/Typography';
 
 class Experiments extends React.Component {
 
@@ -19,7 +18,7 @@ class Experiments extends React.Component {
     }
 
     renderExperiment() {
-      return <IngredientFrequency />
+      return <IngredientFrequency maxWidth={600} maxHeight={500} />
     }
 
     render () {
@@ -27,7 +26,6 @@ class Experiments extends React.Component {
       return (
         <NavBar>
           <div>
-            <Typography> Experiments </Typography>
             <form className={classes.root} autoComplete="off">
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="experiments">Experiments</InputLabel>
