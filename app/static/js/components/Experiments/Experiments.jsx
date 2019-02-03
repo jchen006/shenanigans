@@ -7,6 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import IngredientFrequency from './IngredientFrequency/IngredientFrequencyBarChart'
+import WordCloud from './WordCloud/WordCloud'
 
 class Experiments extends React.Component {
 
@@ -18,6 +19,10 @@ class Experiments extends React.Component {
     }
 
     renderExperiment() {
+      const { experiments } = this.state
+      if (experiments === 'word_cloud') {
+        return <WordCloud maxWidth={600} maxHeight={500} />
+      }
       return <IngredientFrequency maxWidth={600} maxHeight={500} />
     }
 

@@ -82,7 +82,7 @@ class FrequencyBarChart extends React.Component {
   render() {
     return (
         <div className="ingredient_frequency_bar">
-          <svg width = {900} height = {600}>
+          <svg width = {this.props.maxWidth} height = {this.props.maxHeight}>
             { this.renderXAxis() } 
             { this.renderYAxis() }
             <g transform="translate(50,0)">
