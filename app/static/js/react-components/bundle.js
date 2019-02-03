@@ -48993,18 +48993,7 @@
 	                inputProps: {
 	                  name: 'experiments',
 	                  id: 'experiments'
-	                }
-	              },
-	              _react2.default.createElement(
-	                _MenuItem2.default,
-	                { value: "radial_network_graph" },
-	                "Radial Network Graph"
-	              ),
-	              _react2.default.createElement(
-	                _MenuItem2.default,
-	                { value: "graph_page" },
-	                "Graph"
-	              ),
+	                } },
 	              _react2.default.createElement(
 	                _MenuItem2.default,
 	                { value: "ingredient_frequency" },
@@ -49012,28 +49001,8 @@
 	              ),
 	              _react2.default.createElement(
 	                _MenuItem2.default,
-	                { value: "radar_graph" },
-	                "Radar Graph"
-	              ),
-	              _react2.default.createElement(
-	                _MenuItem2.default,
-	                { value: "lda_graph" },
-	                "LDA Graph"
-	              ),
-	              _react2.default.createElement(
-	                _MenuItem2.default,
-	                { value: "recipe_scatterplot" },
-	                "Recipe Scatterplot"
-	              ),
-	              _react2.default.createElement(
-	                _MenuItem2.default,
 	                { value: "word_cloud" },
 	                "Word Cloud"
-	              ),
-	              _react2.default.createElement(
-	                _MenuItem2.default,
-	                { value: "recipe_generator_vae" },
-	                "Recipe Generator"
 	              )
 	            )
 	          )
