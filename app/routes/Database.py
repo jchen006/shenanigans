@@ -16,6 +16,14 @@ def get_mongo_recipes():
     recipes_cleaned = json.loads(json_util.dumps(recipes))
     return jsonify({"Recipes": recipes_cleaned}), 200
 
+"""Gets recipe by oid"""
+@db.route("/recipes/<id>", methods=['GET'])
+def get_mongo_recipes_by_oid(id):
+    id = id.encode('ascii','ignore')
+    recipe = mongo_main.findById(id)
+    recipes_cleaned = json.loads(json_util.dumps(recipe))
+    return jsonify({"result": recipes_cleaned}), 200
+
 """Updates the recipe 
 """
 @db.route("/update_pending", methods=['POST'])
@@ -72,3 +80,4 @@ def approve_mongo_recipe():
         return jsonify({'action': 'MOVED'}), 200
     else:
         return jsonify({'action': 'ITEM_NOT_FOUND'}), 200
+
