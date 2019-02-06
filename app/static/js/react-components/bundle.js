@@ -29842,10 +29842,10 @@
   \*******************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 	
 	var _react = __webpack_require__(/*! react */ 1);
@@ -29923,93 +29923,94 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	class NavBar extends _react2.default.Component {
-	
-	  render() {
-	    const { classes } = this.props;
-	    return _react2.default.createElement(
-	      'div',
-	      { className: classes.root },
-	      _react2.default.createElement(_CssBaseline2.default, null),
-	      _react2.default.createElement(
-	        _AppBar2.default,
-	        { position: 'fixed', className: classes.nav },
-	        _react2.default.createElement(
-	          _Toolbar2.default,
-	          null,
-	          _react2.default.createElement(
-	            _Typography2.default,
-	            { variant: 'h6', color: 'inherit', className: classes.grow },
-	            'Shenanigans'
-	          )
-	        )
-	      ),
-	      _react2.default.createElement(
-	        _Drawer2.default,
-	        { variant: 'permanent', className: classes.drawer, anchor: 'left', classes: { paper: classes.drawerPaper } },
-	        _react2.default.createElement('div', { className: classes.toolbar }),
-	        _react2.default.createElement(
-	          _List2.default,
-	          null,
-	          _react2.default.createElement(
-	            _ListItem2.default,
-	            { button: true, component: _reactRouterDom.Link, to: '/' },
+	    render() {
+	        const { classes } = this.props;
+	        const links = [{ text: "Home", route: "/", icon: () => _react2.default.createElement(_Home2.default, null) }, {
+	            text: "Recipe Generation",
+	            route: "/recipe_generation",
+	            icon: () => _react2.default.createElement(_Note2.default, null)
+	        }, {
+	            text: "Experiments",
+	            route: "/experiments",
+	            icon: () => _react2.default.createElement(_Edit2.default, null)
+	        }, { text: "About Us", route: "/about", icon: () => _react2.default.createElement(_People2.default, null) }];
+	        return _react2.default.createElement(
+	            "div",
+	            { className: classes.root },
+	            _react2.default.createElement(_CssBaseline2.default, null),
 	            _react2.default.createElement(
-	              _ListItemIcon2.default,
-	              null,
-	              _react2.default.createElement(_Home2.default, null)
+	                _AppBar2.default,
+	                { position: "fixed", className: classes.nav },
+	                _react2.default.createElement(
+	                    _Toolbar2.default,
+	                    null,
+	                    _react2.default.createElement(
+	                        _Typography2.default,
+	                        {
+	                            variant: "h6",
+	                            color: "inherit",
+	                            className: classes.grow },
+	                        "Shenanigans"
+	                    )
+	                )
 	            ),
-	            _react2.default.createElement(_ListItemText2.default, { primary: "Home" })
-	          ),
-	          _react2.default.createElement(
-	            _ListItem2.default,
-	            { button: true, component: _reactRouterDom.Link, to: '/recipe_generation' },
 	            _react2.default.createElement(
-	              _ListItemIcon2.default,
-	              null,
-	              _react2.default.createElement(_Note2.default, null)
+	                _Drawer2.default,
+	                {
+	                    variant: "permanent",
+	                    className: classes.drawer,
+	                    anchor: "left",
+	                    classes: { paper: classes.drawerPaper } },
+	                _react2.default.createElement("div", { className: classes.toolbar }),
+	                _react2.default.createElement(
+	                    _List2.default,
+	                    null,
+	                    links.map((link, i) => {
+	                        return _react2.default.createElement(
+	                            _ListItem2.default,
+	                            {
+	                                key: i,
+	                                button: true,
+	                                component: _reactRouterDom.Link,
+	                                to: link.route },
+	                            _react2.default.createElement(
+	                                _ListItemIcon2.default,
+	                                null,
+	                                link.icon()
+	                            ),
+	                            _react2.default.createElement(_ListItemText2.default, { primary: link.text })
+	                        );
+	                    })
+	                ),
+	                _react2.default.createElement(_Divider2.default, null),
+	                _react2.default.createElement(
+	                    _List2.default,
+	                    null,
+	                    _react2.default.createElement(
+	                        _ListItem2.default,
+	                        { button: true, component: _reactRouterDom.Link, to: "/about" },
+	                        _react2.default.createElement(
+	                            _ListItemIcon2.default,
+	                            null,
+	                            _react2.default.createElement(_People2.default, null)
+	                        ),
+	                        _react2.default.createElement(_ListItemText2.default, { primary: "About Us" })
+	                    )
+	                )
 	            ),
-	            _react2.default.createElement(_ListItemText2.default, { primary: "Recipe Generation" })
-	          ),
-	          _react2.default.createElement(
-	            _ListItem2.default,
-	            { button: true, component: _reactRouterDom.Link, to: '/experiments' },
 	            _react2.default.createElement(
-	              _ListItemIcon2.default,
-	              null,
-	              _react2.default.createElement(_Edit2.default, null)
-	            ),
-	            _react2.default.createElement(_ListItemText2.default, { primary: "Experiments" })
-	          )
-	        ),
-	        _react2.default.createElement(_Divider2.default, null),
-	        _react2.default.createElement(
-	          _List2.default,
-	          null,
-	          _react2.default.createElement(
-	            _ListItem2.default,
-	            { button: true, component: _reactRouterDom.Link, to: '/about' },
-	            _react2.default.createElement(
-	              _ListItemIcon2.default,
-	              null,
-	              _react2.default.createElement(_People2.default, null)
-	            ),
-	            _react2.default.createElement(_ListItemText2.default, { primary: "About Us" })
-	          )
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'main',
-	        { className: classes.content },
-	        _react2.default.createElement('div', { className: classes.toolbar }),
-	        this.props.children
-	      )
-	    );
-	  }
+	                "main",
+	                { className: classes.content },
+	                _react2.default.createElement("div", { className: classes.toolbar }),
+	                this.props.children
+	            )
+	        );
+	    }
 	}
 	
 	NavBar.propTypes = {
-	  classes: _propTypes2.default.object.isRequired,
-	  children: _propTypes2.default.object.isRequired
+	    classes: _propTypes2.default.object.isRequired,
+	    children: _propTypes2.default.object.isRequired
 	};
 	
 	exports.default = (0, _styles.withStyles)(_NavBarStyles2.default)(NavBar);
@@ -48904,7 +48905,7 @@
 	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 	
 	var _react = __webpack_require__(/*! react */ 1);
@@ -48945,93 +48946,84 @@
 	
 	var _WordCloud2 = _interopRequireDefault(_WordCloud);
 	
+	var _styles2 = __webpack_require__(/*! ./styles */ 573);
+	
+	var _styles3 = _interopRequireDefault(_styles2);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	class Experiments extends _react2.default.Component {
-	
-	  constructor(props) {
-	    super(props);
-	    this.state = {
-	      experiments: 'ingredient_frequency'
-	    };
-	  }
-	
-	  renderExperiment() {
-	    const { experiments } = this.state;
-	    if (experiments === 'word_cloud') {
-	      return _react2.default.createElement(_WordCloud2.default, { maxWidth: 600, maxHeight: 500 });
+	    constructor(props) {
+	        super(props);
+	        this.state = {
+	            experiments: "ingredient_frequency"
+	        };
 	    }
-	    return _react2.default.createElement(_IngredientFrequencyBarChart2.default, { maxWidth: 600, maxHeight: 500 });
-	  }
 	
-	  render() {
-	    const { classes } = this.props;
-	    return _react2.default.createElement(
-	      _NavBar2.default,
-	      null,
-	      _react2.default.createElement(
-	        "div",
-	        null,
-	        _react2.default.createElement(
-	          "form",
-	          { className: classes.root, autoComplete: "off" },
-	          _react2.default.createElement(
-	            _FormControl2.default,
-	            { className: classes.formControl },
+	    renderExperiment() {
+	        const { experiments } = this.state;
+	        if (experiments === "word_cloud") {
+	            return _react2.default.createElement(_WordCloud2.default, { maxWidth: 600, maxHeight: 500 });
+	        }
+	        return _react2.default.createElement(_IngredientFrequencyBarChart2.default, { maxWidth: 600, maxHeight: 500 });
+	    }
+	
+	    render() {
+	        const { classes } = this.props;
+	        return _react2.default.createElement(
+	            _NavBar2.default,
+	            null,
 	            _react2.default.createElement(
-	              _InputLabel2.default,
-	              { htmlFor: "experiments" },
-	              "Experiments"
-	            ),
-	            _react2.default.createElement(
-	              _Select2.default,
-	              {
-	                value: this.state.experiments,
-	                onChange: event => {
-	                  this.setState({ [event.target.name]: event.target.value });
-	                },
-	                inputProps: {
-	                  name: 'experiments',
-	                  id: 'experiments'
-	                } },
-	              _react2.default.createElement(
-	                _MenuItem2.default,
-	                { value: "ingredient_frequency" },
-	                "Ingredient Frequency"
-	              ),
-	              _react2.default.createElement(
-	                _MenuItem2.default,
-	                { value: "word_cloud" },
-	                "Word Cloud"
-	              )
+	                "div",
+	                null,
+	                _react2.default.createElement(
+	                    "form",
+	                    { className: classes.root, autoComplete: "off" },
+	                    _react2.default.createElement(
+	                        _FormControl2.default,
+	                        { className: classes.formControl },
+	                        _react2.default.createElement(
+	                            _InputLabel2.default,
+	                            { htmlFor: "experiments" },
+	                            "Experiments"
+	                        ),
+	                        _react2.default.createElement(
+	                            _Select2.default,
+	                            {
+	                                value: this.state.experiments,
+	                                onChange: event => {
+	                                    this.setState({
+	                                        [event.target.name]: event.target.value
+	                                    });
+	                                },
+	                                inputProps: {
+	                                    name: "experiments",
+	                                    id: "experiments"
+	                                } },
+	                            _react2.default.createElement(
+	                                _MenuItem2.default,
+	                                { value: "ingredient_frequency" },
+	                                "Ingredient Frequency"
+	                            ),
+	                            _react2.default.createElement(
+	                                _MenuItem2.default,
+	                                { value: "word_cloud" },
+	                                "Word Cloud"
+	                            )
+	                        )
+	                    )
+	                ),
+	                this.renderExperiment()
 	            )
-	          )
-	        ),
-	        this.renderExperiment()
-	      )
-	    );
-	  }
+	        );
+	    }
 	}
 	
-	const styles = theme => ({
-	  root: {
-	    display: 'flex',
-	    flexWrap: 'wrap'
-	  },
-	  formControl: {
-	    margin: theme.spacing.unit,
-	    minWidth: 120
-	  },
-	  selectEmpty: {
-	    marginTop: theme.spacing.unit * 2
-	  }
-	});
-	
 	Experiments.propTypes = {
-	  classes: _propTypes2.default.object.isRequired
+	    classes: _propTypes2.default.object.isRequired
 	};
 	
-	exports.default = (0, _styles.withStyles)(styles)(Experiments);
+	exports.default = (0, _styles.withStyles)(_styles3.default)(Experiments);
 
 /***/ }),
 /* 303 */
@@ -54364,10 +54356,10 @@
   \************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 	
 	var _react = __webpack_require__(/*! react */ 1);
@@ -54392,120 +54384,112 @@
 	
 	var _styles = __webpack_require__(/*! @material-ui/core/styles */ 84);
 	
+	var _styles2 = __webpack_require__(/*! ./styles */ 574);
+	
+	var _styles3 = _interopRequireDefault(_styles2);
+	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	class FrequencyBarChart extends _react2.default.Component {
-	  constructor(props) {
-	    super(props);
-	    this.state = { data: [], hasError: false };
-	  }
+	    constructor(props) {
+	        super(props);
+	        this.state = { data: [], hasError: false };
+	    }
 	
-	  componentWillMount() {
-	    fetch('/api/ingredient_frequency').then(response => response.json()).then(data => {
-	      this.setState({
-	        data: data
-	      });
-	    });
-	  }
+	    componentWillMount() {
+	        fetch("/api/ingredient_frequency").then(response => response.json()).then(data => {
+	            this.setState({
+	                data: data
+	            });
+	        });
+	    }
 	
-	  renderXAxis() {
-	    const { margin, maxWidth, maxHeight } = this.props;
-	    const width = maxWidth - margin.left - margin.right;
-	    const height = maxHeight - margin.top - margin.bottom;
+	    renderXAxis() {
+	        const { margin, maxWidth, maxHeight } = this.props;
+	        const width = maxWidth - margin.left - margin.right;
+	        const height = maxHeight - margin.top - margin.bottom;
+	        return _react2.default.createElement(_Axis2.default, {
+	            transform: `translate(${margin.left}, ${height + margin.top})`,
+	            width: width,
+	            height: height,
+	            data: this.state.data,
+	            className: "axis axis--x"
+	        });
+	    }
 	
-	    return _react2.default.createElement(_Axis2.default, { transform: `translate(${margin.left}, ${height + margin.top})`,
-	      width: width,
-	      height: height,
-	      data: this.state.data,
-	      className: "axis axis--x"
-	    });
-	  }
+	    renderYAxis() {
+	        const { margin, maxWidth, maxHeight } = this.props;
+	        const width = maxWidth - margin.left - margin.right;
+	        const height = maxHeight - margin.top - margin.bottom;
+	        return _react2.default.createElement(_Axis2.default, {
+	            transform: `translate(${margin.left}, ${margin.top})`,
+	            width: width,
+	            height: height,
+	            data: this.state.data,
+	            className: "axis axis--y"
+	        });
+	    }
+	    renderBars() {
+	        const { margin, maxWidth, maxHeight } = this.props;
+	        const width = maxWidth - margin.left - margin.right;
+	        const height = maxHeight - margin.top - margin.bottom;
+	        const x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
+	        const y = d3.scaleLinear().rangeRound([height, 0]);
+	        y.domain([0, d3.max(this.state.data, function (d) {
+	            return d.size;
+	        })]);
+	        x.domain(this.state.data.map(function (d) {
+	            return d.text;
+	        }));
 	
-	  renderYAxis() {
-	    const { margin, maxWidth, maxHeight } = this.props;
-	    const width = maxWidth - margin.left - margin.right;
-	    const height = maxHeight - margin.top - margin.bottom;
-	
-	    return _react2.default.createElement(_Axis2.default, {
-	      transform: `translate(${margin.left}, ${margin.top})`,
-	      width: width,
-	      height: height,
-	      data: this.state.data,
-	      className: "axis axis--y"
-	    });
-	  }
-	
-	  renderBars() {
-	    const { margin, maxWidth, maxHeight } = this.props;
-	    const width = maxWidth - margin.left - margin.right;
-	    const height = maxHeight - margin.top - margin.bottom;
-	    const x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
-	    const y = d3.scaleLinear().rangeRound([height, 0]);
-	
-	    y.domain([0, d3.max(this.state.data, function (d) {
-	      return d.size;
-	    })]);
-	
-	    x.domain(this.state.data.map(function (d) {
-	      return d.text;
-	    }));
-	
-	    return this.state.data.map((d, index) => {
-	      return _react2.default.createElement(_Bar2.default, {
-	        className: "bar",
-	        x: x(d.text),
-	        y: y(d.size),
-	        height: height - y(d.size),
-	        width: x.bandwidth(),
-	        key: index
-	      });
-	    });
-	  }
-	
-	  render() {
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'ingredient_frequency_bar' },
-	      _react2.default.createElement(
-	        'svg',
-	        { width: this.props.maxWidth, height: this.props.maxHeight },
-	        this.renderXAxis(),
-	        this.renderYAxis(),
-	        _react2.default.createElement(
-	          'g',
-	          { transform: 'translate(50,0)' },
-	          this.renderBars()
-	        )
-	      )
-	    );
-	  }
+	        return this.state.data.map((d, index) => {
+	            return _react2.default.createElement(_Bar2.default, {
+	                className: "bar",
+	                x: x(d.text),
+	                y: y(d.size),
+	                height: height - y(d.size),
+	                width: x.bandwidth(),
+	                key: index
+	            });
+	        });
+	    }
+	    render() {
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "ingredient_frequency_bar" },
+	            _react2.default.createElement(
+	                "svg",
+	                { width: this.props.maxWidth, height: this.props.maxHeight },
+	                this.renderXAxis(),
+	                this.renderYAxis(),
+	                _react2.default.createElement(
+	                    "g",
+	                    { transform: "translate(50,0)" },
+	                    this.renderBars()
+	                )
+	            )
+	        );
+	    }
 	}
 	
 	FrequencyBarChart.propTypes = {
-	  classes: _propTypes2.default.object.isRequired,
-	  maxWidth: _propTypes2.default.number.isRequired,
-	  maxHeight: _propTypes2.default.number.isRequired,
-	  margin: _propTypes2.default.shape({
-	    top: _propTypes2.default.number,
-	    left: _propTypes2.default.number,
-	    bottom: _propTypes2.default.number,
-	    right: _propTypes2.default.number
-	  })
+	    classes: _propTypes2.default.object.isRequired,
+	    maxWidth: _propTypes2.default.number.isRequired,
+	    maxHeight: _propTypes2.default.number.isRequired,
+	    margin: _propTypes2.default.shape({
+	        top: _propTypes2.default.number,
+	        left: _propTypes2.default.number,
+	        bottom: _propTypes2.default.number,
+	        right: _propTypes2.default.number
+	    })
 	};
 	FrequencyBarChart.defaultProps = {
-	  margin: { top: 10, right: 20, bottom: 10, left: 50 }
+	    margin: { top: 10, right: 20, bottom: 10, left: 50 }
 	};
 	
-	const styles = theme => ({
-	  ingredient_frequency_bar: {
-	    width: '100%',
-	    marginTop: 28
-	  }
-	});
-	
-	exports.default = (0, _styles.withStyles)(styles)(FrequencyBarChart);
+	exports.default = (0, _styles.withStyles)(_styles3.default)(FrequencyBarChart);
 
 /***/ }),
 /* 342 */
@@ -73456,10 +73440,10 @@
   \********************************/
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 	
 	var _react = __webpack_require__(/*! react */ 1);
@@ -73479,70 +73463,69 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	class Axis extends _react2.default.Component {
-	  constructor(props) {
-	    super(props);
-	    this.myRef = _react2.default.createRef();
-	  }
-	
-	  componentDidMount() {
-	    this.renderAxis();
-	  }
-	
-	  componentDidUpdate() {
-	    this.renderAxis();
-	  }
-	
-	  renderAxis() {
-	    if (this.props.className === "axis axis--x") {
-	      const x = d3.scaleBand().rangeRound([0, this.props.width]).padding(0.1);
-	
-	      console.log(this.props.data);
-	      //Add a domain specific function
-	      x.domain(this.props.data.map(function (d) {
-	        return d.text;
-	      }));
-	
-	      console.log(typeof x);
-	
-	      let node = this.myRef.current;
-	      d3.select(node).call(d3.axisBottom(x)).selectAll("text").style("text-anchor", "end").attr("dx", "-.8em").attr("dy", ".15em").attr("transform", "rotate(-50)");
-	    } else if (this.props.className === "axis axis--y") {
-	
-	      const y = d3.scaleLinear().rangeRound([this.props.height, 0]);
-	
-	      y.domain([0, d3.max(this.props.data, function (d) {
-	        return d.size;
-	      })]);
-	
-	      let node = this.myRef.current;
-	      d3.select(node).call(d3.axisLeft(y).ticks(10));
+	    constructor(props) {
+	        super(props);
+	        this.myRef = _react2.default.createRef();
 	    }
-	  }
 	
-	  render() {
-	    return _react2.default.createElement('g', { ref: this.myRef, className: this.props.className, transform: this.props.transform });
-	  }
+	    componentDidMount() {
+	        this.renderAxis();
+	    }
+	
+	    componentDidUpdate() {
+	        this.renderAxis();
+	    }
+	
+	    renderAxis() {
+	        if (this.props.className === "axis axis--x") {
+	            const x = d3.scaleBand().rangeRound([0, this.props.width]).padding(0.1);
+	            //Add a domain specific function
+	            x.domain(this.props.data.map(function (d) {
+	                return d.text;
+	            }));
+	
+	            let node = this.myRef.current;
+	            d3.select(node).call(d3.axisBottom(x)).selectAll("text").style("text-anchor", "end").attr("dx", "-.8em").attr("dy", ".15em").attr("transform", "rotate(-50)");
+	        } else if (this.props.className === "axis axis--y") {
+	            const y = d3.scaleLinear().rangeRound([this.props.height, 0]);
+	
+	            y.domain([0, d3.max(this.props.data, function (d) {
+	                return d.size;
+	            })]);
+	
+	            let node = this.myRef.current;
+	            d3.select(node).call(d3.axisLeft(y).ticks(10));
+	        }
+	    }
+	
+	    render() {
+	        return _react2.default.createElement("g", {
+	            ref: this.myRef,
+	            className: this.props.className,
+	            transform: this.props.transform
+	        });
+	    }
 	}
 	
 	Axis.propTypes = {
-	  data: _propTypes2.default.array,
-	  axisType: _propTypes2.default.string,
-	  text: _propTypes2.default.string,
-	  scale: _propTypes2.default.func,
-	  orient: _propTypes2.default.string,
-	  transform: _propTypes2.default.string,
-	  y: _propTypes2.default.number,
-	  dy: _propTypes2.default.string,
-	  x: _propTypes2.default.number,
-	  dx: _propTypes2.default.string,
-	  text: _propTypes2.default.string,
-	  range: _propTypes2.default.number,
-	  scaleFunction: _propTypes2.default.func,
-	  style: _propTypes2.default.string,
-	  baseLength: _propTypes2.default.number,
-	  type: _propTypes2.default.string,
-	  axis: _propTypes2.default.func,
-	  className: _propTypes2.default.string
+	    data: _propTypes2.default.array,
+	    axisType: _propTypes2.default.string,
+	    text: _propTypes2.default.string,
+	    scale: _propTypes2.default.func,
+	    orient: _propTypes2.default.string,
+	    transform: _propTypes2.default.string,
+	    y: _propTypes2.default.number,
+	    dy: _propTypes2.default.string,
+	    x: _propTypes2.default.number,
+	    dx: _propTypes2.default.string,
+	    text: _propTypes2.default.string,
+	    range: _propTypes2.default.number,
+	    scaleFunction: _propTypes2.default.func,
+	    style: _propTypes2.default.string,
+	    baseLength: _propTypes2.default.number,
+	    type: _propTypes2.default.string,
+	    axis: _propTypes2.default.func,
+	    className: _propTypes2.default.string
 	};
 	
 	exports.default = Axis;
@@ -98256,6 +98239,55 @@
 	
 	exports.default = _default;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../process/browser.js */ 2)))
+
+/***/ }),
+/* 573 */
+/*!******************************************!*\
+  !*** ./components/Experiments/styles.js ***!
+  \******************************************/
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	const styles = theme => ({
+	  root: {
+	    display: 'flex',
+	    flexWrap: 'wrap'
+	  },
+	  formControl: {
+	    margin: theme.spacing.unit,
+	    minWidth: 120
+	  },
+	  selectEmpty: {
+	    marginTop: theme.spacing.unit * 2
+	  }
+	});
+	
+	exports.default = styles;
+
+/***/ }),
+/* 574 */
+/*!**************************************************************!*\
+  !*** ./components/Experiments/IngredientFrequency/styles.js ***!
+  \**************************************************************/
+/***/ (function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	const styles = {
+	    ingredient_frequency_bar: {
+	        width: "100%",
+	        marginTop: 28
+	    }
+	};
+	
+	exports.default = styles;
 
 /***/ })
 /******/ ]);
