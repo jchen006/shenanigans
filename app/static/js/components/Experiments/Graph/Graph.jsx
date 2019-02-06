@@ -6,15 +6,13 @@ class Graph extends React.Component {
     constructor(props) {
         super(props);
         this.state = { data: [], hasError: false };
-        this.force = d3.layout.force()
-        .charge(-120)
-        .linkDistance(30)
-        .size([width, height]);
+        this.force = d3.forceSimulation()
+        .force('charge', d3.forceManyBody())
         this.myRef = React.createRef();
     }
 
     componentWillMount() {
-        fetch("/api/ingredient_frequency")
+        fetch("/api/graph")
             .then(response => response.json())
             .then(data => {
                 this.setState({
@@ -34,7 +32,7 @@ class Graph extends React.Component {
     renderGraph() {
         const svg = d3.select(this.myRef.current);
         const graph = this.state.data;
-        force
+        this.force
         .nodes(graph.nodes)
         .links(graph.links)
         .start();
@@ -51,12 +49,12 @@ class Graph extends React.Component {
         .attr("class", "node")
         .attr("r", 5)
         .style("fill", function(d) { return color(d.group); })
-        .call(force.drag);
+        .call(this.force.drag);
 
         node.append("title")
         .text(function(d) { console.log(d.name); return d.name; });
 
-        force.on("tick", () => {
+        this.force.on("tick", () => {
             link.attr("x1", (d) => d.source.x)
                 .attr("y1", (d) => d.source.y)
                 .attr("x2", (d) => d.target.x)

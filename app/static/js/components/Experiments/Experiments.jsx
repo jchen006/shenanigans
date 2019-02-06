@@ -24,7 +24,7 @@ class Experiments extends React.Component {
       if (experiments === 'word_cloud') {
         return <WordCloud maxWidth={600} maxHeight={500} />
       } else if (experiments === 'graph_page') {
-        <Graph maxWidth={600} maxHeight={500} />
+        return <Graph maxWidth={600} maxHeight={500} />
       }
       return <IngredientFrequency maxWidth={600} maxHeight={500} />
     }
