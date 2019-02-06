@@ -76,7 +76,6 @@ class WordCloud extends React.Component {
         const {maxWidth, maxHeight} = this.props
         return (
             <svg className="word_cloud" width={maxWidth} height={maxHeight} ref={this.myRef}>
-                <g width={maxWidth} height={maxHeight}  transform={`translate(${370},${155})`}></g>
             </svg>
         )
       }
