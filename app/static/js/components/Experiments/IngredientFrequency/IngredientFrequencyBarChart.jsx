@@ -54,7 +54,7 @@ class FrequencyBarChart extends React.Component {
     renderBars() {
         const { margin, maxWidth, maxHeight } = this.props;
         const width = maxWidth - margin.left - margin.right;
-        const height = maxHeight - margin.top - margin.bottom;
+        const height = maxHeight - margin.bottom;
         const x = d3
             .scaleBand()
             .rangeRound([0, width])
@@ -110,7 +110,7 @@ FrequencyBarChart.propTypes = {
     })
 };
 FrequencyBarChart.defaultProps = {
-    margin: { top: 10, right: 20, bottom: 10, left: 50 }
+    margin: { top: 10, right: 20, bottom: 100, left: 50 }
 };
 
 
