@@ -48945,6 +48945,10 @@
 	
 	var _WordCloud2 = _interopRequireDefault(_WordCloud);
 	
+	var _Graph = __webpack_require__(/*! ./Graph/Graph */ 576);
+	
+	var _Graph2 = _interopRequireDefault(_Graph);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	class Experiments extends _react2.default.Component {
@@ -48960,6 +48964,8 @@
 	    const { experiments } = this.state;
 	    if (experiments === 'word_cloud') {
 	      return _react2.default.createElement(_WordCloud2.default, { maxWidth: 600, maxHeight: 500 });
+	    } else if (experiments === 'graph_page') {
+	      _react2.default.createElement(_Graph2.default, { maxWidth: 600, maxHeight: 500 });
 	    }
 	    return _react2.default.createElement(_IngredientFrequencyBarChart2.default, { maxWidth: 600, maxHeight: 500 });
 	  }
@@ -48994,6 +49000,11 @@
 	                  name: 'experiments',
 	                  id: 'experiments'
 	                } },
+	              _react2.default.createElement(
+	                _MenuItem2.default,
+	                { value: "graph_page" },
+	                "Graph"
+	              ),
 	              _react2.default.createElement(
 	                _MenuItem2.default,
 	                { value: "ingredient_frequency" },
@@ -54440,7 +54451,7 @@
 	  renderBars() {
 	    const { margin, maxWidth, maxHeight } = this.props;
 	    const width = maxWidth - margin.left - margin.right;
-	    const height = maxHeight - margin.top - margin.bottom;
+	    const height = maxHeight - margin.bottom;
 	    const x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
 	    const y = d3.scaleLinear().rangeRound([height, 0]);
 	
@@ -54495,7 +54506,7 @@
 	  })
 	};
 	FrequencyBarChart.defaultProps = {
-	  margin: { top: 10, right: 20, bottom: 10, left: 50 }
+	  margin: { top: 10, right: 20, bottom: 100, left: 50 }
 	};
 	
 	const styles = theme => ({
@@ -98256,6 +98267,99 @@
 	
 	exports.default = _default;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../process/browser.js */ 2)))
+
+/***/ }),
+/* 573 */,
+/* 574 */,
+/* 575 */,
+/* 576 */
+/*!************************************************!*\
+  !*** ./components/Experiments/Graph/Graph.jsx ***!
+  \************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _propTypes = __webpack_require__(/*! prop-types */ 76);
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
+	var _d = __webpack_require__(/*! d3 */ 342);
+	
+	var d3 = _interopRequireWildcard(_d);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	class Graph extends _react2.default.Component {
+	    constructor(props) {
+	        super(props);
+	        this.state = { data: [], hasError: false };
+	        this.force = d3.layout.force().charge(-120).linkDistance(30).size([width, height]);
+	        this.myRef = _react2.default.createRef();
+	    }
+	
+	    componentWillMount() {
+	        fetch("/api/ingredient_frequency").then(response => response.json()).then(data => {
+	            this.setState({
+	                data: data
+	            });
+	        });
+	    }
+	
+	    componentDidMount() {
+	        this.renderGraph();
+	    }
+	
+	    componentDidUpdate() {
+	        this.renderGraph();
+	    }
+	
+	    renderGraph() {
+	        const svg = d3.select(this.myRef.current);
+	        const graph = this.state.data;
+	        force.nodes(graph.nodes).links(graph.links).start();
+	
+	        const link = svg.selectAll(".link").data(graph.links).enter().append("line").attr("class", "link").style("stroke-width", function (d) {
+	            return Math.sqrt(d.value);
+	        });
+	
+	        const node = svg.selectAll(".node").data(graph.nodes).enter().append("circle").attr("class", "node").attr("r", 5).style("fill", function (d) {
+	            return color(d.group);
+	        }).call(force.drag);
+	
+	        node.append("title").text(function (d) {
+	            console.log(d.name);return d.name;
+	        });
+	
+	        force.on("tick", () => {
+	            link.attr("x1", d => d.source.x).attr("y1", d => d.source.y).attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+	
+	            node.attr("cx", d => d.x).attr("cy", d => d.y);
+	        });
+	    }
+	
+	    render() {
+	        const { maxWidth, maxHeight } = this.props;
+	        return _react2.default.createElement("svg", { ref: this.myRef, width: maxWidth, height: maxHeight });
+	    }
+	}
+	
+	Graph.propTypes = {
+	    maxWidth: _propTypes2.default.number,
+	    maxHeight: _propTypes2.default.number
+	};
+	
+	exports.default = Graph;
 
 /***/ })
 /******/ ]);

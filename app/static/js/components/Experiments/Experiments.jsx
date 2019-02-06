@@ -8,6 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import IngredientFrequency from './IngredientFrequency/IngredientFrequencyBarChart'
 import WordCloud from './WordCloud/WordCloud'
+import Graph from './Graph/Graph'
 
 class Experiments extends React.Component {
 
@@ -22,6 +23,8 @@ class Experiments extends React.Component {
       const { experiments } = this.state
       if (experiments === 'word_cloud') {
         return <WordCloud maxWidth={600} maxHeight={500} />
+      } else if (experiments === 'graph_page') {
+        <Graph maxWidth={600} maxHeight={500} />
       }
       return <IngredientFrequency maxWidth={600} maxHeight={500} />
     }
@@ -44,13 +47,14 @@ class Experiments extends React.Component {
                     id: 'experiments',
                   }}>
                   {/* <MenuItem value={"radial_network_graph"}>Radial Network Graph</MenuItem>
-                  <MenuItem value={"graph_page"}>Graph</MenuItem>
+                  
                   <MenuItem value={"ingredient_frequency"}>Ingredient Frequency</MenuItem>
                   <MenuItem value={"radar_graph"}>Radar Graph</MenuItem>
                   <MenuItem value={"lda_graph"}>LDA Graph</MenuItem>
                   <MenuItem value={"recipe_scatterplot"}>Recipe Scatterplot</MenuItem>
                   <MenuItem value={"word_cloud"}>Word Cloud</MenuItem>
                   <MenuItem value={"recipe_generator_vae"}>Recipe Generator</MenuItem> */}
+                  <MenuItem value={"graph_page"}>Graph</MenuItem>
                   <MenuItem value={"ingredient_frequency"}>Ingredient Frequency</MenuItem>
                   <MenuItem value={"word_cloud"}>Word Cloud</MenuItem>
                 </Select>
