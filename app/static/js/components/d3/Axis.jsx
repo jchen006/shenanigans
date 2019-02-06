@@ -1,39 +1,24 @@
-import React, { PropTypes } from 'react'
-import * as d3 from 'd3'
+import React from 'react';
+import PropTypes from 'prop-types';
+import * as d3 from 'd3';
 
-const Axis = React.createClass({
-  propTypes: {
-    data: PropTypes.array,
-    axisType: PropTypes.string,
-    text: PropTypes.string,
-    scale: PropTypes.func,
-    orient: PropTypes.string,
-    transform: PropTypes.string,
-    y: PropTypes.number,
-    dy: PropTypes.string,
-    x: PropTypes.number,
-    dx: PropTypes.string,
-    text: PropTypes.string,
-    range: PropTypes.number,
-    scaleFunction: PropTypes.func,
-    style: PropTypes.string,
-    baseLength: PropTypes.number,
-    type: PropTypes.string,
-    axis: PropTypes.func,
-    className: PropTypes.string
-  },
+class Axis extends React.Component {
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+  }
 
   componentDidMount() {
     this.renderAxis()
-  },
+  }
 
   componentDidUpdate() {
     this.renderAxis()
-  },
+  }
 
   renderAxis() {
     if(this.props.className === "axis axis--x") {
-      var x = d3.scaleBand().rangeRound([0, this.props.width]).padding(0.1)
+      const x = d3.scaleBand().rangeRound([0, this.props.width]).padding(0.1)
       
       console.log(this.props.data)
       //Add a domain specific function
@@ -41,7 +26,7 @@ const Axis = React.createClass({
 
       console.log(typeof x)
 
-      var node = ReactDOM.findDOMNode(this);
+      let node = this.myRef.current;
       d3.select(node)
         .call(d3.axisBottom(x)).selectAll("text")
               .style("text-anchor", "end")
@@ -51,25 +36,45 @@ const Axis = React.createClass({
               
     } else if(this.props.className === "axis axis--y") {
 
-      var y = d3.scaleLinear().rangeRound([this.props.height, 0]);
+      const y = d3.scaleLinear().rangeRound([this.props.height, 0]);
 
       y.domain([0, d3.max(this.props.data, function(d) { 
         return d.size })])
 
-      var node = ReactDOM.findDOMNode(this);
+      let node = this.myRef.current;
       d3.select(node)
         .call(d3.axisLeft(y).ticks(10))
     }
-  },
+  }
 
   render() {
     return(
-      <g className= {this.props.className } transform = { this.props.transform }>
+      <g ref={this.myRef} className= {this.props.className } transform = { this.props.transform }>
       </g>
       )
     }
-})
+}
 
+Axis.propTypes = {
+  data: PropTypes.array,
+  axisType: PropTypes.string,
+  text: PropTypes.string,
+  scale: PropTypes.func,
+  orient: PropTypes.string,
+  transform: PropTypes.string,
+  y: PropTypes.number,
+  dy: PropTypes.string,
+  x: PropTypes.number,
+  dx: PropTypes.string,
+  text: PropTypes.string,
+  range: PropTypes.number,
+  scaleFunction: PropTypes.func,
+  style: PropTypes.string,
+  baseLength: PropTypes.number,
+  type: PropTypes.string,
+  axis: PropTypes.func,
+  className: PropTypes.string
+}
 
 
 export default Axis

@@ -1,14 +1,7 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const Bar = React.createClass({
-  propTypes: {
-    className: PropTypes.string,
-    x: PropTypes.number,
-    y: PropTypes.number,
-    height: PropTypes.number,
-    width: PropTypes.number
-  },
-
+class Bar extends React.Component {
   render() {
     return (
       <rect
@@ -16,7 +9,15 @@ const Bar = React.createClass({
       />
     )
   }
-})
+}
+
+Bar.propTypes = {
+  className: PropTypes.string,
+  x: PropTypes.number,
+  y: PropTypes.number,
+  height: PropTypes.number,
+  width: PropTypes.number
+}
 
 Bar.defaultProps = { className: 'bar'}
 

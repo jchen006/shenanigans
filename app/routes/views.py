@@ -8,17 +8,7 @@ import app.mongo.mongo_helper as mh
 p = RecipePage(parser)
 m = mh.MongoHelper()
 
-
-@shenanigans.route('/')
-def index():
-    return render_template('index.html')
-
-@shenanigans.route('/home')
-def home():
-    return render_template('home.html')
-
-
-@shenanigans.route('/recipes')
+@shenanigans.route('/api/recipes')
 def recipes():
     """This is to list out all recipes currently in the database"""
     titles = p.create_titles_page()
@@ -26,7 +16,19 @@ def recipes():
     for t in titles:
         url = p.create_recipe_url(t)
         recipes[t] = url
-    return render_template('recipes.html', titles=titles, recipes=recipes)
+    return recipes
+
+@shenanigans.route('/', defaults={'path': ''})
+@shenanigans.route('/<path:path>')
+def index(path):
+    return render_template('index.html')
+
+@shenanigans.route('/home')
+def home():
+    return render_template('home.html')
+
+
+
 
 
 @shenanigans.route('/recipe_card/<recipe>')
