@@ -29925,7 +29925,11 @@
 	class NavBar extends _react2.default.Component {
 	    render() {
 	        const { classes } = this.props;
-	        const links = [{ text: "Home", route: "/", icon: () => _react2.default.createElement(_Home2.default, null) }, {
+	        const links = [{
+	            text: "Home",
+	            route: "/",
+	            icon: () => _react2.default.createElement(_Home2.default, null)
+	        }, {
 	            text: "Recipe Generation",
 	            route: "/recipe_generation",
 	            icon: () => _react2.default.createElement(_Note2.default, null)
@@ -29933,7 +29937,7 @@
 	            text: "Experiments",
 	            route: "/experiments",
 	            icon: () => _react2.default.createElement(_Edit2.default, null)
-	        }, { text: "About Us", route: "/about", icon: () => _react2.default.createElement(_People2.default, null) }];
+	        }];
 	        return _react2.default.createElement(
 	            "div",
 	            { className: classes.root },

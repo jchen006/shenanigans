@@ -22,7 +22,11 @@ class NavBar extends React.Component {
     render() {
         const { classes } = this.props;
         const links = [
-            { text: "Home", route: "/", icon: () => <HomeIcon /> },
+            {  
+                text: "Home", 
+                route: "/", 
+                icon: () => <HomeIcon /> 
+            },
             {
                 text: "Recipe Generation",
                 route: "/recipe_generation",
@@ -32,8 +36,7 @@ class NavBar extends React.Component {
                 text: "Experiments",
                 route: "/experiments",
                 icon: () => <PenIcon />
-            },
-            { text: "About Us", route: "/about", icon: () => <PeopleIcon /> }
+            }
         ];
         return (
             <div className={classes.root}>
