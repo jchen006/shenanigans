@@ -25,6 +25,8 @@ def recipes():
 @shenanigans.route('/', defaults={'path': ''})
 @shenanigans.route('/<path:path>')
 def index(path):
+    #last_updated is used so the browser will request the new file and not used a cached one
+    #should be disabled in production and only used in debug mode so reminder to do that
     return render_template('index.html', last_updated=get_last_update_time('app/static/js/react-components'))
 
 @shenanigans.route('/home')
