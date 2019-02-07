@@ -13,7 +13,10 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import Home from "components/Home/home";
+import About from "components/About/About";
+import Recipe from "components/Recipe/Recipe";
+import Experiments from "components/Experiments/Experiments";
 import NavBarStyles from "./NavBarStyles";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import links from "./links";
@@ -86,7 +89,10 @@ class NavBar extends React.Component {
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {this.props.children}
+          <Route path="/" exact component={Home} />
+          <Route path="/about" component={About} />
+          <Route path="/recipe_generation" component={Recipe} />
+          <Route path="/experiments" component={Experiments} />
         </main>
       </div>
     );

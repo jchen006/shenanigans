@@ -24194,21 +24194,9 @@
 	
 	var _reactRouterDom = __webpack_require__(/*! react-router-dom */ 20);
 	
-	var _home = __webpack_require__(/*! components/Home/home */ 74);
+	var _NavBar = __webpack_require__(/*! components/core/NavBar/NavBar */ 75);
 	
-	var _home2 = _interopRequireDefault(_home);
-	
-	var _About = __webpack_require__(/*! components/About/About */ 76);
-	
-	var _About2 = _interopRequireDefault(_About);
-	
-	var _Recipe = __webpack_require__(/*! components/Recipe/Recipe */ 77);
-	
-	var _Recipe2 = _interopRequireDefault(_Recipe);
-	
-	var _Experiments = __webpack_require__(/*! components/Experiments/Experiments */ 78);
-	
-	var _Experiments2 = _interopRequireDefault(_Experiments);
+	var _NavBar2 = _interopRequireDefault(_NavBar);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -24217,14 +24205,7 @@
 	    return _react2.default.createElement(
 	      _reactRouterDom.BrowserRouter,
 	      null,
-	      _react2.default.createElement(
-	        "div",
-	        null,
-	        _react2.default.createElement(_reactRouterDom.Route, { path: "/", exact: true, component: _home2.default }),
-	        _react2.default.createElement(_reactRouterDom.Route, { path: "/about", component: _About2.default }),
-	        _react2.default.createElement(_reactRouterDom.Route, { path: "/recipe_generation", component: _Recipe2.default }),
-	        _react2.default.createElement(_reactRouterDom.Route, { path: "/experiments", component: _Experiments2.default })
-	      )
+	      _react2.default.createElement(_NavBar2.default, null)
 	    );
 	  }
 	}
@@ -29813,22 +29794,14 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _NavBar = __webpack_require__(/*! components/core/NavBar/NavBar */ 75);
-	
-	var _NavBar2 = _interopRequireDefault(_NavBar);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	class Home extends _react2.default.Component {
 	  render() {
 	    return _react2.default.createElement(
-	      _NavBar2.default,
+	      "div",
 	      null,
-	      _react2.default.createElement(
-	        "div",
-	        null,
-	        " Content Here "
-	      )
+	      " Content Here "
 	    );
 	  }
 	}
@@ -29906,9 +29879,21 @@
 	
 	var _ListItemText2 = _interopRequireDefault(_ListItemText);
 	
-	var _CssBaseline = __webpack_require__(/*! @material-ui/core/CssBaseline */ 408);
+	var _home = __webpack_require__(/*! components/Home/home */ 74);
 	
-	var _CssBaseline2 = _interopRequireDefault(_CssBaseline);
+	var _home2 = _interopRequireDefault(_home);
+	
+	var _About = __webpack_require__(/*! components/About/About */ 76);
+	
+	var _About2 = _interopRequireDefault(_About);
+	
+	var _Recipe = __webpack_require__(/*! components/Recipe/Recipe */ 77);
+	
+	var _Recipe2 = _interopRequireDefault(_Recipe);
+	
+	var _Experiments = __webpack_require__(/*! components/Experiments/Experiments */ 78);
+	
+	var _Experiments2 = _interopRequireDefault(_Experiments);
 	
 	var _NavBarStyles = __webpack_require__(/*! ./NavBarStyles */ 572);
 	
@@ -30017,7 +30002,10 @@
 	        "main",
 	        { className: classes.content },
 	        _react2.default.createElement("div", { className: classes.toolbar }),
-	        this.props.children
+	        _react2.default.createElement(_reactRouterDom.Route, { path: "/", exact: true, component: _home2.default }),
+	        _react2.default.createElement(_reactRouterDom.Route, { path: "/about", component: _About2.default }),
+	        _react2.default.createElement(_reactRouterDom.Route, { path: "/recipe_generation", component: _Recipe2.default }),
+	        _react2.default.createElement(_reactRouterDom.Route, { path: "/experiments", component: _Experiments2.default })
 	      )
 	    );
 	  }
@@ -30047,22 +30035,14 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _NavBar = __webpack_require__(/*! components/core/NavBar/NavBar */ 75);
-	
-	var _NavBar2 = _interopRequireDefault(_NavBar);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	class About extends _react2.default.Component {
 	  render() {
 	    return _react2.default.createElement(
-	      _NavBar2.default,
+	      "div",
 	      null,
-	      _react2.default.createElement(
-	        "div",
-	        null,
-	        " About "
-	      )
+	      " About "
 	    );
 	  }
 	}
@@ -30086,22 +30066,14 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _NavBar = __webpack_require__(/*! components/core/NavBar/NavBar */ 75);
-	
-	var _NavBar2 = _interopRequireDefault(_NavBar);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	class RecipeGeneration extends _react2.default.Component {
 	  render() {
 	    return _react2.default.createElement(
-	      _NavBar2.default,
+	      "div",
 	      null,
-	      _react2.default.createElement(
-	        "div",
-	        null,
-	        " RecipeGeneration "
-	      )
+	      " RecipeGeneration "
 	    );
 	  }
 	}
@@ -30124,10 +30096,6 @@
 	var _react = __webpack_require__(/*! react */ 1);
 	
 	var _react2 = _interopRequireDefault(_react);
-	
-	var _NavBar = __webpack_require__(/*! components/core/NavBar/NavBar */ 75);
-	
-	var _NavBar2 = _interopRequireDefault(_NavBar);
 	
 	var _propTypes = __webpack_require__(/*! prop-types */ 79);
 	
@@ -30191,47 +30159,43 @@
 	  render() {
 	    const { classes } = this.props;
 	    return _react2.default.createElement(
-	      _NavBar2.default,
+	      "div",
 	      null,
 	      _react2.default.createElement(
-	        "div",
-	        null,
+	        "form",
+	        { className: classes.root, autoComplete: "off" },
 	        _react2.default.createElement(
-	          "form",
-	          { className: classes.root, autoComplete: "off" },
+	          _FormControl2.default,
+	          { className: classes.formControl },
 	          _react2.default.createElement(
-	            _FormControl2.default,
-	            { className: classes.formControl },
+	            _InputLabel2.default,
+	            { htmlFor: "experiments" },
+	            "Experiments"
+	          ),
+	          _react2.default.createElement(
+	            _Select2.default,
+	            {
+	              value: this.state.experiments,
+	              onChange: this.handleChange,
+	              inputProps: {
+	                name: "experiments",
+	                id: "experiments"
+	              }
+	            },
 	            _react2.default.createElement(
-	              _InputLabel2.default,
-	              { htmlFor: "experiments" },
-	              "Experiments"
+	              _MenuItem2.default,
+	              { value: "ingredient_frequency" },
+	              "Ingredient Frequency"
 	            ),
 	            _react2.default.createElement(
-	              _Select2.default,
-	              {
-	                value: this.state.experiments,
-	                onChange: this.handleChange,
-	                inputProps: {
-	                  name: "experiments",
-	                  id: "experiments"
-	                }
-	              },
-	              _react2.default.createElement(
-	                _MenuItem2.default,
-	                { value: "ingredient_frequency" },
-	                "Ingredient Frequency"
-	              ),
-	              _react2.default.createElement(
-	                _MenuItem2.default,
-	                { value: "word_cloud" },
-	                "Word Cloud"
-	              )
+	              _MenuItem2.default,
+	              { value: "word_cloud" },
+	              "Word Cloud"
 	            )
 	          )
-	        ),
-	        this.renderExperiment()
-	      )
+	        )
+	      ),
+	      this.renderExperiment()
 	    );
 	  }
 	}
