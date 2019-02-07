@@ -29874,18 +29874,6 @@
 	
 	var _People2 = _interopRequireDefault(_People);
 	
-	var _Edit = __webpack_require__(/*! @material-ui/icons/Edit */ 213);
-	
-	var _Edit2 = _interopRequireDefault(_Edit);
-	
-	var _Note = __webpack_require__(/*! @material-ui/icons/Note */ 214);
-	
-	var _Note2 = _interopRequireDefault(_Note);
-	
-	var _Home = __webpack_require__(/*! @material-ui/icons/Home */ 215);
-	
-	var _Home2 = _interopRequireDefault(_Home);
-	
 	var _Drawer = __webpack_require__(/*! @material-ui/core/Drawer */ 216);
 	
 	var _Drawer2 = _interopRequireDefault(_Drawer);
@@ -29920,24 +29908,16 @@
 	
 	var _reactRouterDom = __webpack_require__(/*! react-router-dom */ 20);
 	
+	var _links = __webpack_require__(/*! ./links */ 577);
+	
+	var _links2 = _interopRequireDefault(_links);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	class NavBar extends _react2.default.Component {
 	    render() {
 	        const { classes } = this.props;
-	        const links = [{
-	            text: "Home",
-	            route: "/",
-	            icon: () => _react2.default.createElement(_Home2.default, null)
-	        }, {
-	            text: "Recipe Generation",
-	            route: "/recipe_generation",
-	            icon: () => _react2.default.createElement(_Note2.default, null)
-	        }, {
-	            text: "Experiments",
-	            route: "/experiments",
-	            icon: () => _react2.default.createElement(_Edit2.default, null)
-	        }];
+	
 	        return _react2.default.createElement(
 	            "div",
 	            { className: classes.root },
@@ -29969,7 +29949,7 @@
 	                _react2.default.createElement(
 	                    _List2.default,
 	                    null,
-	                    links.map((link, i) => {
+	                    _links2.default.map((link, i) => {
 	                        return _react2.default.createElement(
 	                            _ListItem2.default,
 	                            {
@@ -48962,6 +48942,7 @@
 	        this.state = {
 	            experiments: "ingredient_frequency"
 	        };
+	        this.handleChange = this.handleChange.bind(this);
 	    }
 	
 	    renderExperiment() {
@@ -48970,6 +48951,12 @@
 	            return _react2.default.createElement(_WordCloud2.default, { maxWidth: 600, maxHeight: 500 });
 	        }
 	        return _react2.default.createElement(_IngredientFrequencyBarChart2.default, { maxWidth: 600, maxHeight: 500 });
+	    }
+	
+	    handleChange(event) {
+	        this.setState({
+	            [event.target.name]: event.target.value
+	        });
 	    }
 	
 	    render() {
@@ -48995,11 +48982,7 @@
 	                            _Select2.default,
 	                            {
 	                                value: this.state.experiments,
-	                                onChange: event => {
-	                                    this.setState({
-	                                        [event.target.name]: event.target.value
-	                                    });
-	                                },
+	                                onChange: this.handleChange,
 	                                inputProps: {
 	                                    name: "experiments",
 	                                    id: "experiments"
@@ -98292,6 +98275,53 @@
 	};
 	
 	exports.default = styles;
+
+/***/ }),
+/* 575 */,
+/* 576 */,
+/* 577 */
+/*!*****************************************!*\
+  !*** ./components/core/NavBar/links.js ***!
+  \*****************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Edit = __webpack_require__(/*! @material-ui/icons/Edit */ 213);
+	
+	var _Edit2 = _interopRequireDefault(_Edit);
+	
+	var _Note = __webpack_require__(/*! @material-ui/icons/Note */ 214);
+	
+	var _Note2 = _interopRequireDefault(_Note);
+	
+	var _Home = __webpack_require__(/*! @material-ui/icons/Home */ 215);
+	
+	var _Home2 = _interopRequireDefault(_Home);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = [{
+	    text: "Home",
+	    route: "/",
+	    icon: () => _react2.default.createElement(_Home2.default, null)
+	}, {
+	    text: "Recipe Generation",
+	    route: "/recipe_generation",
+	    icon: () => _react2.default.createElement(_Note2.default, null)
+	}, {
+	    text: "Experiments",
+	    route: "/experiments",
+	    icon: () => _react2.default.createElement(_Edit2.default, null)
+	}];
 
 /***/ })
 /******/ ]);

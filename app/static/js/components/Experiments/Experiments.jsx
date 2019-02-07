@@ -16,6 +16,7 @@ class Experiments extends React.Component {
         this.state = {
             experiments: "ingredient_frequency"
         };
+        this.handleChange = this.handleChange.bind(this);
     }
 
     renderExperiment() {
@@ -24,6 +25,12 @@ class Experiments extends React.Component {
             return <WordCloud maxWidth={600} maxHeight={500} />;
         }
         return <IngredientFrequency maxWidth={600} maxHeight={500} />;
+    }
+
+    handleChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
     }
 
     render() {
@@ -38,11 +45,7 @@ class Experiments extends React.Component {
                             </InputLabel>
                             <Select
                                 value={this.state.experiments}
-                                onChange={event => {
-                                    this.setState({
-                                        [event.target.name]: event.target.value
-                                    });
-                                }}
+                                onChange={this.handleChange}
                                 inputProps={{
                                     name: "experiments",
                                     id: "experiments"

@@ -5,9 +5,6 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import PeopleIcon from "@material-ui/icons/People";
-import PenIcon from "@material-ui/icons/Edit";
-import NoteIcon from "@material-ui/icons/Note";
-import HomeIcon from "@material-ui/icons/Home";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
@@ -17,27 +14,12 @@ import ListItemText from "@material-ui/core/ListItemText";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import NavBarStyles from "./NavBarStyles";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import links from "./links"
 
 class NavBar extends React.Component {
     render() {
         const { classes } = this.props;
-        const links = [
-            {  
-                text: "Home", 
-                route: "/", 
-                icon: () => <HomeIcon /> 
-            },
-            {
-                text: "Recipe Generation",
-                route: "/recipe_generation",
-                icon: () => <NoteIcon />
-            },
-            {
-                text: "Experiments",
-                route: "/experiments",
-                icon: () => <PenIcon />
-            }
-        ];
+
         return (
             <div className={classes.root}>
                 <CssBaseline />
