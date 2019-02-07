@@ -29918,6 +29918,18 @@
 	    this.setState({ open: open });
 	  }
 	
+	  renderRoutes() {
+	    return _react2.default.createElement(
+	      "main",
+	      { className: classes.content },
+	      _react2.default.createElement("div", { className: classes.toolbar }),
+	      _react2.default.createElement(_reactRouterDom.Route, { path: "/", exact: true, component: _home2.default }),
+	      _react2.default.createElement(_reactRouterDom.Route, { path: "/about", component: _About2.default }),
+	      _react2.default.createElement(_reactRouterDom.Route, { path: "/recipe_generation", component: _Recipe2.default }),
+	      _react2.default.createElement(_reactRouterDom.Route, { path: "/experiments", component: _Experiments2.default })
+	    );
+	  }
+	
 	  render() {
 	    const { classes } = this.props;
 	    const handleDrawerOpen = () => this.handleDrawerToggle(true);
@@ -29998,15 +30010,7 @@
 	          )
 	        )
 	      ),
-	      _react2.default.createElement(
-	        "main",
-	        { className: classes.content },
-	        _react2.default.createElement("div", { className: classes.toolbar }),
-	        _react2.default.createElement(_reactRouterDom.Route, { path: "/", exact: true, component: _home2.default }),
-	        _react2.default.createElement(_reactRouterDom.Route, { path: "/about", component: _About2.default }),
-	        _react2.default.createElement(_reactRouterDom.Route, { path: "/recipe_generation", component: _Recipe2.default }),
-	        _react2.default.createElement(_reactRouterDom.Route, { path: "/experiments", component: _Experiments2.default })
-	      )
+	      this.renderRoutes()
 	    );
 	  }
 	}

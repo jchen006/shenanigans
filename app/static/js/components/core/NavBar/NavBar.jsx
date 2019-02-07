@@ -32,6 +32,18 @@ class NavBar extends React.Component {
     this.setState({ open: open });
   }
 
+  renderRoutes() {
+    return (
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        <Route path="/" exact component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/recipe_generation" component={Recipe} />
+        <Route path="/experiments" component={Experiments} />
+      </main>
+    );
+  }
+
   render() {
     const { classes } = this.props;
     const handleDrawerOpen = () => this.handleDrawerToggle(true);
@@ -87,13 +99,7 @@ class NavBar extends React.Component {
             </List>
           </div>
         </Drawer>
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Route path="/" exact component={Home} />
-          <Route path="/about" component={About} />
-          <Route path="/recipe_generation" component={Recipe} />
-          <Route path="/experiments" component={Experiments} />
-        </main>
+        {this.renderRoutes()}
       </div>
     );
   }
