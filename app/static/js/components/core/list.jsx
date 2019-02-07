@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react'
+import React, { PropTypes } from "react";
 
 const List = React.createClass({
   propTypes: {
@@ -8,15 +8,12 @@ const List = React.createClass({
   render() {
     return (
       <ul>
-        { this.props.items.map(item=> (
-          <li key={item.id}>
-            {item.text}
-          </li>
+        {this.props.items.map(item => (
+          <li key={item.id}>{item.text}</li>
         ))}
       </ul>
-    )
+    );
   }
+});
 
-})
-
-export default List
+export default List;
