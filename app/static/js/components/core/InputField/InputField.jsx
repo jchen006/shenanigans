@@ -1,9 +1,8 @@
-import { FieldGroup } from 'react-bootstrap'
-import React, { PropTypes } from 'react'
+import { FieldGroup } from "react-bootstrap";
+import React, { PropTypes } from "react";
 
 const InputField = React.createClass({
-
-  propTypes : {
+  propTypes: {
     id: PropTypes.string,
     type: PropTypes.string,
     label: PropTypes.string,
@@ -13,14 +12,13 @@ const InputField = React.createClass({
   render() {
     return (
       <FieldGroup
-        id = { this.propTypes.id }
-        type = { this.props.type }
-        label = { this.props.label }
-        value = { this.props.value }
+        id={this.propTypes.id}
+        type={this.props.type}
+        label={this.props.label}
+        value={this.props.value}
       />
-    )
+    );
   }
+});
 
-})
-
-export default InputField
+export default InputField;

@@ -1,13 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 class Bar extends React.Component {
   render() {
-    return (
-      <rect
-        {... this.props}
-      />
-    )
+    return <rect {...this.props} />;
   }
 }
 
@@ -17,8 +13,8 @@ Bar.propTypes = {
   y: PropTypes.number,
   height: PropTypes.number,
   width: PropTypes.number
-}
+};
 
-Bar.defaultProps = { className: 'bar'}
+Bar.defaultProps = { className: "bar" };
 
 export default Bar;

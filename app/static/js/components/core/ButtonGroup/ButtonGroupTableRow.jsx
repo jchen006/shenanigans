@@ -1,6 +1,6 @@
-import React, { PropTypes } from 'react'
-import GlyphiconButtons from '../Button/GlyphiconButtons.jsx'
-import { ButtonGroup } from 'react-bootstrap'
+import React, { PropTypes } from "react";
+import GlyphiconButtons from "../Button/GlyphiconButtons.jsx";
+import { ButtonGroup } from "react-bootstrap";
 
 const ButtonGroupTableRow = React.createClass({
   propTypes: {
@@ -11,38 +11,38 @@ const ButtonGroupTableRow = React.createClass({
   },
 
   handleOnEdit() {
-    this.props.onEdit(this.props.recipe)
+    this.props.onEdit(this.props.recipe);
   },
 
   handleOnApprove() {
-    this.props.onApprove(this.props.recipe)
+    this.props.onApprove(this.props.recipe);
   },
 
   handleOnDelete() {
-    this.props.onDelete(this.props.recipe)
+    this.props.onDelete(this.props.recipe);
   },
 
   render() {
     return (
       <ButtonGroup>
         <GlyphiconButtons
-          glyphiconType= { "glyphicon glyphicon-edit"}
+          glyphiconType={"glyphicon glyphicon-edit"}
           action={"Edit"}
-          onClick = { this.handleOnEdit }
+          onClick={this.handleOnEdit}
         />
         <GlyphiconButtons
-          glyphiconType= { "glyphicon glyphicon-ok"}
+          glyphiconType={"glyphicon glyphicon-ok"}
           action={"Approve"}
-          onClick = { this.handleOnApprove }
+          onClick={this.handleOnApprove}
         />
         <GlyphiconButtons
-          glyphiconType= { "glyphicon glyphicon-remove"}
+          glyphiconType={"glyphicon glyphicon-remove"}
           action={"Delete"}
-          onClick = { this.handleOnDelete }
+          onClick={this.handleOnDelete}
         />
       </ButtonGroup>
-    )
+    );
   }
-})
+});
 
-export default ButtonGroupTableRow
+export default ButtonGroupTableRow;
