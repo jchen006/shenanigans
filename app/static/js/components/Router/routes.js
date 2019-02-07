@@ -1,3 +1,4 @@
+import React from 'react'
 import Home from 'components/Home/home';
 import About from 'components/About/About';
 import Recipe from 'components/Recipe/Recipe';
@@ -19,7 +20,13 @@ const routes = [
     },
     {
         path: '/experiments/:path',
-        component: () => <Experiments/>
+        component: ({match}) => {
+            let path = match.params.path
+            console.log(path)
+            return (
+                <Experiments path={path}/>
+            )
+        }
     }
 ]
 

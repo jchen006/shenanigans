@@ -24202,6 +24202,7 @@
 	
 	class Router extends _react2.default.Component {
 	    render() {
+	        console.log(_routes2.default);
 	        return _react2.default.createElement(
 	            _reactRouterDom.BrowserRouter,
 	            null,
@@ -29800,6 +29801,10 @@
 	    value: true
 	});
 	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
 	var _home = __webpack_require__(/*! components/Home/home */ 75);
 	
 	var _home2 = _interopRequireDefault(_home);
@@ -29824,13 +29829,17 @@
 	    exact: true
 	}, {
 	    path: '/about/:path',
-	    component: () => React.createElement(_About2.default, null)
+	    component: () => _react2.default.createElement(_About2.default, null)
 	}, {
 	    path: '/recipe_generation',
-	    component: () => React.createElement(_Recipe2.default, null)
+	    component: () => _react2.default.createElement(_Recipe2.default, null)
 	}, {
 	    path: '/experiments/:path',
-	    component: () => React.createElement(_Experiments2.default, null)
+	    component: ({ match }) => {
+	        let path = match.params.path;
+	        console.log(path);
+	        return _react2.default.createElement(_Experiments2.default, { path: path });
+	    }
 	}];
 	
 	exports.default = routes;
@@ -48993,8 +49002,8 @@
 	  }
 	
 	  renderExperiment() {
-	    const { match } = this.props;
-	    let path = match.params.path;
+	    console.log(path);
+	    const { path } = this.props;
 	    switch (path) {
 	      case 'word_cloud':
 	        return _react2.default.createElement(_WordCloud2.default, { maxWidth: 600, maxHeight: 500 });

@@ -4,6 +4,7 @@ import routes from './routes.js'
 
 class Router extends React.Component {
     render() {
+    console.log(routes)
     return (
         <BrowserRouter>
             <div>

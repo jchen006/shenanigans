@@ -16,8 +16,8 @@ class Experiments extends React.Component {
     }
 
     renderExperiment() {
-			const { match } = this.props
-			let path = match.params.path
+      console.log(path)
+			const { path } = this.props
       switch(path) {
 				case 'word_cloud':
 					return <WordCloud maxWidth={600} maxHeight={500} />
