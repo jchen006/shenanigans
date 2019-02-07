@@ -13,10 +13,6 @@ const styles = theme => ({
     width: drawerWidth,
     flexShrink: 0
   },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 20
-  },
   drawerPaper: {
     width: drawerWidth
   },

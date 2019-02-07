@@ -33,6 +33,7 @@ class NavBar extends React.Component {
   }
 
   renderRoutes() {
+    const { classes } = this.props;
     return (
       <main className={classes.content}>
         <div className={classes.toolbar} />
@@ -56,7 +57,6 @@ class NavBar extends React.Component {
               color="inherit"
               aria-label="Open drawer"
               onClick={handleDrawerOpen}
-              className={classes.menuButton}
             >
               <MenuIcon />
             </IconButton>
@@ -106,8 +106,7 @@ class NavBar extends React.Component {
 }
 
 NavBar.propTypes = {
-  classes: PropTypes.object.isRequired,
-  children: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(NavBarStyles)(NavBar);

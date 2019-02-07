@@ -29919,6 +29919,7 @@
 	  }
 	
 	  renderRoutes() {
+	    const { classes } = this.props;
 	    return _react2.default.createElement(
 	      "main",
 	      { className: classes.content },
@@ -29948,8 +29949,7 @@
 	            {
 	              color: "inherit",
 	              "aria-label": "Open drawer",
-	              onClick: handleDrawerOpen,
-	              className: classes.menuButton
+	              onClick: handleDrawerOpen
 	            },
 	            _react2.default.createElement(_Menu2.default, null)
 	          ),
@@ -30016,8 +30016,7 @@
 	}
 	
 	NavBar.propTypes = {
-	  classes: _propTypes2.default.object.isRequired,
-	  children: _propTypes2.default.object.isRequired
+	  classes: _propTypes2.default.object.isRequired
 	};
 	
 	exports.default = (0, _styles.withStyles)(_NavBarStyles2.default)(NavBar);
@@ -98216,10 +98215,6 @@
 	  drawer: {
 	    width: drawerWidth,
 	    flexShrink: 0
-	  },
-	  menuButton: {
-	    marginLeft: 12,
-	    marginRight: 20
 	  },
 	  drawerPaper: {
 	    width: drawerWidth
