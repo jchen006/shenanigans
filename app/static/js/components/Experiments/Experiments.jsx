@@ -18,12 +18,15 @@ class Experiments extends React.Component {
 
   renderExperiment() {
     const { path } = this.props;
+    let component
     switch(path) {
       case 'word_cloud':
-        return <WordCloud maxWidth={600} maxHeight={500} />;
+        component = <WordCloud maxWidth={600} maxHeight={500} />;
+        break;
       default:
-        return <IngredientFrequency maxWidth={600} maxHeight={500} />;
+        component = <IngredientFrequency maxWidth={600} maxHeight={500} />;
     }
+    return component
   }
 
   handleChange(event) {

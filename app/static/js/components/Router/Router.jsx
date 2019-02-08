@@ -4,26 +4,25 @@ import routes from './routes.js'
 
 class AppRouter extends React.Component {
     render() {
-    console.log(routes)
-    return (
-        <Router>
-            <div>
-                <Switch>
-                    {
-                        routes.map((route, i) => {
-                            return (
-                                <Route
-                                    key={i}
-                                    path={route.path}
-                                    component={route.component}
-                                />
-                            )
-                        })
-                    }
-                </Switch>
-            </div>
-        </Router>
-    )
+        return (
+            <Router>
+                <div>
+                    <Switch>
+                        {
+                            routes.map((route, i) => {
+                                return (
+                                    <Route
+                                        key={i}
+                                        path={route.path}
+                                        component={route.component}
+                                    />
+                                )
+                            })
+                        }
+                    </Switch>
+                </div>
+            </Router>
+        )
     }
 }
 

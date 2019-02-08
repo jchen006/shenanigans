@@ -24202,7 +24202,6 @@
 	
 	class AppRouter extends _react2.default.Component {
 	    render() {
-	        console.log(_routes2.default);
 	        return _react2.default.createElement(
 	            _reactRouterDom.BrowserRouter,
 	            null,
@@ -49031,12 +49030,15 @@
 	
 	  renderExperiment() {
 	    const { path } = this.props;
+	    let component;
 	    switch (path) {
 	      case 'word_cloud':
-	        return _react2.default.createElement(_WordCloud2.default, { maxWidth: 600, maxHeight: 500 });
+	        component = _react2.default.createElement(_WordCloud2.default, { maxWidth: 600, maxHeight: 500 });
+	        break;
 	      default:
-	        return _react2.default.createElement(_IngredientFrequencyBarChart2.default, { maxWidth: 600, maxHeight: 500 });
+	        component = _react2.default.createElement(_IngredientFrequencyBarChart2.default, { maxWidth: 600, maxHeight: 500 });
 	    }
+	    return component;
 	  }
 	
 	  handleChange(event) {
