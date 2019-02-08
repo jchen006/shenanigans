@@ -1,5 +1,4 @@
 import React from "react";
-import NavBar from "components/core/NavBar/NavBar";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
