@@ -20,9 +20,7 @@ const routes = [
     },
     {
         path: '/experiments/:path',
-        component: ({match}) => (
-            <Experiments path={match.params.path}/>
-        )
+        component: ({match}) => <Experiments path={match.params.path}/>
     }
 ]
 
