@@ -13,8 +13,7 @@ class AppRouter extends React.Component {
                                 return (
                                     <Route
                                         key={i}
-                                        path={route.path}
-                                        component={route.component}
+                                        {...route}
                                     />
                                 )
                             })

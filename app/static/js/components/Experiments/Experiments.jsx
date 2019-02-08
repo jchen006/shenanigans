@@ -25,8 +25,9 @@ class Experiments extends React.Component {
         break;
       default:
         component = <IngredientFrequency maxWidth={600} maxHeight={500} />;
+        break;
     }
-    return component
+    return component;
   }
 
   handleChange(event) {
