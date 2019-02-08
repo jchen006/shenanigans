@@ -1,5 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Router from "components/Router/Router";
+import AppRouter from "components/Router/Router";
 
-ReactDOM.render(<Router />, document.getElementById("content"));
+ReactDOM.render(<AppRouter />, document.getElementById("content"));
