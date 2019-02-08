@@ -20,13 +20,9 @@ const routes = [
     },
     {
         path: '/experiments/:path',
-        component: ({match}) => {
-            let path = match.params.path
-            console.log(path)
-            return (
-                <Experiments path={path}/>
-            )
-        }
+        component: ({match}) => (
+            <Experiments path={match.params.path}/>
+        )
     }
 ]
 
