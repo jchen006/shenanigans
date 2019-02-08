@@ -109,5 +109,5 @@ tf_save/*
 app/static/js/react-components/recipe-generator-bundle.js
 
 #bundle
-app/**/bundle.js
-app/**/bundle.js.map
+**/bundle.js
+**/bundle.js.map

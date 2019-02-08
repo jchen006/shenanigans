@@ -13,13 +13,10 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import Home from "components/Home/home";
-import About from "components/About/About";
-import Recipe from "components/Recipe/Recipe";
-import Experiments from "components/Experiments/Experiments";
 import NavBarStyles from "./NavBarStyles";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Switch, Route, Link } from "react-router-dom";
 import links from "./links";
+import routes from "components/Router/routes.js";
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -37,10 +34,11 @@ class NavBar extends React.Component {
     return (
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Route path="/" exact component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/recipe_generation" component={Recipe} />
-        <Route path="/experiments" component={Experiments} />
+        <Switch>
+          {routes.map((route, i) => {
+            return <Route key={i} {...route} />;
+          })}
+        </Switch>
       </main>
     );
   }
