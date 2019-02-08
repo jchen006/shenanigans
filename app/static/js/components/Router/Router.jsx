@@ -1,15 +1,28 @@
 import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
-import Nav from "components/core/NavBar/NavBar";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import routes from './routes.js'
 
-class Router extends React.Component {
-  render() {
-    return (
-      <BrowserRouter>
-        <Nav />
-      </BrowserRouter>
-    );
-  }
+class AppRouter extends React.Component {
+    render() {
+        return (
+            <Router>
+                <div>
+                    <Switch>
+                        {
+                            routes.map((route, i) => {
+                                return (
+                                    <Route
+                                        key={i}
+                                        {...route}
+                                    />
+                                )
+                            })
+                        }
+                    </Switch>
+                </div>
+            </Router>
+        )
+    }
 }
 
-export default Router;
+export default AppRouter;

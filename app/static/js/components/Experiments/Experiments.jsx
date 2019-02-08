@@ -12,18 +12,21 @@ import styles from "./styles";
 class Experiments extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      experiments: "ingredient_frequency"
-    };
     this.handleChange = this.handleChange.bind(this);
   }
 
   renderExperiment() {
-    const { experiments } = this.state;
-    if (experiments === "word_cloud") {
-      return <WordCloud maxWidth={600} maxHeight={500} />;
+    const { path } = this.props;
+    let component
+    switch(path) {
+      case 'word_cloud':
+        component = <WordCloud maxWidth={600} maxHeight={500} />;
+        break;
+      default:
+        component = <IngredientFrequency maxWidth={600} maxHeight={500} />;
+        break;
     }
-    return <IngredientFrequency maxWidth={600} maxHeight={500} />;
+    return component;
   }
 
   handleChange(event) {
@@ -35,35 +38,11 @@ class Experiments extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
-        <form className={classes.root} autoComplete="off">
-          <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="experiments">Experiments</InputLabel>
-            <Select
-              value={this.state.experiments}
-              onChange={this.handleChange}
-              inputProps={{
-                name: "experiments",
-                id: "experiments"
-              }}
-            >
-              {/* <MenuItem value={"radial_network_graph"}>Radial Network Graph</MenuItem>
-                  <MenuItem value={"graph_page"}>Graph</MenuItem>
-                  <MenuItem value={"ingredient_frequency"}>Ingredient Frequency</MenuItem>
-                  <MenuItem value={"radar_graph"}>Radar Graph</MenuItem>
-                  <MenuItem value={"lda_graph"}>LDA Graph</MenuItem>
-                  <MenuItem value={"recipe_scatterplot"}>Recipe Scatterplot</MenuItem>
-                  <MenuItem value={"word_cloud"}>Word Cloud</MenuItem>
-                  <MenuItem value={"recipe_generator_vae"}>Recipe Generator</MenuItem> */}
-              <MenuItem value={"ingredient_frequency"}>
-                Ingredient Frequency
-              </MenuItem>
-              <MenuItem value={"word_cloud"}>Word Cloud</MenuItem>
-            </Select>
-          </FormControl>
-        </form>
-        {this.renderExperiment()}
-      </div>
+      <NavBar>
+        <div>
+          {this.renderExperiment()}
+        </div>
+      </NavBar>
     );
   }
 }

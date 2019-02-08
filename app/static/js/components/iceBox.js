@@ -1,5 +1,7 @@
-import { Component } from "react";
-
+import {Component} from 'react';
+/*
+DEPRECATE TO FULL REACT
+ */
 /* IceBox ROUTES */
 var URL_BASE = "localhost:5000";
 (PENDING_LIST_URL = URL_BASE + "db/getPendingEntries"),
