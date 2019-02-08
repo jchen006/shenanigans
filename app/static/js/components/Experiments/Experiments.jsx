@@ -17,9 +17,9 @@ class Experiments extends React.Component {
 
   renderExperiment() {
     const { path } = this.props;
-    let component
-    switch(path) {
-      case 'word_cloud':
+    let component;
+    switch (path) {
+      case "word_cloud":
         component = <WordCloud maxWidth={600} maxHeight={500} />;
         break;
       default:
@@ -39,9 +39,7 @@ class Experiments extends React.Component {
     const { classes } = this.props;
     return (
       <NavBar>
-        <div>
-          {this.renderExperiment()}
-        </div>
+        <div>{this.renderExperiment()}</div>
       </NavBar>
     );
   }
