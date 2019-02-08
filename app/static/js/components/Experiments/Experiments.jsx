@@ -1,10 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
 import IngredientFrequency from "./IngredientFrequency/IngredientFrequencyBarChart";
 import WordCloud from "./WordCloud/WordCloud";
 import styles from "./styles";
@@ -37,11 +33,7 @@ class Experiments extends React.Component {
 
   render() {
     const { classes } = this.props;
-    return (
-      <NavBar>
-        <div>{this.renderExperiment()}</div>
-      </NavBar>
-    );
+    return <div>{this.renderExperiment()}</div>;
   }
 }
 
