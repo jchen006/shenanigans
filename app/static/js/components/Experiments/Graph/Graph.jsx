@@ -3,82 +3,86 @@ import PropTypes from "prop-types";
 import * as d3 from "d3";
 
 class Graph extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { data: [], hasError: false };
-        this.force = d3.forceSimulation()
-        .force('charge', d3.forceManyBody())
-        this.myRef = React.createRef();
-    }
+  constructor(props) {
+    super(props);
+    this.state = { data: [], hasError: false };
+    this.force = d3.forceSimulation().force("charge", d3.forceManyBody());
+    this.myRef = React.createRef();
+  }
 
-    componentWillMount() {
-        fetch("/api/graph")
-            .then(response => response.json())
-            .then(data => {
-                this.setState({
-                    data: data
-                });
-            });
-    }
-
-    componentDidMount() {
-        this.renderGraph()
-    }
-    
-    componentDidUpdate() {
-        this.renderGraph()
-    }
-
-    renderGraph() {
-        const svg = d3.select(this.myRef.current);
-        const graph = this.state.data;
-        this.force
-        .nodes(graph.nodes)
-        .links(graph.links)
-        .start();
-
-        const link = svg.selectAll(".link")
-        .data(graph.links)
-        .enter().append("line")
-        .attr("class", "link")
-        .style("stroke-width", function(d) { return Math.sqrt(d.value); });
-
-        const node = svg.selectAll(".node")
-        .data(graph.nodes)
-        .enter().append("circle")
-        .attr("class", "node")
-        .attr("r", 5)
-        .style("fill", function(d) { return color(d.group); })
-        .call(this.force.drag);
-
-        node.append("title")
-        .text(function(d) { console.log(d.name); return d.name; });
-
-        this.force.on("tick", () => {
-            link.attr("x1", (d) => d.source.x)
-                .attr("y1", (d) => d.source.y)
-                .attr("x2", (d) => d.target.x)
-                .attr("y2", (d) => d.target.y);
-
-            node.attr("cx", (d) => d.x)
-                .attr("cy", (d) => d.y);
+  componentWillMount() {
+    fetch("/api/graph")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          data: data
         });
-    }
+      });
+  }
 
+  componentDidMount() {
+    this.renderGraph();
+  }
 
+  componentDidUpdate() {
+    this.renderGraph();
+  }
 
-    render() {
-        const {maxWidth, maxHeight} = this.props;
-        return (
-            <svg ref={this.myRef} width={maxWidth} height={maxHeight}>
-            </svg>
-        )
-    }
+  renderGraph() {
+    const svg = d3.select(this.myRef.current);
+    const graph = this.state.data;
+    this.force
+      .nodes(graph.nodes)
+      .links(graph.links)
+      .start();
+
+    const link = svg
+      .selectAll(".link")
+      .data(graph.links)
+      .enter()
+      .append("line")
+      .attr("class", "link")
+      .style("stroke-width", function(d) {
+        return Math.sqrt(d.value);
+      });
+
+    const node = svg
+      .selectAll(".node")
+      .data(graph.nodes)
+      .enter()
+      .append("circle")
+      .attr("class", "node")
+      .attr("r", 5)
+      .style("fill", function(d) {
+        return color(d.group);
+      })
+      .call(this.force.drag);
+
+    node.append("title").text(function(d) {
+      console.log(d.name);
+      return d.name;
+    });
+
+    this.force.on("tick", () => {
+      link
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y);
+
+      node.attr("cx", d => d.x).attr("cy", d => d.y);
+    });
+  }
+
+  render() {
+    const { maxWidth, maxHeight } = this.props;
+    return <svg ref={this.myRef} width={maxWidth} height={maxHeight} />;
+  }
 }
 
 Graph.propTypes = {
-    maxWidth: PropTypes.number,
-    maxHeight: PropTypes.number
-}
+  maxWidth: PropTypes.number,
+  maxHeight: PropTypes.number
+};
 
-export default Graph
+export default Graph;
