@@ -20,6 +20,7 @@ class Graph:
         self.parser = parser_obj
 
     def add_node(self, recipe_obj, recipe_name):
+        print(recipe_obj)
         for ingred_name in recipe_obj.ingredients:
             self.insert_ingred_obj(ingred_name, recipe_name)
         return
@@ -49,12 +50,16 @@ class Graph:
         temp_links_dict = {}
 
         # NODES WITH NO LINKS ARE DUE TO LISTS
+        id = 0
+        #Will need to figure out a way to update what's in mongo and have it reference 
+        #actual ingredients 
         for ing_name, ing_value in self.graph.items():
             if(ing_value.name != "" and ing_value.name is not None):
                 graph_d3_json["nodes"].append(
-                    {"name": ing_value.name, "count": 0})
+                    {"name": ing_value.name, "count": 0, "id": id})
                 temp_node_to_idx[ing_value.name] = len(
                     graph_d3_json["nodes"]) - 1
+                id = id + 1
 
         # CHANGE recipe_parser.py's retrieve_data() method to get fewer results
         # TODO: we have duplicate links! need to fix
