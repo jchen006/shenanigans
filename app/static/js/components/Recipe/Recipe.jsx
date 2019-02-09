@@ -1,14 +1,8 @@
 import React from "react";
-import NavBar from "components/core/NavBar/NavBar"
 class RecipeGeneration extends React.Component {
-    render () {
-      return (
-        <NavBar>
-          <div> RecipeGeneration </div>
-        </NavBar>
-      )
-    }
+  render() {
+    return <div> RecipeGeneration </div>;
   }
+}
 
-
-export default RecipeGeneration
+export default RecipeGeneration;

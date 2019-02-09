@@ -107,3 +107,7 @@ typings/
 save/*
 tf_save/*
 app/static/js/react-components/recipe-generator-bundle.js
+
+#bundle
+**/bundle.js
+**/bundle.js.map

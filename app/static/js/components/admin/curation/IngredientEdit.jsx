@@ -1,15 +1,7 @@
-import List from '../core/List'
+import List from "../core/List";
 
 const IngredientEdit = React.createClass({
-  
+  render() {}
+});
 
-
-  render() {
-
-  }
-
-
-
-})
-
-export default IngredientEdit
+export default IngredientEdit;

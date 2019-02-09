@@ -1,96 +1,100 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import InputRange from 'react-input-range'
-import { ListGroup, ListGroupItem, Grid, Row, Col, PageHeader } from 'react-bootstrap'
-import RangeSlider from '../core/RangeSlider/RangeSlider.jsx'
-import IngredientsCard from '../core/IngredientsCard/IngredientsCard.jsx'
-import './RecipeGenerator.less'
+import React from "react";
+import PropTypes from "prop-types";
+import InputRange from "react-input-range";
+import {
+  ListGroup,
+  ListGroupItem,
+  Grid,
+  Row,
+  Col,
+  PageHeader
+} from "react-bootstrap";
+import RangeSlider from "../core/RangeSlider/RangeSlider.jsx";
+import IngredientsCard from "../core/IngredientsCard/IngredientsCard.jsx";
+import "./RecipeGenerator.less";
 
 class RecipeGenerator extends React.Component {
-
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       sliders: new Array(this.props.numSliders).fill(0),
       recipe: []
-    }
+    };
   }
 
   defaultSliders() {
-    return new Array(this.props.numSliders).fill(0)
+    return new Array(this.props.numSliders).fill(0);
   }
 
   generateRecipeService() {
-    let generateRecipeEndpoint = "/api/create_recipe"
+    let generateRecipeEndpoint = "/api/create_recipe";
     var requestData = {
-      "vector": this.state.sliders
-    }
+      vector: this.state.sliders
+    };
     let fetchData = {
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
       method: "POST",
       body: JSON.stringify(requestData)
-    }
+    };
 
     fetch(generateRecipeEndpoint, fetchData)
       .then(response => response.json())
-      .then( data => {
+      .then(data => {
         this.setState({
-          recipe : data.Recipe
-        })
-      })
+          recipe: data.Recipe
+        });
+      });
   }
 
   handleOnSliderChangeComplete(index, value) {
-    let updated_sliders = this.state.sliders
-    updated_sliders[index] = value
-    this.setState({
-      sliders: updated_sliders
-    }, this.generateRecipeService())
+    let updated_sliders = this.state.sliders;
+    updated_sliders[index] = value;
+    this.setState(
+      {
+        sliders: updated_sliders
+      },
+      this.generateRecipeService()
+    );
   }
 
   renderSliders() {
-    const minValue = 0
-    const maxValue = 10000
-    const step = 5
+    const minValue = 0;
+    const maxValue = 10000;
+    const step = 5;
     return (
       <div className="sliders">
-        { this.state.sliders.map((s, index) => {
+        {this.state.sliders.map((s, index) => {
           return (
             <RangeSlider
-            rangeType = "range-primary"
-            min = {minValue}
-            max = {maxValue}
-            step = { step }
-            value = { s }
-            onChange = { (event) => {
-              const value = parseInt(event.target.value)
-              this.handleOnSliderChangeComplete(index, value)
-            }}
-          />)
+              rangeType="range-primary"
+              min={minValue}
+              max={maxValue}
+              step={step}
+              value={s}
+              onChange={event => {
+                const value = parseInt(event.target.value);
+                this.handleOnSliderChangeComplete(index, value);
+              }}
+            />
+          );
         })}
       </div>
-    )
+    );
   }
 
   renderRecipes() {
     return (
       <div className="suggested-recipes">
-        <IngredientsCard
-          ingredients = { this.state.recipe }
-        />
+        <IngredientsCard ingredients={this.state.recipe} />
       </div>
-    )
+    );
   }
 
   renderHeader() {
-    return(
-      <PageHeader>
-        Recipe Generator
-      </PageHeader>
-    )
+    return <PageHeader>Recipe Generator</PageHeader>;
   }
 
   render() {
@@ -99,25 +103,20 @@ class RecipeGenerator extends React.Component {
         {this.renderHeader()}
         <Grid>
           <Row className="show-grid">
-            <Col md={6}>
-              { this.renderSliders() }
-            </Col>
-            <Col md={6}>
-              { this.renderRecipes() }
-            </Col>
+            <Col md={6}>{this.renderSliders()}</Col>
+            <Col md={6}>{this.renderRecipes()}</Col>
           </Row>
         </Grid>
       </div>
-    )
+    );
   }
 }
 
-RecipeGenerator.propTypes = { 
+RecipeGenerator.propTypes = {
   numSliders: PropTypes.number
-}
+};
 
 ReactDOM.render(
-  <RecipeGenerator 
-    numSliders = {10}
-  />, document.getElementById("recipe-generator")
-)
+  <RecipeGenerator numSliders={10} />,
+  document.getElementById("recipe-generator")
+);

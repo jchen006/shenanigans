@@ -32,7 +32,7 @@ module.exports = {
 		path: __dirname + '/react-components',
 		filename: '[name].js'
     },
-    devtool: 'source-map',
+    devtool: 'eval-source-map',
     resolve : {
         extensions: ['', '.js', '.jsx'],
         root: [
