@@ -1,6 +1,7 @@
 import { Graph } from "react-d3-graph";
 import ReactLoading from "react-loading";
 import React from "react";
+import LoadingSpinner from "../core/LoadingSpinner/LoadingSpinner.jsx";
 
 class NetworkGraph extends React.Component {
   constructor(props) {
@@ -87,11 +88,13 @@ class NetworkGraph extends React.Component {
   }
 
   renderLoading() {
-    return <ReactLoading type={"spin"} color="#000000" />;
+    return <LoadingSpinner />;
   }
 
   render() {
-    return this.state.data ? this.renderGraph() : this.renderLoading();
+    return (
+      <div>{this.state.data ? this.renderGraph() : this.renderLoading()}</div>
+    );
   }
 }
 
