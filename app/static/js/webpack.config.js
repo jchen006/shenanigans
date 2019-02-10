@@ -19,9 +19,5 @@ module.exports = {
     alias: {
       components: path.resolve(__dirname, "components/")
     }
-  },
-  node: {
-    fs: "empty"
-  },
-  externals: ["child_process"]
+  }
 };
