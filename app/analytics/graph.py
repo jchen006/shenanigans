@@ -56,7 +56,7 @@ class Graph:
         for ing_name, ing_value in self.graph.items():
             if(ing_value.name != "" and ing_value.name is not None):
                 graph_d3_json["nodes"].append(
-                    {"name": ing_value.name, "count": 0, "id": id})
+                    {"id": ing_value.name, "count": 0})
                 temp_node_to_idx[ing_value.name] = len(
                     graph_d3_json["nodes"]) - 1
                 id = id + 1
