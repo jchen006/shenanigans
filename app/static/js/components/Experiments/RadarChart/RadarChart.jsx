@@ -131,14 +131,17 @@ class RadarChart extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const { recipe1: prevRecipe1, recipe2: prevRecipe2 } = prevState;
     const { recipe1: current1, recipe2: current2 } = this.state;
-    if (
-      current1 &&
-      current2 &&
-      (!prevRecipe1 ||
-        !prevRecipe2 ||
-        current1.id != prevRecipe1.id ||
-        current2.id != prevRecipe2.id)
-    ) {
+    console.log(prevState);
+    if (current1 && current2) {
+      if (
+        prevRecipe1 &&
+        prevRecipe2 &&
+        prevRecipe1.id == current1.id &&
+        prevRecipe2.id == current2.id
+      ) {
+        return;
+      }
+      console.log("fetching");
       fetch(`/api/radar_graph?recipe1=${current1.id}&recipe2=${current2.id}`)
         .then(response => response.json())
         .then(data => {
@@ -155,18 +158,16 @@ class RadarChart extends React.Component {
             { key: "cluster 8", label: "Cluster 8" },
             { key: "cluster 9", label: "Cluster 9" }
           ];
-          const sets = [
-            {
-              key: "recipe",
-              label: `Similarity between ${this.state.recipe1.label} and ${
-                this.state.recipe2.label
-              }`,
-              values: data[0].reduce((acc, c) => {
-                acc[c.axis] = parseFloat(c.value) * 10;
-                return acc;
-              }, {})
-            }
-          ];
+          const sets = data.map(d => ({
+            key: "recipe",
+            label: `Similarity between ${this.state.recipe1.label} and ${
+              this.state.recipe2.label
+            }`,
+            values: d.reduce((acc, c) => {
+              acc[c.axis] = parseFloat(c.value) * 10;
+              return acc;
+            }, {})
+          }));
           this.setState({
             radar: { sets, variables }
           });
@@ -179,15 +180,22 @@ class RadarChart extends React.Component {
       return;
     }
     const { sets, variables } = this.state.radar;
-    console.log(variables.map(c => sets.values[c.key]));
-    const max = Math.max(...variables.map(c => sets[0].values[c.key]));
-    console.log(max);
+    const maxOfEachSet = sets.map(s =>
+      Math.max(...variables.map(c => s.values[c.key]))
+    );
+    const max = Math.max(...maxOfEachSet);
     return (
       <Radar
         width={400}
         height={300}
         padding={70}
         domainMax={max}
+        highlighted={null}
+        onHover={point => {
+          if (point) {
+            console.log(point);
+          }
+        }}
         data={{
           variables: variables,
           sets: sets
@@ -198,7 +206,6 @@ class RadarChart extends React.Component {
 
   render() {
     const handleChange = name => value => {
-      console.log(value);
       this.setState({
         [name]: value
       });
