@@ -25,7 +25,7 @@ const routes = [
   },
   {
     path: "/graph",
-    component: () => <NetworkGraph/>
+    component: () => <NetworkGraph />
   }
 ];
 
