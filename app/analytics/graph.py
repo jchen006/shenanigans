@@ -51,14 +51,13 @@ class Graph:
 
         # NODES WITH NO LINKS ARE DUE TO LISTS
         id = 0
-        #Will need to figure out a way to update what's in mongo and have it reference 
-        #actual ingredients 
+        # Will need to figure out a way to update what's in mongo and have it reference
+        # actual ingredients
         for ing_name, ing_value in self.graph.items():
             if(ing_value.name != "" and ing_value.name is not None):
                 graph_d3_json["nodes"].append(
                     {"name": ing_value.name, "count": 0, "id": id})
-                temp_node_to_idx[ing_value.name] = len(
-                    graph_d3_json["nodes"]) - 1
+                temp_node_to_idx[ing_value.name] = id
                 id = id + 1
 
         # CHANGE recipe_parser.py's retrieve_data() method to get fewer results
@@ -66,16 +65,17 @@ class Graph:
         if self.recipes is not None:
             for recipe_name, recipe_value in self.recipes.items():
                 ingreds_in_recipe = recipe_value.ingredients
-                for ingred1, ingred2 in list(itertools.combinations(ingreds_in_recipe, 2)):
+                for ingred1, ingred2 in itertools.combinations(ingreds_in_recipe, 2):
                     if(ingred1 != "" and ingred2 != "" and ingred1 is not None and ingred2 is not None):
 
                         idx1 = temp_node_to_idx[ingred1]
                         idx2 = temp_node_to_idx[ingred2]
 
-                        if (idx1 in temp_links_dict) and (temp_links_dict[idx1] == idx2):
+                        if (str(idx1) + str(idx2)) in temp_links_dict:
                             continue
                         elif idx1 != idx2:
-                            temp_links_dict[idx1] = idx2
+                            temp_links_dict[str(idx1) + str(idx2)] = True
+                            temp_links_dict[str(idx2) + str(idx1)] = True
                             graph_d3_json["links"].append(
                                 {"source": idx1, "target": idx2, "value": 1})
                             continue
@@ -123,6 +123,7 @@ class Graph:
 
     def to_json(self):
         return str(self)
+
 
 if __name__ == '__main__':
     g = Graph()

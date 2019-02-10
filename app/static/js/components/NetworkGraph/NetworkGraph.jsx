@@ -9,14 +9,7 @@ class NetworkGraph extends React.Component {
       data: null
     };
     this.config = {
-      automaticRearrangeAfterDropNode: false,
-      height: 400,
-      highlightDegree: 1,
-      highlightOpacity: 1,
-      linkHighlightBehavior: false,
-      maxZoom: 8,
-      minZoom: 0.1,
-      nodeHighlightBehavior: false,
+      height: 800,
       panAndZoom: false,
       staticGraph: false,
       width: 800,
@@ -40,7 +33,6 @@ class NetworkGraph extends React.Component {
         symbolType: "circle"
       },
       link: {
-        color: "#d3d3d3",
         opacity: 1,
         semanticStrokeWidth: false,
         strokeWidth: 1.5,
@@ -66,29 +58,17 @@ class NetworkGraph extends React.Component {
       });
   }
 
-  onClickNode(nodeId) {
-    console.log(nodeId);
-  }
+  onClickNode(nodeId) {}
 
-  onClickLink(source, target) {
-    console.log(source, target);
-  }
+  onClickLink(source, target) {}
 
-  onMouseOverNode(nodeId) {
-    console.log(nodeId);
-  }
+  onMouseOverNode(nodeId) {}
 
-  onMouseOutNode(nodeId) {
-    console.log(nodeId);
-  }
+  onMouseOutNode(nodeId) {}
 
-  onMouseOverLink(source, target) {
-    console.log(source, target);
-  }
+  onMouseOverLink(source, target) {}
 
-  onMouseOutLink(source, target) {
-    console.log(source, target);
-  }
+  onMouseOutLink(source, target) {}
 
   renderGraph() {
     return (
