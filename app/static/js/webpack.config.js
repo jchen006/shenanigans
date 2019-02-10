@@ -3,9 +3,6 @@ const path = require("path");
 module.exports = {
   entry: {
     bundle: "./index.jsx"
-    // "ingredient-frequency-bar-chart": "./experiments/IngredientFrequency/IngredientFrequencyBarChart.jsx",
-    // "recipe-generator": "./components/RecipeGenerator/RecipeGenerator.jsx",
-    // "pending-recipe-list": "./components/admin/curation/PendingRecipeList.jsx"
   },
   module: {
     rules: [
@@ -26,9 +23,5 @@ module.exports = {
     alias: {
       components: path.resolve(__dirname, "components/")
     }
-  },
-  node: {
-    fs: "empty"
-  },
-  externals: ["child_process"]
+  }
 };
