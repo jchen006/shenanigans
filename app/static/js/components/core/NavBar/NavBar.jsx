@@ -80,7 +80,7 @@ class NavBar extends React.Component {
               {links.map((link, i) => {
                 return (
                   <ListItem key={i} button component={Link} to={link.route}>
-                    <ListItemIcon>{link.icon()}</ListItemIcon>
+                    <ListItemIcon>{link.icon ? link.icon() : ""}</ListItemIcon>
                     <ListItemText primary={link.text} />
                   </ListItem>
                 );

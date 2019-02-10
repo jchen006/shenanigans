@@ -3,6 +3,7 @@ import Home from "../Home/Home.jsx";
 import About from "../About/About.jsx";
 import Recipe from "../Recipe/Recipe.jsx";
 import Experiments from "../Experiments/Experiments.jsx";
+import NetworkGraph from "../NetworkGraph/NetworkGraph.jsx";
 
 const routes = [
   {
@@ -21,6 +22,10 @@ const routes = [
   {
     path: "/experiments/:path",
     component: ({ match }) => <Experiments path={match.params.path} />
+  },
+  {
+    path: "/graph",
+    component: () => <NetworkGraph/>
   }
 ];
 
