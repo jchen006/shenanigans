@@ -37,8 +37,6 @@
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
-    "file-loader": "^1.1.6",
-    "css-loader": "^0.28.8",
     "prettier": "1.16.4",
     "webpack-cli": "^3.2.3"
   }
