@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import IngredientFrequency from "./IngredientFrequency/IngredientFrequencyBarChart";
 import WordCloud from "./WordCloud/WordCloud";
+import RadarChart from "./RadarChart/RadarChart";
 import styles from "./styles";
 
 class Experiments extends React.Component {
@@ -17,6 +18,9 @@ class Experiments extends React.Component {
     switch (path) {
       case "word_cloud":
         component = <WordCloud maxWidth={600} maxHeight={500} />;
+        break;
+      case "radar_chart":
+        component = <RadarChart />;
         break;
       default:
         component = <IngredientFrequency maxWidth={600} maxHeight={500} />;
