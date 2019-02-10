@@ -3,12 +3,13 @@ import Radar from "react-d3-radar";
 import TextField from "@material-ui/core/TextField";
 import Select from "react-select";
 import { withStyles } from "@material-ui/core/styles";
+import styles from "./styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import MenuItem from "@material-ui/core/MenuItem";
 
-function inputComponent(props) {
-  return <div ref={props.inputRef} {...props} />;
+function inputComponent({ inputRef, ...props }) {
+  return <div ref={inputRef} {...props} />;
 }
 
 function NoOptionsMessage(props) {
@@ -120,15 +121,84 @@ class RadarChart extends React.Component {
     fetch("/api/ordered_recipes")
       .then(response => response.json())
       .then(data => {
-        data = data.ordered_recipes.map(r => ({ label: r }));
+        data = data.ordered_recipes.map((r, i) => ({ label: r, id: i }));
         this.setState({
           recipes: data
         });
       });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { recipe1: prevRecipe1, recipe2: prevRecipe2 } = prevState;
+    const { recipe1: current1, recipe2: current2 } = this.state;
+    if (
+      current1 &&
+      current2 &&
+      (!prevRecipe1 ||
+        !prevRecipe2 ||
+        current1.id != prevRecipe1.id ||
+        current2.id != prevRecipe2.id)
+    ) {
+      fetch(`/api/radar_graph?recipe1=${current1.id}&recipe2=${current2.id}`)
+        .then(response => response.json())
+        .then(data => {
+          data = data.dists;
+          const variables = [
+            { key: "cluster 0", label: "Cluster 0" },
+            { key: "cluster 1", label: "Cluster 1" },
+            { key: "cluster 2", label: "Cluster 2" },
+            { key: "cluster 3", label: "Cluster 3" },
+            { key: "cluster 4", label: "Cluster 4" },
+            { key: "cluster 5", label: "Cluster 5" },
+            { key: "cluster 6", label: "Cluster 6" },
+            { key: "cluster 7", label: "Cluster 7" },
+            { key: "cluster 8", label: "Cluster 8" },
+            { key: "cluster 9", label: "Cluster 9" }
+          ];
+          const sets = [
+            {
+              key: "recipe",
+              label: `Similarity between ${this.state.recipe1.label} and ${
+                this.state.recipe2.label
+              }`,
+              values: data[0].reduce((acc, c) => {
+                acc[c.axis] = parseFloat(c.value) * 10;
+                return acc;
+              }, {})
+            }
+          ];
+          this.setState({
+            radar: { sets, variables }
+          });
+        });
+    }
+  }
+
+  renderRadar() {
+    if (!this.state.radar) {
+      return;
+    }
+    const { sets, variables } = this.state.radar;
+    console.log(variables.map(c => sets.values[c.key]));
+    const max = Math.max(...variables.map(c => sets[0].values[c.key]));
+    console.log(max);
+    return (
+      <Radar
+        width={400}
+        height={300}
+        padding={70}
+        domainMax={max}
+        data={{
+          variables: variables,
+          sets: sets
+        }}
+      />
+    );
+  }
+
   render() {
     const handleChange = name => value => {
+      console.log(value);
       this.setState({
         [name]: value
       });
@@ -139,7 +209,6 @@ class RadarChart extends React.Component {
     const selectStyles = {
       input: base => ({
         ...base,
-        color: theme.palette.text.primary,
         "& input": {
           font: "inherit"
         }
@@ -147,86 +216,33 @@ class RadarChart extends React.Component {
     };
     return (
       <div className={classes.root}>
-        <Select
-          classes={classes}
-          styles={selectStyles}
-          options={suggestions}
-          components={components}
-          value={this.state.recipe1}
-          onChange={handleChange("recipe1")}
-          placeholder="Search a country (start with a)"
-          isClearable
-        />
-        <div className={classes.divider} />
-        <Select
-          classes={classes}
-          styles={selectStyles}
-          textFieldProps={{
-            label: "Label",
-            InputLabelProps: {
-              shrink: true
-            }
-          }}
-          options={suggestions}
-          components={components}
-          value={this.state.recipe2}
-          onChange={this.handleChange("recipe2")}
-          placeholder="Select multiple countries"
-          isMulti
-        />
+        <div className={classes.selectionRoot}>
+          <Select
+            classes={classes}
+            styles={selectStyles}
+            options={this.state.recipes}
+            components={components}
+            value={this.state.recipe1}
+            onChange={handleChange("recipe1")}
+            placeholder="Choose a recipe for the first item"
+            isClearable
+          />
+          <div className={classes.divider} />
+          <Select
+            classes={classes}
+            styles={selectStyles}
+            options={this.state.recipes}
+            components={components}
+            value={this.state.recipe2}
+            onChange={handleChange("recipe2")}
+            placeholder="Choose a recipe for the second item"
+            isClearable
+          />
+        </div>
+        {this.renderRadar()}
       </div>
     );
-    //   <Radar
-    //     width={500}
-    //     height={500}
-    //     padding={70}
-    //     domainMax={10}
-    //     highlighted={null}
-    //     onHover={point => {
-    //       if (point) {
-    //         console.log("hovered over a data point");
-    //       } else {
-    //         console.log("not over anything");
-    //       }
-    //     }}
-    //     data={{
-    //       variables: [
-    //         { key: "resilience", label: "Resilience" },
-    //         { key: "strength", label: "Strength" },
-    //         { key: "adaptability", label: "Adaptability" },
-    //         { key: "creativity", label: "Creativity" },
-    //         { key: "openness", label: "Open to Change" },
-    //         { key: "confidence", label: "Confidence" }
-    //       ],
-    //       sets: [
-    //         {
-    //           key: "me",
-    //           label: "My Scores",
-    //           values: {
-    //             resilience: 4,
-    //             strength: 6,
-    //             adaptability: 7,
-    //             creativity: 2,
-    //             openness: 8,
-    //             confidence: 1
-    //           }
-    //         },
-    //         {
-    //           key: "everyone",
-    //           label: "Everyone",
-    //           values: {
-    //             resilience: 10,
-    //             strength: 8,
-    //             adaptability: 6,
-    //             creativity: 4,
-    //             openness: 2,
-    //             confidence: 0
-    //           }
-    //         }
-    //       ]
-    //     }}
-    //   />
   }
 }
 
-export default RadarChart;
+export default withStyles(styles)(RadarChart);
