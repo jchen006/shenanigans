@@ -29,7 +29,8 @@
     "react-modal-bootstrap": "^1.1.1",
     "react-rangeslider": "^2.2.0",
     "react-responsive-modal": "^1.9.0",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "webpack": "^4.29.3"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -39,7 +40,6 @@
     "file-loader": "^1.1.6",
     "css-loader": "^0.28.8",
     "prettier": "1.16.4",
-    "webpack-cli": "^3.2.3",
-    "webpack": "^4.29.3"
+    "webpack-cli": "^3.2.3"
   }
 }
