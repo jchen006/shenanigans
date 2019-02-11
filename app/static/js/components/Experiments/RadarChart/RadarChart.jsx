@@ -131,7 +131,6 @@ class RadarChart extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const { recipe1: prevRecipe1, recipe2: prevRecipe2 } = prevState;
     const { recipe1: current1, recipe2: current2 } = this.state;
-    console.log(prevState);
     if (current1 && current2) {
       if (
         prevRecipe1 &&
@@ -141,7 +140,6 @@ class RadarChart extends React.Component {
       ) {
         return;
       }
-      console.log("fetching");
       fetch(`/api/radar_graph?recipe1=${current1.id}&recipe2=${current2.id}`)
         .then(response => response.json())
         .then(data => {
@@ -168,6 +166,18 @@ class RadarChart extends React.Component {
               return acc;
             }, {})
           }));
+          // const sets = [
+          //   {
+          //     key: "recipe",
+          //     label: `Similarity between ${this.state.recipe1.label} and ${
+          //       this.state.recipe2.label
+          //     }`,
+          //     values: data[0].reduce((acc, c) => {
+          //       acc[c.axis] = parseFloat(c.value) * 10;
+          //       return acc;
+          //     }, {})
+          //   }
+          // ];
           this.setState({
             radar: { sets, variables }
           });
