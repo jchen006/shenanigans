@@ -1,3 +1,4 @@
+import { schemeCategory10, schemePastel1 } from "d3-scale-chromatic";
 const styles = theme => ({
   root: {
     flexGrow: 1
@@ -9,6 +10,28 @@ const styles = theme => ({
   input: {
     display: "flex",
     padding: 0
+  },
+  underline1: {
+    "&:hover:before": {
+      borderBottomColor: [schemeCategory10[0], "!important"]
+    },
+    "&:after": {
+      borderBottomColor: schemeCategory10[0]
+    },
+    "&:before": {
+      borderBottomColor: schemePastel1[1]
+    }
+  },
+  underline2: {
+    "&:hover:before": {
+      borderBottomColor: [schemeCategory10[1], "!important"]
+    },
+    "&:after": {
+      borderBottomColor: schemeCategory10[1]
+    },
+    "&:before": {
+      borderBottomColor: schemePastel1[4]
+    }
   },
   valueContainer: {
     display: "flex",
@@ -37,6 +60,13 @@ const styles = theme => ({
   },
   divider: {
     height: theme.spacing.unit * 4
+  },
+  radarGrid: {
+    display: "flex",
+    alignContent: "center"
+  },
+  radarChart: {
+    width: "50%"
   }
 });
 

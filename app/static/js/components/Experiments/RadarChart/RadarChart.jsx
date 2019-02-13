@@ -1,115 +1,10 @@
 import React from "react";
 import Radar from "react-d3-radar";
-import TextField from "@material-ui/core/TextField";
 import Select from "react-select";
 import { withStyles } from "@material-ui/core/styles";
 import styles from "./styles";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import MenuItem from "@material-ui/core/MenuItem";
-
-function inputComponent({ inputRef, ...props }) {
-  return <div ref={inputRef} {...props} />;
-}
-
-function NoOptionsMessage(props) {
-  return (
-    <Typography
-      color="textSecondary"
-      className={props.selectProps.classes.noOptionsMessage}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Typography>
-  );
-}
-
-function Control({ inputRef, ...props }) {
-  return (
-    <TextField
-      fullWidth
-      InputProps={{
-        inputComponent,
-        inputProps: {
-          className: props.selectProps.classes.input,
-          inputRef: props.innerRef,
-          children: props.children,
-          ...props.innerProps
-        }
-      }}
-      {...props.selectProps.textFieldProps}
-    />
-  );
-}
-
-function Option(props) {
-  return (
-    <MenuItem
-      buttonRef={props.innerRef}
-      selected={props.isFocused}
-      component="div"
-      style={{
-        fontWeight: props.isSelected ? 500 : 400
-      }}
-      {...props.innerProps}
-    >
-      {props.children}
-    </MenuItem>
-  );
-}
-
-function SingleValue(props) {
-  return (
-    <Typography
-      className={props.selectProps.classes.singleValue}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Typography>
-  );
-}
-
-function Menu(props) {
-  return (
-    <Paper
-      square
-      className={props.selectProps.classes.paper}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Paper>
-  );
-}
-
-function ValueContainer(props) {
-  return (
-    <div className={props.selectProps.classes.valueContainer}>
-      {props.children}
-    </div>
-  );
-}
-
-function Placeholder(props) {
-  return (
-    <Typography
-      color="textSecondary"
-      className={props.selectProps.classes.placeholder}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Typography>
-  );
-}
-
-const components = {
-  Control,
-  Menu,
-  NoOptionsMessage,
-  Option,
-  Placeholder,
-  SingleValue,
-  ValueContainer
-};
+import components from "./AutoCompleteComponents";
+import Grid from "@material-ui/core/Grid";
 
 class RadarChart extends React.Component {
   constructor(props) {
@@ -176,27 +71,38 @@ class RadarChart extends React.Component {
       return;
     }
     const { sets, variables } = this.state.radar;
+    const { classes } = this.props;
     const maxOfEachSet = sets.map(s =>
       Math.max(...variables.map(c => s.values[c.key]))
     );
     const max = Math.max(...maxOfEachSet);
     return (
-      <Radar
-        width={400}
-        height={300}
-        padding={70}
-        domainMax={max}
-        highlighted={null}
-        onHover={point => {
-          if (point) {
-            console.log(point);
-          }
-        }}
-        data={{
-          variables: variables,
-          sets: sets
-        }}
-      />
+      <Grid
+        container
+        direction="row"
+        justify="center"
+        alignItems="center"
+        className={classes.radarGrid}
+      >
+        <Grid item className={classes.radarChart}>
+          <Radar
+            width={400}
+            height={300}
+            padding={40}
+            domainMax={max}
+            highlighted={null}
+            onHover={point => {
+              if (point) {
+                console.log(point);
+              }
+            }}
+            data={{
+              variables: variables,
+              sets: sets
+            }}
+          />
+        </Grid>
+      </Grid>
     );
   }
 
@@ -207,7 +113,7 @@ class RadarChart extends React.Component {
       });
     };
 
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
 
     const selectStyles = {
       input: base => ({
@@ -228,6 +134,7 @@ class RadarChart extends React.Component {
             value={this.state.recipe1}
             onChange={handleChange("recipe1")}
             placeholder="Choose a recipe for the first item"
+            underline={classes.underline1}
             isClearable
           />
           <div className={classes.divider} />
@@ -239,6 +146,7 @@ class RadarChart extends React.Component {
             value={this.state.recipe2}
             onChange={handleChange("recipe2")}
             placeholder="Choose a recipe for the second item"
+            underline={classes.underline2}
             isClearable
           />
         </div>
