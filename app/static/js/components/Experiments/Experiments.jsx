@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import IngredientFrequency from "./IngredientFrequency/IngredientFrequencyBarChart";
 import WordCloud from "./WordCloud/WordCloud";
 import styles from "./styles";
+import routes from '../enums/experimentRoutes.js'
 
 class Experiments extends React.Component {
   constructor(props) {
@@ -15,9 +16,10 @@ class Experiments extends React.Component {
     const { path } = this.props;
     let component;
     switch (path) {
-      case "word_cloud":
+      case routes.WORD_CLOUD:
         component = <WordCloud maxWidth={600} maxHeight={500} />;
         break;
+      case routes.INGREDIENT_FREQUENCY:
       default:
         component = <IngredientFrequency maxWidth={600} maxHeight={500} />;
         break;
