@@ -156,28 +156,14 @@ class RadarChart extends React.Component {
             { key: "cluster 8", label: "Cluster 8" },
             { key: "cluster 9", label: "Cluster 9" }
           ];
-          const sets = data.map(d => ({
-            key: "recipe",
-            label: `Similarity between ${this.state.recipe1.label} and ${
-              this.state.recipe2.label
-            }`,
+          const sets = data.map((d, i) => ({
+            key: i,
+            label: this.state[`recipe${i + 1}`],
             values: d.reduce((acc, c) => {
               acc[c.axis] = parseFloat(c.value) * 10;
               return acc;
             }, {})
           }));
-          // const sets = [
-          //   {
-          //     key: "recipe",
-          //     label: `Similarity between ${this.state.recipe1.label} and ${
-          //       this.state.recipe2.label
-          //     }`,
-          //     values: data[0].reduce((acc, c) => {
-          //       acc[c.axis] = parseFloat(c.value) * 10;
-          //       return acc;
-          //     }, {})
-          //   }
-          // ];
           this.setState({
             radar: { sets, variables }
           });

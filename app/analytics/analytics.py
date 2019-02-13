@@ -176,7 +176,7 @@ class LDAModel:
             for j in range(len(vec)):
                 temp_list.append({"axis": "cluster " + str(j),
                                   "value": "{0:.5f}".format(vec[j])})
-                temp_json["dists"].append(temp_list)
+            temp_json["dists"].append(temp_list)
 
         return json.dumps(temp_json)
 
@@ -257,6 +257,7 @@ class NearestNeighborsModel:
         self.model = NearestNeighbors()
         self.BOI = bag_of_ingredients_matrix
         self.model.fit(bag_of_ingredients_matrix)
+
 
 if __name__ == '__main__':
     parser = Parser()
