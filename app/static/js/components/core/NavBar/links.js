@@ -18,5 +18,9 @@ export default [
     text: "Experiments",
     route: "/experiments",
     icon: () => <PenIcon />
+  },
+  {
+    text: "Graph",
+    route: "/graph"
   }
 ];
