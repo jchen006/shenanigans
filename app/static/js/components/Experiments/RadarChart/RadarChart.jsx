@@ -91,11 +91,6 @@ class RadarChart extends React.Component {
             padding={40}
             domainMax={max}
             highlighted={null}
-            onHover={point => {
-              if (point) {
-                console.log(point);
-              }
-            }}
             data={{
               variables: variables,
               sets: sets
@@ -108,9 +103,16 @@ class RadarChart extends React.Component {
 
   render() {
     const handleChange = name => value => {
-      this.setState({
-        [name]: value
-      });
+      if (value) {
+        this.setState({
+          [name]: value
+        });
+      } else {
+        this.setState({
+          [name]: value,
+          radar: undefined
+        });
+      }
     };
 
     const { classes } = this.props;
