@@ -5,6 +5,7 @@ import IngredientFrequency from "./IngredientFrequency/IngredientFrequencyBarCha
 import WordCloud from "./WordCloud/WordCloud";
 import RadarChart from "./RadarChart/RadarChart";
 import styles from "./styles";
+import routes from "../enums/experimentRoutes.js";
 
 class Experiments extends React.Component {
   constructor(props) {
@@ -16,12 +17,13 @@ class Experiments extends React.Component {
     const { path } = this.props;
     let component;
     switch (path) {
-      case "word_cloud":
+      case routes.WORD_CLOUD:
         component = <WordCloud maxWidth={600} maxHeight={500} />;
         break;
-      case "radar_chart":
+      case routes.RADAR_CHART:
         component = <RadarChart />;
         break;
+      case routes.INGREDIENT_FREQUENCY:
       default:
         component = <IngredientFrequency maxWidth={600} maxHeight={500} />;
         break;
