@@ -17,6 +17,7 @@ import NavBarStyles from "./NavBarStyles";
 import { Switch, Route, Link } from "react-router-dom";
 import links from "./links";
 import routes from "components/Router/routes.js";
+import PrivateRoute from "components/Router/PrivateRoute";
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -36,7 +37,12 @@ class NavBar extends React.Component {
         <div className={classes.toolbar} />
         <Switch>
           {routes.map((route, i) => {
-            return <Route key={i} {...route} />;
+            console.log(route)
+            return (
+              route.private ? 
+              <PrivateRoute key={i} {...route}/> : 
+              <Route key={i} {...route} />
+            );
           })}
         </Switch>
       </main>
