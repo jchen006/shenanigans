@@ -1,12 +1,20 @@
 import React from 'react'
 
 class Admin extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+
     render() {
-        return (
-            <div>
-                ADMIN
-            </div>
-        )
+        const { path } = this.props
+        let component;
+        switch(path) {
+            case "recipe_edit":
+            
+            case "recipes":
+
+            default:
+        }
     }
 }
 

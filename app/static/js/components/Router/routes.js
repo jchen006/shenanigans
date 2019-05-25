@@ -29,6 +29,11 @@ const routes = [
     private: false
   },
   {
+    path: "/database/:recipes",
+    component: ({match}) => <RecipesDatabase />,
+    private: false
+  },
+  {
     path: "/login",
     component: () => <Login />,
     private: false
