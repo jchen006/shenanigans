@@ -24,7 +24,7 @@ Pillow==2.8.1
 pymongo==3.3.0
 pyscreenshot==0.4.1
 python-dateutil==2.4.2
-PyYAML==3.12
+PyYAML==5.4
 regex==2016.9.22
 request==0.0.8
 requests==2.10.0
