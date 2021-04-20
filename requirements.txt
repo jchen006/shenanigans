@@ -35,5 +35,5 @@ textblob==0.11.1
 Unidecode==0.4.19
 unittest2==1.0.1
 virtualenv==13.0.3
-Werkzeug==0.8.3
+Werkzeug==0.15.3
 WTForms==2.1
