@@ -18,7 +18,7 @@ Jinja2==2.8
 lda==1.0.3
 matplotlib==1.4.3
 nltk==3.1
-numpy==1.9.2
+numpy==1.21.0
 pandas==0.18.1
 Pillow==2.8.1
 pymongo==3.3.0
