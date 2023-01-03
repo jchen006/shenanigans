@@ -20,7 +20,7 @@
     "d3": "^5.8.0",
     "d3-cloud": "^1.2.5",
     "d3-scale": "^2.2.2",
-    "html-webpack-plugin": "^2.22.0",
+    "html-webpack-plugin": "^5.5.0",
     "path": "^0.12.7",
     "react": "^16.2.0",
     "react-bar-chart": "^0.1.2",
